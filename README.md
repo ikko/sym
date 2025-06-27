@@ -1,6 +1,6 @@
-# symbol namespace dsl
+# «symbol» namespace dsl
 
-> symbol.py — A Lazy, Graph-Oriented, Immutable Symbol System for Domain-Specific Abstraction
+> `symbol.py` — A Lazy, Graph-Oriented, Immutable Symbol System for Domain-Specific Abstraction
 
 _inspired by ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)_
 
