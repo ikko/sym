@@ -68,16 +68,18 @@ Extensibility:
 Example Use:
 ------------
 ```python
-S = SymbolNamespace()
+s = SymbolNamespace()
 
-S.backend.relate_to(S.database, how=S.uses)
-S.page.append(S.header).append(S.footer)
+s.backend.relate_to(s.database, how=s.uses)
+s.page.append(s.header).append(s.footer)
 
-print(S.page.tree())  # Traverse children
-print(S.page.to_mmd())  # Render as Mermaid diagram
+print(s.page.tree())    # Traverse children
+print(s.page.to_mmd())  # Render as Mermaid diagram
 ```
 
 Conclusion:
 -----------
 This module provides a high-performance, semantically rich, thread-safe symbol abstraction to power DSLs, runtime graphs, knowledge trees, and dynamic semantic layers. The design emphasizes structural clarity, cache efficiency, and symbolic extensibility.
-"""
+
+---
+
