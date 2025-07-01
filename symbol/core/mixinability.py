@@ -93,3 +93,9 @@ def register_mixin(target_class: type, name: str, value: Any) -> bool:
 def get_applied_mixins() -> Dict[str, Any]:
     """Returns a copy of the dictionary of applied mixins."""
     return _applied_mixins.copy()
+
+def _reset_frozen_state_for_testing() -> None:
+    """Resets the frozen state for testing purposes. DO NOT USE IN PRODUCTION."""
+    global _is_frozen
+    _is_frozen = False
+    log.warning("Symbol class frozen state has been reset for testing. DO NOT USE IN PRODUCTION.")

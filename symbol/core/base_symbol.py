@@ -39,7 +39,7 @@ class Symbol:
             return obj
 
     def __repr__(self):
-        return f" :{self.name}"
+        return f"Symbol('{self.name}')"
 
     def __str__(self):
         return self.name
@@ -70,15 +70,4 @@ def _to_symbol(x: Any) -> 'Symbol':
         return Symbol(x.name)
     raise TypeError(f"Cannot convert {repr(x)} instance of {type(x)} to Symbol")
 
-class SymbolNamespace:
-    """Provides a convenient way to create Symbol instances via attribute access."""
-    def __getattr__(self, name):
-        return Symbol(name)
 
-    def __getitem__(self, name):
-        return Symbol(name)
-
-    def __setitem__(self, name, value):
-        raise TypeError(f"SymbolNamespace is read-only, cannot set {name} to {value}")
-
-s = SymbolNamespace()

@@ -20,35 +20,39 @@ def apply_builtins():
 
     # DateTime Mixin
     total_mixins += 1
-    if register_mixin(Symbol, 'head', property(SymbolDateTimeMixin.head.fget)): successful_mixins += 1
+    if register_mixin(Symbol, '_parse_timestamp', SymbolDateTimeMixin._parse_timestamp): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'tail', property(SymbolDateTimeMixin.tail.fget)): successful_mixins += 1
+    if register_mixin(Symbol, '_sorted_by_time', SymbolDateTimeMixin._sorted_by_time): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_date', property(SymbolDateTimeMixin.as_date.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'head', property(lambda self: SymbolDateTimeMixin.head.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_time', property(SymbolDateTimeMixin.as_time.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'tail', property(lambda self: SymbolDateTimeMixin.tail.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_datetime', property(SymbolDateTimeMixin.as_datetime.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'as_date', property(lambda self: SymbolDateTimeMixin.as_date.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'day', property(SymbolDateTimeMixin.day.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'as_time', property(lambda self: SymbolDateTimeMixin.as_time.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'hour', property(SymbolDateTimeMixin.hour.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'as_datetime', property(lambda self: SymbolDateTimeMixin.as_datetime.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'minute', property(SymbolDateTimeMixin.minute.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'day', property(lambda self: SymbolDateTimeMixin.day.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'second', property(SymbolDateTimeMixin.second.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'hour', property(lambda self: SymbolDateTimeMixin.hour.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'period', property(SymbolDateTimeMixin.period.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'minute', property(lambda self: SymbolDateTimeMixin.minute.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_period', property(SymbolDateTimeMixin.as_period.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'second', property(lambda self: SymbolDateTimeMixin.second.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'duration', property(SymbolDateTimeMixin.duration.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'period', property(lambda self: SymbolDateTimeMixin.period.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_duration', property(SymbolDateTimeMixin.as_duration.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'as_period', property(lambda self: SymbolDateTimeMixin.as_period.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'delta', property(SymbolDateTimeMixin.delta.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'duration', property(lambda self: SymbolDateTimeMixin.duration.fget(self))): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_delta', property(SymbolDateTimeMixin.as_delta.fget)): successful_mixins += 1
+    if register_mixin(Symbol, 'as_duration', property(lambda self: SymbolDateTimeMixin.as_duration.fget(self))): successful_mixins += 1
+    total_mixins += 1
+    if register_mixin(Symbol, 'delta', property(lambda self: SymbolDateTimeMixin.delta.fget(self))): successful_mixins += 1
+    total_mixins += 1
+    if register_mixin(Symbol, 'as_delta', property(lambda self: SymbolDateTimeMixin.as_delta.fget(self))): successful_mixins += 1
 
     # Visual functions (proxied from symbol.builtins.visual)
     total_mixins += 1

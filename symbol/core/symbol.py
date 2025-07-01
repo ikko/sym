@@ -12,7 +12,7 @@ import warnings
 import gc
 from typing import Any, Union, Iterator, Optional, Literal, Set, Type, TypeVar
 
-from .base_symbol import Symbol as BaseSymbol, _to_symbol, s
+from .base_symbol import Symbol as BaseSymbol, _to_symbol
 from ..builtins.collections import OrderedSymbolSet
 from ..builtins.indexing import SymbolIndex
 from ..core.maturing import DefDict, deep_del, _apply_merge_strategy
@@ -74,8 +74,9 @@ class Symbol(BaseSymbol):
         child = _to_symbol(child)
         if child not in self.children:
             self.children.append(child)
-            child.parents.append(self)
             self._length_cache = None
+        if self not in child.parents:
+            child.parents.append(self)
         return self
 
     def add(self, child: 'Symbol') -> 'Symbol':
@@ -112,7 +113,7 @@ class Symbol(BaseSymbol):
                 del self._pool[self.name]
         if MEMORY_AWARE_DELETE:
             try:
-                del self
+                pass # Removed 'del self' due to potential object corruption
             except Exception:
                 pass
 
@@ -359,3 +360,19 @@ def to_sym(obj: Any) -> 'Symbol':
         return Symbol(name, origin=obj)
     except (TypeError, orjson.JSONEncodeError):
         raise TypeError(f"Cannot convert {type(obj)} to Symbol")
+
+class SymbolNamespace:
+    """Provides a convenient way to create Symbol instances via attribute access."""
+    def __getattr__(self, name):
+        return Symbol(name)
+
+    def __getitem__(self, name):
+        return Symbol(name)
+
+    def __setitem__(self, name, value):
+        raise TypeError(f"SymbolNamespace is read-only, cannot set {name} to {value}")
+
+    def __setattr__(self, name, value):
+        raise TypeError(f"SymbolNamespace is read-only, cannot set {name} to {value}")
+
+s = SymbolNamespace()

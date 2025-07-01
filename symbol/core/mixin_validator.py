@@ -4,11 +4,12 @@ It uses static analysis with LibCST to ensure that mixins adhere to the expected
 and do not contain any potentially unsafe code.
 """
 import libcst as cst
-import libcst.tool as cst_tool
+from libcst.metadata import MetadataWrapper
 from libcst.metadata import QualifiedNameProvider, QualifiedName
 from typing import Callable, Any, List, Tuple, Union, Optional, Dict
 import inspect
 import logging
+import textwrap
 
 log = logging.getLogger(__name__)
 
@@ -40,7 +41,7 @@ def validate_mixin_callable(func: Callable[..., Any]) -> MixinValidationResult:
 
     source_code = None
     try:
-        source_code = inspect.getsource(func)
+        source_code = textwrap.dedent(inspect.getsource(func))
     except TypeError:
         errors.append(f"Cannot get source code for callable {func.__name__}. It might be a built-in or dynamically generated.")
         return MixinValidationResult(False, errors=errors)
@@ -51,10 +52,7 @@ def validate_mixin_callable(func: Callable[..., Any]) -> MixinValidationResult:
     tree = None
     try:
         tree = cst.parse_module(source_code)
-        wrapper = cst_tool.MetadataWrapper(tree)
-    except cst.ParserError as e:
-        errors.append(f"Failed to parse mixin source code with LibCST: {e}")
-        return MixinValidationResult(False, errors=errors)
+        wrapper = MetadataWrapper(tree)
     except Exception as e:
         errors.append(f"Unexpected error during LibCST parsing: {e}")
         return MixinValidationResult(False, errors=errors)

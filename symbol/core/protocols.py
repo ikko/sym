@@ -4,7 +4,7 @@ These protocols establish a clear contract for extending the Symbol class with n
 promoting a clean and maintainable architecture.
 """
 from abc import ABC, abstractmethod
-from typing import Any, Iterator, List, Optional, Protocol, Union, Callable, Awaitable
+from typing import Any, Iterator, List, Optional, Protocol, Union, Callable, Awaitable, runtime_checkable
 import datetime
 
 from ..core.base_symbol import Symbol
@@ -141,6 +141,7 @@ class SymbolVisualProtocol(Protocol):
         ...
 
 
+@runtime_checkable
 class MixinFunction(Protocol):
     async def __call__(self, *args: Any, new_process: bool = False, new_thread: bool = True, **params: Any) -> Union[Any, Awaitable[Any]]:
         """Formal interface for mixin functions, supporting async, process/thread execution, and return type casting."""

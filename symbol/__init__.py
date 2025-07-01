@@ -1,4 +1,5 @@
-from .core.base_symbol import Symbol, s
+from .core.base_symbol import Symbol
+from .core.symbol import s
 from .core.symbol import GraphTraversal
 from .core.mixinability import freeze, is_frozen
 from .core.time_arithmetics import add_time_objects, subtract_time_objects

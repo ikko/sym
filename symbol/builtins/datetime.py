@@ -7,25 +7,24 @@ import datetime
 from typing import Iterator, Union, Any
 
 from ..core.base_symbol import Symbol
-from ..core.protocols import SymbolDateTimeProtocol
 
-class SymbolDateTimeMixin(SymbolDateTimeProtocol):
-    def _parse_timestamp(self, s: 'Symbol') -> datetime.datetime:
+class SymbolDateTimeMixin:
+    def _parse_timestamp(self) -> datetime.datetime:
         try:
-            return datetime.datetime.fromisoformat(s.name)
+            return datetime.datetime.fromisoformat(self.name)
         except Exception:
             return datetime.datetime.combine(datetime.date.today(), datetime.time())
 
     def _sorted_by_time(self) -> list['Symbol']:
-        return sorted(self._numbered, key=lambda s: self._parse_timestamp(s))
+        return sorted(self._numbered, key=lambda s: s._parse_timestamp())
 
     @property
     def head(self) -> 'SymbolHeadTailView':
-        return SymbolHeadTailView(self._sorted_by_time())
+        return SymbolHeadTailView(SymbolDateTimeMixin._sorted_by_time(Symbol))
 
     @property
     def tail(self) -> 'SymbolHeadTailView':
-        return SymbolHeadTailView(self._sorted_by_time()[::-1])
+        return SymbolHeadTailView(SymbolDateTimeMixin._sorted_by_time(Symbol)[::-1])
 
     @property
     def as_date(self) -> datetime.date:
@@ -97,8 +96,8 @@ class SymbolHeadTailView:
     def period(self) -> datetime.timedelta:
         if not self._items:
             return datetime.timedelta(0)
-        start = SymbolDateTimeMixin()._parse_timestamp(self._items[0])
-        end = SymbolDateTimeMixin()._parse_timestamp(self._items[-1])
+        start = SymbolDateTimeMixin._parse_timestamp(self._items[0])
+        end = SymbolDateTimeMixin._parse_timestamp(self._items[-1])
         return end - start
 
     @property
