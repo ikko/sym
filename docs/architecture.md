@@ -1,7 +1,7 @@
 # Software Architecture Overview
 
 ```mermaid
-graph TD
+graph LR
     subgraph Symbol Package
         A[symbol] --> B(symbol.core)
         A --> C(symbol.builtins)
@@ -53,7 +53,7 @@ graph TD
     C5 -- uses --> B8
     C8 -- uses --> B8
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style C fill:#bfb,stroke:#333,stroke-width:2px
+    style A fill:#00008B,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style B fill:#00008B,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style C fill:#00008B,stroke:#333,stroke-width:2px,color:#FFFFFF
 ```
