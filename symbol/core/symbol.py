@@ -308,7 +308,7 @@ class Symbol:
             protected_attributes = set()
 
         applied_patches = get_applied_patches()
-        for attr_name in list(applied_patches.keys()): # Iterate over a copy
+        for attr_name in list(applied_mixins.keys()): # Iterate over a copy
             if attr_name not in protected_attributes:
                 # Check if the attribute actually exists on this instance before attempting to delete
                 if hasattr(self, attr_name):

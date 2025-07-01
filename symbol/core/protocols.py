@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Iterator, List, Optional, Protocol, Union, Callable
+from typing import Any, Iterator, List, Optional, Protocol, Union, Callable, Awaitable
 import datetime
 
 # Forward declaration for Symbol to avoid circular imports
@@ -139,4 +139,10 @@ class SymbolVisualProtocol(Protocol):
     @abstractmethod
     def to_ascii(self, mode: str = "tree") -> str:
         """Generates an ASCII art representation of the Symbol graph."""
+        ...
+
+
+class MixinFunction(Protocol):
+    async def __call__(self, *args: Any, new_process: bool = False, new_thread: bool = True, **params: Any) -> Union[Any, Awaitable[Any]]:
+        """Formal interface for mixin functions, supporting async, process/thread execution, and return type casting."""
         ...

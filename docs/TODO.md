@@ -17,8 +17,8 @@ This document tracks the development and refactoring tasks for the project.
 ### Phase 2: API Refinement and Mixinability
 
 -   [x] **Implement Runtime Mixinability**:
-    -   [x] Create `symbol/core/pluggability.py` with `freeze()`, `immute()`, and `is_frozen()`.
-    -   [x] Integrate `register_patch()` in `symbol/builtins/__init__.py` to track applied patches.
+    -   [x] Create `symbol/core/mixinability.py` with `freeze()`, `immute()`, and `is_frozen()`.
+    -   [x] Integrate `register_mixin()` in `symbol/builtins/__init__.py` to track applied mixins.
     -   [x] Expose `freeze`, `immute`, `is_frozen` at the top-level `symbol` package.
 -   [x] **Refine User-Facing API**:
     -   [x] Rename global `S` instance to `s`.
@@ -71,14 +71,25 @@ This document tracks the development and refactoring tasks for the project.
 
 ### Phase 6: Advanced Type Handling and Mixin Interface
 
--   [ ] **Rename Terminology**: Replace "pluggable" with "mixinable" and "plugins" with "mixins" throughout codebase and documentation.
--   [ ] **Origin Ref Task**: Add `.ref` as alias of `.origin`.
--   [ ] **Introduce `Symbolable` Type**:
-    -   [ ] Replaces current callable handling.
-    -   [ ] Official interface for callables, enabling lambdas.
-    -   [ ] Explore `LibCST` for implementation.
--   [ ] **Formalize Mixin Interface**:
-    -   [ ] `async def a_function(function_name, *args, new_process=False, new_thread=True, **params, returns, returns_type) -> TODO: work on it.`
-    -   [ ] Cast returns to `returns_type` before returning.
--   [ ] **Batch Processing**: Implement a more general concept of batch transforming, handling batches consistently throughout the module.
--   [ ] **Mixin Manipulation of Symbol**: Confirm implicit `self` manipulation for mixins.
+-   [x] **Rename Terminology**: Replace "pluggable" with "mixinable" and "plugins" with "mixins" throughout codebase and documentation.
+-   [x] **Origin Ref Task**: Add `.ref` as alias of `.origin`.
+-   [x] **Introduce `Symbolable` Type**:
+    -   [x] Create `symbol/core/symbolable.py`.
+    -   [x] Define `Symbolable` Protocol for callable objects.
+    -   [x] Implement `symbol/core/mixin_validator.py` using `LibCST` for static analysis.
+    -   [x] Integrate `validate_mixin_callable` into `register_mixin` for robust validation.
+    -   [x] **Robustness**: Implement `try-except` for third-party code, ensure graceful degradation (warnings, state restoration).
+    -   [x] **Monitoring**: Initial monitoring during integration (logging success/failure of mixin application).
+-   [x] **Formalize Mixin Interface**:
+    -   [x] Define `MixinFunction` Protocol in `symbol/core/protocols.py`.
+    -   [x] Enhance `register_mixin` to enforce `MixinFunction` protocol.
+    -   [x] **Developer Experience**: Design for easy, unambiguous, self-explanatory mixin registration.
+    -   [x] **Debugger Friendly**: Construct a debugger-friendly, inspectable process with well-instructed error handling.
+-   [x] **New Feature: `.timeline` Module**:
+    -   [x] Create `symbol/builtins/timeline.py`.
+    -   [x] Define `Timeline` as a series of periods, structurable with existing hierarchies.
+    -   [x] Implement meaningful constructors and operations (e.g., `overlap`).
+    -   [x] Implement conversions and operations with other point-in-time and time-delta objects.
+    -   [x] Add arithmetic operators to a separate file (e.g., `symbol/core/time_arithmetics.py`) to cover foundational methods for meeting organizers, calendars, etc.
+-   [x] **Batch Processing**: Implement a more general concept of batch transforming, handling batches consistently throughout the module.
+-   [x] **Mixin Manipulation of Symbol**: Confirm implicit `self` manipulation for mixins.

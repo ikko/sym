@@ -55,7 +55,6 @@ def deep_del(obj: Any, attr: str) -> None:
 
     # Check if the value_to_delete has other references. If not, explicitly collect it.
     # This is tricky and often not necessary, but aligns with the memory-aware directive.
-    # A more robust approach might involve tracking references, but that's complex.
     # For now, we rely on gc.collect() to pick up unreferenced objects.
     pass # gc.collect() will be called by the orchestrating immute() method
 
