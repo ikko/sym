@@ -2,11 +2,16 @@ import datetime
 import enum
 import orjson
 import threading
-from typing import Any, Union, Iterator, Optional
+import inspect
+import warnings
+import gc
+from typing import Any, Union, Iterator, Optional, Literal, Set
 
 from ..core.graph import GraphTraversal
 from ..builtins.collections import OrderedSymbolSet
 from ..builtins.indexing import SymbolIndex
+from ..core.maturing import DefDict, deep_del, _apply_merge_strategy
+from ..core.pluggability import freeze, is_frozen, get_applied_patches
 
 ENABLE_ORIGIN = True
 MEMORY_AWARE_DELETE = True
@@ -38,6 +43,8 @@ class Symbol:
             obj._prev: Optional['Symbol'] = None
             obj.index = SymbolIndex(obj)
             obj._length_cache: Optional[int] = None
+            obj.metadata = DefDict() # Initialize metadata as DefDict
+            obj.context = DefDict() # Initialize context as DefDict
             cls._write_cursor += 1.0
             cls._pool[name] = obj
             return obj
@@ -158,6 +165,15 @@ class Symbol:
                     existing.append(e)
         return self
 
+    @property
+    def ref(self) -> Optional[Any]:
+        """Alias for .origin, representing the original source or reference of the Symbol."""
+        return self.origin
+
+    @ref.setter
+    def ref(self, value: Any):
+        self.origin = value
+
     def head(self, up_to_position: float = 5.0):
         cur = self
         while cur._prev and cur._prev._position >= up_to_position:
@@ -238,8 +254,7 @@ class Symbol:
             idx = cls._numbered.index(start)
         else:
             raise TypeError(f"Invalid start parameter {repr(start)} instance of {type(start)} in each")
-        for sym in cls._numbered[idx:]:
-            yield sym
+        for sym in cls._numbered[idx:]:n            yield sym
 
     def each_parents(self) -> Iterator['Symbol']:
         return iter(self.parents)
@@ -252,6 +267,81 @@ class Symbol:
 
     def __exit__(self, exc_type, exc_value, traceback):
         pass
+
+    def elevate(self, merge_strategy: Literal['overwrite', 'patch', 'copy', 'deepcopy', 'pipe', 'update', 'extend', 'smooth'] = 'smooth') -> Set[str]:
+        """Elevates metadata entries to instance attributes/methods based on a merge strategy."""
+        if is_frozen():
+            warnings.warn(f"Cannot elevate on frozen Symbol {self.name}")
+            return set()
+
+        elevated_keys = set()
+        keys_to_remove = []
+
+        for key, value in list(self.metadata.items()): # Iterate over a copy to allow modification
+            if hasattr(self, key):
+                current_value = getattr(self, key)
+                # Check if it's an internal method/attribute
+                if key.startswith('__') or inspect.ismethod(current_value) or inspect.isfunction(current_value):
+                    warnings.warn(f"Overwriting internal attribute/method '{key}' on Symbol {self.name}")
+
+                merged_value = _apply_merge_strategy(current_value, value, merge_strategy)
+                setattr(self, key, merged_value)
+                elevated_keys.add(key)
+                keys_to_remove.append(key)
+            else:
+                setattr(self, key, value)
+                elevated_keys.add(key)
+                keys_to_remove.append(key)
+
+        for key in keys_to_remove:
+            del self.metadata[key]
+
+        return elevated_keys
+
+    def slim(self, protected_attributes: Optional[Set[str]] = None) -> None:
+        """Removes dynamically applied attributes/methods that are not explicitly protected."""
+        if is_frozen():
+            warnings.warn(f"Cannot slim on frozen Symbol {self.name}")
+            return
+
+        if protected_attributes is None:
+            protected_attributes = set()
+
+        applied_patches = get_applied_patches()
+        for attr_name in list(applied_patches.keys()): # Iterate over a copy
+            if attr_name not in protected_attributes:
+                # Check if the attribute actually exists on this instance before attempting to delete
+                if hasattr(self, attr_name):
+                    deep_del(self, attr_name)
+
+        gc.collect() # Explicitly call garbage collector after deletions
+
+    def immute(self, merge_strategy: Literal['overwrite', 'patch', 'copy', 'deepcopy', 'pipe', 'update', 'extend', 'smooth'] = 'smooth') -> None:
+        """Orchestrates the maturing process: elevates metadata, slims down, and freezes the Symbol."""
+        if is_frozen():
+            warnings.warn(f"Symbol {self.name} is already frozen. No action taken.")
+            return
+
+        # 1. Elevate metadata
+        elevated_keys = self.elevate(merge_strategy=merge_strategy)
+
+        # 2. Slim down
+        self.slim(protected_attributes=elevated_keys)
+
+        # 3. Freeze the Symbol class (global state)
+        freeze()
+
+    def clear_context(self) -> None:
+        """Clears the context DefDict, performing memory-aware deletion of its contents."""
+        if is_frozen():
+            warnings.warn(f"Cannot clear context on frozen Symbol {self.name}")
+            return
+
+        # Iterate over a copy of keys to allow modification during iteration
+        for key in list(self.context.keys()):
+            # DefDict's __delitem__ will handle logging and potential deep_del for nested DefDicts
+            del self.context[key]
+        gc.collect() # Explicitly call garbage collector after deletions
 
 
 def _to_symbol(x: Any) -> 'Symbol':

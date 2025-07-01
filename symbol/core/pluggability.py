@@ -1,11 +1,12 @@
+from collections import defaultdict
 import gc
 import logging
-from typing import Callable, Any
+from typing import Callable, Any, Dict
 
 # --- Module-level state ---
 
 _is_frozen: bool = False
-_applied_patches: dict[str, Any] = {}
+_applied_patches: Dict[str, Any] = {}
 
 # --- Logger Setup ---
 
@@ -25,29 +26,6 @@ def freeze() -> None:
     _is_frozen = True
     log.info("Symbol class has been frozen. No further modifications are allowed.")
 
-def immute() -> None:
-    """
-    Makes the Symbol class immutable by removing all dynamically applied built-in methods.
-    This is a destructive, one-way operation that frees up memory.
-    """
-    global _is_frozen
-    if not _is_frozen:
-        raise RuntimeError("Cannot immute a non-frozen class. Call freeze() first.")
-
-    log.info(f"Immuting Symbol class. Removing {_len(_applied_patches)} applied patches.")
-
-    from ..core.symbol import Symbol
-    for name, original_value in _applied_patches.items():
-        try:
-            delattr(Symbol, name)
-            log.info(f"  - Removed patch: {name}")
-        except AttributeError:
-            log.warning(f"  - Could not remove patch '{name}'. It may have been removed manually.")
-
-    _applied_patches.clear()
-    gc.collect()
-    log.info("Symbol class is now immutable and memory has been reclaimed.")
-
 def is_frozen() -> bool:
     """Returns True if the Symbol class is currently frozen."""
     return _is_frozen
@@ -61,9 +39,16 @@ A decorator or function to register a patch before applying it.
         raise RuntimeError(f"Cannot patch '{name}' because the Symbol class is frozen.")
 
     if not hasattr(target_class, name):
-        _applied_patches[name] = getattr(target_class, name, None)
+        _applied_patches[name] = None # Mark as new patch, no original value to restore
         setattr(target_class, name, value)
         log.info(f"Applied patch: {target_class.__name__}.{name}")
     else:
-        log.warning(f"Patch '{name}' already exists on {target_class.__name__}. Overwriting.")
+        # If attribute already exists, store its original value for potential restoration
+        if name not in _applied_patches: # Only store if not already tracked
+            _applied_patches[name] = getattr(target_class, name)
         setattr(target_class, name, value)
+        log.warning(f"Patch '{name}' already exists on {target_class.__name__}. Overwriting.")
+
+def get_applied_patches() -> Dict[str, Any]:
+    """Returns a copy of the dictionary of applied patches."""
+    return _applied_patches.copy()

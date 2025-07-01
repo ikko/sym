@@ -1,0 +1,113 @@
+from typing import Optional, Union, Callable, Any
+
+class AVLNode:
+    def __init__(self, symbol: 'Symbol', weight: Union[float, Callable[[Any], float]]):
+        self.symbol = symbol
+        self.weight = weight
+        self.height = 1
+        self.left: Optional['AVLNode'] = None
+        self.right: Optional['AVLNode'] = None
+
+    def eval_weight(self, *args, **kwargs) -> float:
+        return self.weight(*args, **kwargs) if callable(self.weight) else self.weight
+
+
+class AVLTree:
+    def __init__(self):
+        self.root: Optional[AVLNode] = None
+
+    def _height(self, node: Optional[AVLNode]) -> int:
+        return node.height if node else 0
+
+    def _update_height(self, node: AVLNode) -> None:
+        node.height = 1 + max(self._height(node.left), self._height(node.right))
+
+    def _balance_factor(self, node: Optional[AVLNode]) -> int:
+        return self._height(node.left) - self._height(node.right) if node else 0
+
+    def _rotate_left(self, z: AVLNode) -> AVLNode:
+        y = z.right
+        T2 = y.left
+
+        y.left = z
+        z.right = T2
+
+        self._update_height(z)
+        self._update_height(y)
+
+        return y
+
+    def _rotate_right(self, z: AVLNode) -> AVLNode:
+        y = z.left
+        T3 = y.right
+
+        y.right = z
+        z.left = T3
+
+        self._update_height(z)
+        self._update_height(y)
+
+        return y
+
+    def _rebalance(self, node: AVLNode) -> AVLNode:
+        self._update_height(node)
+        balance = self._balance_factor(node)
+
+        # Left Left Case
+        if balance > 1 and self._balance_factor(node.left) >= 0:
+            return self._rotate_right(node)
+
+        # Left Right Case
+        if balance > 1 and self._balance_factor(node.left) < 0:
+            node.left = self._rotate_left(node.left)
+            return self._rotate_right(node)
+
+        # Right Right Case
+        if balance < -1 and self._balance_factor(node.right) <= 0:
+            return self._rotate_left(node)
+
+        # Right Left Case
+        if balance < -1 and self._balance_factor(node.right) > 0:
+            node.right = self._rotate_right(node.right)
+            return self._rotate_left(node)
+
+        return node
+
+    def insert(self, node: Optional[AVLNode], symbol: 'Symbol', weight: Union[float, Callable]) -> AVLNode:
+        if not node:
+            return AVLNode(symbol, weight)
+
+        if weight < node.eval_weight():
+            node.left = self.insert(node.left, symbol, weight)
+        else:
+            node.right = self.insert(node.right, symbol, weight)
+
+        return self._rebalance(node)
+
+    def traverse_inorder(self, node: Optional[AVLNode] = None) -> list['Symbol']:
+        if node is None:
+            node = self.root
+        result = []
+
+        def _walk(n: Optional[AVLNode]):
+            if not n:
+                return
+            _walk(n.left)
+            result.append(n.symbol)
+            _walk(n.right)
+
+        _walk(node)
+        return result
+
+    def to_ascii(self) -> str:
+        lines = []
+
+        def _walk_ascii(node: Optional[AVLNode], indent: str = ""):
+            if node is None:
+                return
+            _walk_ascii(node.right, indent + "  ")
+            lines.append(f"{indent}- {node.symbol.name} (W:{node.eval_weight():.2f}, H:{node.height})")
+            _walk_ascii(node.left, indent + "  ")
+
+        _walk_ascii(self.root)
+        return "\n".join(lines)
