@@ -41,7 +41,7 @@ Memory Awareness:
 Extensibility:
 --------------
 - Easily extended with async traversal, typed relations, or backend persistence
-- `SymbolAdapter` pluggable interface enables different logical structures
+- `SymbolAdapter` mixinable interface enables different logical structures
 - Compatible with enum reflection and external DSL inputs
 
 Example Use:
