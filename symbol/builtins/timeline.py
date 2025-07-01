@@ -1,7 +1,11 @@
+"""This module provides a Timeline class for representing a series of time periods.
+
+It allows for adding, manipulating, and calculating overlaps between timelines.
+"""
 from typing import List, Tuple, Optional, Iterator
 import datetime
 
-from ..core.symbol import Symbol
+from ..core.base_symbol import Symbol
 
 class Timeline:
     """Represents a series of periods, typically associated with a Symbol."""

@@ -1,3 +1,8 @@
+"""This module provides functions for performing arithmetic operations on time-related objects.
+
+It supports addition and subtraction of datetime and timedelta objects,
+providing a convenient way to manipulate time-based data.
+"""
 import datetime
 from typing import Union
 

@@ -1,3 +1,8 @@
+"""This module provides an implementation of an AVL tree.
+
+An AVL tree is a self-balancing binary search tree that maintains a balanced height,
+ensuring efficient search, insertion, and deletion operations.
+"""
 from typing import Optional, Union, Callable, Any
 
 class AVLNode:

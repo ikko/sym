@@ -1,3 +1,7 @@
+"""This module provides visualization capabilities for Symbol objects.
+
+It allows for rendering Symbol graphs to various formats, such as DOT, SVG, PNG, and Mermaid.
+"""
 from typing import Literal, Optional
 import asyncio
 import anyio
@@ -8,7 +12,7 @@ try:
 except ImportError:
     _GRAPHVIZ_AVAILABLE = False
 
-from ..core.symbol import Symbol
+from ..core.base_symbol import Symbol
 from ..core.protocols import SymbolVisualProtocol
 
 

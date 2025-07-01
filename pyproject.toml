@@ -8,10 +8,48 @@ dependencies = [
     "anyio>=4.4.0",
     "ruff>=0.4.0",
     "libcst>=1.2.0",
+    "ipython>=8.18.1",
+    "typer[all]>=0.12.3",
+    "croniter>=2.0.1",
+    "sniffio",
+    "PyYAML",
+    "pytz",
+    "python-dateutil",
+    "toml",
 ]
 requires-python = ">=3.9"
 license = {text = "MIT"}
 
+[project.scripts]
+symbol = "symbol.bin.scheduler:app"
+
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["symbol"]
+
+[tool.setuptools.package-data]
+"symbol" = ["py.typed"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+[tool.setuptools]
+py-modules = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "mypy",
+    "pre-commit",
+    "ruff",
+    "sniffio",
+]

@@ -1,6 +1,11 @@
+"""This module provides pathfinding capabilities for Symbol objects.
+
+It includes a mixin that adds methods for finding paths between Symbols
+and for matching Symbols based on a predicate.
+"""
 from typing import Callable, Iterator, List
 
-from ..core.symbol import Symbol
+from ..core.base_symbol import Symbol
 from ..core.protocols import SymbolPathProtocol
 
 class SymbolPathMixin(SymbolPathProtocol):

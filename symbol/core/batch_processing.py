@@ -1,3 +1,8 @@
+"""This module provides functions for processing batches of items asynchronously and synchronously.
+
+It offers a flexible and efficient way to apply a function to a collection of items,
+with support for parallel execution using threads or processes.
+"""
 from typing import Iterable, Callable, Any, List, TypeVar, Union, Awaitable
 import asyncio
 import anyio

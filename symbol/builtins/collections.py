@@ -1,6 +1,10 @@
+"""This module provides custom collection classes for Symbol objects.
+
+It includes an OrderedSymbolSet, which is a set of Symbols that maintains insertion order.
+"""
 import threading
 
-from ..core.symbol import Symbol
+from ..core.base_symbol import Symbol
 
 
 class OrderedSymbolSet:

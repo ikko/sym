@@ -1,3 +1,8 @@
+"""This module defines the core Symbol class and its extended functionalities.
+
+It builds upon the foundational Symbol defined in base_symbol.py,
+adding graph traversal, indexing, maturing, and serialization capabilities.
+"""
 import datetime
 import enum
 import orjson
@@ -5,9 +10,9 @@ import threading
 import inspect
 import warnings
 import gc
-from typing import Any, Union, Iterator, Optional, Literal, Set
+from typing import Any, Union, Iterator, Optional, Literal, Set, Type, TypeVar
 
-from ..core.graph import GraphTraversal
+from .base_symbol import Symbol as BaseSymbol, _to_symbol, s
 from ..builtins.collections import OrderedSymbolSet
 from ..builtins.indexing import SymbolIndex
 from ..core.maturing import DefDict, deep_del, _apply_merge_strategy
@@ -16,61 +21,54 @@ from ..core.mixinability import freeze, is_frozen, get_applied_mixins
 ENABLE_ORIGIN = True
 MEMORY_AWARE_DELETE = True
 
+T = TypeVar("T")
 
-class Symbol:
-    _pool: dict[str, 'Symbol'] = {}
-    _numbered: list['Symbol'] = []
-    _auto_counter: int = 0
-    _read_cursor: float = 0.0
-    _write_cursor: float = 0.0
-    _lock = threading.RLock()
 
+class GraphTraversal:
+    def __init__(self, root: 'Symbol', mode: str = 'graph'):
+        self.root = root
+        self.mode = mode  # 'graph' or 'tree'
+        self.visited = set()
+        self.result = []
+
+    def traverse(self):
+        self._walk(self.root)
+        return self.result
+
+    def _walk(self, symbol: 'Symbol'):
+        if symbol in self.visited:
+            warnings.warn(f"Cycle detected in {self.mode} at {symbol}")
+            return
+        self.visited.add(symbol)
+        self.result.append(symbol)
+        neighbors = symbol.children if self.mode == 'tree' else symbol.children
+        for child in neighbors:
+            self._walk(child)
+
+    def to_ascii(self) -> str:
+        lines = []
+        visited_ascii = set()
+
+        def _walk_ascii(symbol: 'Symbol', indent: str = ""):
+            if symbol in visited_ascii:
+                return
+            visited_ascii.add(symbol)
+            lines.append(f"{indent}- {symbol.name}")
+            for child in symbol.children:
+                _walk_ascii(child, indent + "  ")
+
+        _walk_ascii(self.root)
+        return "\n".join(lines)
+
+
+class Symbol(BaseSymbol):
     def __new__(cls, name: str, origin: Optional[Any] = None):
-        with cls._lock:
-            if not isinstance(name, str):
-                raise TypeError("Symbol name must be a string")
-            if name in cls._pool:
-                return cls._pool[name]
-            obj = super().__new__(cls)
-            obj.name = name
-            obj.origin = origin if ENABLE_ORIGIN else None
-            obj.parents: list['Symbol'] = []
-            obj.children: list['Symbol'] = []
-            obj.related_to: list['Symbol'] = []
-            obj.related_how: list[str] = []
-            obj._position: float = cls._write_cursor
-            obj._next: Optional['Symbol'] = None
-            obj._prev: Optional['Symbol'] = None
+        obj = super().__new__(cls, name, origin)
+        if not hasattr(obj, 'index'): # Initialize only if not already initialized by BaseSymbol
             obj.index = SymbolIndex(obj)
-            obj._length_cache: Optional[int] = None
-            obj.metadata = DefDict() # Initialize metadata as DefDict
-            obj.context = DefDict() # Initialize context as DefDict
-            cls._write_cursor += 1.0
-            cls._pool[name] = obj
-            return obj
-
-    def __repr__(self):
-        return f" :{self.name}"
-
-    def __str__(self):
-        return self.name
-
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, Symbol) and self.name == other.name
-
-    def __hash__(self) -> int:
-        return hash(self.name)
-
-    def __lt__(self, other):
-        if self in self._numbered and other in self._numbered:
-            return self._position < other._position
-        raise TypeError("Unordered comparison not supported for non-numbered symbols")
-
-    def __add__(self, other: 'Symbol') -> OrderedSymbolSet:
-        return OrderedSymbolSet([self, other])
-
-    def __orjson__(self):
-        return self.name
+            obj.metadata = DefDict()
+            obj.context = DefDict()
+        return obj
 
     def append(self, child: 'Symbol') -> 'Symbol':
         child = _to_symbol(child)
@@ -254,7 +252,8 @@ class Symbol:
             idx = cls._numbered.index(start)
         else:
             raise TypeError(f"Invalid start parameter {repr(start)} instance of {type(start)} in each")
-        for sym in cls._numbered[idx:]:n            yield sym
+        for sym in cls._numbered[idx:]:
+            yield sym
 
     def each_parents(self) -> Iterator['Symbol']:
         return iter(self.parents)
@@ -343,25 +342,20 @@ class Symbol:
             del self.context[key]
         gc.collect() # Explicitly call garbage collector after deletions
 
-
-def _to_symbol(x: Any) -> 'Symbol':
-    if isinstance(x, Symbol):
-        return x
-    elif isinstance(x, str):
-        return Symbol(x)
-    elif hasattr(x, 'name'):
-        return Symbol(x.name)
-    raise TypeError(f"Cannot convert {repr(x)} instance of {type(x)} to Symbol")
+    def to(self, target_type: Type[T]) -> T:
+        """Converts the Symbol to an object of the specified type."""
+        try:
+            return orjson.loads(self.name)
+        except orjson.JSONDecodeError:
+            raise TypeError(f"Cannot convert Symbol '{self.name}' to {target_type}")
 
 
-class SymbolNamespace:
-    def __getattr__(self, name):
-        return Symbol(name)
-
-    def __getitem__(self, name):
-        return Symbol(name)
-
-    def __setitem__(self, name, value):
-        raise TypeError(f"SymbolNamespace is read-only, cannot set {name} to {value}")
-
-s = SymbolNamespace()
+def to_sym(obj: Any) -> 'Symbol':
+    """Converts an object to a Symbol."""
+    if isinstance(obj, Symbol):
+        return obj
+    try:
+        name = orjson.dumps(obj).decode()
+        return Symbol(name, origin=obj)
+    except (TypeError, orjson.JSONEncodeError):
+        raise TypeError(f"Cannot convert {type(obj)} to Symbol")

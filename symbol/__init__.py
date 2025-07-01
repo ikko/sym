@@ -1,8 +1,9 @@
-from .core.symbol import Symbol, s
-from .core.graph import GraphTraversal
+from .core.base_symbol import Symbol, s
+from .core.symbol import GraphTraversal
 from .core.mixinability import freeze, is_frozen
 from .core.time_arithmetics import add_time_objects, subtract_time_objects
 from .core.batch_processing import a_process_batch, process_batch
+from .config import Config
 from . import builtins
 from .builtins import apply_builtins
 

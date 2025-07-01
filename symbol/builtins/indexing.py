@@ -1,3 +1,8 @@
+"""This module provides indexing capabilities for Symbol objects.
+
+It allows for creating and managing indexes on Symbol attributes,
+and provides methods for rebalancing the index using different strategies.
+"""
 import datetime
 import enum
 import orjson
@@ -5,7 +10,7 @@ import warnings
 import threading
 from typing import Any, Union, Iterator, Optional, Callable, Literal
 
-from ..core.symbol import Symbol
+from ..core.base_symbol import Symbol
 
 ENABLE_ORIGIN = True
 MEMORY_AWARE_DELETE = True

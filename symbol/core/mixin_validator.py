@@ -1,3 +1,8 @@
+"""This module provides a validator for Symbol mixins.
+
+It uses static analysis with LibCST to ensure that mixins adhere to the expected interface
+and do not contain any potentially unsafe code.
+"""
 import libcst as cst
 import libcst.tool as cst_tool
 from libcst.metadata import QualifiedNameProvider, QualifiedName

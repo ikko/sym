@@ -1,7 +1,12 @@
+"""This module provides datetime-related functionality for Symbol objects.
+
+It includes a mixin that adds properties for accessing the date and time components of a Symbol's name,
+as well as for calculating time periods and durations.
+"""
 import datetime
 from typing import Iterator, Union, Any
 
-from ..core.symbol import Symbol
+from ..core.base_symbol import Symbol
 from ..core.protocols import SymbolDateTimeProtocol
 
 class SymbolDateTimeMixin(SymbolDateTimeProtocol):

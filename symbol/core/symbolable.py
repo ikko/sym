@@ -1,3 +1,8 @@
+"""This module defines the Symbolable protocol.
+
+This protocol is used to identify objects that can be integrated into a Symbol instance,
+providing a clear contract for their behavior.
+"""
 from typing import Protocol, Any, Callable, Awaitable, Union
 
 class Symbolable(Protocol):

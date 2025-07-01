@@ -1,4 +1,4 @@
-from ..core.symbol import Symbol
+from ..core.base_symbol import Symbol
 from ..core.mixinability import register_mixin
 from .path import SymbolPathMixin
 from .datetime import SymbolDateTimeMixin

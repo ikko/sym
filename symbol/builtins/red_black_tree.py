@@ -1,4 +1,9 @@
-from typing import Optional, Union, Callable, Any
+"""This module provides an implementation of a red-black tree.
+
+A red-black tree is a self-balancing binary search tree that maintains a balanced height,
+ensuring efficient search, insertion, and deletion operations.
+"""
+from ..core.base_symbol import Symbol
 
 RED = True
 BLACK = False

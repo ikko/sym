@@ -1,3 +1,8 @@
+"""This module implements the "maturing" process for Symbol objects.
+
+This process involves elevating metadata to first-class attributes and methods,
+slimming down the object by removing unnecessary attributes, and freezing it to prevent further modifications.
+"""
 from collections import defaultdict, deque
 import gc
 import logging

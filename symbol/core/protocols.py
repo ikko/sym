@@ -1,14 +1,13 @@
+"""This module defines the protocols that govern the behavior of Symbol objects.
+
+These protocols establish a clear contract for extending the Symbol class with new functionality,
+promoting a clean and maintainable architecture.
+"""
 from abc import ABC, abstractmethod
 from typing import Any, Iterator, List, Optional, Protocol, Union, Callable, Awaitable
 import datetime
 
-# Forward declaration for Symbol to avoid circular imports
-class Symbol(Protocol):
-    name: str
-    children: List['Symbol']
-    parents: List['Symbol']
-    _numbered: List['Symbol']
-    _position: float
+from ..core.base_symbol import Symbol
 
 
 class SymbolPathProtocol(Protocol):

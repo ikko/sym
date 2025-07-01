@@ -1,3 +1,8 @@
+"""This module provides the core functionality for mixin-based extensibility of the Symbol class.
+
+It allows for the dynamic registration and application of mixins,
+with support for freezing the class to prevent further modifications.
+"""
 from collections import defaultdict
 import gc
 import logging
