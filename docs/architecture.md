@@ -21,7 +21,7 @@ graph LR
     subgraph Builtin Extensions
         C --> C1[symbol.builtins.collections]
         C --> C2[symbol.builtins.datetime]
-        C --> C3[symbol.builtins.indexing]
+        C --> C3[symbol.builtins.index]
         C --> C4[symbol.builtins.path]
         C --> C5[symbol.builtins.visual]
         C --> C6[symbol.builtins.red_black_tree]

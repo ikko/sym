@@ -116,7 +116,7 @@ This module provides a high-performance, semantically rich, thread-safe symbol a
 The project is organized into two main packages:
 
 -   `symbol.core`: Contains the essential `Symbol` class and graph traversal logic.
--   `symbol.builtins`: Provides optional, high-level extensions for collections, date/time operations, indexing, pathfinding, and visualization.
+-   `symbol.builtins`: Provides optional, high-level extensions for collections, date/time operations, index, pathfinding, and visualization.
 
 ```mermaid
 graph TD
@@ -127,7 +127,7 @@ graph TD
     C --> F[symbol.core.graph]
     D --> G[symbol.builtins.datetime]
     D --> H[symbol.builtins.collections]
-    D --> I[symbol.builtins.indexing]
+    D --> I[symbol.builtins.index]
     D --> J[symbol.builtins.path]
     D --> K[symbol.builtins.visual]
     D --> L[symbol.builtins.timeline]
@@ -156,7 +156,7 @@ graph TD
     subgraph Builtin Extensions
         C --> C1[symbol.builtins.collections]
         C --> C2[symbol.builtins.datetime]
-        C --> C3[symbol.builtins.indexing]
+        C --> C3[symbol.builtins.index]
         C --> C4[symbol.builtins.path]
         C --> C5[symbol.builtins.visual]
         C --> C6[symbol.builtins.red_black_tree]

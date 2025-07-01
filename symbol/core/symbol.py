@@ -1,7 +1,7 @@
 """This module defines the core Symbol class and its extended functionalities.
 
 It builds upon the foundational Symbol defined in base_symbol.py,
-adding graph traversal, indexing, maturing, and serialization capabilities.
+adding graph traversal, index, maturing, and serialization capabilities.
 """
 import datetime
 import enum
@@ -14,7 +14,7 @@ from typing import Any, Union, Iterator, Optional, Literal, Set, Type, TypeVar
 
 from .base_symbol import Symbol as BaseSymbol, _to_symbol
 from ..builtins.collections import OrderedSymbolSet
-from ..builtins.indexing import SymbolIndex
+from ..builtins.index import SymbolIndex
 from ..core.maturing import DefDict, deep_del, _apply_merge_strategy
 from ..core.mixinability import freeze, is_frozen, get_applied_mixins
 

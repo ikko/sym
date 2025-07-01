@@ -36,7 +36,7 @@ This is the Gemini CLI. We are setting up the context for our chat.
         ├───__init__.py
         ├───collections.py
         ├───datetime.py
-        ├───indexing.py
+        ├───index.py
         ├───path.py
         ├───visual.py
         ├───red_black_tree.py

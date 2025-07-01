@@ -22,8 +22,8 @@ Last Modified: 2025-07-01 12:00:00 (timedelta: 0:00:00)
     Summary: Alias for builtins.datetime, providing direct access to datetime functionalities.
   - Variable: `collections`
     Summary: Alias for builtins.collections, offering access to custom collection types.
-  - Variable: `indexing`
-    Summary: Alias for builtins.indexing, exposing indexing and tree-related features.
+  - Variable: `index`
+    Summary: Alias for builtins.index, exposing index and tree-related features.
   - Variable: `path`
     Summary: Alias for builtins.path, enabling pathfinding and graph matching.
   - Variable: `visual`
@@ -33,7 +33,7 @@ Last Modified: 2025-07-01 12:00:00 (timedelta: 0:00:00)
   - Variable: `coll`
     Summary: Short alias for builtins.collections, for concise access to collection types.
   - Variable: `idx`
-    Summary: Short alias for builtins.indexing, for quick access to indexing features.
+    Summary: Short alias for builtins.index, for quick access to index features.
   - Variable: `vis`
     Summary: Short alias for builtins.visual, for convenient access to visualization tools.
   - Function: `apply_builtins()`
@@ -122,7 +122,7 @@ Last Modified: 2025-07-01 12:00:00 (timedelta: 0:00:00)
   - Method: `SymbolHeadTailView.__init__(self, items: list['Symbol'])`
     Summary: Initializes the SymbolHeadTailView with a list of Symbols.
   - Method: `SymbolHeadTailView.__getitem__(self, item)`
-    Summary: Allows indexing and slicing of the Symbol list within the view.
+    Summary: Allows index and slicing of the Symbol list within the view.
   - Method: `SymbolHeadTailView.__iter__(self) -> Iterator['Symbol']`
     Summary: Returns an iterator for the Symbols in the view.
   - Method: `SymbolHeadTailView.__len__(self)`
@@ -138,7 +138,7 @@ Last Modified: 2025-07-01 12:00:00 (timedelta: 0:00:00)
   - Method: `SymbolHeadTailView.filter_by_month(self, year: int, month: int) -> 'SymbolHeadTailView'`
     Summary: Filters Symbols in the view by a specific year and month.
 
-### File: `symbol/builtins/indexing.py`
+### File: `symbol/builtins/index.py`
 Lines: 140
 Bytes: 4000
 Estimated Tokens: 1000

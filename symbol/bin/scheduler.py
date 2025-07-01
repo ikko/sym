@@ -49,9 +49,9 @@ def add(
         scheduler.add_job(job)
         print(f"Successfully added job {job.id} for function '{func_str}' with schedule '{schedule}'")
     except (ImportError, AttributeError) as e:
-        print(f"Error: Could not import function '{func_str}'. {e}")
+        print(f"Error: Could not import function '{func_str}'. {repr(e)}")
     except (ValueError, TypeError) as e:
-        print(f"Error: Invalid schedule format. {e}")
+        print(f"Error: Invalid schedule format. {repr(e)}")
 
 
 @app.command()

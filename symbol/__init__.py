@@ -16,7 +16,7 @@ apply_builtins()
 # Expose builtin modules at the top level
 datetime = builtins.datetime
 collections = builtins.collections
-indexing = builtins.indexing
+index = builtins.index
 path = builtins.path
 timeline = builtins.timeline
 
@@ -34,6 +34,6 @@ process_batch = process_batch
 # Create short aliases for the modules
 dt = builtins.datetime
 coll = builtins.collections
-idx = builtins.indexing
+idx = builtins.index
 vis = builtins.visual
 tl = builtins.timeline

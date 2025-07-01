@@ -1,14 +1,11 @@
-"""This module provides indexing capabilities for Symbol objects.
+"""This module provides index capabilities for Symbol objects.
 
 It allows for creating and managing indexes on Symbol attributes,
 and provides methods for rebalancing the index using different strategies.
 """
 import datetime
-import enum
 import orjson
-import warnings
-import threading
-from typing import Any, Union, Iterator, Optional, Callable, Literal
+from typing import Any, Union, Optional, Callable, Literal
 
 from ..core.base_symbol import Symbol
 

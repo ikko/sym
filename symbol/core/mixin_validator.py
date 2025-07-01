@@ -46,7 +46,7 @@ def validate_mixin_callable(func: Callable[..., Any]) -> MixinValidationResult:
         errors.append(f"Cannot get source code for callable {func.__name__}. It might be a built-in or dynamically generated.")
         return MixinValidationResult(False, errors=errors)
     except OSError as e:
-        errors.append(f"OS error getting source for {func.__name__}: {e}")
+        errors.append(f"OS error getting source for {func.__name__}: {repr(e)}")
         return MixinValidationResult(False, errors=errors)
 
     tree = None
@@ -54,7 +54,7 @@ def validate_mixin_callable(func: Callable[..., Any]) -> MixinValidationResult:
         tree = cst.parse_module(source_code)
         wrapper = MetadataWrapper(tree)
     except Exception as e:
-        errors.append(f"Unexpected error during LibCST parsing: {e}")
+        errors.append(f"Unexpected error during LibCST parsing: {repr(e)}")
         return MixinValidationResult(False, errors=errors)
 
     func_node = None
@@ -92,6 +92,6 @@ def validate_mixin_callable(func: Callable[..., Any]) -> MixinValidationResult:
             warnings.append(f"Mixin function {func.__name__} has no return type annotation.")
 
     except Exception as e:
-        errors.append(f"Unexpected error during mixin validation logic: {e}")
+        errors.append(f"Unexpected error during mixin validation logic: {repr(e)}")
 
     return MixinValidationResult(not errors, errors=errors, warnings=warnings)

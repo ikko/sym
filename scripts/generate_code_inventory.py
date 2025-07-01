@@ -98,7 +98,7 @@ def main():
                             print(f"    - METHOD: {item['class']}.{item['name']}{item['signature']}{item['return']}")
                             print(f"      \"""{item['docstring']}\"""")
                 except Exception as e:
-                    print(f"    - ERROR analyzing {file}: {e}")
+                    print(f"    - ERROR analyzing {file}: {repr(e)}")
 
 if __name__ == "__main__":
     main()

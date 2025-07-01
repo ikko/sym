@@ -10,7 +10,7 @@ Ensure the core functionalities of the `symbol` library and its primary built-in
 *   `symbol.core.mixinability`: Freezing and unfreezing Symbol class.
 *   `symbol.builtins.collections.OrderedSymbolSet`: Basic set operations.
 *   `symbol.builtins.datetime.SymbolDateTimeMixin`: Date/time parsing and basic time-based queries.
-*   `symbol.builtins.indexing.SymbolIndex`: Basic indexing and traversal.
+*   `symbol.builtins.index.SymbolIndex`: Basic index and traversal.
 *   `symbol.builtins.path.SymbolPathMixin`: Basic pathfinding and matching.
 *   `symbol.builtins.visual.SymbolRender`: Basic Mermaid diagram generation.
 
@@ -42,7 +42,7 @@ Ensure the core functionalities of the `symbol` library and its primary built-in
 *   [ ] Test `SymbolDateTimeMixin.as_date`, `as_time`, `as_datetime`.
 *   [ ] Test `SymbolDateTimeMixin.head` and `tail` with simple sequences.
 
-### Phase 5: Built-in Indexing (`symbol/builtins/indexing.py`)
+### Phase 5: Built-in Indexing (`symbol/builtins/index.py`)
 *   [ ] Test `SymbolIndex` insertion (`insert`).
 *   [ ] Test `SymbolIndex.traverse` (in-order) with a simple tree.
 

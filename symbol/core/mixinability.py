@@ -73,7 +73,7 @@ def register_mixin(target_class: type, name: str, value: Any) -> bool:
                     warnings.append(f"Async mixin '{name}' should include 'new_thread: bool = True' in its signature.")
 
         except Exception as e:
-            error_msg = f"An unexpected error occurred during validation of mixin '{name}': {e}."
+            error_msg = f"An unexpected error occurred during validation of mixin '{name}': {repr(e)}."
             log.error(error_msg)
             return False
 
