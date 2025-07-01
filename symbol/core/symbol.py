@@ -11,7 +11,7 @@ from ..core.graph import GraphTraversal
 from ..builtins.collections import OrderedSymbolSet
 from ..builtins.indexing import SymbolIndex
 from ..core.maturing import DefDict, deep_del, _apply_merge_strategy
-from ..core.pluggability import freeze, is_frozen, get_applied_patches
+from ..core.mixinability import freeze, is_frozen, get_applied_mixins
 
 ENABLE_ORIGIN = True
 MEMORY_AWARE_DELETE = True
@@ -307,7 +307,7 @@ class Symbol:
         if protected_attributes is None:
             protected_attributes = set()
 
-        applied_patches = get_applied_patches()
+        applied_mixins = get_applied_mixins()
         for attr_name in list(applied_mixins.keys()): # Iterate over a copy
             if attr_name not in protected_attributes:
                 # Check if the attribute actually exists on this instance before attempting to delete
