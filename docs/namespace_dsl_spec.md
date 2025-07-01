@@ -22,7 +22,7 @@ It supports symbolic interning, ordered chaining (`que`), DAG tree modeling (`tr
 ## Core Components
 
 - `Symbol`: atomic unit, uniquely interned string identity
-- `SymbolNamespace`: attribute-based creation (e.g. `S.user`)
+- `SymbolNamespace`: attribute-based creation (e.g. `s.user`)
 - `OrderedSymbolSet`: length-cached deduplicated set
 - `GraphTraversal`: lazy, cycle-safe traversal abstraction
 - `SymbolAdapter`: modular traversal and relation modeler
@@ -38,8 +38,8 @@ It supports symbolic interning, ordered chaining (`que`), DAG tree modeling (`tr
 ```python
 s = SymbolNamespace()
 
-s.page.append(S.header).append(S.footer)
-s.backend.relate_to(S.database, how=S.uses)
+s.page.append(s.header).append(s.footer)
+s.backend.relate_to(s.database, how=s.uses)
 
 s.page.to_mmd()        # Mermaid.js format
 to_svg(s.page.graph()) # Graphviz rendering (symb[visual])
