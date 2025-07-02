@@ -980,7 +980,7 @@ requires-dist = [
     { name = "sniffio" },
     { name = "sniffio", marker = "extra == 'dev'" },
     { name = "toml" },
-    { name = "typer", extras = ["all"], specifier = ">=0.12.3" },
+    { name = "typer", specifier = ">=0.12.3" },
 ]
 provides-extras = ["dev"]
 

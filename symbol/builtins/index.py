@@ -20,8 +20,8 @@ class IndexNode:
         self.right: Optional['IndexNode'] = None
         self.weight = weight
 
-    def eval_weight(self, *args, **kwargs) -> float:
-        return self.weight(*args, **kwargs) if callable(self.weight) else self.weight
+    def eval_weight(self) -> float:
+        return self.weight(self.symbol) if callable(self.weight) else self.weight
 
 
 class SymbolIndex:
@@ -36,7 +36,9 @@ class SymbolIndex:
                 new_node = IndexNode(sym, weight)
                 self._function_map[sym.name] = new_node
                 return new_node
-            if weight < node.eval_weight():
+            # Evaluate the weight of the symbol being inserted for comparison
+            # The IndexNode itself will store the original weight (callable or float)
+            if (weight(sym) if callable(weight) else weight) < node.eval_weight():
                 node.left = _insert(node.left, sym)
             else:
                 node.right = _insert(node.right, sym)

@@ -83,7 +83,7 @@ class SymbolRender(SymbolVisualProtocol):
                 return
             seen.add(sym)
             if mode == "tree":
-                for child in sym.children:
+                for child in sorted(sym.children, key=lambda s: s.name):
                     lines.append(f"{esc(sym)} --> {esc(child)}")
                     walk(child)
             elif mode == "graph":
@@ -92,7 +92,9 @@ class SymbolRender(SymbolVisualProtocol):
                     walk(neighbor)
 
         walk(self.root)
-        return "\n".join(lines)
+        header = lines[0]
+        sorted_lines = sorted(lines[1:])
+        return header + "\n" + "\n".join(sorted_lines)
 
     def to_ascii(self, mode: Literal["tree", "graph"] = "tree") -> str:
         # This will be handled by the Symbol's own to_ascii method, or a dedicated GraphTraversal

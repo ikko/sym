@@ -53,7 +53,25 @@ graph LR
     C5 -- uses --> B8
     C8 -- uses --> B8
 
-    style A fill:#00008B,stroke:#333,stroke-width:2px,color:#FFFFFF
-    style B fill:#00008B,stroke:#333,stroke-width:2px,color:#FFFFFF
-    style C fill:#00008B,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style A fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000
+    style B fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000
+    style C fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000
+
+    style B1 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
+    style B2 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
+    style B3 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
+    style B4 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
+    style B5 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
+    style B6 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
+    style B7 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
+    style B8 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
+
+    style C1 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
+    style C2 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
+    style C3 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
+    style C4 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
+    style C5 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
+    style C6 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
+    style C7 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
+    style C8 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
 ```
