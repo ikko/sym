@@ -63,11 +63,13 @@ graph TD
     C --> D(SubTaskCoding)
     C --> E(SubTaskTesting)
 
-    style A fill:#DDA0DD,stroke:#333,stroke-width:2px,color:#000000
-    style B fill:#DDA0DD,stroke:#333,stroke-width:2px,color:#000000
-    style C fill:#DDA0DD,stroke:#333,stroke-width:2px,color:#000000
-    style D fill:#DDA0DD,stroke:#333,stroke-width:2px,color:#000000
-    style E fill:#DDA0DD,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style A fill:#ff9,stroke:#333,stroke-width:2px
+        style B fill:#9cf,stroke:#333,stroke-width:2px
+        style C fill:#9cf,stroke:#333,stroke-width:2px
+        style D fill:#9f9,stroke:#333,stroke-width:2px
+        style E fill:#9f9,stroke:#333,stroke-width:2px
+    end
 ```
 
 ### 2. Extending Symbol Functionality with Mixins
@@ -106,8 +108,10 @@ graph TD
 
     E1 -- occurs_before --> E2
 
-    style E1 fill:#98FB98,stroke:#333,stroke-width:2px,color:#000000
-    style E2 fill:#98FB98,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style E1 fill:#ff9,stroke:#333,stroke-width:2px
+        style E2 fill:#9cf,stroke:#333,stroke-width:2px
+    end
 ```
 
 #### 2.2. Pathfinding in Graphs
@@ -140,10 +144,12 @@ graph LR
     F --> D(DistributionCenterC)
     D --> R(RetailStoreD)
 
-    style W fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000
-    style F fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000
-    style D fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000
-    style R fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style W fill:#ff9,stroke:#333,stroke-width:2px
+        style F fill:#9cf,stroke:#333,stroke-width:2px
+        style D fill:#9f9,stroke:#333,stroke-width:2px
+        style R fill:#c9f,stroke:#333,stroke-width:2px
+    end
 ```
 
 ### 3. Advanced Concepts: Indexing and Custom Behaviors
@@ -179,10 +185,12 @@ graph TD
     P --> B1(BondB: 0.2)
     P --> M1(MutualFundC: 0.5)
 
-    style P fill:#FFB6C1,stroke:#333,stroke-width:2px,color:#000000
-    style S1 fill:#FFB6C1,stroke:#333,stroke-width:2px,color:#000000
-    style B1 fill:#FFB6C1,stroke:#333,stroke-width:2px,color:#000000
-    style M1 fill:#FFB6C1,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style P fill:#ff9,stroke:#333,stroke-width:2px
+        style S1 fill:#9cf,stroke:#333,stroke-width:2px
+        style B1 fill:#9f9,stroke:#333,stroke-width:2px
+        style M1 fill:#c9f,stroke:#333,stroke-width:2px
+    end
 ```
 
 ### Conclusion

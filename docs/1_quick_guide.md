@@ -60,7 +60,7 @@ event_end = Symbol("2023-10-26T11:30:00Z")
 
 assert event_start.as_datetime.hour == 10
 assert event_end.as_datetime.minute == 30
-assert event_start.period.total_seconds() == 5400.0 # 1 hour 30 minutes
+assert (event_end.as_datetime - event_start.as_datetime).total_seconds() == 5400.0 # 1 hour 30 minutes
 ```
 
 #### 1.4. Lazy Evaluation & Performance Characteristics
@@ -86,30 +86,34 @@ graph TD
         C --> D[Datetime Mixin]
         C --> E[Pathfinding Mixin]
         C --> F[Indexing Mixin]
+        C --> G[Scheduling]
     end
 
     subgraph Applications
-        D --> G(Time-Series Analysis)
-        E --> H(Dependency Mapping)
-        F --> I(Semantic Search)
+        D --> H(Time-Series Analysis)
+        E --> I(Dependency Mapping)
+        F --> J(Semantic Search)
+        G --> K(Deferred Execution)
     end
 
-    style A fill:#E0FFFF,stroke:#333,stroke-width:2px,color:#000000
-    style B fill:#E0FFFF,stroke:#333,stroke-width:2px,color:#000000
-    style C fill:#E0FFFF,stroke:#333,stroke-width:2px,color:#000000
-
-    style D fill:#FFFACD,stroke:#333,stroke-width:2px,color:#000000
-    style E fill:#FFFACD,stroke:#333,stroke-width:2px,color:#000000
-    style F fill:#FFFACD,stroke:#333,stroke-width:2px,color:#000000
-
-    style G fill:#F0F8FF,stroke:#333,stroke-width:2px,color:#000000
-    style H fill:#F0F8FF,stroke:#333,stroke-width:2px,color:#000000
-    style I fill:#F0F8FF,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style A fill:#ff9,stroke:#333,stroke-width:2px
+        style B fill:#ff9,stroke:#333,stroke-width:2px
+        style C fill:#ff9,stroke:#333,stroke-width:2px
+        style D fill:#9cf,stroke:#333,stroke-width:2px
+        style E fill:#9cf,stroke:#333,stroke-width:2px
+        style F fill:#9cf,stroke:#333,stroke-width:2px
+        style G fill:#9cf,stroke:#333,stroke-width:2px
+        style H fill:#9f9,stroke:#333,stroke-width:2px
+        style I fill:#9f9,stroke:#333,stroke-width:2px
+        style J fill:#9f9,stroke:#333,stroke-width:2px
+        style K fill:#9f9,stroke:#333,stroke-width:2px
+    end
 ```
 
-*   **Symbol Core (Light Cyan):** Represents the fundamental, immutable aspects of `Symbol` instances.
-*   **Domain-Specific Layers (Lemon Chiffon):** Illustrates how mixins extend `Symbol` with specialized capabilities relevant to particular domains.
-*   **Applications (Alice Blue):** Shows how these extended `Symbol` instances can be leveraged to build concrete applications.
+*   **Symbol Core (Yellow):** Represents the fundamental, immutable aspects of `Symbol` instances.
+*   **Domain-Specific Layers (Blue):** Illustrates how mixins extend `Symbol` with specialized capabilities relevant to particular domains.
+*   **Applications (Green):** Shows how these extended `Symbol` instances can be leveraged to build concrete applications.
 
 ### 3. Advanced Considerations for Researchers
 

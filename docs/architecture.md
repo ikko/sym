@@ -2,12 +2,12 @@
 
 ```mermaid
 graph LR
-    subgraph Symbol Package
+    subgraph "Symbol Package"
         A[symbol] --> B(symbol.core)
         A --> C(symbol.builtins)
     end
 
-    subgraph Core Modules
+    subgraph "Core Modules"
         B --> B1[symbol.core.symbol]
         B --> B2[symbol.core.graph]
         B --> B3[symbol.core.maturing]
@@ -16,9 +16,10 @@ graph LR
         B --> B6[symbol.core.protocols]
         B --> B7[symbol.core.symbolable]
         B --> B8[symbol.core.time_arithmetics]
+        B --> B9[symbol.core.schedule]
     end
 
-    subgraph Builtin Extensions
+    subgraph "Builtin Extensions"
         C --> C1[symbol.builtins.collections]
         C --> C2[symbol.builtins.datetime]
         C --> C3[symbol.builtins.index]
@@ -38,6 +39,8 @@ graph LR
     B4 -- uses --> B5
     B4 -- uses --> B6
     B4 -- uses --> B7
+    
+    B9 -- uses --> B1
 
     C2 -- uses --> B1
     C3 -- uses --> B1
@@ -53,25 +56,9 @@ graph LR
     C5 -- uses --> B8
     C8 -- uses --> B8
 
-    style A fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000
-    style C fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000
-
-    style B1 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
-    style B2 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
-    style B3 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
-    style B4 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
-    style B5 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
-    style B6 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
-    style B7 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
-    style B8 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000
-
-    style C1 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
-    style C2 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
-    style C3 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
-    style C4 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
-    style C5 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
-    style C6 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
-    style C7 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
-    style C8 fill:#FFDAB9,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style A fill:#ff9,stroke:#333,stroke-width:2px
+        style B fill:#9cf,stroke:#333,stroke-width:2px
+        style C fill:#c9f,stroke:#333,stroke-width:2px
+    end
 ```

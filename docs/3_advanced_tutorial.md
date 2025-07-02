@@ -58,9 +58,11 @@ graph TD
     A[Aircraft] --> B(Engine_Turbofan_A320)
     B -- "Last Inspected: 2024-01-15" --> C(Next Due: 2025-01-15)
 
-    style A fill:#E6E6FA,stroke:#333,stroke-width:2px,color:#000000
-    style B fill:#E6E6FA,stroke:#333,stroke-width:2px,color:#000000
-    style C fill:#E6E6FA,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style A fill:#ff9,stroke:#333,stroke-width:2px
+        style B fill:#9cf,stroke:#333,stroke-width:2px
+        style C fill:#9f9,stroke:#333,stroke-width:2px
+    end
 ```
 
 ### 2. Complex Graph Manipulations and Traversal Strategies
@@ -97,10 +99,12 @@ graph LR
     C --> D(PaymentService)
     D --> A
 
-    style A fill:#FFF0F5,stroke:#333,stroke-width:2px,color:#000000
-    style B fill:#FFF0F5,stroke:#333,stroke-width:2px,color:#000000
-    style C fill:#FFF0F5,stroke:#333,stroke-width:2px,color:#000000
-    style D fill:#FFF0F5,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style A fill:#ff9,stroke:#333,stroke-width:2px
+        style B fill:#9cf,stroke:#333,stroke-width:2px
+        style C fill:#9f9,stroke:#333,stroke-width:2px
+        style D fill:#c9f,stroke:#333,stroke-width:2px
+    end
 ```
 
 #### 2.2. Use Case Modeling: Healthcare (Patient Journey Mapping)
@@ -134,12 +138,14 @@ graph TD
     SR --> T(Treatment)
     T --> Dis(Discharge)
 
-    style Adm fill:#F0F8FF,stroke:#333,stroke-width:2px,color:#000000
-    style GP fill:#F0F8FF,stroke:#333,stroke-width:2px,color:#000000
-    style LT fill:#F0F8FF,stroke:#333,stroke-width:2px,color:#000000
-    style SR fill:#F0F8FF,stroke:#333,stroke-width:2px,color:#000000
-    style T fill:#F0F8FF,stroke:#333,stroke-width:2px,color:#000000
-    style Dis fill:#F0F8FF,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style Adm fill:#ff9,stroke:#333,stroke-width:2px
+        style GP fill:#9cf,stroke:#333,stroke-width:2px
+        style LT fill:#9f9,stroke:#333,stroke-width:2px
+        style SR fill:#c9f,stroke:#333,stroke-width:2px
+        style T fill:#f9c,stroke:#333,stroke-width:2px
+        style Dis fill:#f99,stroke:#333,stroke-width:2px
+    end
 ```
 
 ### 3. Strategic Applications: DSLs and Semantic Modeling
@@ -174,10 +180,12 @@ graph TD
     S1 --> RA(RobotArmA)
     RA --> PW(ProcessWeld)
 
-    style L1 fill:#F5DEB3,stroke:#333,stroke-width:2px,color:#000000
-    style S1 fill:#F5DEB3,stroke:#333,stroke-width:2px,color:#000000
-    style RA fill:#F5DEB3,stroke:#333,stroke-width:2px,color:#000000
-    style PW fill:#F5DEB3,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style L1 fill:#ff9,stroke:#333,stroke-width:2px
+        style S1 fill:#9cf,stroke:#333,stroke-width:2px
+        style RA fill:#9f9,stroke:#333,stroke-width:2px
+        style PW fill:#c9f,stroke:#333,stroke-width:2px
+    end
 ```
 
 #### 3.2. Semantic Data Modeling: Real Estate (Property Attributes and Relationships)
@@ -207,10 +215,12 @@ graph TD
     P --> Ba(Bathroom)
     P --> K(Kitchen)
 
-    style P fill:#D8BFD8,stroke:#333,stroke-width:2px,color:#000000
-    style B fill:#D8BFD8,stroke:#333,stroke-width:2px,color:#000000
-    style Ba fill:#D8BFD8,stroke:#333,stroke-width:2px,color:#000000
-    style K fill:#D8BFD8,stroke:#333,stroke-width:2px,color:#000000
+    subgraph "Styling"
+        style P fill:#ff9,stroke:#333,stroke-width:2px
+        style B fill:#9cf,stroke:#333,stroke-width:2px
+        style Ba fill:#9f9,stroke:#333,stroke-width:2px
+        style K fill:#c9f,stroke:#333,stroke-width:2px
+    end
 ```
 
 ### Conclusion

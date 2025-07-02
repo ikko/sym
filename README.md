@@ -16,6 +16,7 @@ _inspired by ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)_
 -   **Per-Instance Indexing**: Every symbol has its own private, weighted index of other symbols, allowing for the creation of sophisticated, nested data structures.
 -   **Mixinability**: The framework supports dynamic extension of `Symbol` instances at runtime through mixins, which are validated for robustness.
 -   **Memory-Aware Maturing**: Symbols can be "matured" to optimize memory usage and performance by elevating metadata and removing unused components.
+-   **Scheduling**: A built-in scheduler allows for deferred execution of functions and methods, specified with cron-like strings, datetime objects, or even other Symbols.
 
 API Highlights:
 ---------------
@@ -31,6 +32,7 @@ API Highlights:
 - `symbol.slim()` — removes unused dynamically applied mixins
 - `symbol.immute()` — orchestrates maturing process (elevate, slim, freeze)
 - `symbol.ref` — alias for `symbol.origin` to track source provenance
+- `Scheduler.add_job(job)` — schedules a new job for execution
 
 Performance:
 ------------
@@ -45,7 +47,7 @@ Memory Awareness:
 - Proactive memory management for `context` attribute via `deep_del`
 
 Extensibility:
----------------
+--------------
 - Easily extended with async traversal, typed relations, or backend persistence
 - `Symbolable` type for robust callable integration
 - `MixinFunction` protocol for formal mixin interface
@@ -84,14 +86,14 @@ for path in s.Global_Goods_Inc.match(has_deforestation):
     print(f"Deforestation Link Found: {path.path_to(s.deforestation_event_2024_Q4)}")
 
 # --- Timeline Example ---
-from symbol import tl
+from symbol.builtins.timeline import Timeline
 import datetime
 
-timeline1 = tl.Timeline()
+timeline1 = Timeline()
 timeline1.add_period(datetime.datetime(2023, 1, 1), datetime.datetime(2023, 1, 15))
 timeline1.add_period(datetime.datetime(2023, 1, 10), datetime.datetime(2023, 1, 20))
 
-timeline2 = tl.Timeline()
+timeline2 = Timeline()
 timeline2.add_period(datetime.datetime(2023, 1, 5), datetime.datetime(2023, 1, 12))
 
 overlap_timeline = timeline1.overlap(timeline2)
@@ -99,11 +101,26 @@ print(f"Overlap periods: {list(overlap_timeline)}")
 print(timeline1.to_ascii())
 
 # --- Batch Processing Example ---
-from symbol import process_batch
+from symbol.core.batch_processing import process_batch
 
 def square(x): return x * x
 results = process_batch([1, 2, 3, 4], square)
 print(f"Batch processing results: {results}")
+
+# --- Scheduler Example ---
+from symbol.core.schedule import Scheduler, ScheduledJob
+import time
+
+def my_task(message):
+    print(f"Executing task: {message}")
+
+scheduler = Scheduler()
+job = ScheduledJob(my_task, args=("Hello from the scheduler!",), schedule=datetime.datetime.now() + datetime.timedelta(seconds=5))
+scheduler.add_job(job)
+
+scheduler.start()
+time.sleep(6) # Wait for the job to run
+scheduler.stop()
 
 ```
 
@@ -125,24 +142,32 @@ graph TD
     B --> D{symbol.builtins}
     C --> E[symbol.core.symbol]
     C --> F[symbol.core.graph]
-    D --> G[symbol.builtins.datetime]
-    D --> H[symbol.builtins.collections]
-    D --> I[symbol.builtins.index]
-    D --> J[symbol.builtins.path]
-    D --> K[symbol.builtins.visual]
-    D --> L[symbol.builtins.timeline]
+    C --> G[symbol.core.schedule]
+    D --> H[symbol.builtins.datetime]
+    D --> I[symbol.builtins.collections]
+    D --> J[symbol.builtins.index]
+    D --> K[symbol.builtins.path]
+    D --> L[symbol.builtins.visual]
+    D --> M[symbol.builtins.timeline]
+    
+    subgraph "Styling"
+        style A fill:#ff9,stroke:#333,stroke-width:2px
+        style B fill:#9cf,stroke:#333,stroke-width:2px
+        style C fill:#9f9,stroke:#333,stroke-width:2px
+        style D fill:#c9f,stroke:#333,stroke-width:2px
+    end
 ```
 
 ## Software Architecture
 
 ```mermaid
 graph TD
-    subgraph Symbol Package
+    subgraph "Symbol Package"
         A[symbol] --> B(symbol.core)
         A --> C(symbol.builtins)
     end
 
-    subgraph Core Modules
+    subgraph "Core Modules"
         B --> B1[symbol.core.symbol]
         B --> B2[symbol.core.graph]
         B --> B3[symbol.core.maturing]
@@ -151,9 +176,10 @@ graph TD
         B --> B6[symbol.core.protocols]
         B --> B7[symbol.core.symbolable]
         B --> B8[symbol.core.time_arithmetics]
+        B --> B9[symbol.core.schedule]
     end
 
-    subgraph Builtin Extensions
+    subgraph "Builtin Extensions"
         C --> C1[symbol.builtins.collections]
         C --> C2[symbol.builtins.datetime]
         C --> C3[symbol.builtins.index]
@@ -173,6 +199,8 @@ graph TD
     B4 -- uses --> B5
     B4 -- uses --> B6
     B4 -- uses --> B7
+    
+    B9 -- uses --> B1
 
     C2 -- uses --> B1
     C3 -- uses --> B1
@@ -188,9 +216,11 @@ graph TD
     C5 -- uses --> B8
     C8 -- uses --> B8
 
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style C fill:#bfb,stroke:#333,stroke-width:2px
+    subgraph "Styling"
+        style A fill:#ff9,stroke:#333,stroke-width:2px
+        style B fill:#9cf,stroke:#333,stroke-width:2px
+        style C fill:#c9f,stroke:#333,stroke-width:2px
+    end
 ```
 
 ## Getting Started
