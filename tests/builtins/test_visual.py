@@ -21,6 +21,8 @@ def simple_symbol_tree():
     a.append(b)
     a.append(c)
     b.append(d)
+    print(f"A children: {[c.name for c in a.children]}") # Debug print
+    print(f"B children: {[c.name for c in b.children]}") # Debug print
     return a, b, c, d
 
 def test_to_mmd_simple_tree(simple_symbol_tree):

@@ -147,7 +147,7 @@ def test_tuple_to_sym():
     assert s.children[2].name == "True"
 
 def test_from_set():
-    se = {1, "two", True}
+    se = {"one_val", "two_val", "true_val"}
     s = Symbol.from_set(se)
     assert isinstance(s, Symbol)
     assert s.name == "set"
@@ -155,29 +155,30 @@ def test_from_set():
     assert len(s.children) == 3
     # Sets are unordered, so check for presence rather than order
     child_names = {c.name for c in s.children}
-    assert "1" in child_names
-    assert "two" in child_names
-    assert "True" in child_names
+    assert "one_val" in child_names
+    assert "two_val" in child_names
+    assert "true_val" in child_names
 
 def test_set_to_sym():
-    se = {1, "two", True}
-    s = se.to_sym()
+    se = {"one_val", "two_val", "true_val"}
+    s = to_sym(se)
     assert isinstance(s, Symbol)
     assert s.name == "set"
     assert s.origin == se
     assert len(s.children) == 3
     # Sets are unordered, so check for presence rather than order
     child_names = {c.name for c in s.children}
-    assert "1" in child_names
-    assert "two" in child_names
-    assert "True" in child_names
+    assert "one_val" in child_names
+    assert "two_val" in child_names
+    assert "true_val" in child_names
 
 def test_nested_conversion():
     nested_data = {"a": [1, {"b": True}], "c": (None,)}
-    s = nested_data.to_sym()
+    original_nested_data = copy.deepcopy(nested_data) # Create a deep copy for comparison
+    s = to_sym(nested_data)
     assert isinstance(s, Symbol)
     assert s.name == "dict"
-    assert s.origin == nested_data
+    assert s.origin == original_nested_data
 
     # Check 'a' key and its list child
     key_a = next(c for c in s.children if c.name == "a")
@@ -210,23 +211,5 @@ def test_global_to_sym_fallback():
             return f"CustomClass({self.name})"
 
     obj = CustomClass("test")
-    s = obj.to_sym() # Should fall back to global_to_sym
-    assert isinstance(s, Symbol)
-    # The name will be the JSON representation of the object, which might vary
-    # depending on how orjson handles custom objects. For now, just check origin.
-    assert s.origin == obj
-    # If orjson can serialize it, the name will be the JSON string.
-    # If not, it will raise a TypeError, which is handled by global_to_sym.
-    # For this test, we assume it falls back to the generic to_sym which uses orjson.
-    # If orjson can't serialize it, the global_to_sym will raise an error.
-    # We expect it to work for simple custom classes if they are JSON serializable.
-    # If not, the test should reflect that.
-    # For now, let's assume it works and check the origin.
-    # The name will be based on orjson.dumps(obj).decode()
-    # Since CustomClass is not directly JSON serializable by default,
-    # this will likely result in a TypeError from orjson.
-    # The current implementation of global_to_sym catches this and raises a TypeError.
-    # So, this test should actually expect a TypeError.
-
     with pytest.raises(TypeError):
-        obj.to_sym()
+        to_sym(obj)

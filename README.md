@@ -241,3 +241,11 @@ hello.add(world)
 print(hello.tree())
 
 ```
+
+## Running Tests
+
+To run all tests, execute the following command from the project root directory:
+
+```bash
+python -m pytest tests
+```

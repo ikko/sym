@@ -36,6 +36,7 @@ class Symbol:
             obj._length_cache: Optional[int] = None
             cls._write_cursor += 1.0
             cls._pool[name] = obj
+            cls._numbered.append(obj) # Add the new symbol to the _numbered list
             return obj
 
     def __repr__(self):

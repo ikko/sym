@@ -15,52 +15,56 @@ class SymbolDateTimeMixin:
         except Exception:
             return datetime.datetime.combine(datetime.date.today(), datetime.time())
 
-    def _sorted_by_time(self) -> list['Symbol']:
-        return sorted(self._numbered, key=lambda s: s._parse_timestamp())
+    @staticmethod
+    def _sorted_by_time(symbol_cls: type[Symbol]) -> list['Symbol']:
+        # _parse_timestamp is an instance method, so it must be called on an instance 's'
+        return sorted(symbol_cls._numbered, key=lambda s: s._parse_timestamp())
 
     @property
-    def head(self) -> 'SymbolHeadTailView':
-        return SymbolHeadTailView(SymbolDateTimeMixin._sorted_by_time(Symbol))
+    def time_head(self) -> 'SymbolHeadTailView':
+        # Pass the actual Symbol class to the static method
+        return SymbolHeadTailView(SymbolDateTimeMixin._sorted_by_time(self.__class__))
 
     @property
-    def tail(self) -> 'SymbolHeadTailView':
-        return SymbolHeadTailView(SymbolDateTimeMixin._sorted_by_time(Symbol)[::-1])
+    def time_tail(self) -> 'SymbolHeadTailView':
+        # Pass the actual Symbol class to the static method
+        return SymbolHeadTailView(SymbolDateTimeMixin._sorted_by_time(self.__class__)[::-1])
 
     @property
     def as_date(self) -> datetime.date:
-        return self._parse_timestamp(self).date()
+        return self._parse_timestamp().date()
 
     @property
     def as_time(self) -> datetime.time:
-        return self._parse_timestamp(self).time()
+        return self._parse_timestamp().time()
 
     @property
     def as_datetime(self) -> datetime.datetime:
-        return self._parse_timestamp(self)
+        return self._parse_timestamp()
 
     @property
     def day(self) -> int:
-        return self._parse_timestamp(self).day
+        return self._parse_timestamp().day
 
     @property
     def hour(self) -> int:
-        return self._parse_timestamp(self).hour
+        return self._parse_timestamp().hour
 
     @property
     def minute(self) -> int:
-        return self._parse_timestamp(self).minute
+        return self._parse_timestamp().minute
 
     @property
     def second(self) -> int:
-        return self._parse_timestamp(self).second
+        return self._parse_timestamp().second
 
     @property
     def period(self) -> datetime.timedelta:
-        return self.head.period
+        return self.time_head.period
 
     @property
     def as_period(self) -> datetime.timedelta:
-        return self.head.as_period
+        return self.time_head.as_period
 
     @property
     def duration(self) -> datetime.timedelta:
@@ -96,8 +100,8 @@ class SymbolHeadTailView:
     def period(self) -> datetime.timedelta:
         if not self._items:
             return datetime.timedelta(0)
-        start = SymbolDateTimeMixin._parse_timestamp(self._items[0])
-        end = SymbolDateTimeMixin._parse_timestamp(self._items[-1])
+        start = self._items[0]._parse_timestamp()
+        end = self._items[-1]._parse_timestamp()
         return end - start
 
     @property

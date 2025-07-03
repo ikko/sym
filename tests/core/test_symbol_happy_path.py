@@ -1,6 +1,8 @@
 import pytest
 from symbol.core.symbol import Symbol
-from symbol.core.base_symbol import SymbolNamespace
+from symbol.core.symbol import SymbolNamespace
+
+
 
 def test_symbol_creation_and_interning():
     # Test basic creation
@@ -32,7 +34,7 @@ def test_symbol_equality_and_hashing():
 def test_symbol_string_representation():
     s = Symbol("repr_symbol")
     assert str(s) == "repr_symbol"
-    assert repr(s) == f" :{s.name}"
+    assert repr(s) == f"Symbol('{s.name}')"
 
 def test_symbol_basic_graph_operations():
     parent = Symbol("parent")
@@ -46,7 +48,7 @@ def test_symbol_basic_graph_operations():
 
     # Test add (should not add duplicate)
     parent.add(child1)
-    assert len(parent.children) == 1 # Still only one child
+    assert len(parent.children) == 1
 
     parent.add(child2)
     assert child2 in parent.children

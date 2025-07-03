@@ -14,8 +14,13 @@
 - [x] **Phase 5: Verification**
     - [x] Create `tests/core/test_conversions.py` with unit tests.
     - [x] Move `tests/core/test_conversions.py` to `tests/test_conversion/test_conversions.py`.
-    - [ ] Fix `SyntaxError` in `tests/conftest.py`.
-    - [ ] Run tests to verify fix.
+    - [x] Fix `SyntaxError` in `tests/conftest.py`.
+    - [x] Run tests to verify fix.
+- [x] **Phase 5: Verification**
+    - [x] Create `tests/core/test_conversions.py` with unit tests.
+    - [x] Move `tests/core/test_conversions.py` to `tests/test_conversion/test_conversions.py`.
+    - [x] Fix `SyntaxError` in `tests/conftest.py`.
+    - [x] Run tests to verify fix.
 - [ ] **Phase 6: Documentation & Aliases**
     - [ ] Add instructions to `README.md` on how to run all tests.
     - [ ] Create `docs/conversion_to_and_from.md` with concept, examples, types, and aliases.

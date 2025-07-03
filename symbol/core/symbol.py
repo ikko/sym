@@ -10,6 +10,7 @@ import threading
 import inspect
 import warnings
 import gc
+import copy
 from typing import Any, Union, Iterator, Optional, Literal, Set, Type, TypeVar
 
 from .base_symbol import Symbol as BaseSymbol, _to_symbol
@@ -68,6 +69,9 @@ class Symbol(BaseSymbol):
             obj.index = SymbolIndex(obj)
             obj.metadata = DefDict()
             obj.context = DefDict()
+        if ENABLE_ORIGIN:
+            obj.origin = origin
+        return obj
         return obj
 
     def append(self, child: 'Symbol') -> 'Symbol':
@@ -80,6 +84,7 @@ class Symbol(BaseSymbol):
         return self
 
     def add(self, child: 'Symbol') -> 'Symbol':
+        child = _to_symbol(child)
         if child not in self.children:
             return self.append(child)
         return self
@@ -256,6 +261,11 @@ class Symbol(BaseSymbol):
     def from_none(cls, value: None) -> 'Symbol':
         return cls('None', origin=value)
 
+    import copy
+# ... (rest of imports)
+
+# ... (rest of Symbol class and methods)
+
     @classmethod
     def from_list(cls, value: list) -> 'Symbol':
         sym = cls('list', origin=value)
@@ -286,6 +296,8 @@ class Symbol(BaseSymbol):
         for item in value:
             sym.append(to_sym(item))
         return sym
+
+# ... (rest of to_sym function and SymbolNamespace class)
 
     @classmethod
     def seek(cls, pos: float) -> Optional['Symbol']:
@@ -413,6 +425,12 @@ def to_sym(obj: Any) -> 'Symbol':
 
     if factory_method:
         return factory_method(obj)
+    elif obj is None:
+        return Symbol('None', origin=None)
+    elif isinstance(obj, (int, float, str, bool)):
+        return Symbol(str(obj), origin=obj)
+    elif isinstance(obj, (list, dict, set, tuple)):
+        return Symbol(type(obj).__name__.lower(), origin=copy.deepcopy(obj))
     else:
         try:
             name = orjson.dumps(obj).decode()
