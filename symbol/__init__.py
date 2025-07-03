@@ -8,6 +8,7 @@ from .config import Config
 from . import builtins
 from .builtins import apply_builtins
 
+
 # Apply the mixins first to ensure the Symbol class is fully featured
 apply_builtins()
 

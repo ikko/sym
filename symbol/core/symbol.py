@@ -237,6 +237,57 @@ class Symbol(BaseSymbol):
         return [cls(member.name) for member in enum_cls]
 
     @classmethod
+    def from_int(cls, value: int) -> 'Symbol':
+        return cls(str(value), origin=value)
+
+    @classmethod
+    def from_float(cls, value: float) -> 'Symbol':
+        return cls(str(value), origin=value)
+
+    @classmethod
+    def from_str(cls, value: str) -> 'Symbol':
+        return cls(value, origin=value)
+
+    @classmethod
+    def from_bool(cls, value: bool) -> 'Symbol':
+        return cls(str(value), origin=value)
+
+    @classmethod
+    def from_none(cls, value: None) -> 'Symbol':
+        return cls('None', origin=value)
+
+    @classmethod
+    def from_list(cls, value: list) -> 'Symbol':
+        sym = cls('list', origin=value)
+        for item in value:
+            sym.append(to_sym(item))
+        return sym
+
+    @classmethod
+    def from_dict(cls, value: dict) -> 'Symbol':
+        sym = cls('dict', origin=value)
+        for k, v in value.items():
+            key_sym = to_sym(k)
+            val_sym = to_sym(v)
+            sym.append(key_sym)
+            key_sym.append(val_sym)
+        return sym
+
+    @classmethod
+    def from_tuple(cls, value: tuple) -> 'Symbol':
+        sym = cls('tuple', origin=value)
+        for item in value:
+            sym.append(to_sym(item))
+        return sym
+
+    @classmethod
+    def from_set(cls, value: set) -> 'Symbol':
+        sym = cls('set', origin=value)
+        for item in value:
+            sym.append(to_sym(item))
+        return sym
+
+    @classmethod
     def seek(cls, pos: float) -> Optional['Symbol']:
         for sym in cls._numbered:
             if sym._position == pos:
@@ -355,11 +406,19 @@ def to_sym(obj: Any) -> 'Symbol':
     """Converts an object to a Symbol."""
     if isinstance(obj, Symbol):
         return obj
-    try:
-        name = orjson.dumps(obj).decode()
-        return Symbol(name, origin=obj)
-    except (TypeError, orjson.JSONEncodeError):
-        raise TypeError(f"Cannot convert {type(obj)} to Symbol")
+
+    type_name = type(obj).__name__
+    factory_method_name = f"from_{type_name}"
+    factory_method = getattr(Symbol, factory_method_name, None)
+
+    if factory_method:
+        return factory_method(obj)
+    else:
+        try:
+            name = orjson.dumps(obj).decode()
+            return Symbol(name, origin=obj)
+        except (TypeError, orjson.JSONEncodeError):
+            raise TypeError(f"Cannot convert {type(obj)} to Symbol")
 
 class SymbolNamespace:
     """Provides a convenient way to create Symbol instances via attribute access."""
