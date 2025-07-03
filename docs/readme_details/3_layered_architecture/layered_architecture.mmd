@@ -1,0 +1,40 @@
+graph TD
+    subgraph "Symbol Framework Architecture"
+        A[User Application] --> B[Symbol Package];
+        B --> C[symbol.core];
+        B --> D[symbol.builtins];
+    end
+
+    subgraph "Core Layer (symbol.core)"
+        C --> C1[Base Symbol Definition];
+        C --> C2[Core Symbol Functionality];
+        C --> C3[Maturing & Mixinability];
+    end
+
+    subgraph "Builtin Extensions Layer (symbol.builtins)"
+        D --> D1[Collections Extensions];
+        D --> D2[Datetime Extensions];
+        D --> D3[Index Extensions];
+        D --> D4[Pathfinding Extensions];
+        D --> D5[Visualization Extensions];
+        D --> D6[Timeline Extensions];
+    end
+
+    C2 -- "uses (controlled dependency)" --> D3;
+    C2 -- "uses [controlled dependency]" --> D1;
+
+    style A fill:#FFD700,stroke:#333,stroke-width:2px;
+    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style C fill:#9cf,stroke:#333,stroke-width:2px;
+    style D fill:#c9f,stroke:#333,stroke-width:2px;
+
+    style C1 fill:#FF6347,stroke:#333,stroke-width:2px;
+    style C2 fill:#FF6347,stroke:#333,stroke-width:2px;
+    style C3 fill:#FF6347,stroke:#333,stroke-width:2px;
+
+    style D1 fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style D2 fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style D3 fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style D4 fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style D5 fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style D6 fill:#ADFF2F,stroke:#333,stroke-width:2px;

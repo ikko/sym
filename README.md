@@ -14,25 +14,25 @@ _inspired by ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)_
 -   **Flyweight Design**: Symbols are unique. `Symbol('a')` will always return the same object, saving memory and ensuring consistency.
 -   **Layered Architecture**: The core is minimal. Functionality is added through modular, "builtin" extensions for features like date/time handling, advanced collections, and visualization.
 -   **Per-Instance Indexing**: Every symbol has its own private, weighted index of other symbols, allowing for the creation of sophisticated, nested data structures.
--   **Mixinability**: The framework supports dynamic extension of `Symbol` instances at runtime through mixins, which are validated for robustness.
--   **Memory-Aware Maturing**: Symbols can be "matured" to optimize memory usage and performance by elevating metadata and removing unused components.
--   **Scheduling**: A built-in scheduler allows for deferred execution of functions and methods, specified with cron-like strings, datetime objects, or even other Symbols.
+-   **[Mixinability](docs/readme_details/5_mixinability/index.md)**: The framework supports dynamic extension of `Symbol` instances at runtime through mixins, which are validated for robustness.
+-   **[Memory-Aware Maturing](docs/readme_details/6_memory_aware_maturing/index.md)**: Symbols can be "matured" to optimize memory usage and performance by elevating metadata and removing unused components.
+-   **[Scheduling](docs/readme_details/7_scheduling/index.md)**: A built-in scheduler allows for deferred execution of functions and methods, specified with cron-like strings, datetime objects, or even other Symbols.
 
 API Highlights:
 ---------------
-- `Symbol(name: str)` — globally interned, idempotent constructor
-- `Symbol.next()` — creates and chains auto-numbered symbol (`sym_0`, `sym_1`, …)
-- `symbol.append(child)` / `symbol.relate_to(other, how)` — link construction
-- `symbol.tree()` / `.que()` / `.relate()` — lazy traversal
-- `symbol.patch(other)` — recursive, structural deep merge (PATCH-like semantics)
-- `symbol.to_mmd()` — outputs tree graph in Mermaid diagram syntax
-- `symbol.to_ascii()` — outputs ASCII art representation of graphs
-- `symbol.delete()` — removes node and its inverse references (parents/children)
-- `symbol.elevate()` — promotes metadata to instance attributes/methods
-- `symbol.slim()` — removes unused dynamically applied mixins
-- `symbol.immute()` — orchestrates maturing process (elevate, slim, freeze)
-- `symbol.ref` — alias for `symbol.origin` to track source provenance
-- `Scheduler.add_job(job)` — schedules a new job for execution
+- **[Symbol(name: str)](docs/readme_details/8_api_highlights/index.md#symbolname-str-globally-interned-idempotent-constructor)** — globally interned, idempotent constructor
+- **[Symbol.next()](docs/readme_details/8_api_highlights/index.md#symbolnext-creates-and-chains-auto-numbered-symbols)** — creates and chains auto-numbered symbol (`sym_0`, `sym_1`, …)
+- **[symbol.append(child) / symbol.relate_to(other, how)](docs/readme_details/8_api_highlights/index.md#symbolappendchild--symbolrelate_toother-how-link-construction)** — link construction
+- **[symbol.tree() / .que() / .relate()](docs/readme_details/8_api_highlights/index.md#symboltree--que--relate-lazy-traversal)** — lazy traversal
+- **[symbol.patch(other)](docs/readme_details/8_api_highlights/index.md#symbolpatchother-recursive-structural-deep-merge)** — recursive, structural deep merge (PATCH-like semantics)
+- **[symbol.to_mmd()](docs/readme_details/8_api_highlights/index.md#symbolto_mmd-outputs-tree-graph-in-mermaid-diagram-syntax)** — outputs tree graph in Mermaid diagram syntax
+- **[symbol.to_ascii()](docs/readme_details/8_api_highlights/index.md#symbolto_ascii-outputs-ascii-art-representation-of-graphs)** — outputs ASCII art representation of graphs
+- **[symbol.delete()](docs/readme_details/8_api_highlights/index.md#symboldelete-removes-node-and-its-inverse-references)** — removes node and its inverse references (parents/children)
+- **[symbol.elevate()](docs/readme_details/8_api_highlights/index.md#symbolelevate-promotes-metadata-to-instance-attributesmethods)** — promotes metadata to instance attributes/methods
+- **[symbol.slim()](docs/readme_details/8_api_highlights/index.md#symbolslim-removes-unused-dynamically-applied-mixins)** — removes unused dynamically applied mixins
+- **[symbol.immute()](docs/readme_details/8_api_highlights/index.md#symbolimmute-orchestrates-maturing-process-elevate-slim-freeze)** — orchestrates maturing process (elevate, slim, freeze)
+- **[symbol.ref](docs/readme_details/8_api_highlights/index.md#symbolref-alias-for-symbolorigin-to-track-source-provenance)** — alias for `symbol.origin` to track source provenance
+- **[Scheduler.add_job(job)](docs/readme_details/8_api_highlights/index.md#scheduleradd_jobjob-schedules-a-new-job-for-execution)** — schedules a new job for execution
 
 Performance:
 ------------
@@ -43,8 +43,8 @@ Performance:
 
 Memory Awareness:
 -----------------
-- GC-aware deletion (respecting `ENABLE_ORIGIN`, `MEMORY_AWARE_DELETE`)
-- Proactive memory management for `context` attribute via `deep_del`
+-   **[Memory Awareness](docs/readme_details/10_memory_awareness/index.md)**: GC-aware deletion (respecting `ENABLE_ORIGIN`, `MEMORY_AWARE_DELETE`)
+-   Proactive memory management for `context` attribute via `deep_del`
 
 Extensibility:
 --------------
@@ -56,77 +56,11 @@ Extensibility:
 
 Example Use:
 ------------
-```python
-from symbol import s, Symbol
-
-# --- Basic Symbol creation and relationships ---
-hello = Symbol('hello')
-world = s.world
-hello.add(world)
-print(hello.tree())
-
-# --- ESG Example: Tracking Deforestation in a Supply Chain ---
-# Define our supply chain entities
-s.Global_Goods_Inc.buys_from(s.Palm_Oil_Processor)
-s.Palm_Oil_Processor.buys_from(s.Supplier_A)
-s.Palm_Oil_Processor.buys_from(s.Supplier_B)
-
-s.Supplier_A.sources_from(s.Plantation_X)
-s.Supplier_B.sources_from(s.Plantation_Y)
-
-# Add deforestation data (hypothetical)
-s.Plantation_Y.add(s.deforestation_event_2024_Q4)
-
-# Now, let's find the tainted products
-def has_deforestation(symbol):
-    return 'deforestation' in symbol.name
-
-# Find all paths from the company to a deforestation event
-for path in s.Global_Goods_Inc.match(has_deforestation):
-    print(f"Deforestation Link Found: {path.path_to(s.deforestation_event_2024_Q4)}")
-
-# --- Timeline Example ---
-from symbol.builtins.timeline import Timeline
-import datetime
-
-timeline1 = Timeline()
-timeline1.add_period(datetime.datetime(2023, 1, 1), datetime.datetime(2023, 1, 15))
-timeline1.add_period(datetime.datetime(2023, 1, 10), datetime.datetime(2023, 1, 20))
-
-timeline2 = Timeline()
-timeline2.add_period(datetime.datetime(2023, 1, 5), datetime.datetime(2023, 1, 12))
-
-overlap_timeline = timeline1.overlap(timeline2)
-print(f"Overlap periods: {list(overlap_timeline)}")
-print(timeline1.to_ascii())
-
-# --- Batch Processing Example ---
-from symbol.core.batch_processing import process_batch
-
-def square(x): return x * x
-results = process_batch([1, 2, 3, 4], square)
-print(f"Batch processing results: {results}")
-
-# --- Scheduler Example ---
-from symbol.core.schedule import Scheduler, ScheduledJob
-import time
-
-def my_task(message):
-    print(f"Executing task: {message}")
-
-scheduler = Scheduler()
-job = ScheduledJob(my_task, args=("Hello from the scheduler!",), schedule=datetime.datetime.now() + datetime.timedelta(seconds=5))
-scheduler.add_job(job)
-
-scheduler.start()
-time.sleep(6) # Wait for the job to run
-scheduler.stop()
-
-```
+- **[Practical Applications](docs/readme_details/12_example_use/index.md)**: Demonstrates how Symbol's core features can be leveraged to solve real-world problems.
 
 Conclusion:
 -----------
-This module provides a high-performance, semantically rich, thread-safe symbol abstraction to power DSLs, runtime graphs, knowledge trees, and dynamic semantic layers. The design emphasizes structural clarity, cache efficiency, and symbolic extensibility.
+- **[Overview](docs/readme_details/13_conclusion/index.md)**: This module provides a high-performance, semantically rich, thread-safe symbol abstraction to power DSLs, runtime graphs, knowledge trees, and dynamic semantic layers. The design emphasizes structural clarity, cache efficiency, and symbolic extensibility.
 
 ## Project Structure
 

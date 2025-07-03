@@ -1,0 +1,50 @@
+graph TD
+    subgraph "Symbol Performance Characteristics"
+        A[O(1) Symbol Instantiation] --> B[Intern Pool [Flyweight Pattern]];
+        A --> C[Memory Efficiency];
+
+        D[O(1) Relationship Linking] --> E[Direct List Appends];
+        D --> F[Optimized for Graph Building];
+
+        G[O(1) Traversal with Cache] --> H[Cached Lengths];
+        G --> I[Float-based Cursor Insertion];
+        G --> J[Efficient Graph Navigation];
+
+        K[O(log n) Insert/Search] --> L[Bisect-based Insertion Order];
+        K --> M[Balanced Trees (AVL/Red-Black)];
+        K --> N[Scalable Indexing];
+    end
+
+    subgraph "Underlying Mechanisms"
+        O[Symbol._pool] --> B;
+        P[Symbol.children/parents] --> E;
+        Q[GraphTraversal] --> H;
+        R[Symbol._write_cursor] --> I;
+        S[SymbolIndex] --> L;
+        T[AVLTree/RedBlackTree] --> M;
+    end
+
+    style A fill:#FFD700,stroke:#333,stroke-width:2px;
+    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style C fill:#90EE90,stroke:#333,stroke-width:2px;
+
+    style D fill:#FFD700,stroke:#333,stroke-width:2px;
+    style E fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style F fill:#90EE90,stroke:#333,stroke-width:2px;
+
+    style G fill:#FFD700,stroke:#333,stroke-width:2px;
+    style H fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style I fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style J fill:#90EE90,stroke:#333,stroke-width:2px;
+
+    style K fill:#FFD700,stroke:#333,stroke-width:2px;
+    style L fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style M fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style N fill:#90EE90,stroke:#333,stroke-width:2px;
+
+    style O fill:#FF6347,stroke:#333,stroke-width:2px;
+    style P fill:#FF6347,stroke:#333,stroke-width:2px;
+    style Q fill:#FF6347,stroke:#333,stroke-width:2px;
+    style R fill:#FF6347,stroke:#333,stroke-width:2px;
+    style S fill:#FF6347,stroke:#333,stroke-width:2px;
+    style T fill:#FF6347,stroke:#333,stroke-width:2px;

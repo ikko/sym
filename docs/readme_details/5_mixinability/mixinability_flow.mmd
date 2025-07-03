@@ -1,0 +1,51 @@
+graph TD
+    subgraph "Mixinability in Symbol Framework"
+        A[Symbol Class] --> B{register_mixin(target_class, name, value)};
+        B -- "1. Check if frozen" --> C{is_frozen?};
+        C -- "Yes" --> D[Error: Class is Frozen];
+        C -- "No" --> E{2. Validate Mixin Callable};
+        E -- "Validation Fails" --> F[Error: Invalid Mixin];
+        E -- "Validation Success" --> G[3. Apply Mixin to Symbol Class];
+        G -- "Attribute Exists" --> H[Warning: Overwriting Existing Attribute];
+        G -- "Attribute Does Not Exist" --> I[Success: Mixin Applied];
+    end
+
+    subgraph "Mixin Validation [mixin_validator.py]"
+        E --> J[LibCST Static Analysis];
+        J -- "Checks for" --> K[Correct Signature (self)];
+        J -- "Checks for" --> L[Async/Await Consistency];
+        J -- "Checks for" --> M[Forbidden Imports/Operations];
+        J -- "Generates" --> N[ValidationResult (errors/warnings)];
+    end
+
+    subgraph "Benefits"
+        O[Dynamic Extensibility] --> P[Runtime Feature Addition];
+        Q[Code Reusability] --> R[Modular Behavior Units];
+        S[Enhanced Robustness] --> T[Validated Mixin Application];
+        U[Memory Optimization] --> V[slim() for Unused Mixins];
+    end
+
+    style A fill:#FFD700,stroke:#333,stroke-width:2px;
+    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style C fill:#FF6347,stroke:#333,stroke-width:2px;
+    style D fill:#DC143C,stroke:#333,stroke-width:2px;
+    style E fill:#90EE90,stroke:#333,stroke-width:2px;
+    style F fill:#DC143C,stroke:#333,stroke-width:2px;
+    style G fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style H fill:#FFA500,stroke:#333,stroke-width:2px;
+    style I fill:#32CD32,stroke:#333,stroke-width:2px;
+
+    style J fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style K fill:#90EE90,stroke:#333,stroke-width:2px;
+    style L fill:#90EE90,stroke:#333,stroke-width:2px;
+    style M fill:#90EE90,stroke:#333,stroke-width:2px;
+    style N fill:#ADFF2F,stroke:#333,stroke-width:2px;
+
+    style O fill:#FFD700,stroke:#333,stroke-width:2px;
+    style P fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style Q fill:#FFD700,stroke:#333,stroke-width:2px;
+    style R fill:#ADFF2F,stroke:#333,stroke:#333,stroke-width:2px;
+    style S fill:#FFD700,stroke:#333,stroke-width:2px;
+    style T fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style U fill:#FFD700,stroke:#333,stroke-width:2px;
+    style V fill:#ADFF2F,stroke:#333,stroke-width:2px;

@@ -1,0 +1,49 @@
+graph TD
+    subgraph "Memory-Aware Maturing Process (immute())"
+        A[Initial Symbol Instance] --> B{1. Elevate Metadata (elevate())};
+        B -- "Metadata in .metadata" --> C[Promoted to Attributes/Methods];
+        C --> D{2. Slim Down (slim())};
+        D -- "Removes Dynamic Mixins" --> E[Optimized Memory Footprint];
+        E --> F{3. Freeze Symbol Class (freeze())};
+        F -- "Prevents Further Changes" --> G[Immutable, Production-Ready Symbol];
+    end
+
+    subgraph "Key Components"
+        H[Symbol.metadata (DefDict)] --> I[Dynamic Key-Value Store];
+        J[deep_del()] --> K[Recursive Attribute Deletion];
+        L[gc.collect()] --> M[Explicit Garbage Collection];
+        N[_apply_merge_strategy[]] --> O[Handles Attribute Overwrites];
+    end
+
+    subgraph "Benefits"
+        P[Reduced Memory Footprint] --> Q[Efficient Resource Usage];
+        R[Improved Performance] --> S[Faster Access to Static Attributes];
+        T[Enhanced Stability] --> U[Predictable Behavior in Production];
+        V[Clear Lifecycle Management] --> W[Defined State Transitions];
+    end
+
+    style A fill:#FFD700,stroke:#333,stroke-width:2px;
+    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style C fill:#90EE90,stroke:#333,stroke-width:2px;
+    style D fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style F fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style G fill:#32CD32,stroke:#333,stroke-width:2px;
+
+    style H fill:#FF6347,stroke:#333,stroke-width:2px;
+    style I fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style J fill:#FF6347,stroke:#333,stroke-width:2px;
+    style K fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style L fill:#FF6347,stroke:#333,stroke-width:2px;
+    style M fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style N fill:#FF6347,stroke:#333,stroke-width:2px;
+    style O fill:#ADFF2F,stroke:#333,stroke-width:2px;
+
+    style P fill:#FFD700,stroke:#333,stroke-width:2px;
+    style Q fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style R fill:#FFD700,stroke:#333,stroke-width:2px;
+    style S fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style T fill:#FFD700,stroke:#333,stroke-width:2px;
+    style U fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style V fill:#FFD700,stroke:#333,stroke-width:2px;
+    style W fill:#ADFF2F,stroke:#333,stroke-width:2px;

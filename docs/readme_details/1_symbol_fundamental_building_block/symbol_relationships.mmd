@@ -1,0 +1,45 @@
+graph TD
+    subgraph "Symbolic Data Representation"
+        A[Symbol: Unique Node]
+        B[Relationship: Directed Edge]
+        C[Graph: Collection of Nodes and Edges]
+    end
+
+    subgraph "Core Properties"
+        A -- "has unique name" --> D[Interning Pool]
+        A -- "can connect to" --> A
+        A -- "forms" --> C
+    end
+
+    subgraph "Relationship Types"
+        A -- "parent of" --> E[Child Symbol]
+        E -- "child of" --> A
+        A -- "related to [generic]" --> F[Other Symbol]
+    end
+
+    subgraph "Example: Project Management"
+        G[Project A] --> H[Task 1.1]
+        G --> I[Task 1.2]
+        H --> J[Subtask 1.1.1]
+        I --> K[Subtask 1.2.1]
+        L[Team Member X] --> H
+        L --> K
+        M[Resource Y] --> J
+
+        style G fill:#FFD700,stroke:#333,stroke-width:2px;
+        style H fill:#ADFF2F,stroke:#333,stroke-width:2px;
+        style I fill:#ADFF2F,stroke:#333,stroke-width:2px;
+        style J fill:#90EE90,stroke:#333,stroke-width:2px;
+        style K fill:#90EE90,stroke:#333,stroke-width:2px;
+        style L fill:#1E90FF,stroke:#333,stroke-width:2px;
+        style M fill:#8A2BE2,stroke:#333,stroke-width:2px;
+    end
+
+    subgraph "Styling"
+        style A fill:#FF6347,stroke:#333,stroke-width:2px;
+        style B fill:#FFD700,stroke:#333,stroke-width:2px;
+        style C fill:#ADFF2F,stroke:#333,stroke-width:2px;
+        style D fill:#ADD8E6,stroke:#333,stroke-width:2px;
+        style E fill:#90EE90,stroke:#333,stroke-width:2px;
+        style F fill:#DA70D6,stroke:#333,stroke-width:2px;
+    end

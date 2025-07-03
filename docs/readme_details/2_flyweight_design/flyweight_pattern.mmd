@@ -1,0 +1,33 @@
+graph LR
+    subgraph "Flyweight Pattern for Symbol Instantiation"
+        A[Client] --> B[Symbol Factory [Symbol.__new__]];
+        B -- "Request Symbol['Name']" --> C[Symbol Pool [Symbol._pool]];
+        C -- "Check if 'Name' exists" --> D{Exists?};
+        D -- "Yes" --> E[Return Existing Symbol Instance];
+        D -- "No" --> F[Create New Symbol Instance];
+        F --> G[Add New Instance to Pool];
+        G --> E;
+    end
+
+    subgraph "Benefits"
+        H[Memory Efficiency] --> I[Reduced Duplication];
+        J[Consistency] --> K[Guaranteed Identity];
+        L[Performance] --> M[Faster Lookups/Comparisons];
+    end
+
+    E -- "is a" --> N[Shared Flyweight Object];
+
+    style A fill:#FFD700,stroke:#333,stroke-width:2px;
+    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style C fill:#90EE90,stroke:#333,stroke-width:2px;
+    style D fill:#FF6347,stroke:#333,stroke-width:2px;
+    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style F fill:#DA70D6,stroke:#333,stroke-width:2px;
+    style G fill:#8A2BE2,stroke:#333,stroke-width:2px;
+    style H fill:#FFD700,stroke:#333,stroke-width:2px;
+    style I fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style J fill:#FFD700,stroke:#333,stroke-width:2px;
+    style K fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style L fill:#FFD700,stroke:#333,stroke-width:2px;
+    style M fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style N fill:#ADD8E6,stroke:#333,stroke-width:2px;

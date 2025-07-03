@@ -1,0 +1,39 @@
+graph TD
+    subgraph "Per-Instance Indexing"
+        A[Symbol Instance (Owner)] --> B{Private SymbolIndex};
+        B -- "contains" --> C[IndexNode 1];
+        B -- "contains" --> D[IndexNode 2];
+        B -- "contains" --> E[...];
+
+        C -- "references" --> F[Indexed Symbol 1];
+        D -- "references" --> G[Indexed Symbol 2];
+
+        C -- "has" --> C_W[Weight/Metadata];
+        D -- "has" --> D_W[Weight/Metadata];
+    end
+
+    subgraph "Benefits"
+        H[Contextual Relationships] --> I[Private Views];
+        J[Weighted Associations] --> K[Relevance/Priority];
+        L[Efficient Local Querying] --> M[Optimized Traversal];
+        N[Nested Structures] --> O[Complex Hierarchies];
+    end
+
+    style A fill:#FFD700,stroke:#333,stroke-width:2px;
+    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
+    style C fill:#90EE90,stroke:#333,stroke-width:2px;
+    style D fill:#90EE90,stroke:#333,stroke-width:2px;
+    style E fill:#90EE90,stroke:#333,stroke-width:2px;
+    style F fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style G fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style C_W fill:#DA70D6,stroke:#333,stroke-width:2px;
+    style D_W fill:#DA70D6,stroke:#333,stroke-width:2px;
+
+    style H fill:#FF6347,stroke:#333,stroke-width:2px;
+    style I fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style J fill:#FF6347,stroke:#333,stroke-width:2px;
+    style K fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style L fill:#FF6347,stroke:#333,stroke-width:2px;
+    style M fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style N fill:#FF6347,stroke:#333,stroke-width:2px;
+    style O fill:#ADFF2F,stroke:#333,stroke-width:2px;

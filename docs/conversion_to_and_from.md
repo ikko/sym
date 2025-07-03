@@ -169,7 +169,3 @@ print(f"Boolean Symbol: {key_b.children[0].name}, Origin: {key_b.children[0].ori
 # Expected Output:
 # Boolean Symbol: True, Origin: True
 ```
-
-## Aliases
-
-No specific aliases are currently recommended for the `to_sym()` function or `Symbol.from_<type>` methods, as their names are already concise and descriptive. Users are encouraged to import `to_sym` directly or use the `Symbol.from_<type>` class methods as needed.
