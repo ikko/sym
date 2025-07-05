@@ -14,8 +14,8 @@ Each `Symbol` instance is uniquely identified by its `name` attribute. This uniq
 graph TD
     A[Symbol&'A'#41;] --> B{Interning Pool};
     B --> C[Existing Symbol 'A'];
-    D[Symbol#40;'A'#41;] --> B;
-    E[Symbol#40;'B'#41;] --> B;
+    D[Symbol#40'A'#41;] --> B;
+    E[Symbol#40'B'#41;] --> B;
     B --> F[New Symbol 'B'];
     style E fill:#ed4561,stroke:#333,stroke-width:2px,color:#FFFFFF;
 

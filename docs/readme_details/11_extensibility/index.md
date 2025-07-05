@@ -147,7 +147,7 @@ network_node.receive_response()
 ### Diagram
 ```mermaid
 graph TD
-    A[Generic Symbol] --> B{Apply Mixin &#40;Adapter&#41;};
+    A[Generic Symbol] --> B{Apply Mixin #40Adapter#41};
     B -- "DatabaseRecordMixin" --> C[Behaves as Database Record];
     B -- "NetworkEndpointMixin" --> D[Behaves as Network Endpoint];
     C --> E[Specific Operations];
@@ -206,7 +206,7 @@ for sym in user_sym.tree():
 ### Diagram
 ```mermaid
 graph TD
-    A[Enum Type] --> B{Symbol.from_enum&#40;&#41;};
+    A[Enum Type] --> B{Symbol.from_enum#40#41};
     B --> C[Symbol Instances];
 
     X[External DSL Input] --> Y{DSL Parser};

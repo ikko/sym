@@ -23,7 +23,7 @@ The `immute()` method orchestrates three distinct phases:
 
     ```mermaid
 graph TD
-        A[Symbol Instance] --> B{Slim&#40;&#41;};
+        A[Symbol Instance] --> B{Slim#40#41};
         B -- "Removes" --> C[Unused Dynamic Mixins];
         C --> D[Transient Attributes];
         D -- "Reduces" --> E[Memory Footprint];
@@ -36,7 +36,7 @@ graph TD
 
     ```mermaid
 graph TD
-        A[Symbol Class] --> B{Freeze&#40;&#41;};
+        A[Symbol Class] --> B{Freeze#40#41};
         B -- "Prevents" --> C[Further Dynamic Modifications];
         C --> D[New Mixin Registrations];
         D --> E[Ensures] --> F[Immutability & Predictability];
@@ -82,13 +82,13 @@ graph TD
     subgraph "Knowledge Graph Optimization"
         A[Dynamic KnowledgeEntity] --> B{Data Ingestion};
         B -- "Populates" --> C[Symbol.metadata];
-        C -- "Stabilizes" --> D[immute&#40;&#41; Call];
+        C -- "Stabilizes" --> D[immute#40#41 Call];
         D -- "Elevates" --> E[Direct Attributes];
         D -- "Slimes" --> F[Unused Mixins];
         D -- "Freezes" --> G[Optimized, Immutable Entity];
     end
 
-    style A fill:#8aae75, 30%&#41;;,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#8aae75, 30%#41;,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#8aae75,stroke:#333,stroke-width:2px,color:#000000;
 ```
@@ -122,14 +122,14 @@ print(f"Settlement date: {transaction.settlement_date}")
 graph TD
     subgraph "Financial Transaction Optimization"
         A[Pending Transaction Symbol] --> B{Processing & Validation};
-        B -- "Adds" --> C[Dynamic Metadata &#40;status, settlement_date&#41;;];
-        C -- "Settled" --> D[immute&#40;&#41; Call];
-        D -- "Elevates" --> E[Fixed Attributes &#40;amount, currency, status&#41;;];
+        B -- "Adds" --> C[Dynamic Metadata #40status, settlement_date#41;];
+        C -- "Settled" --> D[immute#40#41 Call];
+        D -- "Elevates" --> E[Fixed Attributes #40amount, currency, status#41;];
         D -- "Slimes" --> F[Temporary Metadata];
         D -- "Freezes" --> G[Optimized, Immutable Transaction];
     end
 
-    style A fill:#4481b3, 30%&#41;;,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#4481b3, 30%#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#4481b3,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```

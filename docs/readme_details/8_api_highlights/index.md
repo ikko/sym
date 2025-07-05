@@ -24,14 +24,14 @@ print(f"s1 is s3: {s1 is s3}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Call Symbol&#40;'Name'&#41;] --> B{Symbol Pool Check};
+    A[Call Symbol#40'Name'#41] --> B{Symbol Pool Check};
     B -- "Exists?" --> C{Yes};
     C --> D[Return Existing Instance];
     B -- "No" --> E[Create New Instance];
     E --> F[Add to Pool];
     F --> D;
 
-    style A fill:lighten&#40;#41c855, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:lighten#40#41c855, 30%#41,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#41c855,stroke:#333,stroke-width:2px,color:#000000;
 ```
@@ -59,13 +59,13 @@ print(f"sym1 prev is sym0: {sym1._prev is sym0}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Call Symbol.next&#40;&#41;] --> B{Increment Counter};
-    B --> C[Generate Name &#40;e.g., sym_N&#41;];
+    A[Call Symbol.next#40#41] --> B{Increment Counter};
+    B --> C[Generate Name #40e.g., sym_N#41];
     C --> D[Create New Symbol];
-    D -- "Link to Previous &#40;if any&#41;" --> E[Previous Symbol];
+    D -- "Link to Previous #40if any#41" --> E[Previous Symbol];
     D --> F[Return New Symbol];
 
-    style A fill:lighten&#40;#26c4c6, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:lighten#40#26c4c6, 30%#41,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#26c4c6,stroke:#333,stroke-width:2px,color:#000000;
 ```
@@ -96,11 +96,11 @@ print(f"Child1 parents: {[p.name for p in child1.parents]}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Source Symbol] --> B{append&#40;Child&#41;};
+    A[Source Symbol] --> B{append#40Child#41};
     B --> C[Child Symbol];
     A -- "parent-child" --> C;
 
-    X[Source Symbol] --> Y{relate_to&#40;Other, 'how'&#41;};
+    X[Source Symbol] --> Y{relate_to#40Other, 'how'#41};
     Y --> Z[Other Symbol];
     X -- "how" --> Z;
 
@@ -158,9 +158,9 @@ while q:
 ```mermaid
 graph TD
     A[Root Symbol] --> B{Traversal Method};
-    B -- "tree&#40;&#41;" --> C[Depth-First Traversal];
-    B -- "que&#40;&#41;" --> D[Breadth-First Traversal];
-    B -- "relate&#40;&#41;" --> E[Custom Relationship Traversal];
+    B -- "tree#40#41" --> C[Depth-First Traversal];
+    B -- "que#40#41" --> D[Breadth-First Traversal];
+    B -- "relate#40#41" --> E[Custom Relationship Traversal];
     C --> F[Yields Symbols];
     D --> F;
     E --> F;
@@ -203,7 +203,7 @@ print(f"Base children: {[c.name for c in base.children]}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Current Symbol] --> B{patch&#40;Other Symbol&#41;};
+    A[Current Symbol] --> B{patch#40Other Symbol#41};
     B -- "Merges" --> C[Other Symbol's Children];
     B -- "Merges" --> D[Other Symbol's Parents];
     B -- "Merges" --> E[Other Symbol's Related Entities];
@@ -251,7 +251,7 @@ print(mermaid_syntax)
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{to_mmd&#40;&#41;};
+    A[Symbol Instance] --> B{to_mmd#40#41};
     B --> C[Traverse Children];;
     C --> D[Generate Mermaid Syntax];
     D --> E[Return String];
@@ -295,7 +295,7 @@ print(ascii_art)
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{to_ascii&#40;&#41;};
+    A[Symbol Instance] --> B{to_ascii#40#41};
     B --> C[Traverse Children];
     C --> D[Format as ASCII Art];
     D --> E[Return String];
@@ -338,7 +338,7 @@ print(f"After delete: Child parents: {[p.name for p in child.parents]}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol to Delete] --> B{delete&#40;&#41;};
+    A[Symbol to Delete] --> B{delete#40#41};
     B -- "Removes from" --> C[Parents' Children Lists];
     B -- "Removes from" --> D[Children's Parents Lists];
     B -- "Clears" --> E[Its Own Parent/Child Lists];
@@ -385,7 +385,7 @@ print(f"Elevated method call: {s.get_info()}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol.metadata] --> B{elevate&#40;&#41;};
+    A[Symbol.metadata] --> B{elevate#40#41};
     B -- "Transforms" --> C[Key-Value Pairs];
     C --> D[Direct Instance Attributes];
     C --> E[Direct Instance Methods];
@@ -428,7 +428,7 @@ print(f"After slim: Has 'temp_method'? {hasattr(s, 'temp_method')}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{slim&#40;&#41;};
+    A[Symbol Instance] --> B{slim#40#41};
     B -- "Identifies" --> C[Dynamically Applied Mixins];
     C -- "Removes" --> D[Unused Attributes/Methods];
     D --> E[Reduced Memory Footprint];
@@ -474,10 +474,10 @@ print(f"Elevated attribute: {s.config_param}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Initial Symbol State] --> B{immute&#40;&#41;};
-    B -- "1. Elevate&#40;&#41;" --> C[Metadata to Attributes];
-    C -- "2. Slim&#40;&#41;" --> D[Remove Unused Mixins];
-    D -- "3. Freeze&#40;&#41;" --> E[Lock Symbol Class];
+    A[Initial Symbol State] --> B{immute#40#41};
+    B -- "1. Elevate#40#41" --> C[Metadata to Attributes];
+    C -- "2. Slim#40#41" --> D[Remove Unused Mixins];
+    D -- "3. Freeze#40#41" --> E[Lock Symbol Class];
     E --> F[Optimized, Immutable Symbol];
 
     style A fill:#f750dc,stroke:#333,stroke-width:2px,color:#000000;
@@ -568,7 +568,7 @@ finally:
 graph TD
     A[Callable Function] --> B[Create ScheduledJob];
     C[Schedule Details] --> B;
-    B --> D{Scheduler.add_job&#40;job&#41;};
+    B --> D{Scheduler.add_job#40job#41};
     D --> E[Add to Internal Queue];
     E --> F[Job Awaits Execution];
     style C fill:#6b894b,stroke:#333,stroke-width:2px,color:#FFFFFF;

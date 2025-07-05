@@ -31,6 +31,7 @@ assert sym_c is sym_d # True: Same instance
 `Symbol` instances inherently function as nodes in a directed acyclic graph (DAG), or more generally, a directed graph. Relationships are established through explicit `append` or `add` operations, forming parent-child connections. This structure is fundamental for modeling hierarchical data, dependencies, and complex networks.
 
 ```python
+from symbol import s
 # Building a simple hierarchy
 root_node = s.SystemRoot
 sub_system_1 = s.SubSystem1
@@ -77,8 +78,8 @@ Consider `Symbol` as the foundational layer for a dynamic knowledge graph. Each 
 
 ```mermaid
 graph TD
-    subgraph Symbol Core
-        A[Symbol Interning] --> B&#40;Graph Structure&#41;
+    subgraph Symbol_Core
+        A[Symbol Interning] --> B#40Graph_Structure#41
         B --> C{Mixinability}
     end
 
@@ -90,16 +91,14 @@ graph TD
     end
 
     subgraph Applications
-        D --> H&#40;Time-Series Analysis&#41;
-        E --> I&#40;Dependency Mapping&#41;
-        F --> J&#40;Semantic Search&#41;
-        G --> K&#40;Deferred Execution&#41;
+        D --> H#40Time-Series_Analysis#41
+        E --> I#40Dependency_Mapping#41
+        F --> J#40Semantic_Search#41
+        G --> K#40Deferred_Execution#41
     end
 
-    subgraph "Styling"
-    end
-
-    style A fill:#72ddba,stroke:#333,stroke-width:2px,color:#000000```
+    style A fill:#72ddba,stroke:#333,stroke-width:2px,color:#000000
+```
 
 *   **Symbol Core (Yellow):** Represents the fundamental, immutable aspects of `Symbol` instances.
 *   **Domain-Specific Layers (Blue):** Illustrates how mixins extend `Symbol` with specialized capabilities relevant to particular domains.

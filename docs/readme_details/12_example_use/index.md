@@ -104,10 +104,10 @@ print(timeline1.to_ascii())
 ### Diagram
 ```mermaid
 graph LR
-    A[Timeline 1] -- "Period 1" --> B&#40;2023-01-01 to 2023-01-15&#41;;
-    A -- "Period 2" --> C&#40;2023-01-10 to 2023-01-20&#41;;
-    X[Timeline 2] -- "Period 3" --> Y&#40;2023-01-05 to 2023-01-12&#41;;
-    A -- "overlap&#40;&#41;" --> Z[Overlap Periods];
+    A[Timeline 1] -- "Period 1" --> B#402023-01-01 to 2023-01-15#41;
+    A -- "Period 2" --> C#402023-01-10 to 2023-01-20#41;
+    X[Timeline 2] -- "Period 3" --> Y#402023-01-05 to 2023-01-12#41;
+    A -- "overlap#40#41" --> Z[Overlap Periods];
     style X fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
@@ -133,10 +133,10 @@ print(f"Batch processing results: {results}")
 ### Diagram
 ```mermaid
 graph LR
-    A[Input List] --> B{process_batch&#40;&#41;};
-    C[Function &#40;e.g., square&#41;] --> B;
+    A[Input List] --> B{process_batch#40#41};
+    C[Function #40e.g., square#41] --> B;
     B --> D[Processed Results];
-    style C fill:lighten&#40;#283d9e, 30%&#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:lighten#40#283d9e, 30%#41,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#da417d,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style C fill:#283d9e,stroke:#333,stroke-width:2px,color:#FFFFFF;
@@ -174,12 +174,12 @@ scheduler.stop()
 ### Diagram
 ```mermaid
 graph TD
-    A[Function &#40;my_task&#41;] --> B[ScheduledJob];
-    C[Schedule &#40;pendulum.DateTime&#41;] --> B;
-    B --> D[Scheduler.add_job&#40;&#41;];
-    D --> E[Scheduler.start&#40;&#41;];
+    A[Function #40my_task#41] --> B[ScheduledJob];
+    C[Schedule #40pendulum.DateTime#41] --> B;
+    B --> D[Scheduler.add_job#40#41];
+    D --> E[Scheduler.start#40#41];
     E -- "Executes at time" --> A;
-    style C fill:lighten&#40;#dfceac, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:lighten#40#dfceac, 30%#41,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#7c2ccd,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style C fill:#b83750,stroke:#333,stroke-width:2px,color:#FFFFFF;

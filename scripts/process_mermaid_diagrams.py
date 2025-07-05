@@ -5,7 +5,7 @@ def process_mermaid_diagram_content(diagram_text):
     # 1. Replace "[]" with "()"
     processed_text = diagram_text.replace("[]", "()")
     # 2. Replace parentheses with their HTML entity codes
-    processed_text = processed_text.replace("(", "&#40;").replace(")", "&#41;")
+    processed_text = processed_text.replace("(", "#40").replace(")", "#41")
     return processed_text
 
 def process_file(file_path):

@@ -1,4 +1,4 @@
-graph TD
+graph LR
     subgraph "Symbol Extensibility"
         A[Symbolable Type] --> B[Robust Callable Integration];
         A --> C[Defines __call__ method];
@@ -6,10 +6,10 @@ graph TD
         D[MixinFunction Protocol] --> E[Formal Mixin Interface];
         D --> F[Supports Async, Process/Thread Execution];
 
-        G[SymbolAdapter [Mixinable Interface]] --> H[Enables Different Logical Structures];
+        G[SymbolAdapter - Mixinable Interface] --> H[Enables Different Logical Structures];
         G --> I[Implemented via Mixinability];
 
-        J[Compatible with Enum Reflection] --> K[Symbol.from_enum#40;#41; Method];
+        J[Compatible with Enum Reflection] --> K[Symbol.from_enum#40#41; Method];
         K --> L[Converts Enum Members to Symbols];
 
         M[External DSL Inputs] --> N[Flexible Parsing];
@@ -17,7 +17,7 @@ graph TD
     end
 
     subgraph "Key Concepts"
-        P[Protocols #40;PEP 544#41;] --> Q[Structural Subtyping];
+        P[Protocols #40PEP 544#41;] --> Q[Structural Subtyping];
         R[Dynamic Mixins] --> S[Runtime Behavior Injection];
         T[Metaprogramming] --> U[Code Generation/Transformation];
     end
@@ -28,7 +28,7 @@ graph TD
         Z[Modularity] --> AA[Reusable Components];
         AB[Domain-Specific Modeling] --> AC[Tailored Abstractions];
     end
-    style AB fill:lighten#40;#886904, 30%#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style AB fill:#886904,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#7e1d8b,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style D fill:#2300e9,stroke:#333,stroke-width:2px,color:#FFFFFF;

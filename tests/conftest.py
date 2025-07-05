@@ -8,10 +8,12 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
 
+@pytest.fixture(scope='session', autouse=True)
+def apply_builtins_for_session():
+    apply_builtins()
+
 @pytest.fixture(autouse=True)
 def setup_and_teardown(request):
-    # Ensure builtins are applied before each test
-    apply_builtins()
 
     # Store original _numbered and _pool, and clear them for predictable testing
     original_numbered = list(Symbol._numbered)

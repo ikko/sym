@@ -56,11 +56,8 @@ def test_direct_imports_skip_core_and_builtins():
         assert 'symbol.builtins' not in sys.modules
 
         # Accessing aliases should trigger their import, but not necessarily the top-level package
-        _ = symbol.s
-        assert 'symbol.core.symbol' in sys.modules
-
-        _ = symbol.Symbol
-        assert 'symbol.core.symbol' in sys.modules
+        # symbol.s, symbol.Symbol, and symbol.GraphTraversal are now directly imported in symbol/__init__.py
+        # so they will always be present.
 
         _ = symbol.time_dim
         assert 'symbol.builtins.time_dim' in sys.modules

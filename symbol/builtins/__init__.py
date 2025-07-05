@@ -2,7 +2,7 @@ from ..core.base_symbol import Symbol
 from ..core.mixinability import register_mixin
 from .path import SymbolPathMixin
 from .time_dim import SymbolTimeDimMixin
-from .visual import to_dot, a_to_svg, to_svg, a_to_png, to_png, to_mmd, to_ascii
+from .visual import SymbolRender
 from .timeline import Timeline
 import logging
 
@@ -53,20 +53,12 @@ def apply_builtins():
     total_mixins += 1
     if register_mixin(Symbol, 'as_delta', SymbolTimeDimMixin.as_delta): successful_mixins += 1
 
-    # Visual functions (proxied from symbol.builtins.visual)
-    total_mixins += 1
-    if register_mixin(Symbol, 'to_dot', to_dot): successful_mixins += 1
-    total_mixins += 1
-    if register_mixin(Symbol, 'a_to_svg', a_to_svg): successful_mixins += 1
-    total_mixins += 1
-    if register_mixin(Symbol, 'to_svg', to_svg): successful_mixins += 1
-    total_mixins += 1
-    if register_mixin(Symbol, 'a_to_png', a_to_png): successful_mixins += 1
-    total_mixins += 1
-    if register_mixin(Symbol, 'to_png', to_png): successful_mixins += 1
-    total_mixins += 1
-    if register_mixin(Symbol, 'to_mmd', to_mmd): successful_mixins += 1
-    total_mixins += 1
-    if register_mixin(Symbol, 'to_ascii', to_ascii): successful_mixins += 1
+    # Visual Mixin
+    visual_methods = [
+        'to_dot', 'a_to_svg', 'to_svg', 'a_to_png', 'to_png', 'to_mmd', 'to_ascii'
+    ]
+    for method_name in visual_methods:
+        total_mixins += 1
+        if register_mixin(Symbol, method_name, getattr(SymbolRender, method_name)): successful_mixins += 1
 
     log.info(f"Mixin application complete. Successfully applied {successful_mixins} of {total_mixins} mixins.")

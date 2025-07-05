@@ -1,6 +1,6 @@
 graph LR
     subgraph "Mixinability in Symbol Framework"
-        A[Symbol Class] --> B{register_mixin#40;target_class, name, value#41;};
+        A[Symbol Class] --> B{register_mixin#40target_class, name, value#41;};
         B -- "1. Check if frozen" --> C{is_frozen?};
         C -- "Yes" --> D[Error: Class is Frozen];
         C -- "No" --> E{2. Validate Mixin Callable};
@@ -12,17 +12,17 @@ graph LR
 
     subgraph "Mixin Validation [mixin_validator.py]"
         E --> J[LibCST Static Analysis];
-        J -- "Checks for" --> K[Correct Signature #40;self#41;];
+        J -- "Checks for" --> K[Correct Signature #40self#41;];
         J -- "Checks for" --> L[Async/Await Consistency];
         J -- "Checks for" --> M[Forbidden Imports/Operations];
-        J -- "Generates" --> N[ValidationResult #40;errors/warnings#41;];
+        J -- "Generates" --> N[ValidationResult #40errors/warnings#41;];
     end
 
     subgraph "Benefits"
         O[Dynamic Extensibility] --> P[Runtime Feature Addition];
         Q[Code Reusability] --> R[Modular Behavior Units];
         S[Enhanced Robustness] --> T[Validated Mixin Application];
-        U[Memory Optimization] --> V[slim#40;#41; for Unused Mixins];
+        U[Memory Optimization] --> V[slim#40#41; for Unused Mixins];
     end
     style U fill:#740dbb,stroke:#333,stroke-width:2px,color:#FFFFFF;
 

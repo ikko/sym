@@ -107,25 +107,3 @@ class SymbolRender(SymbolVisualProtocol):
             return self.root.to_ascii()
 
 
-# --- Top-level functions for direct access ---
-
-def to_dot(root: Symbol, mode: Literal["tree", "graph"] = "tree") -> str:
-    return SymbolRender(root).to_dot(mode)
-
-async def a_to_svg(root: Symbol, mode: Literal["tree", "graph"] = "tree") -> str:
-    return await SymbolRender(root).a_to_svg(mode)
-
-def to_svg(root: Symbol, mode: Literal["tree", "graph"] = "tree") -> str:
-    return SymbolRender(root).to_svg(mode)
-
-async def a_to_png(root: Symbol, mode: Literal["tree", "graph"] = "tree") -> bytes:
-    return await SymbolRender(root).a_to_png(mode)
-
-def to_png(root: Symbol, mode: Literal["tree", "graph"] = "tree") -> bytes:
-    return SymbolRender(root).to_png(mode)
-
-def to_mmd(root: Symbol, mode: Literal["tree", "graph"] = "tree") -> str:
-    return SymbolRender(root).to_mmd(mode)
-
-def to_ascii(root: Symbol, mode: Literal["tree", "graph"] = "tree") -> str:
-    return SymbolRender(root).to_ascii(mode)

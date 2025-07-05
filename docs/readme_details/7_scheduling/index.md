@@ -11,10 +11,10 @@ The scheduling system is built around two primary components:
     ```mermaid
 graph TD
         A[Callable Function] --> B[ScheduledJob];
-        C[Arguments &#40;args, kwargs&#41;] --> B;
-        D[Schedule &#40;pendulum.DateTime, cron string, Symbol&#41;] --> B;
+        C[Arguments #40args, kwargs#41] --> B;
+        D[Schedule #40pendulum.DateTime, cron string, Symbol#41] --> B;
         B -- "Calculates" --> E[Next Run Time];
-    style D fill:lighten&#40;#896807, 30%&#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style D fill:lighten#40#896807, 30%#41,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#92925a,stroke:#333,stroke-width:2px,color:#000000;
     style C fill:#910f48,stroke:#333,stroke-width:2px,color:#FFFFFF;
@@ -24,7 +24,7 @@ graph TD
 
     ```mermaid
 graph TD
-        A[Scheduler] --> B{add_job&#40;&#41;};
+        A[Scheduler] --> B{add_job#40#41};
         B -- "Adds Job to" --> C[Min-Heap];;
         C -- "Monitors" --> D[Execution Thread];
         D -- "Executes Job" --> E[Callable Function];
@@ -124,7 +124,7 @@ graph TD
         C[Weekly Inventory Summary] --> B;
         B -- "Triggers Weekly" --> C;
     end
-    style C fill:lighten&#40;#12dde0, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:lighten#40#12dde0, 30%#41,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#93dd47,stroke:#333,stroke-width:2px,color:#000000;
     style C fill:#12dde0,stroke:#333,stroke-width:2px,color:#000000;

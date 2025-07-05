@@ -49,19 +49,6 @@ engine.aircraft_component.last_inspected = pendulum.datetime(2024, 1, 15)
 
 print(f"Engine last inspected: {engine.aircraft_component.last_inspected}")
 print(f"Engine next inspection due: {engine.aircraft_component.next_inspection_due}")
-
-# Visualize a component hierarchy with inspection status (conceptual)
-```
-
-```mermaid
-graph TD
-    A[Aircraft] --> B&#40;Engine_Turbofan_A320&#41;
-    B -- "Last Inspected: 2024-01-15" --> C&#40;Next Due: 2025-01-15&#41;
-
-    subgraph "Styling"
-    end
-
-    style A fill:#b95086,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ### 2. Complex Graph Manipulations and Traversal Strategies
 
@@ -90,18 +77,15 @@ payment_service.append(auth_service) # Payment depends on Auth (potential cycle!
 print(auth_service.to_mmd(mode="graph"))
 ```
 
+
 ```mermaid
-graph LR
-    A[AuthService] --> B&#40;UserService&#41;
-    B --> C&#40;ProductService&#41;
-    C --> D&#40;PaymentService&#41;
-    D --> A
-
-    subgraph "Styling"
-    end
-
-    style A fill:#f33a1d,stroke:#333,stroke-width:2px,color:#FFFFFF;
+ graph TD
+    subgraph Symbol_Core
+        A[Symbol_Interning] --> B#40Graph_Structure#41
+        B --> C{Mixinability}
+     end
 ```
+
 #### 2.2. Use Case Modeling: Healthcare (Patient Journey Mapping)
 
 Map a patient's journey through a healthcare system, from admission to discharge, including various medical procedures and consultations. Each step can be a `Symbol`, and their sequence forms a graph.
@@ -127,11 +111,11 @@ print(admission.to_mmd())
 
 ```mermaid
 graph TD
-    Adm[Admission] --> GP&#40;Consultation_GP&#41;
-    GP --> LT&#40;LabTests&#41;
-    LT --> SR&#40;SpecialistReferral&#41;
-    SR --> T&#40;Treatment&#41;
-    T --> Dis&#40;Discharge&#41;
+    Adm[Admission] --> GP#40Consultation_GP#41
+    GP --> LT#40LabTests#41
+    LT --> SR#40SpecialistReferral#41
+    SR --> T#40Treatment#41
+    T --> Dis#40Discharge#41
 
     subgraph "Styling"
     end
@@ -167,9 +151,9 @@ print(line_1.to_mmd())
 
 ```mermaid
 graph TD
-    L1[AssemblyLine1] --> S1&#40;Station1&#41;
-    S1 --> RA&#40;RobotArmA&#41;
-    RA --> PW&#40;ProcessWeld&#41;
+    L1[AssemblyLine1] --> S1#40Station1#41
+    S1 --> RA#40RobotArmA#41
+    RA --> PW#40ProcessWeld#41
 
     subgraph "Styling"
     end
@@ -200,9 +184,9 @@ print(property_123.to_mmd())
 
 ```mermaid
 graph TD
-    P[Property_123MainSt] --> B&#40;Bedroom&#41;
-    P --> Ba&#40;Bathroom&#41;
-    P --> K&#40;Kitchen&#41;
+    P[Property_123MainSt] --> B#40Bedroom#41
+    P --> Ba#40Bathroom#41
+    P --> K#40Kitchen#41
 
     subgraph "Styling"
     end

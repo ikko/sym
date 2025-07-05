@@ -35,13 +35,13 @@ print(f"Time for 100,000 Symbol instantiations: {(end_time - start_time) / 1_000
 ### Diagram
 ```mermaid
 graph TD
-    A[Request Symbol&#40;name&#41;] --> B{Check Symbol._pool};
+    A[Request Symbol#40name#41] --> B{Check Symbol._pool};
     B -- "Found" --> C[Return Existing Symbol];
     B -- "Not Found" --> D[Create New Symbol];
     D --> E[Add to Symbol._pool];
     E --> C;
 
-    style A fill:lighten&#40;#e2af2b, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:lighten#40#e2af2b, 30%#41,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#e2af2b,stroke:#333,stroke-width:2px,color:#000000;
 ```
@@ -74,10 +74,10 @@ print(f"Time for 2 relationship links: {(end_time - start_time) / 1_000_000:.2f}
 ### Diagram
 ```mermaid
 graph TD
-    A[Source Symbol] --> B{append&#40;Target Symbol&#41;};
+    A[Source Symbol] --> B{append#40Target Symbol#41};
     B -- "Add Target to Source.children" --> C[Source.children List];
     B -- "Add Source to Target.parents" --> D[Target.parents List];
-    C --> E[O&#40;1&#41; Operation];
+    C --> E[O#401#41 Operation];
     D --> E;
 
     style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
@@ -114,14 +114,14 @@ print(f"sym2._prev is sym1: {sym2._prev is sym1}")
 ```mermaid
 graph TD
     A[Traversal Operation] --> B{Check Cache};
-    B -- "Cache Hit" --> C[Return Cached Value &#40;O&#40;1&#41;&#41;];
-    B -- "Cache Miss" --> D[Perform Traversal &#40;O&#40;V+E&#41;&#41;];
+    B -- "Cache Hit" --> C[Return Cached Value #40O#401#41#41];
+    B -- "Cache Miss" --> D[Perform Traversal #40O#40V+E#41#41];
     D --> E[Update Cache];
     E --> C;
 
     X[New Symbol Insertion] --> Y{Assign Float Position};
     Y --> Z[Maintain Conceptual Order];
-    Z --> AA[Avoid Re-indexing &#40;O&#40;1&#41; for sequential&#41;];
+    Z --> AA[Avoid Re-indexing #40O#401#41 for sequential#41];
     style X fill:#d450bf,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#d74691,stroke:#333,stroke-width:2px,color:#FFFFFF;
@@ -158,12 +158,12 @@ print(f"Found Apple: {found_symbol.name if found_symbol else 'Not Found'}")
 ```mermaid
 graph TD
     A[Collection of Symbols] --> B{SymbolIndex};
-    B -- "Uses" --> C[Balanced BST &#40;AVL/Red-Black&#41;];
-    C -- "Insert" --> D[O&#40;log n&#41;];
-    C -- "Search" --> E[O&#40;log n&#41;];
-    C -- "Delete" --> F[O&#40;log n&#41;];
+    B -- "Uses" --> C[Balanced BST #40AVL/Red-Black#41];
+    C -- "Insert" --> D[O#40log n#41];
+    C -- "Search" --> E[O#40log n#41];
+    C -- "Delete" --> F[O#40log n#41];
 
-    style A fill:lighten&#40;#eec41d, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:lighten#40#eec41d, 30%#41,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#eec41d,stroke:#333,stroke-width:2px,color:#000000;
 ```

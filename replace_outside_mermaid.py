@@ -21,7 +21,7 @@ def replace_outside_mermaid(text: str) -> str:
             continue
 
         # Replace only outside mermaid blocks
-        replaced_line = line.replace("#40;", "(").replace("#41;", ")")
+        replaced_line = line.replace("#40", "(").replace("#41;", ")")
         output_lines.append(replaced_line)
 
     return ''.join(output_lines)
