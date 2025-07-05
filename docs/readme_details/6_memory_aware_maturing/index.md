@@ -17,8 +17,8 @@ The `immute()` method orchestrates three distinct phases:
 
     style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;
+```
 2.  **Slim Down (`slim()`);:** Following elevation, the `slim()` method removes dynamically applied mixins that are no longer needed or have been elevated. This process is crucial for memory optimization, as it cleans up transient attributes and methods, reducing the overall memory footprint of the `Symbol` instance. The `deep_del` utility is employed to recursively delete attributes and their contents, ensuring that unreferenced objects are promptly garbage collected.
 
     ```mermaid
@@ -30,8 +30,8 @@ graph TD
 
     style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+```
 3.  **Freeze (`freeze()`);:** The final step in the maturing process is to globally freeze the `Symbol` class. This prevents any further runtime modifications, including the registration of new mixins or the elevation of additional metadata. Freezing ensures the immutability and predictability of `Symbol` behavior in production environments, safeguarding against unintended side effects and maintaining system integrity.
 
     ```mermaid
@@ -43,8 +43,8 @@ graph TD
 
     style A fill:#9056a7,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#9056a7,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:#9056a7,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## Illustrative Examples
 
 ### High-Tech Industry: Optimizing Large-Scale Knowledge Graphs
@@ -90,8 +90,8 @@ graph TD
 
     style A fill:#8aae75, 30%);,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#8aae75, 30%),stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:lighten(#8aae75, 30%),stroke:#333,stroke-width:2px,color:#000000;
+```
 ### Low-Tech Industry: Financial Transaction Processing
 ```python
 from symbol import Symbol, s
@@ -131,8 +131,8 @@ graph TD
 
     style A fill:#4481b3, 30%);,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:lighten(#4481b3, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:lighten(#4481b3, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## Conclusion
 
 Memory-aware maturing in the `Symbol` framework provides a powerful mechanism for optimizing the lifecycle of `Symbol` instances. By systematically elevating dynamic metadata, slimming down transient components, and freezing the class, it enables developers to achieve significant memory savings and performance improvements, particularly in data-intensive applications. This feature underscores `Symbol`'s commitment to both flexibility and efficiency.

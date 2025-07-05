@@ -71,7 +71,8 @@ graph TD
     C5 -- uses --> B9
     C8 -- uses --> B9
 
-    style A fill:#97bff2,stroke:#333,stroke-width:2px,color:#000000;```
+    style A fill:#97bff2,stroke:#333,stroke-width:2px,color:#000000;
+```
 
 ### Legend
 

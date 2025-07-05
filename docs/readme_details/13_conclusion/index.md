@@ -18,8 +18,8 @@ graph TD
 
     style A fill:#bd836a,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#bd836a,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#bd836a,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Powering DSLs, Runtime Graphs, and Knowledge Trees
 
 `Symbol`'s ability to represent unique entities and their relationships makes it an ideal candidate for constructing various advanced data structures:
@@ -38,8 +38,8 @@ graph TD
 
     style A fill:#bffc6a,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#bffc6a,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#bffc6a,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Structural Clarity, Cache Efficiency, and Symbolic Extensibility
 
 These three pillars underpin the `Symbol` framework's design philosophy:
@@ -57,8 +57,8 @@ graph TD
 
     style A fill:#c76f60,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#c76f60,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#c76f60,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Final Thoughts
 
 The `Symbol` framework offers a compelling solution for developers grappling with complex, interconnected data. Its blend of performance, semantic richness, and extensibility positions it as a valuable tool for building the next generation of intelligent and adaptable software systems. By embracing the principles of symbolic abstraction, `Symbol` empowers engineers to model and manipulate information with unprecedented clarity and efficiency.

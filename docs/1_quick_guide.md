@@ -99,7 +99,7 @@ graph TD
     subgraph "Styling"
     end
 
-    style A fill:#72ddba,stroke:#333,stroke-width:2px,color:#000000;```
+    style A fill:#72ddba,stroke:#333,stroke-width:2px,color:#000000```
 
 *   **Symbol Core (Yellow):** Represents the fundamental, immutable aspects of `Symbol` instances.
 *   **Domain-Specific Layers (Blue):** Illustrates how mixins extend `Symbol` with specialized capabilities relevant to particular domains.

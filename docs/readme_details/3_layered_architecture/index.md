@@ -19,8 +19,8 @@ graph TD
 
     style A fill:#10883c,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#10883c,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:#10883c,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## Builtin Extensions Layer &#40;`symbol.builtins`&#41;
 
 This layer comprises a collection of modular extensions that provide specialized functionalities to `Symbol` objects. These extensions are designed to be plug-and-play, allowing developers to include only the features relevant to their specific application without bloating the core.
@@ -40,8 +40,8 @@ graph TD
 
     style A fill:#5f36bb,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#5f36bb,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:#5f36bb,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## Inter-Layer Communication
 
 The `symbol.core` package, particularly `symbol.py`, integrates with selected `symbol.builtins` modules to enhance its fundamental capabilities. For instance, `SymbolIndex` from `symbol.builtins.index` is used within the `Symbol` class to manage per-instance indexing. This controlled dependency allows the core to leverage specialized, well-encapsulated functionalities without compromising its lean design.

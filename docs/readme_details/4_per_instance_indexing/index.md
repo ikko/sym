@@ -17,8 +17,8 @@ graph TD
 
     style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Key Features and Benefits
 
 -   **Private Context**: Each `Symbol` can maintain its own unique view or organization of related symbols, independent of global relationships. This is crucial for modeling complex domains where relationships are highly contextual.

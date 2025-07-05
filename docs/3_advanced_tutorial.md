@@ -61,8 +61,8 @@ graph TD
     subgraph "Styling"
     end
 
-    style A fill:#b95086,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:#b95086,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ### 2. Complex Graph Manipulations and Traversal Strategies
 
 `Symbol`'s graph capabilities extend to modeling intricate relationships beyond simple parent-child hierarchies. You can represent complex networks and apply various traversal algorithms.
@@ -100,8 +100,8 @@ graph LR
     subgraph "Styling"
     end
 
-    style A fill:#f33a1d,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:#f33a1d,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 #### 2.2. Use Case Modeling: Healthcare (Patient Journey Mapping)
 
 Map a patient's journey through a healthcare system, from admission to discharge, including various medical procedures and consultations. Each step can be a `Symbol`, and their sequence forms a graph.
@@ -136,7 +136,8 @@ graph TD
     subgraph "Styling"
     end
 
-    style Adm fill:#4326f0,stroke:#333,stroke-width:2px,color:#FFFFFF;```
+    style Adm fill:#4326f0,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 
 ### 3. Strategic Applications: DSLs and Semantic Modeling
 
@@ -173,7 +174,8 @@ graph TD
     subgraph "Styling"
     end
 
-    style L1 fill:#7340aa,stroke:#333,stroke-width:2px,color:#FFFFFF;```
+    style L1 fill:#7340aa,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 
 #### 3.2. Semantic Data Modeling: Real Estate (Property Attributes and Relationships)
 
@@ -205,7 +207,8 @@ graph TD
     subgraph "Styling"
     end
 
-    style P fill:#44f24d,stroke:#333,stroke-width:2px,color:#000000;```
+    style P fill:#44f24d,stroke:#333,stroke-width:2px,color:#000000;
+```
 
 ### Conclusion
 

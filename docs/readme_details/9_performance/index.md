@@ -43,8 +43,8 @@ graph TD
 
     style A fill:lighten&#40;#e2af2b, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#e2af2b, 30%),stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:lighten(#e2af2b, 30%),stroke:#333,stroke-width:2px,color:#000000;
+```
 ## O(1) Relationship Linking
 
 Establishing relationships between `Symbol` instances &#40;e.g., via `append&#40;&#41;`&#41; is also a constant-time operation. This is primarily due to the use of Python's native list appends for managing `children` and `parents` relationships. Appending an element to a list typically involves amortized O(1) time complexity, making graph construction highly efficient.
@@ -82,8 +82,8 @@ graph TD
 
     style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## O(1) Traversal with Cache and Float-based Cursor Insertion
 
 While full graph traversals &#40;e.g., `tree&#40;&#41;`, `graph&#40;&#41;`&#41; are inherently dependent on the number of nodes and edges &#40;typically O(V+E)&#41;, the `Symbol` framework optimizes certain traversal-related operations to achieve effective O(1) performance for specific use cases. This is facilitated by caching mechanisms and a unique float-based cursor insertion system.
@@ -125,8 +125,8 @@ graph TD
     style X fill:#d450bf,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#d74691,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style X fill:#d450bf,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style X fill:#d450bf,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## O(log n) Insert/Search when extended to use bisect-based insertion order
 
 While core relationship linking is O(1), the `Symbol` framework is designed to integrate with more advanced data structures for scenarios requiring ordered insertion and efficient searching within larger collections of symbols. Specifically, when extended with built-in modules like `symbol.builtins.index` &#40;which can leverage `AVLTree` or `RedBlackTree`&#41;, operations like ordered insertion and searching within a sorted collection of symbols can achieve O(log n) time complexity.
@@ -165,8 +165,8 @@ graph TD
 
     style A fill:lighten&#40;#eec41d, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#eec41d, 30%),stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:lighten(#eec41d, 30%),stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Conclusion
 
 The `Symbol` framework's performance characteristics are a direct result of its thoughtful design, leveraging efficient data structures and algorithms. By employing interning for constant-time instantiation, utilizing native list operations for O(1) relationship linking, and providing hooks for logarithmic-time ordered operations through specialized indices, `Symbol` delivers a high-performance foundation for building and manipulating complex symbolic graphs. These optimizations are crucial for ensuring scalability and responsiveness in demanding applications.

@@ -30,8 +30,8 @@ graph TD
 
     style A fill:#5d4140,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#5d4140,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:#5d4140,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## ESG Example: Tracking Deforestation in a Supply Chain
 
 This example illustrates how `Symbol` can model complex supply chain relationships and track specific events, such as deforestation. It demonstrates the ability to build a graph representing entities and their connections, and then query this graph to identify paths that lead to undesirable events.
@@ -72,8 +72,8 @@ graph TD
 
     style A fill:#1be6c8,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#1be6c8,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#1be6c8,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Timeline Example
 
 This example showcases the use of `symbol.builtins.timeline` to manage and analyze temporal data. It demonstrates how to create timelines, add time periods, and perform operations like finding overlaps between different timelines.
@@ -111,8 +111,8 @@ graph LR
     style X fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style X fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style X fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## Batch Processing Example
 
 This example demonstrates a simple batch processing utility, showcasing how `Symbol` can be used in conjunction with functional programming paradigms to apply a given function to a collection of inputs. While `Symbol` itself is not a batch processing engine, its extensibility allows for the integration of such utilities.
@@ -139,8 +139,8 @@ graph LR
     style C fill:lighten&#40;#283d9e, 30%&#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#da417d,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style C fill:lighten(#283d9e, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style C fill:lighten(#283d9e, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## Scheduler Example
 
 This example demonstrates the use of `symbol.core.schedule` to schedule and execute tasks at specified times. It showcases the `Scheduler` and `ScheduledJob` classes, allowing for the automation of functions based on time dimension objects.
@@ -182,8 +182,8 @@ graph TD
     style C fill:lighten&#40;#dfceac, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:lighten(#7c2ccd, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style C fill:lighten(#b83750, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style C fill:lighten(#b83750, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## Conclusion
 
 These examples collectively demonstrate the versatility and power of the `Symbol` framework. From basic graph construction to complex supply chain analysis, temporal data management, batch processing, and task scheduling, `Symbol` provides a flexible and efficient foundation for building sophisticated applications. Its modular design and extensibility allow developers to tailor its capabilities to specific domain requirements, making it a valuable tool for a wide array of symbolic data manipulation tasks.

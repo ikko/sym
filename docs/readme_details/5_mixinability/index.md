@@ -28,8 +28,8 @@ graph TD
 
     style A fill:#193370,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#193370,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:#193370,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## Freezing Mechanism
 
 To ensure stability and prevent unintended modifications in production environments, the `Symbol` framework provides a `freeze&#40;&#41;` mechanism. Once invoked, `freeze&#40;&#41;` prevents any further registration or modification of mixins, effectively locking down the `Symbol` class's behavior. This is particularly valuable in long-running applications or systems where dynamic changes could lead to unpredictable states.
@@ -74,8 +74,8 @@ graph TD
 
     style A fill:#0ffbe5,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#0ffbe5,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#0ffbe5,stroke:#333,stroke-width:2px,color:#000000;
+```
 ### Low-Tech Industry: Inventory Management System
 
 In an inventory management system, different types of products might have unique behaviors &#40;e.g., perishable items needing expiration date tracking, electronics needing warranty information&#41;. Mixinability allows these behaviors to be attached dynamically.
@@ -120,8 +120,8 @@ graph TD
 
     style A fill:#bfc876,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#bfc876,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#bfc876,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Conclusion
 
 Mixinability in the `Symbol` framework provides a powerful and secure mechanism for dynamic extensibility. By combining runtime flexibility with static validation and a freezing capability, it enables developers to build highly modular, adaptable, and robust systems across various domains, from complex high-tech applications to traditional enterprise solutions.

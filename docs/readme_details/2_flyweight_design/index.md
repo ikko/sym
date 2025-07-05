@@ -18,8 +18,8 @@ graph TD
 
     style A fill:lighten&#40;#fe6266, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#fe6266, 30%),stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:lighten(#fe6266, 30%),stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Advantages of Flyweight in Symbol
 
 -   **Memory Efficiency**: By ensuring that only one instance of a `Symbol` exists for each unique name, the framework drastically reduces memory consumption, especially in applications dealing with vast numbers of symbolic representations &#40;e.g., large knowledge graphs, extensive ontologies&#41;.

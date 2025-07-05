@@ -26,8 +26,8 @@ graph TD
     end
 
     style A fill:#cbc4b9,stroke:#333,stroke-width:2px,color:#000000;
-    style C fill:#72f3da,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style C fill:#72f3da,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Involved Files, Classes, and Functions (Hypothetical)
 
 This section provides a hypothetical summary of the files, classes, and functions that would be involved in this process.

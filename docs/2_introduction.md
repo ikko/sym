@@ -66,7 +66,7 @@ graph TD
     subgraph "Styling"
     end
 
-    style A fill:#225b90,stroke:#333,stroke-width:2px,color:#FFFFFF;```
+    style A fill:#225b90,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 
 ### 2. Extending Symbol Functionality with Mixins
@@ -110,7 +110,7 @@ graph TD
     end
 
     style E1 fill:lighten(#737df5, 30%),stroke:#333,stroke-width:2px,color:#000000;
-    style E2 fill:lighten(#2f78e8, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
+    style E2 fill:lighten(#2f78e8, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 #### 2.2. Pathfinding in Graphs
 
@@ -184,10 +184,10 @@ graph TD
     subgraph "Styling"
     end
 
-    style P fill:lighten(#710bd8, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
+    style P fill:lighten(#710bd8, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 
 ### Conclusion
 
 This introduction has covered the core aspects of the `Symbol` library, from basic creation and relationship building to leveraging built-in mixins for time dimension handling, pathfinding, and indexing. `Symbol` provides a flexible and powerful foundation for modeling complex systems across various domains. For more in-depth exploration of advanced features and custom extensions, please refer to the Advanced Tutorial and API Documentation.
 
-```

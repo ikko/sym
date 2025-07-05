@@ -18,8 +18,8 @@ graph TD
 
     style A fill:#92925a,stroke:#333,stroke-width:2px,color:#000000;
     style C fill:lighten(#910f48, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style D fill:lighten(#a5efdd, 30%),stroke:#333,stroke-width:2px,color:#000000;```
-
+    style D fill:lighten(#a5efdd, 30%),stroke:#333,stroke-width:2px,color:#000000;
+```
 2.  **`Scheduler`**: This class manages a collection of `ScheduledJob` instances. It operates in a separate thread, continuously monitoring the jobs and executing them when their `next_run` time arrives. The `Scheduler` uses a min-heap (`_schedule`) to efficiently retrieve the next job to be executed, ensuring timely processing. It also supports persistence, allowing the schedule to be saved to and loaded from a file, thus surviving application restarts.
 
     ```mermaid
@@ -32,8 +32,8 @@ graph TD
 
     style A fill:#ffaac1,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#ffaac1,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#ffaac1,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Illustrative Examples
 
 ### High-Tech Industry: Microservice Orchestration
@@ -66,8 +66,8 @@ graph TD
 
     style A fill:#7779f4,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#7779f4,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#7779f4,stroke:#333,stroke-width:2px,color:#000000;
+```
 ### Low-Tech Industry: Automated Report Generation
 
 For businesses, automated report generation is a common requirement. The `Symbol` scheduler can reliably handle tasks like generating daily sales reports, weekly inventory summaries, or monthly financial statements.
@@ -127,8 +127,8 @@ graph TD
     style C fill:lighten&#40;#12dde0, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#93dd47,stroke:#333,stroke-width:2px,color:#000000;
-    style C fill:lighten(#12dde0, 30%),stroke:#333,stroke-width:2px,color:#000000;```
-
+    style C fill:lighten(#12dde0, 30%),stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Conclusion
 
 The `Symbol` framework's scheduling capabilities provide a powerful and flexible foundation for automating tasks and orchestrating complex processes. By offering diverse scheduling options and robust job management, it empowers developers to build highly responsive and efficient systems, from sophisticated microservice deployments to routine business operations. The persistence feature further enhances its utility by ensuring that scheduled tasks are not lost across application lifecycles.

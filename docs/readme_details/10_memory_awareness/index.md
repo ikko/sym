@@ -55,8 +55,8 @@ graph TD
 
     style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## Proactive Memory Management for `context` Attribute via `deep_del`
 
 The `Symbol` class includes a `context` attribute, implemented as a `DefDict` &#40;a `defaultdict` of `defaultdict`s&#41;, which allows for flexible storage of arbitrary, often transient, data associated with a `Symbol` instance. To prevent memory accumulation from this dynamic storage, `Symbol` provides `clear_context&#40;&#41;` and utilizes the `deep_del` utility.
@@ -100,8 +100,8 @@ graph TD
 
     style A fill:#201f47,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:lighten(#201f47, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:lighten(#201f47, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## Conclusion
 
 Memory awareness is a fundamental aspect of the `Symbol` framework's design, ensuring its suitability for high-performance and long-running applications. Through GC-aware deletion, proactive management of dynamic attributes like `context`, and the strategic use of utilities like `deep_del`, `Symbol` minimizes its memory footprint and contributes to overall system stability. This commitment to efficient resource management allows developers to build complex symbolic systems without undue concern for memory-related performance bottlenecks.

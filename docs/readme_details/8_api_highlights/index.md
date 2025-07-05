@@ -33,8 +33,8 @@ graph TD
 
     style A fill:lighten&#40;#41c855, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#41c855, 30%),stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:lighten(#41c855, 30%),stroke:#333,stroke-width:2px,color:#000000;
+```
 ## `Symbol.next()`: Creates and Chains Auto-Numbered Symbols
 
 The `Symbol.next()` class method provides a convenient mechanism for generating a sequence of automatically numbered `Symbol` instances. This functionality is particularly useful for creating transient or placeholder symbols, or for scenarios where unique identifiers are required without the need for explicit naming. The method also implicitly establishes a linked-list-like chain between consecutively generated symbols, facilitating sequential traversal.
@@ -67,8 +67,8 @@ graph TD
 
     style A fill:lighten&#40;#26c4c6, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#26c4c6, 30%),stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:lighten(#26c4c6, 30%),stroke:#333,stroke-width:2px,color:#000000;
+```
 ## `symbol.append(child)` / `symbol.relate_to(other, how)`: Link Construction
 
 The `Symbol` framework provides intuitive methods for establishing relationships between symbolic entities, forming the edges of the underlying directed acyclic graph (DAG). `append(child)` creates a direct parent-child relationship, while `relate_to(other, how)` offers a more semantically rich way to define arbitrary connections, allowing for the specification of the nature of the relationship.
@@ -107,8 +107,8 @@ graph TD
     style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
-    style X fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style X fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## `symbol.tree()` / `.que()` / `.relate()`: Lazy Traversal
 
 The `Symbol` framework provides a suite of methods for traversing the underlying graph structure, designed with efficiency and flexibility in mind. `tree()` performs a depth-first traversal, `que()` (likely `queue` or `deque` based) performs a breadth-first traversal, and `relate()` (not explicitly shown in `symbol.py` but implied by `related_to` attribute) would allow traversal based on custom relationships. The "lazy" aspect implies that these traversals might not materialize the entire graph in memory at once, but rather yield elements as they are visited, which is crucial for large graphs.
@@ -167,8 +167,8 @@ graph TD
 
     style A fill:#1c06ab,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#1c06ab,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:#1c06ab,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## `symbol.patch(other)`: Recursive, Structural Deep Merge
 
 The `patch()` method provides a powerful mechanism for merging the structural and relational aspects of two `Symbol` instances. Unlike a simple overwrite, `patch()` performs a recursive, structural deep merge, intelligently combining the children, parents, and related entities of the `other` symbol into the current symbol. This operation is crucial for scenarios involving data synchronization, version control, or the aggregation of information from disparate sources within a graph.
@@ -213,8 +213,8 @@ graph TD
 
     style A fill:#681388,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#681388,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:#681388,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## `symbol.to_mmd()`: Outputs Tree Graph in Mermaid Diagram Syntax
 
 The `to_mmd()` method provides a direct utility for visualizing the hierarchical structure of a `Symbol` and its descendants in the widely adopted Mermaid diagram syntax. This capability is invaluable for documentation, debugging, and communicating complex graph structures in a human-readable and easily renderable format. It transforms the internal graph representation into a textual description that can be rendered by Mermaid-compatible tools.
@@ -258,8 +258,8 @@ graph TD
 
     style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## `symbol.to_ascii()`: Outputs ASCII Art Representation of Graphs
 
 Complementing `to_mmd()`, the `to_ascii()` method offers an alternative, text-based visualization of the `Symbol`'s graph structure. This is particularly useful for environments where graphical rendering is not available or desired, such as command-line interfaces, log files, or simple text-based reports. It provides a quick and accessible way to inspect the relationships between symbols.
@@ -302,8 +302,8 @@ graph TD
 
     style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## `symbol.delete()`: Removes Node and Its Inverse References
 
 The `delete()` method provides a mechanism for safely removing a `Symbol` instance from the graph. This operation is not merely a simple object deletion; it intelligently severs all incoming and outgoing relationships associated with the symbol. This includes removing the symbol from its parents' children lists and from its children's parents lists, ensuring graph consistency and preventing dangling references.
@@ -348,8 +348,8 @@ graph TD
 
     style A fill:#3ed964,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#3ed964,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#3ed964,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## `symbol.elevate()`: Promotes Metadata to Instance Attributes/Methods
 
 The `elevate()` method is a key component of the `Symbol` framework's memory-aware maturing process. It facilitates the transformation of dynamic metadata, initially stored in the `Symbol`'s `metadata` `DefDict`, into static, first-class instance attributes or methods. This promotion enhances performance by enabling direct attribute access, which is generally faster than dictionary lookups, and contributes to a more predictable object structure.
@@ -394,8 +394,8 @@ graph TD
 
     style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## `symbol.slim()`: Removes Unused Dynamically Applied Mixins
 
 The `slim()` method is another integral part of the `Symbol` framework's memory optimization strategy. Its primary function is to remove dynamically applied mixins or attributes that are no longer actively used or have been superseded by elevated metadata. This process helps in reducing the memory footprint of `Symbol` instances by cleaning up transient or redundant components, ensuring that the object retains only necessary attributes.
@@ -435,8 +435,8 @@ graph TD
 
     style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## `symbol.immute()`: Orchestrates Maturing Process (Elevate, Slim, Freeze)
 
 The `immute()` method serves as the orchestrator for the entire memory-aware maturing process. It encapsulates the sequential execution of `elevate()`, `slim()`, and `freeze()`, providing a single, atomic operation to transition a `Symbol` instance into its optimized, immutable state. This method is designed to be called when a `Symbol` has reached a stable point in its lifecycle, ensuring that its structure and behavior are finalized for performance and predictability.
@@ -482,8 +482,8 @@ graph TD
 
     style A fill:#f750dc,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#f750dc,stroke:#333,stroke-width:2px,color:#000000;```
-
+    style A fill:#f750dc,stroke:#333,stroke-width:2px,color:#000000;
+```
 ## `symbol.ref`: Alias for `symbol.origin` to Track Source Provenance
 
 The `ref` property serves as a convenient alias for `symbol.origin`, providing a standardized way to track the provenance or original source of a `Symbol` instance. This is particularly valuable in data lineage, auditing, or debugging scenarios where understanding the origin of a symbolic entity is crucial. By explicitly linking a `Symbol` to its source, the framework enhances traceability and data governance.
@@ -521,8 +521,8 @@ graph TD
 
     style A fill:#338880,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#338880,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style A fill:#338880,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 ## `Scheduler.add_job(job)`: Schedules a New Job for Execution
 
 The `Scheduler.add_job()` method is the primary interface for integrating tasks into the `Symbol` framework's scheduling system. It allows for the registration of `ScheduledJob` instances, which encapsulate a callable function, its arguments, and the specified execution schedule. This method is crucial for enabling automated, time-based execution of arbitrary functions, supporting both one-off and recurring tasks.
@@ -574,6 +574,6 @@ graph TD
     style C fill:#6b894b,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#92925a,stroke:#333,stroke-width:2px,color:#000000;
-    style C fill:#6b894b,stroke:#333,stroke-width:2px,color:#FFFFFF;```
-
+    style C fill:#6b894b,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
 For a comprehensive overview of the Symbol API, refer to the [API Overview Diagram](api_overview.mmd).
