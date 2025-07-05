@@ -4,19 +4,19 @@ The `Symbol` framework is meticulously designed with memory efficiency as a core
 
 ## GC-aware Deletion
 
-`Symbol` integrates with Python's garbage collection &#40;GC&#41; mechanisms to ensure that resources are released promptly when no longer needed. The `delete&#40;&#41;` method, when invoked on a `Symbol` instance, not only severs its explicit connections &#40;parents, children&#41; but also considers the broader GC context. The `MEMORY_AWARE_DELETE` flag, when enabled, further enhances this by attempting to proactively manage memory associated with the deleted symbol, although Python's GC ultimately handles the deallocation.
+`Symbol` integrates with Python's garbage collection &(GC&) mechanisms to ensure that resources are released promptly when no longer needed. The `delete&(&)` method, when invoked on a `Symbol` instance, not only severs its explicit connections &(parents, children&) but also considers the broader GC context. The `MEMORY_AWARE_DELETE` flag, when enabled, further enhances this by attempting to proactively manage memory associated with the deleted symbol, although Python's GC ultimately handles the deallocation.
 
 ### Mechanism
-- **`Symbol.delete&#40;&#41;`**: Clears references to and from the symbol &#40;children, parents, internal pools&#41;.
+- **`Symbol.delete&(&)`**: Clears references to and from the symbol &(children, parents, internal pools&).
 - **`MEMORY_AWARE_DELETE`**: A configuration flag that, when `True`, enables additional memory management considerations during deletion, such as attempting to remove the symbol from internal pools.
-- **`gc.collect&#40;&#41;`**: Explicit calls to the garbage collector are made in certain operations &#40;e.g., `slim&#40;&#41;`&#41; to encourage immediate cleanup of unreferenced objects.
+- **`gc.collect&(&)`**: Explicit calls to the garbage collector are made in certain operations &(e.g., `slim&(&)`&) to encourage immediate cleanup of unreferenced objects.
 
 ### Code Example
 ```python
 import gc
 from symbol import Symbol
 
-# Enable memory-aware deletion &#40;if not already enabled in config.py&#41;
+# Enable memory-aware deletion &(if not already enabled in config.py&)
 # Symbol.MEMORY_AWARE_DELETE = True # This would typically be set in a config file
 
 # Create some symbols and relationships
@@ -36,7 +36,7 @@ child1.delete()
 print(f"After delete: Root children: {[c.name for c in root.children]}")
 print(f"After delete: Child1 parents: {[p.name for p in child1.parents]}")
 
-# Explicitly run garbage collection to see immediate effects &#40;if any&#41;
+# Explicitly run garbage collection to see immediate effects &(if any&)
 gc.collect()
 print("Garbage collection run.")
 
@@ -59,12 +59,12 @@ graph TD
 ```
 ## Proactive Memory Management for `context` Attribute via `deep_del`
 
-The `Symbol` class includes a `context` attribute, implemented as a `DefDict` &#40;a `defaultdict` of `defaultdict`s&#41;, which allows for flexible storage of arbitrary, often transient, data associated with a `Symbol` instance. To prevent memory accumulation from this dynamic storage, `Symbol` provides `clear_context&#40;&#41;` and utilizes the `deep_del` utility.
+The `Symbol` class includes a `context` attribute, implemented as a `DefDict` &(a `defaultdict` of `defaultdict`s&), which allows for flexible storage of arbitrary, often transient, data associated with a `Symbol` instance. To prevent memory accumulation from this dynamic storage, `Symbol` provides `clear_context&(&)` and utilizes the `deep_del` utility.
 
 ### Mechanism
 - **`Symbol.context`**: A `DefDict` for storing arbitrary contextual data.
-- **`deep_del&#40;obj, attr&#41;`**: A utility function designed to recursively delete an attribute and its contents from an object. It aims to ensure that complex nested structures within `context` are properly unreferenced, making them eligible for garbage collection.
-- **`Symbol.clear_context&#40;&#41;`**: Iterates through the `context` `DefDict` and explicitly deletes each key-value pair, leveraging `deep_del` where appropriate to ensure thorough cleanup.
+- **`deep_del&(obj, attr&)`**: A utility function designed to recursively delete an attribute and its contents from an object. It aims to ensure that complex nested structures within `context` are properly unreferenced, making them eligible for garbage collection.
+- **`Symbol.clear_context&(&)`**: Iterates through the `context` `DefDict` and explicitly deletes each key-value pair, leveraging `deep_del` where appropriate to ensure thorough cleanup.
 
 ### Code Example
 ```python
@@ -100,7 +100,7 @@ graph TD
 
     style A fill:#201f47,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:lighten(#201f47, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#201f47,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## Conclusion
 

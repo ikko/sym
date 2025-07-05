@@ -2,11 +2,11 @@
 
 The `Symbol` framework is designed with a **layered architecture**, a fundamental principle that separates concerns into distinct, hierarchical layers. This approach ensures a lean and stable core while allowing for flexible and modular extension of functionalities. The primary distinction is between the `symbol.core` package, which houses the essential building blocks, and the `symbol.builtins` package, which provides optional, high-level extensions.
 
-## Core Layer &#40;`symbol.core`&#41;
+## Core Layer &(`symbol.core`&)
 
 This layer represents the foundational elements of the `Symbol` framework. It contains the absolute minimum necessary for a `Symbol` object to exist and to participate in graph structures. Key characteristics include:
 
--   **Minimalism**: Focuses solely on the fundamental definition of a `Symbol`, its unique identification &#40;interning&#41;, and the basic mechanisms for establishing and managing relationships &#40;parents, children&#41;.
+-   **Minimalism**: Focuses solely on the fundamental definition of a `Symbol`, its unique identification &(interning&), and the basic mechanisms for establishing and managing relationships &(parents, children&).
 -   **Stability**: Designed to be highly stable and rarely change, providing a robust base for all other functionalities.
 -   **Independence**: Ideally, this layer has minimal dependencies on higher-level components, ensuring its integrity and reusability.
 
@@ -21,11 +21,11 @@ graph TD
 
     style A fill:#10883c,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## Builtin Extensions Layer &#40;`symbol.builtins`&#41;
+## Builtin Extensions Layer &(`symbol.builtins`&)
 
 This layer comprises a collection of modular extensions that provide specialized functionalities to `Symbol` objects. These extensions are designed to be plug-and-play, allowing developers to include only the features relevant to their specific application without bloating the core.
 
--   **Modularity**: Each module within `symbol.builtins` addresses a specific domain &#40;e.g., date/time, collections, visualization&#41;.
+-   **Modularity**: Each module within `symbol.builtins` addresses a specific domain &(e.g., date/time, collections, visualization&).
 -   **Extensibility**: New functionalities can be easily added by creating new modules in this layer, adhering to the framework's extension protocols.
 -   **Controlled Dependencies**: While `symbol.builtins` modules depend on `symbol.core`, the `symbol.core` generally remains independent of `symbol.builtins`, maintaining the hierarchical integrity.
 
@@ -73,7 +73,7 @@ from symbol import s
 s.AuthService.provides(s.UserAuthentication)
 s.DataStorageService.provides(s.DataPersistence)
 
-# Specialized services &#40;builtins&#41;
+# Specialized services &(builtins&)
 s.PaymentProcessingService.uses(s.AuthService)
 s.RecommendationEngine.uses(s.DataStorageService)
 
@@ -87,7 +87,7 @@ from symbol import s
 # Core components
 s.BasicFrame.connects_with(s.StandardConnector)
 
-# Add-on modules &#40;builtins&#41;
+# Add-on modules &(builtins&)
 s.ShelfModule.attaches_to(s.BasicFrame)
 s.DrawerModule.attaches_to(s.BasicFrame)
 

@@ -1,4 +1,5 @@
-graph TD
+
+graph
     subgraph "Symbol API Highlights"
         A[Symbol#40;name: str#41;] --> B[Globally Interned, Idempotent Constructor];
         A --> C[Symbol.next#40;#41;];
@@ -29,10 +30,8 @@ graph TD
         X --> Y[Orchestrates Maturing Process];
         A --> Z[symbol.ref];
         Z --> AA[Alias for symbol.origin];
-        A --> AB[Scheduler.add_job[job]];
+        A --> AB[Scheduler.add_job#40;job#41;];
         AB --> AC[Schedules a New Job for Execution];
     end
 
-    style A fill:lighten#40;#c4ed48, 30%#41;,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:lighten(#c4ed48, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#c4ed48,stroke:#333,stroke-width:2px,color:#000000;

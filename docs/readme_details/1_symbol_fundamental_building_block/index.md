@@ -1,10 +1,10 @@
 # 1.1 Symbol: The Fundamental Building Block
 
-The `Symbol` object serves as the atomic unit within the framework, embodying a node in a dynamic, directed acyclic graph #40;DAG#41;. Its design prioritizes uniqueness, efficient relationship management, and extensibility, making it a versatile primitive for diverse symbolic data manipulation tasks.
+The `Symbol` object serves as the atomic unit within the framework, embodying a node in a dynamic, directed acyclic graph (DAG). Its design prioritizes uniqueness, efficient relationship management, and extensibility, making it a versatile primitive for diverse symbolic data manipulation tasks.
 
 ## Uniqueness and Interning
 
-Each `Symbol` instance is uniquely identified by its `name` attribute. This uniqueness is enforced through an interning mechanism, ensuring that `Symbol#40;'A'#41;` will always return the same object in memory as any subsequent call to `Symbol#40;'A'#41;`. This design choice offers significant advantages:
+Each `Symbol` instance is uniquely identified by its `name` attribute. This uniqueness is enforced through an interning mechanism, ensuring that `Symbol('A')` will always return the same object in memory as any subsequent call to `Symbol('A')`. This design choice offers significant advantages:
 
 -   **Memory Efficiency**: Prevents redundant object creation, reducing memory footprint, especially in large graphs with many identical symbolic representations.
 -   **Consistency**: Guarantees that operations on a symbol consistently refer to the same underlying entity, simplifying identity checks and graph integrity.
@@ -25,17 +25,17 @@ graph TD
 ```
 ## Complex Relationships and Graph Structure
 
-`Symbol` objects are designed to form complex relationships, acting as nodes in a directed acyclic graph #40;DAG#41;. Each `Symbol` maintains references to its `children` #40;symbols it points to#41; and `parents` #40;symbols that point to it#41;. This bidirectional linking facilitates efficient traversal and manipulation of the graph structure.
+`Symbol` objects are designed to form complex relationships, acting as nodes in a directed acyclic graph (DAG). Each `Symbol` maintains references to its `children` (symbols it points to) and `parents` (symbols that point to it). This bidirectional linking facilitates efficient traversal and manipulation of the graph structure.
 
 The framework provides intuitive methods for establishing and managing these relationships:
 
--   `symbol.add#40;child#41;`: Establishes a directed relationship from `symbol` to `child`. If the relationship already exists, it is idempotent.
--   `symbol.append#40;child#41;`: Similar to `add`, but ensures the child is added to the end of the children list if not already present.
--   `symbol.delete#40;#41;`: Removes a symbol from the graph, severing its connections to parents and children.
+-   `symbol.add(child)`: Establishes a directed relationship from `symbol` to `child`. If the relationship already exists, it is idempotent.
+-   `symbol.append(child)`: Similar to `add`, but ensures the child is added to the end of the children list if not already present.
+-   `symbol.delete()`: Removes a symbol from the graph, severing its connections to parents and children.
 
 ### Illustrative Example: Supply Chain Modeling
 
-Consider a supply chain where raw materials are transformed into finished goods. Each entity #40;e.g., "Supplier", "Manufacturer", "Product"#41; can be represented as a `Symbol`. Relationships like "supplies", "manufactures", or "contains" can be modeled by connecting these symbols.
+Consider a supply chain where raw materials are transformed into finished goods. Each entity (e.g., "Supplier", "Manufacturer", "Product") can be represented as a `Symbol`. Relationships like "supplies", "manufactures", or "contains" can be modeled by connecting these symbols.
 
 ```mermaid
 graph TD
@@ -80,9 +80,9 @@ google.add(london) # Google has an office in London
 alice.add(conference) # Alice attends the conference
 conference.add(london) # Conference is in London
 
-# Traverse and visualize #40;conceptual#41;
-# print#40;alice.tree#40;#41;#41;
-# print#40;google.to_mmd#40;#41;#41;
+# Traverse and visualize (conceptual)
+# print(alice.tree())
+# print(google.to_mmd())
 ```
 
 ### Industry Applications
@@ -101,7 +101,7 @@ print(f"Paper A title: {s.Paper_A.children[0].name}")
 print(f"Author of Paper A: {s.Paper_A.children[1].name}")
 ```
 
-**Low-Tech: Inventory Management and Bill of Materials #40;BOM#41;**
+**Low-Tech: Inventory Management and Bill of Materials (BOM)**
 ```python
 from symbol import s
 

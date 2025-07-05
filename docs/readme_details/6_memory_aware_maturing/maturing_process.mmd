@@ -8,27 +8,5 @@ graph TD
         F -- "Prevents Further Changes" --> G[Immutable, Production-Ready Symbol];
     end
 
-    subgraph "Key Components"
-        H[Symbol.metadata #40;DefDict#41;] --> I[Dynamic Key-Value Store];
-        J[deep_del#40;#41;] --> K[Recursive Attribute Deletion];
-        L[gc.collect#40;#41;] --> M[Explicit Garbage Collection];
-        N[_apply_merge_strategy[]] --> O[Handles Attribute Overwrites];
-    end
 
-    subgraph "Benefits"
-        P[Reduced Memory Footprint] --> Q[Efficient Resource Usage];
-        R[Improved Performance] --> S[Faster Access to Static Attributes];
-        T[Enhanced Stability] --> U[Predictable Behavior in Production];
-        V[Clear Lifecycle Management] --> W[Defined State Transitions];
-    end
-    style V fill:lighten#40;#05ac1f, 30%#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
-
-    style A fill:lighten(#c66115, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style H fill:lighten(#592daf, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style J fill:#28db32,stroke:#333,stroke-width:2px,color:#000000;
-    style L fill:#b54446,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style N fill:lighten(#67f134, 30%),stroke:#333,stroke-width:2px,color:#000000;
-    style P fill:lighten(#70f9e7, 30%),stroke:#333,stroke-width:2px,color:#000000;
-    style R fill:#ac748e,stroke:#333,stroke-width:2px,color:#000000;
-    style T fill:#b643f9,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style V fill:lighten(#05ac1f, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#c66115,stroke:#333,stroke-width:2px,color:#FFFFFF;

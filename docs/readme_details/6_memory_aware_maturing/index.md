@@ -90,7 +90,7 @@ graph TD
 
     style A fill:#8aae75, 30%);,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#8aae75, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#8aae75,stroke:#333,stroke-width:2px,color:#000000;
 ```
 ### Low-Tech Industry: Financial Transaction Processing
 ```python
@@ -131,7 +131,7 @@ graph TD
 
     style A fill:#4481b3, 30%);,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:lighten(#4481b3, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#4481b3,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## Conclusion
 

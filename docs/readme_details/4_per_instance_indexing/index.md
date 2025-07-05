@@ -4,7 +4,7 @@ The `Symbol` framework introduces the concept of **per-instance indexing**, wher
 
 ## The `SymbolIndex` Mechanism
 
-At the heart of per-instance indexing is the `SymbolIndex` class, located in `symbol/builtins/index.py`. Each `Symbol` instance is initialized with its own `SymbolIndex` object &#40;as seen in `symbol/core/symbol.py` within the `__new__` method&#41;. This `SymbolIndex` acts as a localized, internal data store for the `Symbol`, allowing it to maintain a structured collection of references to other `Symbol` instances, potentially with associated weights or metadata.
+At the heart of per-instance indexing is the `SymbolIndex` class, located in `symbol/builtins/index.py`. Each `Symbol` instance is initialized with its own `SymbolIndex` object &(as seen in `symbol/core/symbol.py` within the `__new__` method&). This `SymbolIndex` acts as a localized, internal data store for the `Symbol`, allowing it to maintain a structured collection of references to other `Symbol` instances, potentially with associated weights or metadata.
 
 ```mermaid
 graph TD
@@ -28,7 +28,7 @@ graph TD
 
 ### Code Example: Product Configuration with Weighted Features
 
-Imagine a product configurator where a `Product` symbol needs to index its `Features` with associated `weights` &#40;e.g., importance, cost impact&#41;.
+Imagine a product configurator where a `Product` symbol needs to index its `Features` with associated `weights` &(e.g., importance, cost impact&).
 
 ```python
 from symbol import Symbol
@@ -40,7 +40,7 @@ feature_ssd = s.SSD
 feature_ram = s.RAM
 feature_gpu = s.GPU
 
-# Initialize SymbolIndex for the product &#40;this happens automatically in Symbol.__new__&#41;
+# Initialize SymbolIndex for the product &(this happens automatically in Symbol.__new__&)
 # product_laptop.index = SymbolIndex(product_laptop) # Conceptual, already done
 
 # Insert features into the product's private index with weights
@@ -48,12 +48,12 @@ product_laptop.index.insert(feature_ssd, weight=0.8) # High importance
 product_laptop.index.insert(feature_ram, weight=0.6) # Medium importance
 product_laptop.index.insert(feature_gpu, weight=0.9) # Very high importance
 
-# Traverse the product's index &#40;e.g., by weight&#41;
+# Traverse the product's index &(e.g., by weight&)
 print("Laptop features by importance:")
 for feature_sym in product_laptop.index.traverse(order="in"):
-    print(f"- {feature_sym.name} &#40;Weight: {product_laptop.index._function_map[feature_sym.name].eval_weight()}&#41;")
+    print(f"- {feature_sym.name} &(Weight: {product_laptop.index._function_map[feature_sym.name].eval_weight()}&)")
 
-# Rebalance the index based on weight &#40;conceptual, SymbolIndex supports this&#41;
+# Rebalance the index based on weight &(conceptual, SymbolIndex supports this&)
 # product_laptop.index.rebalance(strategy='weight')
 ```
 

@@ -17,8 +17,8 @@ graph TD
     style D fill:lighten&#40;#896807, 30%&#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#92925a,stroke:#333,stroke-width:2px,color:#000000;
-    style C fill:lighten(#910f48, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style D fill:lighten(#a5efdd, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#910f48,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style D fill:#a5efdd,stroke:#333,stroke-width:2px,color:#000000;
 ```
 2.  **`Scheduler`**: This class manages a collection of `ScheduledJob` instances. It operates in a separate thread, continuously monitoring the jobs and executing them when their `next_run` time arrives. The `Scheduler` uses a min-heap (`_schedule`) to efficiently retrieve the next job to be executed, ensuring timely processing. It also supports persistence, allowing the schedule to be saved to and loaded from a file, thus surviving application restarts.
 
@@ -127,7 +127,7 @@ graph TD
     style C fill:lighten&#40;#12dde0, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#93dd47,stroke:#333,stroke-width:2px,color:#000000;
-    style C fill:lighten(#12dde0, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#12dde0,stroke:#333,stroke-width:2px,color:#000000;
 ```
 ## Conclusion
 

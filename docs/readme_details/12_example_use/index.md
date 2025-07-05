@@ -139,7 +139,7 @@ graph LR
     style C fill:lighten&#40;#283d9e, 30%&#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#da417d,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style C fill:lighten(#283d9e, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#283d9e,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## Scheduler Example
 
@@ -181,8 +181,8 @@ graph TD
     E -- "Executes at time" --> A;
     style C fill:lighten&#40;#dfceac, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#7c2ccd, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style C fill:lighten(#b83750, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#7c2ccd,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#b83750,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## Conclusion
 

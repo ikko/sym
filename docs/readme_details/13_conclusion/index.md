@@ -1,10 +1,10 @@
 # Conclusion: The Symbol Framework - A Foundation for Advanced Data Structures
 
-The `Symbol` framework stands as a testament to the power of well-designed abstractions in managing complex data. It provides a high-performance, semantically rich, and thread-safe symbol abstraction, serving as a robust foundation for building sophisticated systems such as Domain-Specific Languages &#40;DSLs&#41;, runtime graphs, knowledge trees, and dynamic semantic layers. The core design principles emphasize structural clarity, cache efficiency, and symbolic extensibility, making it a versatile tool for modern software engineering challenges.
+The `Symbol` framework stands as a testament to the power of well-designed abstractions in managing complex data. It provides a high-performance, semantically rich, and thread-safe symbol abstraction, serving as a robust foundation for building sophisticated systems such as Domain-Specific Languages &(DSLs&), runtime graphs, knowledge trees, and dynamic semantic layers. The core design principles emphasize structural clarity, cache efficiency, and symbolic extensibility, making it a versatile tool for modern software engineering challenges.
 
 ## High-Performance and Thread-Safe Abstraction
 
-`Symbol` achieves high performance through its O(1) instantiation &#40;via interning&#41; and efficient relationship linking. The underlying mechanisms, such as Python's native list operations and optimized data structures for indexing, contribute to its speed. Furthermore, the framework is designed to be thread-safe, ensuring consistent behavior and data integrity in concurrent environments, which is crucial for multi-threaded applications and distributed systems.
+`Symbol` achieves high performance through its O(1) instantiation &(via interning&) and efficient relationship linking. The underlying mechanisms, such as Python's native list operations and optimized data structures for indexing, contribute to its speed. Furthermore, the framework is designed to be thread-safe, ensuring consistent behavior and data integrity in concurrent environments, which is crucial for multi-threaded applications and distributed systems.
 
 ### Diagram: Performance & Thread Safety
 ```mermaid
@@ -24,7 +24,7 @@ graph TD
 
 `Symbol`'s ability to represent unique entities and their relationships makes it an ideal candidate for constructing various advanced data structures:
 
--   **Domain-Specific Languages &#40;DSLs&#41;**: By mapping domain concepts to `Symbol` instances and their relationships, developers can create intuitive and expressive DSLs. This allows domain experts to define complex rules and structures using a language tailored to their specific problem space.
+-   **Domain-Specific Languages &(DSLs&)**: By mapping domain concepts to `Symbol` instances and their relationships, developers can create intuitive and expressive DSLs. This allows domain experts to define complex rules and structures using a language tailored to their specific problem space.
 -   **Runtime Graphs**: `Symbol` facilitates the dynamic creation and manipulation of graphs at runtime. This is invaluable for applications requiring flexible data models, such as network topologies, dependency graphs, or process flows.
 -   **Knowledge Trees**: The hierarchical and relational capabilities of `Symbol` make it suitable for building knowledge representation systems. Concepts, facts, and their interconnections can be modeled as symbols and relationships, forming a navigable knowledge base.
 

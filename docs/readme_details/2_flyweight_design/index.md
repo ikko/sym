@@ -4,7 +4,7 @@ NThe `Symbol` framework leverages the **Flyweight design pattern** to ensure the
 
 ## Core Principle: Shared Intrinsic State
 
-In the context of `Symbol`, the intrinsic state—the `name` of the symbol—is shared. When a request is made to create a `Symbol` with a specific name &#40;e.g., `Symbol&#40;'apple'&#41;`&#41;, the system first checks if a `Symbol` with that name already exists in a central pool. If it does, the existing instance is returned; otherwise, a new instance is created and added to the pool.
+In the context of `Symbol`, the intrinsic state—the `name` of the symbol—is shared. When a request is made to create a `Symbol` with a specific name &(e.g., `Symbol&('apple'&)`&), the system first checks if a `Symbol` with that name already exists in a central pool. If it does, the existing instance is returned; otherwise, a new instance is created and added to the pool.
 
 ```mermaid
 graph TD
@@ -18,12 +18,12 @@ graph TD
 
     style A fill:lighten&#40;#fe6266, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#fe6266, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#fe6266,stroke:#333,stroke-width:2px,color:#000000;
 ```
 ## Advantages of Flyweight in Symbol
 
--   **Memory Efficiency**: By ensuring that only one instance of a `Symbol` exists for each unique name, the framework drastically reduces memory consumption, especially in applications dealing with vast numbers of symbolic representations &#40;e.g., large knowledge graphs, extensive ontologies&#41;.
--   **Consistency and Identity**: The Flyweight pattern guarantees referential equality for symbols with the same name. This means `Symbol&#40;'A'&#41; is Symbol&#40;'A'&#41;` will always evaluate to `True`, simplifying identity checks and ensuring that all references to a particular concept point to the exact same object.
+-   **Memory Efficiency**: By ensuring that only one instance of a `Symbol` exists for each unique name, the framework drastically reduces memory consumption, especially in applications dealing with vast numbers of symbolic representations &(e.g., large knowledge graphs, extensive ontologies&).
+-   **Consistency and Identity**: The Flyweight pattern guarantees referential equality for symbols with the same name. This means `Symbol&('A'&) is Symbol&('A'&)` will always evaluate to `True`, simplifying identity checks and ensuring that all references to a particular concept point to the exact same object.
 -   **Performance**: Reduced object creation overhead and direct memory address comparisons contribute to faster operations, particularly in graph traversal and relationship management.
 
 ### Code Example: Demonstrating Flyweight Behavior
@@ -42,13 +42,13 @@ print(f"sym3: {sym3}")
 print(f"Are sym1 and sym2 the same object? {sym1 is sym2}") # Expected: True
 print(f"Are sym1 and sym3 the same object? {sym1 is sym3}") # Expected: False
 
-# Verify internal pool size &#40;conceptual, not directly exposed in public API&#41;
-# assert len&#40;Symbol._pool&#41; == 2 # Only 'product_id_123' and 'user_session_abc' should be in the pool
+# Verify internal pool size &(conceptual, not directly exposed in public API&)
+# assert len&(Symbol._pool&) == 2 # Only 'product_id_123' and 'user_session_abc' should be in the pool
 ```
 
 ### Industry Applications
 
-**High-Tech: Compiler Design and Abstract Syntax Trees &#40;ASTs&#41;**
+**High-Tech: Compiler Design and Abstract Syntax Trees &(ASTs&)**
 ```python
 from symbol import s
 
@@ -58,8 +58,8 @@ literal_zero_2 = s.Literal_0
 variable_x_1 = s.Variable_X
 variable_x_2 = s.Variable_X
 
-print(f"Literal 0 &#40;1&#41; is Literal 0 &#40;2&#41;: {literal_zero_1 is literal_zero_2}")
-print(f"Variable X &#40;1&#41; is Variable X &#40;2&#41;: {variable_x_1 is variable_x_2}")
+print(f"Literal 0 &(1&) is Literal 0 &(2&): {literal_zero_1 is literal_zero_2}")
+print(f"Variable X &(1&) is Variable X &(2&): {variable_x_1 is variable_x_2}")
 ```
 
 **Low-Tech: Document Processing and Word Processors**

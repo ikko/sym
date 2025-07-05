@@ -1,36 +1,36 @@
-graph TD
+graph LR
     subgraph "Symbol Performance Characteristics"
-        A[O#40;1#41; Symbol Instantiation] --> B[Intern Pool [Flyweight Pattern]];
-        A --> C[Memory Efficiency];
+        A["O(1) Symbol Instantiation"] --> B["Intern Pool [Flyweight Pattern]"];
+        A --> C["Memory Efficiency"];
 
-        D[O#40;1#41; Relationship Linking] --> E[Direct List Appends];
-        D --> F[Optimized for Graph Building];
+        D["O(1) Relationship Linking"] --> E["Direct List Appends"];
+        D --> F["Optimized for Graph Building"];
 
-        G[O#40;1#41; Traversal with Cache] --> H[Cached Lengths];
-        G --> I[Float-based Cursor Insertion];
-        G --> J[Efficient Graph Navigation];
+        G["O(1) Traversal with Cache"] --> H["Cached Lengths"];
+        G --> I["Float-based Cursor Insertion"];
+        G --> J["Efficient Graph Navigation"];
 
-        K[O#40;log n#41; Insert/Search] --> L[Bisect-based Insertion Order];
-        K --> M[Balanced Trees #40;AVL/Red-Black#41;];
-        K --> N[Scalable Indexing];
+        K["O(log n) Insert/Search"] --> L["Bisect-based Insertion Order"];
+        K --> M["Balanced Trees (AVL/Red-Black)"];
+        K --> N["Scalable Indexing"];
     end
 
     subgraph "Underlying Mechanisms"
-        O[Symbol._pool] --> B;
-        P[Symbol.children/parents] --> E;
-        Q[GraphTraversal] --> H;
-        R[Symbol._write_cursor] --> I;
-        S[SymbolIndex] --> L;
-        T[AVLTree/RedBlackTree] --> M;
+        O["Symbol._pool"] --> B;
+        P["Symbol.children/parents"] --> E;
+        Q["GraphTraversal"] --> H;
+        R["Symbol._write_cursor"] --> I;
+        S["SymbolIndex"] --> L;
+        T["AVLTree/RedBlackTree"] --> M;
     end
     style T fill:#91f7a3,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#a05fb8, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style D fill:lighten(#a22f9f, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style G fill:lighten(#d3de02, 30%),stroke:#333,stroke-width:2px,color:#000000;
-    style K fill:lighten(#b42f90, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#a05fb8,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style D fill:#a22f9f,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style G fill:#d3de02,stroke:#333,stroke-width:2px,color:#000000;
+    style K fill:#b42f90,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style O fill:#9dd027,stroke:#333,stroke-width:2px,color:#000000;
-    style P fill:lighten(#4872ad, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style P fill:#4872ad,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style Q fill:#eaa451,stroke:#333,stroke-width:2px,color:#000000;
     style R fill:#9ee31b,stroke:#333,stroke-width:2px,color:#000000;
     style S fill:#426e94,stroke:#333,stroke-width:2px,color:#FFFFFF;

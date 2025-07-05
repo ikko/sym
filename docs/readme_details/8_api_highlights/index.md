@@ -33,7 +33,7 @@ graph TD
 
     style A fill:lighten&#40;#41c855, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#41c855, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#41c855,stroke:#333,stroke-width:2px,color:#000000;
 ```
 ## `Symbol.next()`: Creates and Chains Auto-Numbered Symbols
 
@@ -67,7 +67,7 @@ graph TD
 
     style A fill:lighten&#40;#26c4c6, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:lighten(#26c4c6, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#26c4c6,stroke:#333,stroke-width:2px,color:#000000;
 ```
 ## `symbol.append(child)` / `symbol.relate_to(other, how)`: Link Construction
 
