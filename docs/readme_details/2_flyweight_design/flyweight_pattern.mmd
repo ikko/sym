@@ -1,7 +1,7 @@
-graph LR
+graph TB
     subgraph "Flyweight Pattern for Symbol Instantiation"
-        A[Client] --> B[Symbol Factory [Symbol.__new__]];
-        B -- "Request Symbol['Name']" --> C[Symbol Pool [Symbol._pool]];
+        A[Client] --> B[Symbol Factory: Symbol.__new__];
+        B -- "Request Symbol['Name']" --> C[Symbol Pool - Symbol._pool];
         C -- "Check if 'Name' exists" --> D{Exists?};
         D -- "Yes" --> E[Return Existing Symbol Instance];
         D -- "No" --> F[Create New Symbol Instance];

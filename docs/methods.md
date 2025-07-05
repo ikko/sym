@@ -75,7 +75,7 @@ Last Modified: 2025-07-01 12:00:00 (timedelta: 0:00:00)
   - Method: `OrderedSymbolSet.__contains__(self, sym)`
     Summary: Checks if a Symbol object is present in the set.
 
-### File: `symbol/builtins/datetime.py`
+### File: `symbol/builtins/time_dim.py`
 Lines: 90
 Bytes: 2400
 Estimated Tokens: 600

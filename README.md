@@ -84,7 +84,7 @@ graph TD
     C --> E[symbol.core.symbol]
     C --> F[symbol.core.graph]
     C --> G[symbol.core.schedule]
-    D --> H[symbol.builtins.datetime]
+    D --> H[symbol.builtins.time_dim]
     D --> I[symbol.builtins.collections]
     D --> J[symbol.builtins.index]
     D --> K[symbol.builtins.path]
@@ -123,7 +123,7 @@ graph TD
 
     subgraph "Builtin Extensions"
         C --> C1[symbol.builtins.collections]
-        C --> C2[symbol.builtins.datetime]
+        C --> C2[symbol.builtins.time_dim]
         C --> C3[symbol.builtins.index]
         C --> C4[symbol.builtins.path]
         C --> C5[symbol.builtins.visual]
