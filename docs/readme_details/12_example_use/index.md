@@ -102,17 +102,19 @@ print(timeline1.to_ascii())
 - `to_ascii()`: Visualizes the timeline using ASCII art, providing a quick textual representation of the time periods.
 
 ### Diagram
+
 ```mermaid
-graph LR
-    A[Timeline 1] -- "Period 1" --> B#402023-01-01 to 2023-01-15#41;
-    A -- "Period 2" --> C#402023-01-10 to 2023-01-20#41;
-    X[Timeline 2] -- "Period 3" --> Y#402023-01-05 to 2023-01-12#41;
-    A -- "overlap#40#41" --> Z[Overlap Periods];
+graph TD
+    A[Timeline 1] -- "Period 1" --> B[2023-01-01_to_2023-01-15]
+    A -- "Period 2" --> C[2023-01-10_to_2023-01-20]
+    X[Timeline 2] -- "Period 3" --> Y[2023-01-05_to_2023-01-12]
+    A -- "overlap()" --> Z[Overlap Periods];
     style X fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style X fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
+
 ## Batch Processing Example
 
 This example demonstrates a simple batch processing utility, showcasing how `Symbol` can be used in conjunction with functional programming paradigms to apply a given function to a collection of inputs. While `Symbol` itself is not a batch processing engine, its extensibility allows for the integration of such utilities.
@@ -133,11 +135,11 @@ print(f"Batch processing results: {results}")
 ### Diagram
 ```mermaid
 graph LR
-    A[Input List] --> B{process_batch#40#41};
-    C[Function #40e.g., square#41] --> B;
+    A[Input List] --> B{process_batch#40;#41;};
+    C[Function #40;e.g., square#41;] --> B;
     B --> D[Processed Results];
-    style C fill:lighten#40#283d9e, 30%#41,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
+    style C fill:#283d9e,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style A fill:#da417d,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style C fill:#283d9e,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
@@ -174,12 +176,12 @@ scheduler.stop()
 ### Diagram
 ```mermaid
 graph TD
-    A[Function #40my_task#41] --> B[ScheduledJob];
-    C[Schedule #40pendulum.DateTime#41] --> B;
-    B --> D[Scheduler.add_job#40#41];
-    D --> E[Scheduler.start#40#41];
+    A[Function #40;my_task#41;] --> B[ScheduledJob];
+    C[Schedule #40;time_dim.DateTime#41;] --> B;
+    B --> D[Scheduler.add_job#40;#41;];
+    D --> E[Scheduler.start#40;#41;];
     E -- "Executes at time" --> A;
-    style C fill:lighten#40#dfceac, 30%#41,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#dfceac,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#7c2ccd,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style C fill:#b83750,stroke:#333,stroke-width:2px,color:#FFFFFF;

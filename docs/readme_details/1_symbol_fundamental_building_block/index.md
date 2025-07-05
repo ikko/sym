@@ -1,3 +1,8 @@
+# `«symbol»`
+
+> - Imagine `symbol` like a pointer that does not point to anything. 
+> - Imagine `symbols` as a knowledge meta-network layer that represent semantic information about your entities and objects.
+
 # 1.1 Symbol: The Fundamental Building Block
 
 The `Symbol` object serves as the atomic unit within the framework, embodying a node in a dynamic, directed acyclic graph (DAG). Its design prioritizes uniqueness, efficient relationship management, and extensibility, making it a versatile primitive for diverse symbolic data manipulation tasks.

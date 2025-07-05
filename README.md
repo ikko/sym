@@ -1,21 +1,18 @@
-# «symbol»
+# `«symbol»`
 **A Framework for Symbolic Data Manipulation**
 
 _inspired by ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)_
 
-> `symbol.py` — A Lazy, Graph-Oriented, Immutable Symbol Concept for Domain-Specific Abstraction
+> `symbol.py` — A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction
 
 ## What is Symbol?
 
 **Symbol** is a namespace fsl, where dsl means (domain specific language). It is a Python framework for creating, manipulating, and analyzing complex, graph-based data structures. It provides a versatile `Symbol` object that serves as a node in a dynamic, directed acyclic graph (DAG). The framework is designed to be lean, modular, and extensible, making it suitable for a wide range of applications, from data science and AI to domain-specific modeling.
 
 
-
-
-
 ## Core Concepts
 
--   **«symbol»**: The fundamental building block. Each symbol has a unique name and can be connected to other symbols, forming complex relationships.
+-   **`«symbol»`**: The fundamental building block. Each symbol has a unique name and can be connected to other symbols, forming complex relationships.
 -   **Flyweight Design**: Symbols are unique. `Symbol('a')` will always return the same object, saving memory and ensuring consistency.
 -   **Layered Architecture**: The core is minimal. Functionality is added through modular, "builtin" extensions for features like date/time handling, advanced collections, and visualization.
 -   **Per-Instance Indexing**: Every symbol has its own private, weighted index of other symbols, allowing for the creation of sophisticated, nested data structures.
