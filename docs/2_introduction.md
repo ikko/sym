@@ -40,8 +40,17 @@ assert project_alpha is project_alpha_again
 Symbols can be linked to form directed graphs, representing relationships like parent-child, dependency, or containment. The `append()` method establishes a one-way link, automatically managing bidirectional references.
 
 ```python
+from symbol.core.symbol import Symbol, s
+from symbol.builtins import apply_builtins
+
+apply_builtins()
+
 # Example: Project Management (Business Services)
 # Modeling project phases and tasks
+
+project_alpha = Symbol("ProjectAlpha")
+task_design = Symbol("TaskDesign")
+task_development = s.TaskDevelopment
 
 project_alpha.append(task_design)
 project_alpha.append(task_development)
@@ -78,6 +87,7 @@ graph TD
 The `apply_builtins()` function integrates a set of standard mixins, providing common functionalities like time dimension handling, indexing, and pathfinding.
 
 ```python
+from symbol.core.symbol import Symbol
 from symbol.builtins import apply_builtins
 
 apply_builtins()
@@ -117,6 +127,11 @@ graph TD
 With the pathfinding mixin, you can easily find paths between connected Symbols, useful for dependency analysis or tracing flows.
 
 ```python
+from symbol import s
+from symbol.builtins import apply_builtins
+
+apply_builtins()
+
 # Example: Supply Chain Logistics (Transportation and Logistics)
 # Tracing a product's journey through a supply chain
 

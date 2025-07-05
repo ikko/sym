@@ -18,7 +18,7 @@ class SymbolTimeDimMixin:
     @staticmethod
     def _sorted_by_time(symbol_cls: type[Symbol]) -> list['Symbol']:
         # _parse_timestamp is an instance method, so it must be called on an instance 's'
-        return sorted(symbol_cls._numbered, key=lambda s: s._parse_timestamp())
+        return sorted(Symbol._numbered, key=lambda s: s._parse_timestamp())
 
     @property
     def time_head(self) -> 'SymbolHeadTailView':

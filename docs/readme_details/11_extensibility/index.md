@@ -13,31 +13,31 @@ To ensure that any callable object can be consistently used within the `Symbol` 
 ```python
 from symbol import Symbol
 from typing import Protocol, Any, Union, Awaitable
+from symbol.core.mixinability import register_mixin
 
 # Define a custom Symbolable class
 class MyCustomAction(Protocol):
     def __call__(self, *args: Any, **kwargs: Any) -> Union[Any, Awaitable[Any]]:
         ...
 
-class LogAction:
-    def __call__(self, message: str):
+class LogActionMixin:
+    def log_message(self, message: str):
         print(f"[LOG] {message}")
 
-class CalculateSum:
-    def __call__(self, a: int, b: int) -> int:
+class CalculateSumMixin:
+    def calculate_sum(self, a: int, b: int) -> int:
         return a + b
 
-# Integrate Symbolable objects with Symbol (conceptual)
-# In a real scenario, these might be attached as mixins or used in Symbol's context
-log_symbol = Symbol('Logger')
-log_symbol.action = LogAction()
+# Register mixins
+register_mixin(LogActionMixin, expand=True)
+register_mixin(CalculateSumMixin, expand=True)
 
+log_symbol = Symbol('Logger')
 calc_symbol = Symbol('Calculator')
-calc_symbol.add_func = CalculateSum()
 
 # Using the integrated Symbolable objects
-log_symbol.action("Application started.")
-result = calc_symbol.add_func(10, 20)
+log_symbol.log_message("Application started.")
+result = calc_symbol.calculate_sum(10, 20)
 print(f"Calculation result: {result}")
 ```
 
@@ -75,7 +75,7 @@ class AsyncDataFetcher(MixinFunction):
         return f"Data from {url}"
 
 # Register the mixin
-register_mixin(Symbol, "fetch_data", AsyncDataFetcher())
+register_mixin(AsyncDataFetcher, expand=True)
 
 # Use the mixin
 async def main():
@@ -112,6 +112,7 @@ To dynamically change the logical interpretation or behavior of a `Symbol` insta
 ```python
 from symbol import Symbol
 from symbol.core.mixinability import register_mixin
+from symbol.builtins import apply_builtins
 
 # Define mixins for different logical structures
 class DatabaseRecordMixin:
@@ -129,10 +130,10 @@ class NetworkEndpointMixin:
         print(f"Receiving response for {self.name}.")
 
 # Register mixins
-register_mixin(Symbol, "save", DatabaseRecordMixin().save)
-register_mixin(Symbol, "load", DatabaseRecordMixin().load)
-register_mixin(Symbol, "send_request", NetworkEndpointMixin().send_request)
-register_mixin(Symbol, "receive_response", NetworkEndpointMixin().receive_response)
+register_mixin(DatabaseRecordMixin, expand=True)
+register_mixin(NetworkEndpointMixin, expand=True)
+
+apply_builtins()
 
 # Create a symbol and apply behaviors dynamically
 db_entity = Symbol('UserAccount')
@@ -168,6 +169,9 @@ To easily convert `enum` members into `Symbol` instances and to allow external D
 ```python
 from symbol import Symbol
 import enum
+from symbol.builtins import apply_builtins
+
+apply_builtins()
 
 # Enum Reflection
 class TrafficLight(enum.Enum):
@@ -202,6 +206,7 @@ print("\nDSL-defined graph:")
 for sym in user_sym.tree():
     print(sym.name)
 ```
+
 
 ### Diagram
 ```mermaid

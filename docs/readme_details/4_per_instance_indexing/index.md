@@ -31,8 +31,10 @@ graph TD
 Imagine a product configurator where a `Product` symbol needs to index its `Features` with associated `weights` &(e.g., importance, cost impact&).
 
 ```python
-from symbol import Symbol
-from symbol.builtins.index import SymbolIndex
+from symbol import Symbol, s
+from symbol.builtins import apply_builtins
+
+apply_builtins()
 
 # Create product and feature symbols
 product_laptop = s.Laptop
@@ -62,7 +64,9 @@ for feature_sym in product_laptop.index.traverse(order="in"):
 **High-Tech: Recommendation Systems**
 ```python
 from symbol import s
-from symbol.builtins.index import SymbolIndex
+from symbol.builtins import apply_builtins
+
+apply_builtins()
 
 # User and Product symbols
 user_alice = s.Alice
@@ -79,7 +83,9 @@ print(f"Alice's liked items: {[item.name for item in user_alice.index.traverse()
 **Low-Tech: Library Cataloging and Cross-Referencing**
 ```python
 from symbol import s
-from symbol.builtins.index import SymbolIndex
+from symbol.builtins import apply_builtins
+
+apply_builtins()
 
 # Book and Keyword symbols
 book_history = s.History_of_Time

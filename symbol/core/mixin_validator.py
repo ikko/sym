@@ -38,7 +38,7 @@ class MixinValidationResult:
 def validate_mixin_callable(func: Callable[..., Any]) -> MixinValidationResult:
     """Validates a mixin callable for adherence to the Symbol's mixin interface."""
     errors = []
-    warnings = []
+    validation_warnings = []
 
     source_code = None
     try:
@@ -79,20 +79,20 @@ def validate_mixin_callable(func: Callable[..., Any]) -> MixinValidationResult:
             if not func_node.asynchronous:
                 errors.append(f"Async mixin function {func.__name__} is not marked as 'async' in its definition.")
         elif func_node.asynchronous:
-            warnings.append(f"Sync mixin function {func.__name__} is marked as 'async' but is not a coroutine function.")
+            validation_warnings.append(f"Sync mixin function {func.__name__} is marked as 'async' but is not a coroutine function.")
 
         # Check for forbidden imports/operations (example: direct file system access)
         # This would require a more sophisticated visitor pattern with LibCST
         # For now, a simple check for common problematic modules
         # This is a placeholder for more advanced static analysis.
         if "import os" in source_code or "import subprocess" in source_code:
-            warnings.append("Mixin contains potentially unsafe imports (os, subprocess). Review carefully.")
+            validation_warnings.append("Mixin contains potentially unsafe imports (os, subprocess). Review carefully.")
 
         # Check for return type annotation (optional but good practice)
         if not func_node.returns:
-            warnings.append(f"Mixin function {func.__name__} has no return type annotation.")
+            validation_warnings.append(f"Mixin function {func.__name__} has no return type annotation.")
 
     except Exception as e:
         errors.append(f"Unexpected error during mixin validation logic: {repr(e)}")
 
-    return MixinValidationResult(not errors, errors=errors, warnings=warnings)
+    return MixinValidationResult(not errors, errors=errors, warnings=validation_warnings)

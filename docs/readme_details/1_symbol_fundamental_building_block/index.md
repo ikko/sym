@@ -94,7 +94,29 @@ conference.add(london) # Conference is in London
 
 **High-Tech: Semantic Web and Knowledge Graphs**
 ```python
-from symbol import s
+from symbol import s, Symbol
+from symbol.core.mixinability import register_mixin
+from symbol.core.protocols import SymbolProtocol
+from symbol.builtins import apply_builtins
+
+class KnowledgeGraphMixin(SymbolProtocol):
+    def has_title(self, title: Symbol):
+        self.add(title)
+
+    def has_author(self, author: Symbol):
+        self.add(author)
+
+    def published_in(self, journal: Symbol):
+        self.add(journal)
+
+    def affiliated_with(self, organization: Symbol):
+        self.add(organization)
+
+    def contains(self, component: Symbol):
+        self.add(component)
+
+register_mixin(KnowledgeGraphMixin, expand=True)
+apply_builtins()
 
 # Representing a research paper and its attributes
 s.Paper_A.has_title(s.The_Future_of_AI)
@@ -108,7 +130,29 @@ print(f"Author of Paper A: {s.Paper_A.children[1].name}")
 
 **Low-Tech: Inventory Management and Bill of Materials (BOM)**
 ```python
-from symbol import s
+from symbol import s, Symbol
+from symbol.core.mixinability import register_mixin
+from symbol.core.protocols import SymbolProtocol
+from symbol.builtins import apply_builtins
+
+class KnowledgeGraphMixin(SymbolProtocol):
+    def has_title(self, title: Symbol):
+        self.add(title)
+
+    def has_author(self, author: Symbol):
+        self.add(author)
+
+    def published_in(self, journal: Symbol):
+        self.add(journal)
+
+    def affiliated_with(self, organization: Symbol):
+        self.add(organization)
+
+    def contains(self, component: Symbol):
+        self.add(component)
+
+register_mixin(KnowledgeGraphMixin, expand=True)
+apply_builtins()
 
 # Modeling a bicycle BOM
 s.Bicycle.contains(s.Frame)

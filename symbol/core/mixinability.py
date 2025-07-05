@@ -39,7 +39,10 @@ def is_frozen() -> bool:
     """Returns True if the Symbol class is currently frozen.""" 
     return _is_frozen
 
-def register_mixin(target_class: type, name: str, value: Any) -> bool:
+import re
+from ..core.base_symbol import Symbol # Import Symbol for default target_class
+
+def register_mixin(value: Any, name: str = None, target_class: type = Symbol, safe: bool = False, expand: bool = True) -> bool:
     """Registers a mixin to be applied to the target class, with validation and error handling.
     Returns True if the mixin was successfully registered, False otherwise.
     """
@@ -47,47 +50,104 @@ def register_mixin(target_class: type, name: str, value: Any) -> bool:
         log.error(f"Failed to register mixin '{name}': Symbol class is frozen.")
         return False
 
+    def _to_snake_case(s: str) -> str:
+        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', s)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+    # Evaluate value if it's a string
+    if isinstance(value, str):
+        try:
+            # WARNING: Using eval() can be dangerous if the input string is not trusted.
+            # Ensure that 'value' strings come from trusted sources.
+            value = eval(value)
+        except Exception as e:
+            log.error(f"Failed to evaluate mixin value string '{value}': {repr(e)}.")
+            return False
+
+    # Infer name if not provided
+    if name is None:
+        if inspect.ismethod(value) or inspect.isfunction(value):
+            name = value.__name__
+        elif hasattr(value, '__class__'):
+            class_name = value.__class__.__name__
+            if class_name.endswith('Mixin'):
+                class_name = class_name[:-5]
+            name = _to_snake_case(class_name)
+        else:
+            log.error(f"Failed to infer mixin name from value: {value}. Please provide a name explicitly.")
+            return False
+
+    # Handle expansion for classes and modules
+    if expand:
+        if inspect.isclass(value):
+            for attr_name in dir(value):
+                if not attr_name.startswith('_'):
+                    attr_value = getattr(value, attr_name)
+                    if isinstance(attr_value, staticmethod):
+                        actual_value = attr_value.__func__
+                        setattr(target_class, attr_name, staticmethod(actual_value))
+                        log.info(f"Successfully applied static mixin: {target_class.__name__}.{attr_name}")
+                    elif isinstance(attr_value, property):
+                        actual_value = attr_value.fget # Get the getter for the property
+                        setattr(target_class, attr_name, property(actual_value))
+                        log.info(f"Successfully applied property mixin: {target_class.__name__}.{attr_name}")
+                    elif inspect.isfunction(attr_value) or inspect.ismethod(attr_value):
+                        # Recursively register methods, but don't expand them further
+                        register_mixin(attr_value, name=attr_name, target_class=target_class, safe=safe, expand=False)
+            return True # Class expansion handled, return
+        elif inspect.ismodule(value):
+            for attr_name in dir(value):
+                if not attr_name.startswith('_'):
+                    attr_value = getattr(value, attr_name)
+                    # Recursively register public members, but don't expand them further
+                    register_mixin(attr_value, name=attr_name, target_class=target_class, safe=safe, expand=False)
+            return True # Module expansion handled, return
+
     # Validate the mixin callable if it's a function or method
     if callable(value) and not isinstance(value, (type, property)): # Exclude classes and properties
         try:
             # Perform static analysis validation
             validation_result = validate_mixin_callable(value)
             if not validation_result.is_valid:
-                error_msg = f"Failed to register mixin '{name}': Static analysis validation failed: {\
-                    '. '.join(validation_result.errors)}."
+                error_msg = f"Failed to register mixin '{name}': Static analysis validation failed: {'. '.join(validation_result.errors)}."
                 log.error(error_msg)
                 return False
             for warning in validation_result.warnings:
                 log.warning(f"Mixin '{name}' static analysis warning: {warning}")
 
             # Further runtime validation against MixinFunction Protocol
+            # Further runtime validation against MixinFunction Protocol
             if not isinstance(value, MixinFunction):
-                warnings.append(f"Mixin '{name}' does not fully conform to MixinFunction protocol at runtime.")
+                log.warning(f"Mixin '{name}' does not fully conform to MixinFunction protocol at runtime.")
 
             # Check for new_process/new_thread parameters if it's an async function
             if inspect.iscoroutinefunction(value):
                 sig = inspect.signature(value)
                 if 'new_process' not in sig.parameters:
-                    warnings.append(f"Async mixin '{name}' should include 'new_process: bool = False' in its signature.")
+                    log.warning(f"Async mixin '{name}' should include 'new_process: bool = False' in its signature.")
                 if 'new_thread' not in sig.parameters:
-                    warnings.append(f"Async mixin '{name}' should include 'new_thread: bool = True' in its signature.")
+                    log.warning(f"Async mixin '{name}' should include 'new_thread: bool = True' in its signature.")
 
         except Exception as e:
             error_msg = f"An unexpected error occurred during validation of mixin '{name}': {repr(e)}."
             log.error(error_msg)
             return False
 
-    if not hasattr(target_class, name):
+    if hasattr(target_class, name):
+        if safe:
+            log.error(f"Failed to register mixin '{name}': Attribute already exists on {target_class.__name__} and safe mode is enabled (no overwrite).")
+            return False
+        else:
+            # If attribute already exists, store its original value for potential restoration
+            if name not in _applied_mixins: # Only store if not already tracked
+                _applied_mixins[name] = getattr(target_class, name)
+            setattr(target_class, name, value)
+            log.warning(f"Mixin '{name}' already exists on {target_class.__name__}. Overwriting.")
+            return True
+    else:
         _applied_mixins[name] = None # Mark as new mixin, no original value to restore
         setattr(target_class, name, value)
         log.info(f"Successfully applied mixin: {target_class.__name__}.{name}")
-        return True
-    else:
-        # If attribute already exists, store its original value for potential restoration
-        if name not in _applied_mixins: # Only store if not already tracked
-            _applied_mixins[name] = getattr(target_class, name)
-        setattr(target_class, name, value)
-        log.warning(f"Mixin '{name}' already exists on {target_class.__name__}. Overwriting.")
         return True
 
 def get_applied_mixins() -> Dict[str, Any]:

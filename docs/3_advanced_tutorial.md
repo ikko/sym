@@ -41,7 +41,7 @@ class AircraftComponentMixin(SymbolProtocol):
         return None
 
 # Register the mixin
-register_mixin(Symbol, "aircraft_component", AircraftComponentMixin)
+register_mixin(AircraftComponentMixin, expand=True)
 
 # Usage
 engine = Symbol("Engine_Turbofan_A320")
@@ -59,6 +59,11 @@ print(f"Engine next inspection due: {engine.aircraft_component.next_inspection_d
 Representing software modules and their dependencies is crucial for understanding system architecture. `Symbol` can model these relationships, and its traversal methods can identify critical paths or circular dependencies.
 
 ```python
+from symbol import s
+from symbol.builtins import apply_builtins
+
+apply_builtins()
+
 # Example: Microservices Architecture
 auth_service = s.AuthService
 user_service = s.UserService

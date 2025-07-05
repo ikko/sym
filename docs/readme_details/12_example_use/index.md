@@ -38,7 +38,20 @@ This example illustrates how `Symbol` can model complex supply chain relationshi
 
 ### Code Example
 ```python
-from symbol import s
+from symbol import s, Symbol
+from symbol.core.mixinability import register_mixin
+from symbol.core.protocols import SymbolProtocol
+from symbol.builtins import apply_builtins
+
+class SupplyChainMixin(SymbolProtocol):
+    def buys_from(self, supplier: Symbol):
+        self.add(supplier)
+
+    def sources_from(self, source: Symbol):
+        self.add(source)
+
+register_mixin(SupplyChainMixin, expand=True)
+apply_builtins()
 
 s.Global_Goods_Inc.buys_from(s.Palm_Oil_Processor)
 s.Palm_Oil_Processor.buys_from(s.Supplier_A)

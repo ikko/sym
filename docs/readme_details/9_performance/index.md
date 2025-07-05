@@ -137,8 +137,10 @@ While core relationship linking is O(1), the `Symbol` framework is designed to i
 
 ### Code Example &(Conceptual with SymbolIndex&)
 ```python
-from symbol import Symbol
-from symbol.builtins.index import SymbolIndex
+from symbol import Symbol, s
+from symbol.builtins import apply_builtins
+
+apply_builtins()
 
 # Create a Symbol and its associated index
 root_symbol = s.Root

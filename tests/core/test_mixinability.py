@@ -26,7 +26,7 @@ def test_register_mixin_basic_application():
         return f"Hello from {self.name}"
 
     # Register the mixin
-    success = register_mixin(Symbol, "my_new_method", my_mixin_function)
+    success = register_mixin(my_mixin_function, "my_new_method")
     assert success is True
 
     # Test that the mixin is applied to Symbol instances
@@ -39,6 +39,6 @@ def test_register_mixin_basic_application():
     def my_overwriting_mixin(self):
         return "Overwritten!"
 
-    success_overwrite = register_mixin(Symbol, "my_new_method", my_overwriting_mixin)
+    success_overwrite = register_mixin(my_overwriting_mixin, "my_new_method")
     assert success_overwrite is True
     assert s.my_new_method() == "Overwritten!"

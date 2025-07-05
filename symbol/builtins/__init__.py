@@ -14,44 +14,44 @@ def apply_builtins():
 
     # Path Mixin
     total_mixins += 1
-    if register_mixin(Symbol, 'path_to', SymbolPathMixin.path_to): successful_mixins += 1
+    if register_mixin(SymbolPathMixin.path_to, 'path_to'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'match', SymbolPathMixin.match): successful_mixins += 1
+    if register_mixin(SymbolPathMixin.match, 'match'): successful_mixins += 1
 
     # Time Dimension Mixin
     total_mixins += 1
-    if register_mixin(Symbol, '_parse_timestamp', SymbolTimeDimMixin._parse_timestamp): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin._parse_timestamp, '_parse_timestamp'): successful_mixins += 1
     
     total_mixins += 1
-    if register_mixin(Symbol, 'time_head', SymbolTimeDimMixin.time_head): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.time_head, 'time_head'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'time_tail', SymbolTimeDimMixin.time_tail): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.time_tail, 'time_tail'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_date', SymbolTimeDimMixin.as_date): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.as_date, 'as_date'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_time', SymbolTimeDimMixin.as_time): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.as_time, 'as_time'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_datetime', SymbolTimeDimMixin.as_datetime): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.as_datetime, 'as_datetime'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'day', SymbolTimeDimMixin.day): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.day, 'day'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'hour', SymbolTimeDimMixin.hour): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.hour, 'hour'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'minute', SymbolTimeDimMixin.minute): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.minute, 'minute'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'second', SymbolTimeDimMixin.second): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.second, 'second'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'period', SymbolTimeDimMixin.period): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.period, 'period'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_period', SymbolTimeDimMixin.as_period): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.as_period, 'as_period'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'duration', SymbolTimeDimMixin.duration): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.duration, 'duration'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_duration', SymbolTimeDimMixin.as_duration): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.as_duration, 'as_duration'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'delta', SymbolTimeDimMixin.delta): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.delta, 'delta'): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_delta', SymbolTimeDimMixin.as_delta): successful_mixins += 1
+    if register_mixin(SymbolTimeDimMixin.as_delta, 'as_delta'): successful_mixins += 1
 
     # Visual Mixin
     visual_methods = [
@@ -59,6 +59,6 @@ def apply_builtins():
     ]
     for method_name in visual_methods:
         total_mixins += 1
-        if register_mixin(Symbol, method_name, getattr(SymbolRender, method_name)): successful_mixins += 1
+        if register_mixin(getattr(SymbolRender, method_name), method_name): successful_mixins += 1
 
     log.info(f"Mixin application complete. Successfully applied {successful_mixins} of {total_mixins} mixins.")

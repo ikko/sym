@@ -64,16 +64,36 @@ class GraphTraversal:
         return "\n".join(lines)
 
 
+from ..core.lazy import SENTINEL
+
 class Symbol(BaseSymbol):
     def __new__(cls, name: str, origin: Optional[Any] = None):
         obj = super().__new__(cls, name, origin)
         if not hasattr(obj, 'index'): # Initialize only if not already initialized by BaseSymbol
-            obj.index = SymbolIndex(obj)
-            obj.metadata = DefDict()
-            obj.context = DefDict()
+            obj._index = SENTINEL
+            obj._metadata = SENTINEL
+            obj._context = SENTINEL
         if ENABLE_ORIGIN:
             obj.origin = origin
         return obj
+
+    @property
+    def index(self):
+        if self._index is SENTINEL:
+            self._index = SymbolIndex(self)
+        return self._index
+
+    @property
+    def metadata(self):
+        if self._metadata is SENTINEL:
+            self._metadata = DefDict()
+        return self._metadata
+
+    @property
+    def context(self):
+        if self._context is SENTINEL:
+            self._context = DefDict()
+        return self._context
 
     def append(self, child: 'Symbol') -> 'Symbol':
         # Ensure child is a Symbol instance
