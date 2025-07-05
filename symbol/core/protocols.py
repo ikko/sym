@@ -5,7 +5,7 @@ promoting a clean and maintainable architecture.
 """
 from abc import ABC, abstractmethod
 from typing import Any, Iterator, List, Optional, Protocol, Union, Callable, Awaitable, runtime_checkable
-import datetime
+import pendulum
 
 from ..core.base_symbol import Symbol
 
@@ -22,7 +22,7 @@ class SymbolPathProtocol(Protocol):
         ...
 
 
-class SymbolDateTimeProtocol(Protocol):
+class SymbolTimeDimProtocol(Protocol):
     @property
     @abstractmethod
     def head(self) -> Any:
@@ -37,19 +37,19 @@ class SymbolDateTimeProtocol(Protocol):
 
     @property
     @abstractmethod
-    def as_date(self) -> datetime.date:
+    def as_date(self) -> pendulum.Date:
         """Returns the date part of the Symbol's name as a date object."""
         ...
 
     @property
     @abstractmethod
-    def as_time(self) -> datetime.time:
+    def as_time(self) -> pendulum.Time:
         """Returns the time part of the Symbol's name as a time object."""
         ...
 
     @property
     @abstractmethod
-    def as_datetime(self) -> datetime.datetime:
+    def as_datetime(self) -> pendulum.DateTime:
         """Returns the full datetime object parsed from the Symbol's name."""
         ...
 
@@ -79,37 +79,37 @@ class SymbolDateTimeProtocol(Protocol):
 
     @property
     @abstractmethod
-    def period(self) -> datetime.timedelta:
+    def period(self) -> pendulum.Duration:
         """Returns the time duration between the first and last Symbols in a sorted view."""
         ...
 
     @property
     @abstractmethod
-    def as_period(self) -> datetime.timedelta:
+    def as_period(self) -> pendulum.Duration:
         """Alias for the `period` property, returning the time duration."""
         ...
 
     @property
     @abstractmethod
-    def duration(self) -> datetime.timedelta:
+    def duration(self) -> pendulum.Duration:
         """Alias for the `period` property, returning the time duration."""
         ...
 
     @property
     @abstractmethod
-    def as_duration(self) -> datetime.timedelta:
+    def as_duration(self) -> pendulum.Duration:
         """Alias for the `as_period` property, returning the time duration."""
         ...
 
     @property
     @abstractmethod
-    def delta(self) -> datetime.timedelta:
+    def delta(self) -> pendulum.Duration:
         """Alias for the `period` property, returning the time duration."""
         ...
 
     @property
     @abstractmethod
-    def as_delta(self) -> datetime.timedelta:
+    def as_delta(self) -> pendulum.Duration:
         """Alias for the `as_period` property, returning the time duration."""
         ...
 

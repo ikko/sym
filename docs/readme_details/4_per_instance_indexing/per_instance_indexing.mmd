@@ -1,6 +1,6 @@
 graph TD
     subgraph "Per-Instance Indexing"
-        A[Symbol Instance (Owner)] --> B{Private SymbolIndex};
+        A[Symbol Instance &#40;Owner&#41;] --> B{Private SymbolIndex};
         B -- "contains" --> C[IndexNode 1];
         B -- "contains" --> D[IndexNode 2];
         B -- "contains" --> E[...];
@@ -18,22 +18,10 @@ graph TD
         L[Efficient Local Querying] --> M[Optimized Traversal];
         N[Nested Structures] --> O[Complex Hierarchies];
     end
+    style N fill:#3a5521,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#90EE90,stroke:#333,stroke-width:2px;
-    style F fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style G fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style C_W fill:#DA70D6,stroke:#333,stroke-width:2px;
-    style D_W fill:#DA70D6,stroke:#333,stroke-width:2px;
-
-    style H fill:#FF6347,stroke:#333,stroke-width:2px;
-    style I fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style J fill:#FF6347,stroke:#333,stroke-width:2px;
-    style K fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style L fill:#FF6347,stroke:#333,stroke-width:2px;
-    style M fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style N fill:#FF6347,stroke:#333,stroke-width:2px;
-    style O fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style A fill:lighten(#b6a416, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style H fill:lighten(#f4740a, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style J fill:lighten(#21b117, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style L fill:lighten(#562357, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style N fill:#3a5521,stroke:#333,stroke-width:2px,color:#FFFFFF;

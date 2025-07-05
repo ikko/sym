@@ -3,7 +3,7 @@
 It builds upon the foundational Symbol defined in base_symbol.py,
 adding graph traversal, index, maturing, and serialization capabilities.
 """
-import datetime
+import pendulum
 import enum
 import orjson
 import threading
@@ -192,17 +192,17 @@ class Symbol(BaseSymbol):
 
     @classmethod
     def auto_date(cls) -> 'Symbol':
-        iso = datetime.date.today().isoformat()
+        iso = pendulum.today().to_iso8601_string()
         return cls(iso)
 
     @classmethod
     def auto_datetime(cls) -> 'Symbol':
-        iso = datetime.datetime.now().isoformat()
+        iso = pendulum.now().to_iso8601_string()
         return cls(iso)
 
     @classmethod
     def auto_time(cls) -> 'Symbol':
-        iso = datetime.datetime.now().time().isoformat()
+        iso = pendulum.now().time().to_iso8601_string()
         return cls(iso)
 
     @classmethod

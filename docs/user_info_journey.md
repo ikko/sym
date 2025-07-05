@@ -23,17 +23,10 @@ graph TD
     end
 
     subgraph "Styling"
-        style A fill:#ff9,stroke:#333,stroke-width:2px
-        style B fill:#9cf,stroke:#333,stroke-width:2px
-        style C fill:#9f9,stroke:#333,stroke-width:2px
-        style D fill:#c9f,stroke:#333,stroke-width:2px
-        style E fill:#f9c,stroke:#333,stroke-width:2px
-        style F fill:#f99,stroke:#333,stroke-width:2px
-        style G fill:#9ff,stroke:#333,stroke-width:2px
-        style H fill:#9ff,stroke:#333,stroke-width:2px
-        style I fill:#9ff,stroke:#333,stroke-width:2px
     end
-```
+
+    style A fill:#cbc4b9,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#72f3da,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## Involved Files, Classes, and Functions (Hypothetical)
 
@@ -48,12 +41,12 @@ This section provides a hypothetical summary of the files, classes, and function
 
 *   **File**: `middleware/auth.py`
     *   **Class**: `AuthMiddleware`
-        *   **Function**: `__call__(self, request)`
+        *   **Function**: `__call__&#40;self, request&#41;`
             *   **Description**: This middleware would be responsible for intercepting incoming requests, extracting the user information from the HTTP headers, and creating a user object or session.
 
 *   **File**: `services/user_service.py`
     *   **Class**: `UserService`
-        *   **Function**: `get_or_create_user(self, user_data)`
+        *   **Function**: `get_or_create_user&#40;self, user_data&#41;`
             *   **Description**: This function would take the user data extracted from the headers and either retrieve an existing user from the database or create a new one.
 
 ### 3. Data Models

@@ -1,34 +1,29 @@
 # 1.2 Flyweight Design: Optimizing Symbol Instantiation
 
-The `Symbol` framework leverages the **Flyweight design pattern** to ensure the uniqueness and efficient management of `Symbol` instances. This pattern is particularly effective in scenarios where a large number of objects share common state, allowing for significant memory savings and improved performance.
+NThe `Symbol` framework leverages the **Flyweight design pattern** to ensure the uniqueness and efficient management of `Symbol` instances. This pattern is particularly effective in scenarios where a large number of objects share common state, allowing for significant memory savings and improved performance.
 
 ## Core Principle: Shared Intrinsic State
 
-In the context of `Symbol`, the intrinsic state—the `name` of the symbol—is shared. When a request is made to create a `Symbol` with a specific name (e.g., `Symbol('apple')`), the system first checks if a `Symbol` with that name already exists in a central pool. If it does, the existing instance is returned; otherwise, a new instance is created and added to the pool.
+In the context of `Symbol`, the intrinsic state—the `name` of the symbol—is shared. When a request is made to create a `Symbol` with a specific name &#40;e.g., `Symbol&#40;'apple'&#41;`&#41;, the system first checks if a `Symbol` with that name already exists in a central pool. If it does, the existing instance is returned; otherwise, a new instance is created and added to the pool.
 
 ```mermaid
 graph TD
-    A[Client Request: Symbol('apple')] --> B{Symbol Pool?};
+    A[Client Request: Symbol&#40;'apple'&#41;] --> B{Symbol Pool?};
     B -- "'apple' exists?" --> C{Yes};
-    C --> D[Return existing Symbol('apple')];
+    C --> D[Return existing Symbol&#40;'apple'&#41;];
     B -- "'apple' exists?" --> E{No};
     E --> F[New Symbol 'B'];
     F --> G[Add to Symbol Pool];
     G --> D;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style E fill:#FF6347,stroke:#333,stroke-width:2px;
-    style F fill:#DA70D6,stroke:#333,stroke-width:2px;
-    style G fill:#8A2BE2,stroke:#333,stroke-width:2px;
-```
+    style A fill:lighten&#40;#fe6266, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:lighten(#fe6266, 30%),stroke:#333,stroke-width:2px,color:#000000;```
 
 ## Advantages of Flyweight in Symbol
 
--   **Memory Efficiency**: By ensuring that only one instance of a `Symbol` exists for each unique name, the framework drastically reduces memory consumption, especially in applications dealing with vast numbers of symbolic representations (e.g., large knowledge graphs, extensive ontologies).
--   **Consistency and Identity**: The Flyweight pattern guarantees referential equality for symbols with the same name. This means `Symbol('A') is Symbol('A')` will always evaluate to `True`, simplifying identity checks and ensuring that all references to a particular concept point to the exact same object.
+-   **Memory Efficiency**: By ensuring that only one instance of a `Symbol` exists for each unique name, the framework drastically reduces memory consumption, especially in applications dealing with vast numbers of symbolic representations &#40;e.g., large knowledge graphs, extensive ontologies&#41;.
+-   **Consistency and Identity**: The Flyweight pattern guarantees referential equality for symbols with the same name. This means `Symbol&#40;'A'&#41; is Symbol&#40;'A'&#41;` will always evaluate to `True`, simplifying identity checks and ensuring that all references to a particular concept point to the exact same object.
 -   **Performance**: Reduced object creation overhead and direct memory address comparisons contribute to faster operations, particularly in graph traversal and relationship management.
 
 ### Code Example: Demonstrating Flyweight Behavior
@@ -47,17 +42,37 @@ print(f"sym3: {sym3}")
 print(f"Are sym1 and sym2 the same object? {sym1 is sym2}") # Expected: True
 print(f"Are sym1 and sym3 the same object? {sym1 is sym3}") # Expected: False
 
-# Verify internal pool size (conceptual, not directly exposed in public API)
-# assert len(Symbol._pool) == 2 # Only 'product_id_123' and 'user_session_abc' should be in the pool
+# Verify internal pool size &#40;conceptual, not directly exposed in public API&#41;
+# assert len&#40;Symbol._pool&#41; == 2 # Only 'product_id_123' and 'user_session_abc' should be in the pool
 ```
 
 ### Industry Applications
 
-**High-Tech: Compiler Design and Abstract Syntax Trees (ASTs)**
-In compiler design, ASTs often contain numerous nodes representing identical literals (e.g., integer `0`, variable `x`). Applying the Flyweight pattern to these literal nodes can significantly reduce the memory footprint of the AST, especially for large source code files. Instead of creating a new `IntegerLiteral(0)` object every time `0` appears, a single `IntegerLiteral(0)` flyweight instance can be reused.
+**High-Tech: Compiler Design and Abstract Syntax Trees &#40;ASTs&#41;**
+```python
+from symbol import s
+
+# Simulate AST nodes for literals
+literal_zero_1 = s.Literal_0
+literal_zero_2 = s.Literal_0
+variable_x_1 = s.Variable_X
+variable_x_2 = s.Variable_X
+
+print(f"Literal 0 &#40;1&#41; is Literal 0 &#40;2&#41;: {literal_zero_1 is literal_zero_2}")
+print(f"Variable X &#40;1&#41; is Variable X &#40;2&#41;: {variable_x_1 is variable_x_2}")
+```
 
 **Low-Tech: Document Processing and Word Processors**
-Consider a word processor that handles large documents. Many words, characters, or even formatting styles (e.g., "bold", "italic") are repeated throughout a document. By representing these repeated elements as flyweights, the memory required to store the document's internal representation can be substantially reduced. For instance, each unique word could be a flyweight, and the document would store references to these flyweights rather than duplicating the word string itself.
+```python
+from symbol import s
+
+# Simulate a document with repeated words
+document_words = [s.The, s.quick, s.brown, s.fox, s.jumps, s.over, s.the, s.lazy, s.dog, s.The]
+
+# Check if repeated words are the same Symbol object
+print(f"First 'The' is same as second 'The': {document_words[0] is document_words[6]}")
+print(f"First 'The' is same as third 'The': {document_words[0] is document_words[9]}")
+```
 
 ## Conclusion
 

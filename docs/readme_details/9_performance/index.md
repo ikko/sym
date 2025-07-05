@@ -2,13 +2,13 @@
 
 The `Symbol` framework is engineered for high performance, particularly in scenarios involving large-scale graph-based data structures. Its design incorporates several algorithmic and architectural optimizations to ensure efficient instantiation, relationship management, and traversal. This section delves into the underlying mechanisms that contribute to its favorable time complexities.
 
-## O(1) Symbol Instantiation (Intern Pool)
+## O(1) Symbol Instantiation &#40;Intern Pool&#41;
 
-Symbol instantiation is a constant-time operation, achieved through the implementation of an interning pool (a variation of the Flyweight design pattern). When a `Symbol` is requested via `Symbol(name)`, the framework first checks if a `Symbol` with that `name` already exists in a global pool. If it does, the existing instance is returned; otherwise, a new instance is created and added to the pool. This ensures that each unique symbolic name maps to a single, canonical `Symbol` object, leading to significant memory savings and guaranteeing object identity.
+Symbol instantiation is a constant-time operation, achieved through the implementation of an interning pool &#40;a variation of the Flyweight design pattern&#41;. When a `Symbol` is requested via `Symbol&#40;name&#41;`, the framework first checks if a `Symbol` with that `name` already exists in a global pool. If it does, the existing instance is returned; otherwise, a new instance is created and added to the pool. This ensures that each unique symbolic name maps to a single, canonical `Symbol` object, leading to significant memory savings and guaranteeing object identity.
 
 ### Mechanism
 - **`Symbol._pool`**: A dictionary-like structure that stores `Symbol` instances, keyed by their `name`.
-- **`__new__` method**: Overridden to implement the interning logic, ensuring that `Symbol('A') is Symbol('A')` evaluates to `True`.
+- **`__new__` method**: Overridden to implement the interning logic, ensuring that `Symbol&#40;'A'&#41; is Symbol&#40;'A'&#41;` evaluates to `True`.
 
 ### Code Example
 ```python
@@ -19,10 +19,10 @@ s1 = Symbol('my_data_point')
 s2 = Symbol('my_data_point')
 s3 = Symbol('another_data_point')
 
-print(f"s1 is s2: {s1 is s2}") # Expected: True (O(1) lookup)
+print(f"s1 is s2: {s1 is s2}") # Expected: True &#40;O&#40;1&#41; lookup&#41;
 print(f"s1 is s3: {s1 is s3}") # Expected: False
 
-# Demonstrating the constant time nature (conceptual)
+# Demonstrating the constant time nature &#40;conceptual&#41;
 import time
 
 start_time = time.perf_counter_ns()
@@ -35,26 +35,23 @@ print(f"Time for 100,000 Symbol instantiations: {(end_time - start_time) / 1_000
 ### Diagram
 ```mermaid
 graph TD
-    A[Request Symbol(name)] --> B{Check Symbol._pool};
+    A[Request Symbol&#40;name&#41;] --> B{Check Symbol._pool};
     B -- "Found" --> C[Return Existing Symbol];
     B -- "Not Found" --> D[Create New Symbol];
     D --> E[Add to Symbol._pool];
     E --> C;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style D fill:#DA70D6,stroke:#333,stroke-width:2px;
-    style E fill:#8A2BE2,stroke:#333,stroke-width:2px;
-```
+    style A fill:lighten&#40;#e2af2b, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:lighten(#e2af2b, 30%),stroke:#333,stroke-width:2px,color:#000000;```
 
 ## O(1) Relationship Linking
 
-Establishing relationships between `Symbol` instances (e.g., via `append()`) is also a constant-time operation. This is primarily due to the use of Python's native list appends for managing `children` and `parents` relationships. Appending an element to a list typically involves amortized O(1) time complexity, making graph construction highly efficient.
+Establishing relationships between `Symbol` instances &#40;e.g., via `append&#40;&#41;`&#41; is also a constant-time operation. This is primarily due to the use of Python's native list appends for managing `children` and `parents` relationships. Appending an element to a list typically involves amortized O(1) time complexity, making graph construction highly efficient.
 
 ### Mechanism
 - **`Symbol.children` and `Symbol.parents`**: These are Python lists that store direct references to related `Symbol` objects.
-- **`append()` method**: Directly adds a `Symbol` to the `children` list of the current symbol and adds the current symbol to the `parents` list of the child symbol.
+- **`append&#40;&#41;` method**: Directly adds a `Symbol` to the `children` list of the current symbol and adds the current symbol to the `parents` list of the child symbol.
 
 ### Code Example
 ```python
@@ -77,28 +74,25 @@ print(f"Time for 2 relationship links: {(end_time - start_time) / 1_000_000:.2f}
 ### Diagram
 ```mermaid
 graph TD
-    A[Source Symbol] --> B{append(Target Symbol)};
+    A[Source Symbol] --> B{append&#40;Target Symbol&#41;};
     B -- "Add Target to Source.children" --> C[Source.children List];
     B -- "Add Source to Target.parents" --> D[Target.parents List];
-    C --> E[O(1) Operation];
+    C --> E[O&#40;1&#41; Operation];
     D --> E;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## O(1) Traversal with Cache and Float-based Cursor Insertion
 
-While full graph traversals (e.g., `tree()`, `graph()`) are inherently dependent on the number of nodes and edges (typically O(V+E)), the `Symbol` framework optimizes certain traversal-related operations to achieve effective O(1) performance for specific use cases. This is facilitated by caching mechanisms and a unique float-based cursor insertion system.
+While full graph traversals &#40;e.g., `tree&#40;&#41;`, `graph&#40;&#41;`&#41; are inherently dependent on the number of nodes and edges &#40;typically O(V+E)&#41;, the `Symbol` framework optimizes certain traversal-related operations to achieve effective O(1) performance for specific use cases. This is facilitated by caching mechanisms and a unique float-based cursor insertion system.
 
 ### Mechanism
-- **Cached Lengths**: The `_length_cache` attribute on `Symbol` instances can store the length of `children` lists, avoiding repeated `len()` calls.
-- **Float-based Cursor Insertion (`_write_cursor`, `_position`)**: For sequential symbol generation (e.g., `Symbol.next()`), a float-based cursor (`_write_cursor`) allows for efficient insertion of new symbols into a conceptual ordered sequence without requiring re-indexing of existing elements. This is particularly useful for maintaining insertion order in a dynamic list of symbols.
+- **Cached Lengths**: The `_length_cache` attribute on `Symbol` instances can store the length of `children` lists, avoiding repeated `len&#40;&#41;` calls.
+- **Float-based Cursor Insertion &#40;`_write_cursor`, `_position`&#41;**: For sequential symbol generation &#40;e.g., `Symbol.next&#40;&#41;`&#41;, a float-based cursor &#40;`_write_cursor`&#41; allows for efficient insertion of new symbols into a conceptual ordered sequence without requiring re-indexing of existing elements. This is particularly useful for maintaining insertion order in a dynamic list of symbols.
 
-### Code Example (Conceptual for Float-based Cursor)
+### Code Example &#40;Conceptual for Float-based Cursor&#41;
 ```python
 from symbol import Symbol
 
@@ -120,52 +114,42 @@ print(f"sym2._prev is sym1: {sym2._prev is sym1}")
 ```mermaid
 graph TD
     A[Traversal Operation] --> B{Check Cache};
-    B -- "Cache Hit" --> C[Return Cached Value (O(1))];
-    B -- "Cache Miss" --> D[Perform Traversal (O(V+E))];
+    B -- "Cache Hit" --> C[Return Cached Value &#40;O&#40;1&#41;&#41;];
+    B -- "Cache Miss" --> D[Perform Traversal &#40;O&#40;V+E&#41;&#41;];
     D --> E[Update Cache];
     E --> C;
 
     X[New Symbol Insertion] --> Y{Assign Float Position};
     Y --> Z[Maintain Conceptual Order];
-    Z --> AA[Avoid Re-indexing (O(1) for sequential)];
+    Z --> AA[Avoid Re-indexing &#40;O&#40;1&#41; for sequential&#41;];
+    style X fill:#d450bf,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style D fill:#DA70D6,stroke:#333,stroke-width:2px;
-    style E fill:#8A2BE2,stroke:#333,stroke-width:2px;
-
-    style X fill:#FFD700,stroke:#333,stroke-width:2px;
-    style Y fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style Z fill:#90EE90,stroke:#333,stroke-width:2px;
-    style AA fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#d74691,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style X fill:#d450bf,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## O(log n) Insert/Search when extended to use bisect-based insertion order
 
-While core relationship linking is O(1), the `Symbol` framework is designed to integrate with more advanced data structures for scenarios requiring ordered insertion and efficient searching within larger collections of symbols. Specifically, when extended with built-in modules like `symbol.builtins.index` (which can leverage `AVLTree` or `RedBlackTree`), operations like ordered insertion and searching within a sorted collection of symbols can achieve O(log n) time complexity.
+While core relationship linking is O(1), the `Symbol` framework is designed to integrate with more advanced data structures for scenarios requiring ordered insertion and efficient searching within larger collections of symbols. Specifically, when extended with built-in modules like `symbol.builtins.index` &#40;which can leverage `AVLTree` or `RedBlackTree`&#41;, operations like ordered insertion and searching within a sorted collection of symbols can achieve O(log n) time complexity.
 
 ### Mechanism
-- **`SymbolIndex`**: A specialized index (likely within `symbol.builtins.index`) that can maintain symbols in a sorted order.
-- **Balanced Binary Search Trees (e.g., AVL Tree, Red-Black Tree)**: These data structures (implemented in `symbol.builtins.avl_tree` and `symbol.builtins.red_black_tree`) provide logarithmic time complexity for insertion, deletion, and search operations by maintaining a balanced tree structure.
+- **`SymbolIndex`**: A specialized index &#40;likely within `symbol.builtins.index`&#41; that can maintain symbols in a sorted order.
+- **Balanced Binary Search Trees &#40;e.g., AVL Tree, Red-Black Tree&#41;**: These data structures &#40;implemented in `symbol.builtins.avl_tree` and `symbol.builtins.red_black_tree`&#41; provide logarithmic time complexity for insertion, deletion, and search operations by maintaining a balanced tree structure.
 
-### Code Example (Conceptual with SymbolIndex)
+### Code Example &#40;Conceptual with SymbolIndex&#41;
 ```python
 from symbol import Symbol
 from symbol.builtins.index import SymbolIndex
 
 # Create a Symbol and its associated index
-root_symbol = Symbol('Root')
-# root_symbol.index is an instance of SymbolIndex
+root_symbol = s.Root
 
-# Add symbols to the index (conceptual, actual API might vary slightly)
-root_symbol.index.add(Symbol('Zebra'))
-root_symbol.index.add(Symbol('Apple'))
-root_symbol.index.add(Symbol('Banana'))
+root_symbol.index.add(s.Zebra)
+root_symbol.index.add(s.Apple)
+root_symbol.index.add(s.Banana)
 
-print(f"Symbols in index (sorted): {[s.name for s in root_symbol.index.get_all()]}")
+print(f"Symbols in index &#40;sorted&#41;: {[s.name for s in root_symbol.index.get_all()]}")
 
-# Search for a symbol in the index (O(log n))
+# Search for a symbol in the index &#40;O&#40;log n&#41;&#41;
 found_symbol = root_symbol.index.find('Apple')
 print(f"Found Apple: {found_symbol.name if found_symbol else 'Not Found'}")
 ```
@@ -174,18 +158,14 @@ print(f"Found Apple: {found_symbol.name if found_symbol else 'Not Found'}")
 ```mermaid
 graph TD
     A[Collection of Symbols] --> B{SymbolIndex};
-    B -- "Uses" --> C[Balanced BST (AVL/Red-Black)];
-    C -- "Insert" --> D[O(log n)];
-    C -- "Search" --> E[O(log n)];
-    C -- "Delete" --> F[O(log n)];
+    B -- "Uses" --> C[Balanced BST &#40;AVL/Red-Black&#41;];
+    C -- "Insert" --> D[O&#40;log n&#41;];
+    C -- "Search" --> E[O&#40;log n&#41;];
+    C -- "Delete" --> F[O&#40;log n&#41;];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style F fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:lighten&#40;#eec41d, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:lighten(#eec41d, 30%),stroke:#333,stroke-width:2px,color:#000000;```
 
 ## Conclusion
 

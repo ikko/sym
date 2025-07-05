@@ -1,4 +1,4 @@
-from .core.base_symbol import Symbol
+from .core.symbol import Symbol
 from .core.symbol import s
 from .core.symbol import GraphTraversal
 from .core.mixinability import freeze, is_frozen
@@ -15,7 +15,7 @@ apply_builtins()
 # --- User-facing aliases for convenience ---
 
 # Expose builtin modules at the top level
-datetime = builtins.datetime
+time_dim = builtins.time_dim
 collections = builtins.collections
 index = builtins.index
 path = builtins.path
@@ -33,7 +33,7 @@ a_process_batch = a_process_batch
 process_batch = process_batch
 
 # Create short aliases for the modules
-dt = builtins.datetime
+td = builtins.time_dim
 coll = builtins.collections
 idx = builtins.index
 vis = builtins.visual

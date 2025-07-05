@@ -1,7 +1,7 @@
 from ..core.base_symbol import Symbol
 from ..core.mixinability import register_mixin
 from .path import SymbolPathMixin
-from .datetime import SymbolDateTimeMixin
+from .time_dim import SymbolTimeDimMixin
 from .visual import to_dot, a_to_svg, to_svg, a_to_png, to_png, to_mmd, to_ascii
 from .timeline import Timeline
 import logging
@@ -18,40 +18,40 @@ def apply_builtins():
     total_mixins += 1
     if register_mixin(Symbol, 'match', SymbolPathMixin.match): successful_mixins += 1
 
-    # DateTime Mixin
+    # Time Dimension Mixin
     total_mixins += 1
-    if register_mixin(Symbol, '_parse_timestamp', SymbolDateTimeMixin._parse_timestamp): successful_mixins += 1
+    if register_mixin(Symbol, '_parse_timestamp', SymbolTimeDimMixin._parse_timestamp): successful_mixins += 1
     
     total_mixins += 1
-    if register_mixin(Symbol, 'time_head', SymbolDateTimeMixin.time_head): successful_mixins += 1
+    if register_mixin(Symbol, 'time_head', SymbolTimeDimMixin.time_head): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'time_tail', SymbolDateTimeMixin.time_tail): successful_mixins += 1
+    if register_mixin(Symbol, 'time_tail', SymbolTimeDimMixin.time_tail): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_date', SymbolDateTimeMixin.as_date): successful_mixins += 1
+    if register_mixin(Symbol, 'as_date', SymbolTimeDimMixin.as_date): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_time', SymbolDateTimeMixin.as_time): successful_mixins += 1
+    if register_mixin(Symbol, 'as_time', SymbolTimeDimMixin.as_time): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_datetime', SymbolDateTimeMixin.as_datetime): successful_mixins += 1
+    if register_mixin(Symbol, 'as_datetime', SymbolTimeDimMixin.as_datetime): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'day', SymbolDateTimeMixin.day): successful_mixins += 1
+    if register_mixin(Symbol, 'day', SymbolTimeDimMixin.day): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'hour', SymbolDateTimeMixin.hour): successful_mixins += 1
+    if register_mixin(Symbol, 'hour', SymbolTimeDimMixin.hour): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'minute', SymbolDateTimeMixin.minute): successful_mixins += 1
+    if register_mixin(Symbol, 'minute', SymbolTimeDimMixin.minute): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'second', SymbolDateTimeMixin.second): successful_mixins += 1
+    if register_mixin(Symbol, 'second', SymbolTimeDimMixin.second): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'period', SymbolDateTimeMixin.period): successful_mixins += 1
+    if register_mixin(Symbol, 'period', SymbolTimeDimMixin.period): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_period', SymbolDateTimeMixin.as_period): successful_mixins += 1
+    if register_mixin(Symbol, 'as_period', SymbolTimeDimMixin.as_period): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'duration', SymbolDateTimeMixin.duration): successful_mixins += 1
+    if register_mixin(Symbol, 'duration', SymbolTimeDimMixin.duration): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_duration', SymbolDateTimeMixin.as_duration): successful_mixins += 1
+    if register_mixin(Symbol, 'as_duration', SymbolTimeDimMixin.as_duration): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'delta', SymbolDateTimeMixin.delta): successful_mixins += 1
+    if register_mixin(Symbol, 'delta', SymbolTimeDimMixin.delta): successful_mixins += 1
     total_mixins += 1
-    if register_mixin(Symbol, 'as_delta', SymbolDateTimeMixin.as_delta): successful_mixins += 1
+    if register_mixin(Symbol, 'as_delta', SymbolTimeDimMixin.as_delta): successful_mixins += 1
 
     # Visual functions (proxied from symbol.builtins.visual)
     total_mixins += 1

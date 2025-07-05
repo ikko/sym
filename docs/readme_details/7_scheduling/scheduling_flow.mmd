@@ -1,24 +1,24 @@
 graph TD
     subgraph "Symbol Scheduling Mechanism"
-        A[ScheduledJob] --> B{Scheduler.add_job()};
-        B -- "Adds to" --> C[Min-Heap (_schedule)];
-        C -- "Stores in" --> D[Job Map (job_map)];
-        D -- "Persists (Optional)" --> E[Schedule File];
+        A[ScheduledJob] --> B{Scheduler.add_job&#40;&#41;};
+        B -- "Adds to" --> C[Min-Heap &#40;_schedule&#41;];
+        C -- "Stores in" --> D[Job Map &#40;job_map&#41;];
+        D -- "Persists &#40;Optional&#41;" --> E[Schedule File];
     end
 
-    subgraph "Scheduler Execution (_run())"
-        F[Scheduler.start[]]; --> G{Main Loop (Thread)};
+    subgraph "Scheduler Execution &#40;_run&#40;&#41;&#41;"
+        F[Scheduler.start[]]; --> G{Main Loop &#40;Thread&#41;};
         G -- "Periodically Checks" --> H[Next Job in Heap];
-        H -- "Time to Run" --> I[Execute Job (func)];
+        H -- "Time to Run" --> I[Execute Job &#40;func&#41;];
         I -- "If Recurring" --> J[Recalculate next_run];
         J --> B;
         I -- "If One-Off" --> K[Remove from Job Map];
     end
 
-    subgraph "Job Definition (ScheduledJob)"
+    subgraph "Job Definition &#40;ScheduledJob&#41;"
         L[Callable Function] --> M[func];
         N[Arguments] --> O[args, kwargs];
-        P[Schedule (cron, datetime, Symbol)] --> Q[schedule];
+        P[Schedule &#40;cron, datetime, Symbol&#41;] --> Q[schedule];
         Q -- "Calculates" --> R[next_run];
     end
 
@@ -28,33 +28,14 @@ graph TD
         W[Decoupled Logic] --> X[Separates Task from Execution];
         Y[Persistence] --> Z[Survives Restarts];
     end
+    style Y fill:#da0b47,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
-
-    style F fill:#FFD700,stroke:#333,stroke-width:2px;
-    style G fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style H fill:#90EE90,stroke:#333,stroke-width:2px;
-    style I fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style J fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style K fill:#ADFF2F,stroke:#333,stroke-width:2px;
-
-    style L fill:#FF6347,stroke:#333,stroke-width:2px;
-    style M fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style N fill:#FF6347,stroke:#333,stroke-width:2px;
-    style O fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style P fill:#FF6347,stroke:#333,stroke-width:2px;
-    style Q fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style R fill:#ADFF2F,stroke:#333,stroke-width:2px;
-
-    style S fill:#FFD700,stroke:#333,stroke-width:2px;
-    style T fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style U fill:#FFD700,stroke:#333,stroke-width:2px;
-    style V fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style W fill:#FFD700,stroke:#333,stroke-width:2px;
-    style X fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style Y fill:#FFD700,stroke:#333,stroke-width:2px;
-    style Z fill:#ADFF2F,stroke:#333,stroke-width:2px;
+    style A fill:#0a0709,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#3a0598,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style L fill:#92925a,stroke:#333,stroke-width:2px,color:#000000;
+    style N fill:#d637f6,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style P fill:lighten(#6393b9, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style S fill:lighten(#541e4b, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style U fill:#a1d64a,stroke:#333,stroke-width:2px,color:#000000;
+    style W fill:#9f19db,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Y fill:#da0b47,stroke:#333,stroke-width:2px,color:#FFFFFF;

@@ -4,55 +4,42 @@ The `Symbol` framework introduces a sophisticated mixinability mechanism, enabli
 
 ## Dynamic Extension and Validation
 
-At its core, mixinability in `Symbol` is managed through the `register_mixin` function, which facilitates the attachment of new functionalities (methods, properties, or even data attributes) to the `Symbol` class. A critical aspect of this process is the rigorous validation performed by `symbol.core.mixin_validator`. This module employs static analysis, leveraging `LibCST`, to ensure that proposed mixins adhere to a predefined interface and do not introduce security vulnerabilities or architectural inconsistencies.
+At its core, mixinability in `Symbol` is managed through the `register_mixin` function, which facilitates the attachment of new functionalities &#40;methods, properties, or even data attributes&#41; to the `Symbol` class. A critical aspect of this process is the rigorous validation performed by `symbol.core.mixin_validator`. This module employs static analysis, leveraging `LibCST`, to ensure that proposed mixins adhere to a predefined interface and do not introduce security vulnerabilities or architectural inconsistencies.
 
 ### Validation Process
 The validation process encompasses several key checks:
 - **Signature Conformance**: Ensures that mixin functions correctly accept `self` as their first argument, maintaining consistency with instance methods.
 - **Asynchronous Consistency**: Verifies that asynchronous mixins are properly declared with `async` and that synchronous mixins are not mistakenly marked as asynchronous.
-- **Forbidden Operations**: Scans for potentially unsafe operations or imports (e.g., direct file system access via `os` or `subprocess` modules), mitigating risks in dynamic code injection.
+- **Forbidden Operations**: Scans for potentially unsafe operations or imports &#40;e.g., direct file system access via `os` or `subprocess` modules&#41;, mitigating risks in dynamic code injection.
 
 This proactive validation ensures the robustness and integrity of the `Symbol` ecosystem, preventing the introduction of malformed or malicious code.
 
 ```mermaid
 graph TD
     A[Proposed Mixin] --> B{validate_mixin_callable};
-    B -- "Static Analysis (LibCST)" --> C{Checks Signature};
-    B -- "Static Analysis (LibCST)" --> D{Checks Async/Await};
-    B -- "Static Analysis (LibCST)" --> E{Checks Forbidden Imports};
+    B -- "Static Analysis &#40;LibCST&#41;" --> C{Checks Signature};
+    B -- "Static Analysis &#40;LibCST&#41;" --> D{Checks Async/Await};
+    B -- "Static Analysis &#40;LibCST&#41;" --> E{Checks Forbidden Imports};
     C -- "Valid" --> F[Validation Result];
     D -- "Valid" --> F;
     E -- "Valid" --> F;
     F -- "is_valid = True" --> G[Mixin Registered];
     F -- "is_valid = False" --> H[Registration Rejected];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#90EE90,stroke:#333,stroke-width:2px;
-    style F fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style G fill:#32CD32,stroke:#333,stroke-width:2px;
-    style H fill:#DC143C,stroke:#333,stroke-width:2px;
-```
+    style A fill:#193370,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    style A fill:#193370,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ## Freezing Mechanism
 
-To ensure stability and prevent unintended modifications in production environments, the `Symbol` framework provides a `freeze()` mechanism. Once invoked, `freeze()` prevents any further registration or modification of mixins, effectively locking down the `Symbol` class's behavior. This is particularly valuable in long-running applications or systems where dynamic changes could lead to unpredictable states.
+To ensure stability and prevent unintended modifications in production environments, the `Symbol` framework provides a `freeze&#40;&#41;` mechanism. Once invoked, `freeze&#40;&#41;` prevents any further registration or modification of mixins, effectively locking down the `Symbol` class's behavior. This is particularly valuable in long-running applications or systems where dynamic changes could lead to unpredictable states.
 
 ## Illustrative Examples
 
-### High-Tech Industry: Dynamic Feature Flagging in SaaS Platforms
-
-In a large-scale SaaS application, new features are often rolled out gradually using feature flags. Mixinability in `Symbol` can enable dynamic feature flagging at a granular level.
-
-Consider a `User` symbol. Instead of hardcoding feature checks, mixins can be dynamically applied to `User` instances based on their subscription tier or A/B test group.
-
+**High-Tech: Dynamic Feature Flagging in SaaS Platforms**
 ```python
-from symbol import Symbol
+from symbol import Symbol, s
 from symbol.core.mixinability import register_mixin, freeze
-
-# Assume Symbol is already defined and accessible
 
 class FeatureMixins:
     def enable_premium_analytics(self):
@@ -61,36 +48,17 @@ class FeatureMixins:
     def enable_beta_ui(self):
         return f"Beta UI enabled for {self.name}"
 
-# Create user symbols
-user_free = Symbol("user_free_tier")
-user_premium = Symbol("user_premium_tier")
-user_beta = Symbol("user_beta_tester")
-
-# Dynamically apply mixins
 register_mixin(Symbol, "premium_analytics", FeatureMixins.enable_premium_analytics)
 register_mixin(Symbol, "beta_ui", FeatureMixins.enable_beta_ui)
 
-# Access features
+user_premium = s.user_premium_tier
+user_beta = s.user_beta_tester
+
 print(user_premium.premium_analytics())
-# Output: Premium analytics enabled for user_premium_tier
-
 print(user_beta.beta_ui())
-# Output: Beta UI enabled for user_beta_tester
 
-# Attempt to access non-existent mixin (will raise AttributeError)
-try:
-    user_free.premium_analytics()
-except AttributeError as e:
-    print(f"Error: {e}") # Error: 'Symbol' object has no attribute 'premium_analytics'
-
-# Freeze the Symbol class to prevent further changes
 freeze()
-
-# Attempt to register a new mixin after freezing (will fail)
-def new_feature(self):
-    return "This new feature should not be added."
-
-if not register_mixin(Symbol, "new_feature", new_feature):
+if not register_mixin(Symbol, "new_feature", lambda self: "New feature"):
     print("Failed to register new_feature: Symbol class is frozen.")
 ```
 
@@ -104,17 +72,13 @@ graph TD
         D --> F[Access Beta UI];
     end
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style F fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#0ffbe5,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#0ffbe5,stroke:#333,stroke-width:2px,color:#000000;```
 
 ### Low-Tech Industry: Inventory Management System
 
-In an inventory management system, different types of products might have unique behaviors (e.g., perishable items needing expiration date tracking, electronics needing warranty information). Mixinability allows these behaviors to be attached dynamically.
+In an inventory management system, different types of products might have unique behaviors &#40;e.g., perishable items needing expiration date tracking, electronics needing warranty information&#41;. Mixinability allows these behaviors to be attached dynamically.
 
 ```python
 from symbol import Symbol
@@ -154,13 +118,9 @@ graph TD
         D --> F[Manage Warranty];
     end
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style F fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#bfc876,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#bfc876,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## Conclusion
 

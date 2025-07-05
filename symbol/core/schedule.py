@@ -4,7 +4,7 @@ It includes the Scheduler class, which is responsible for managing the schedule 
 and the ScheduledJob class, which represents a single scheduled job.
 """
 import asyncio
-import datetime
+import pendulum
 import heapq
 import threading
 import time
@@ -25,7 +25,7 @@ class ScheduledJob:
         func: Callable[..., Any],
         args: tuple,
         kwargs: dict,
-        schedule: Union[str, datetime.datetime, datetime.date, datetime.time, Symbol],
+        schedule: Union[str, pendulum.DateTime, pendulum.Date, pendulum.Time, Symbol],
         new_process: bool = False,
         new_thread: bool = True,
         id: Optional[str] = None,
@@ -37,35 +37,35 @@ class ScheduledJob:
         self.schedule = schedule
         self.new_process = new_process
         self.new_thread = new_thread
-        self.next_run: Optional[datetime.datetime] = None
+        self.next_run: Optional[pendulum.DateTime] = None
         self._calculate_next_run()
 
-    def _calculate_next_run(self, base_time: Optional[datetime.datetime] = None):
+    def _calculate_next_run(self, base_time: Optional[pendulum.DateTime] = None):
         """Calculates the next run time for the job."""
-        now = base_time or datetime.datetime.now()
+        now = base_time or pendulum.now()
         
         schedule = self.schedule
         if isinstance(schedule, str):
             if croniter.is_valid(schedule):
-                self.next_run = croniter(schedule, now).get_next(datetime.datetime)
+                self.next_run = croniter(schedule, now).get_next(pendulum.DateTime)
             else:
                 try:
                     # Attempt to parse as an ISO datetime string
-                    self.next_run = datetime.datetime.fromisoformat(schedule)
+                    self.next_run = pendulum.parse(schedule)
                 except ValueError:
                     raise ValueError(f"Schedule string '{schedule}' is not a valid cron or ISO 8601 format.")
-        elif isinstance(schedule, datetime.datetime):
+        elif isinstance(schedule, pendulum.DateTime):
             self.next_run = schedule
-        elif isinstance(schedule, datetime.date):
-            self.next_run = datetime.datetime.combine(schedule, datetime.time())
-        elif isinstance(schedule, datetime.time):
-            today = datetime.date.today()
-            self.next_run = datetime.datetime.combine(today, schedule)
+        elif isinstance(schedule, pendulum.Date):
+            self.next_run = pendulum.datetime(schedule.year, schedule.month, schedule.day)
+        elif isinstance(schedule, pendulum.Time):
+            today = pendulum.today()
+            self.next_run = today.at(schedule.hour, schedule.minute, schedule.second)
             if self.next_run < now: # If time is already past today, schedule for tomorrow
-                self.next_run += datetime.timedelta(days=1)
+                self.next_run = self.next_run.add(days=1)
         elif isinstance(schedule, Symbol):
             try:
-                self.next_run = datetime.datetime.fromisoformat(schedule.name)
+                self.next_run = pendulum.parse(schedule.name)
             except ValueError:
                 raise ValueError(f"Symbol name '{schedule.name}' is not a valid ISO 8601 datetime string.")
         else:
@@ -152,7 +152,7 @@ class Scheduler:
                 if not self._schedule:
                     time_to_sleep = 1
                 else:
-                    now = datetime.datetime.now()
+                    now = pendulum.now()
                     next_job = self._schedule[0]
                     
                     if now >= next_job.next_run:

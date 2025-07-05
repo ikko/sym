@@ -58,19 +58,15 @@ print(project_alpha.to_mmd())
 
 ```mermaid
 graph TD
-    A[ProjectAlpha] --> B(TaskDesign)
-    A --> C(TaskDevelopment)
-    C --> D(SubTaskCoding)
-    C --> E(SubTaskTesting)
+    A[ProjectAlpha] --> B&#40;TaskDesign&#41;
+    A --> C&#40;TaskDevelopment&#41;
+    C --> D&#40;SubTaskCoding&#41;
+    C --> E&#40;SubTaskTesting&#41;
 
     subgraph "Styling"
-        style A fill:#ff9,stroke:#333,stroke-width:2px
-        style B fill:#9cf,stroke:#333,stroke-width:2px
-        style C fill:#9cf,stroke:#333,stroke-width:2px
-        style D fill:#9f9,stroke:#333,stroke-width:2px
-        style E fill:#9f9,stroke:#333,stroke-width:2px
     end
-```
+
+    style A fill:#225b90,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ### 2. Extending Symbol Functionality with Mixins
 
@@ -78,7 +74,7 @@ graph TD
 
 #### 2.1. Enabling Built-in Mixins
 
-The `apply_builtins()` function integrates a set of standard mixins, providing common functionalities like datetime handling, indexing, and pathfinding.
+The `apply_builtins()` function integrates a set of standard mixins, providing common functionalities like time dimension handling, indexing, and pathfinding.
 
 ```python
 from symbol.builtins import apply_builtins
@@ -106,13 +102,14 @@ graph TD
         E2[2023-10-26T14:05:35Z_Reconnection]
     end
 
+
     E1 -- occurs_before --> E2
 
     subgraph "Styling"
-        style E1 fill:#ff9,stroke:#333,stroke-width:2px
-        style E2 fill:#9cf,stroke:#333,stroke-width:2px
     end
-```
+
+    style E1 fill:lighten(#737df5, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style E2 fill:lighten(#2f78e8, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 #### 2.2. Pathfinding in Graphs
 
@@ -140,17 +137,14 @@ print(warehouse_a.to_mmd())
 
 ```mermaid
 graph LR
-    W[WarehouseA] --> F(FactoryB)
-    F --> D(DistributionCenterC)
-    D --> R(RetailStoreD)
+    W[WarehouseA] --> F&#40;FactoryB&#41;
+    F --> D&#40;DistributionCenterC&#41;
+    D --> R&#40;RetailStoreD&#41;
 
     subgraph "Styling"
-        style W fill:#ff9,stroke:#333,stroke-width:2px
-        style F fill:#9cf,stroke:#333,stroke-width:2px
-        style D fill:#9f9,stroke:#333,stroke-width:2px
-        style R fill:#c9f,stroke:#333,stroke-width:2px
     end
-```
+
+    style W fill:#192045,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ### 3. Advanced Concepts: Indexing and Custom Behaviors
 
@@ -181,18 +175,15 @@ print(f"Assets by risk (in-order): {[str(sym) for sym in portfolio.index.travers
 ```mermaid
 graph TD
     P[MyInvestmentPortfolio]
-    P --> S1(StockA: 0.7)
-    P --> B1(BondB: 0.2)
-    P --> M1(MutualFundC: 0.5)
+    P --> S1&#40;StockA: 0.7&#41;
+    P --> B1&#40;BondB: 0.2&#41;
+    P --> M1&#40;MutualFundC: 0.5&#41;
 
     subgraph "Styling"
-        style P fill:#ff9,stroke:#333,stroke-width:2px
-        style S1 fill:#9cf,stroke:#333,stroke-width:2px
-        style B1 fill:#9f9,stroke:#333,stroke-width:2px
-        style M1 fill:#c9f,stroke:#333,stroke-width:2px
     end
-```
+
+    style P fill:lighten(#710bd8, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ### Conclusion
 
-This introduction has covered the core aspects of the `Symbol` library, from basic creation and relationship building to leveraging built-in mixins for datetime handling, pathfinding, and indexing. `Symbol` provides a flexible and powerful foundation for modeling complex systems across various domains. For more in-depth exploration of advanced features and custom extensions, please refer to the Advanced Tutorial and API Documentation.
+This introduction has covered the core aspects of the `Symbol` library, from basic creation and relationship building to leveraging built-in mixins for time dimension handling, pathfinding, and indexing. `Symbol` provides a flexible and powerful foundation for modeling complex systems across various domains. For more in-depth exploration of advanced features and custom extensions, please refer to the Advanced Tutorial and API Documentation.

@@ -46,7 +46,7 @@ assert root_node in sub_system_1.parents
 
 #### 1.3. Mixin-based Extensibility
 
-`Symbol`'s architecture supports dynamic runtime extension via mixins. This allows for the modular injection of domain-specific behaviors (e.g., datetime parsing, pathfinding, indexing) without modifying the core `Symbol` class. This pattern promotes a highly composable design, enabling researchers to tailor `Symbol`'s capabilities precisely to their problem domain.
+`Symbol`'s architecture supports dynamic runtime extension via mixins. This allows for the modular injection of domain-specific behaviors (e.g., time dimension parsing, pathfinding, indexing) without modifying the core `Symbol` class. This pattern promotes a highly composable design, enabling researchers to tailor `Symbol`'s capabilities precisely to their problem domain.
 
 ```python
 from symbol.builtins import apply_builtins
@@ -54,7 +54,7 @@ from symbol.core.symbol import Symbol
 
 apply_builtins() # Integrates standard mixins
 
-# Datetime mixin example
+# Time dimension mixin example
 event_start = Symbol("2023-10-26T10:00:00Z")
 event_end = Symbol("2023-10-26T11:30:00Z")
 
@@ -78,38 +78,28 @@ Consider `Symbol` as the foundational layer for a dynamic knowledge graph. Each 
 ```mermaid
 graph TD
     subgraph Symbol Core
-        A[Symbol Interning] --> B(Graph Structure)
+        A[Symbol Interning] --> B&#40;Graph Structure&#41;
         B --> C{Mixinability}
     end
 
     subgraph Domain-Specific Layers
-        C --> D[Datetime Mixin]
+        C --> D[Time Dimension Mixin]
         C --> E[Pathfinding Mixin]
         C --> F[Indexing Mixin]
         C --> G[Scheduling]
     end
 
     subgraph Applications
-        D --> H(Time-Series Analysis)
-        E --> I(Dependency Mapping)
-        F --> J(Semantic Search)
-        G --> K(Deferred Execution)
+        D --> H&#40;Time-Series Analysis&#41;
+        E --> I&#40;Dependency Mapping&#41;
+        F --> J&#40;Semantic Search&#41;
+        G --> K&#40;Deferred Execution&#41;
     end
 
     subgraph "Styling"
-        style A fill:#ff9,stroke:#333,stroke-width:2px
-        style B fill:#ff9,stroke:#333,stroke-width:2px
-        style C fill:#ff9,stroke:#333,stroke-width:2px
-        style D fill:#9cf,stroke:#333,stroke-width:2px
-        style E fill:#9cf,stroke:#333,stroke-width:2px
-        style F fill:#9cf,stroke:#333,stroke-width:2px
-        style G fill:#9cf,stroke:#333,stroke-width:2px
-        style H fill:#9f9,stroke:#333,stroke-width:2px
-        style I fill:#9f9,stroke:#333,stroke-width:2px
-        style J fill:#9f9,stroke:#333,stroke-width:2px
-        style K fill:#9f9,stroke:#333,stroke-width:2px
     end
-```
+
+    style A fill:#72ddba,stroke:#333,stroke-width:2px,color:#000000;```
 
 *   **Symbol Core (Yellow):** Represents the fundamental, immutable aspects of `Symbol` instances.
 *   **Domain-Specific Layers (Blue):** Illustrates how mixins extend `Symbol` with specialized capabilities relevant to particular domains.

@@ -3,19 +3,19 @@
 It allows for adding, manipulating, and calculating overlaps between timelines.
 """
 from typing import List, Tuple, Optional, Iterator
-import datetime
+import pendulum
 
 from ..core.base_symbol import Symbol
 
 class Timeline:
     """Represents a series of periods, typically associated with a Symbol."""
-    def __init__(self, periods: Optional[List[Tuple[datetime.datetime, datetime.datetime]]] = None):
+    def __init__(self, periods: Optional[List[Tuple[pendulum.DateTime, pendulum.DateTime]]] = None):
         self._periods = []
         if periods:
             for start, end in periods:
                 self.add_period(start, end)
 
-    def add_period(self, start: datetime.datetime, end: datetime.datetime) -> None:
+    def add_period(self, start: pendulum.DateTime, end: pendulum.DateTime) -> None:
         """Adds a period to the timeline, ensuring periods are ordered and non-overlapping (if possible)."""
         if start >= end:
             raise ValueError("Period start must be before end.")
@@ -26,7 +26,7 @@ class Timeline:
     def __len__(self) -> int:
         return len(self._periods)
 
-    def __iter__(self) -> Iterator[Tuple[datetime.datetime, datetime.datetime]]:
+    def __iter__(self) -> Iterator[Tuple[pendulum.DateTime, pendulum.DateTime]]:
         return iter(self._periods)
 
     def overlap(self, other: 'Timeline') -> 'Timeline':
@@ -51,7 +51,7 @@ class Timeline:
                 j += 1
         return Timeline(overlaps)
 
-    def to_ascii(self, resolution: datetime.timedelta = datetime.timedelta(days=1)) -> str:
+    def to_ascii(self, resolution: pendulum.Duration = pendulum.duration(days=1)) -> str:
         """Generates an ASCII representation of the timeline."""
         if not self._periods:
             return "(Empty Timeline)"
@@ -62,7 +62,7 @@ class Timeline:
         lines = []
         current_date = min_date
         while current_date <= max_date:
-            line = f"{current_date.isoformat()}: "
+            line = f"{current_date.to_iso8601_string()}: "
             for start, end in self._periods:
                 if start.date() <= current_date <= end.date():
                     line += "#" # Represents an active period

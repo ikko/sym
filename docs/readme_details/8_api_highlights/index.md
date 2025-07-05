@@ -11,37 +11,29 @@ This method is used to create or retrieve a unique `Symbol` instance based on it
 
 ### Code Example
 ```python
-from symbol import Symbol
+from symbol import Symbol, s
 
-# Creating symbols - subsequent calls with the same name return the same object
-s1 = Symbol('my_unique_symbol')
-s2 = Symbol('my_unique_symbol')
-s3 = Symbol('another_symbol')
+s1 = s.my_unique_symbol
+s2 = s.my_unique_symbol
+s3 = s.another_symbol
 
 print(f"s1 is s2: {s1 is s2}")
 print(f"s1 is s3: {s1 is s3}")
-print(f"ID of s1: {id(s1)}")
-print(f"ID of s2: {id(s2)}")
-print(f"ID of s3: {id(s3)}")
 ```
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Call Symbol('Name')] --> B{Symbol Pool Check};
+    A[Call Symbol&#40;'Name'&#41;] --> B{Symbol Pool Check};
     B -- "Exists?" --> C{Yes};
     C --> D[Return Existing Instance];
     B -- "No" --> E[Create New Instance];
     E --> F[Add to Pool];
     F --> D;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style E fill:#DA70D6,stroke:#333,stroke-width:2px;
-    style F fill:#8A2BE2,stroke:#333,stroke-width:2px;
-```
+    style A fill:lighten&#40;#41c855, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:lighten(#41c855, 30%),stroke:#333,stroke-width:2px,color:#000000;```
 
 ## `Symbol.next()`: Creates and Chains Auto-Numbered Symbols
 
@@ -67,19 +59,15 @@ print(f"sym1 prev is sym0: {sym1._prev is sym0}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Call Symbol.next()] --> B{Increment Counter};
-    B --> C[Generate Name (e.g., sym_N)];
+    A[Call Symbol.next&#40;&#41;] --> B{Increment Counter};
+    B --> C[Generate Name &#40;e.g., sym_N&#41;];
     C --> D[Create New Symbol];
-    D -- "Link to Previous (if any)" --> E[Previous Symbol];
+    D -- "Link to Previous &#40;if any&#41;" --> E[Previous Symbol];
     D --> F[Return New Symbol];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style E fill:#DA70D6,stroke:#333,stroke-width:2px;
-    style F fill:#8A2BE2,stroke:#333,stroke-width:2px;
-```
+    style A fill:lighten&#40;#26c4c6, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:lighten(#26c4c6, 30%),stroke:#333,stroke-width:2px,color:#000000;```
 
 ## `symbol.append(child)` / `symbol.relate_to(other, how)`: Link Construction
 
@@ -90,44 +78,36 @@ These methods are used to build the graph structure by defining directed relatio
 
 ### Code Example
 ```python
-from symbol import Symbol
+from symbol import s
 
-# Create symbols
-parent = Symbol('Parent')
-child1 = Symbol('Child1')
-child2 = Symbol('Child2')
-related_entity = Symbol('RelatedEntity')
+parent = s.Parent
+child1 = s.Child1
+child2 = s.Child2
+related_entity = s.RelatedEntity
 
-# Using append for parent-child relationship
 parent.append(child1)
 parent.append(child2)
-
-# Using relate_to for a custom relationship
 parent.relate_to(related_entity, how='depends_on')
 
 print(f"Parent children: {[c.name for c in parent.children]}")
 print(f"Child1 parents: {[p.name for p in child1.parents]}")
-print(f"Parent related to: {[r.name for r in parent.related_to]}")
 ```
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Source Symbol] --> B{append(Child)};
+    A[Source Symbol] --> B{append&#40;Child&#41;};
     B --> C[Child Symbol];
     A -- "parent-child" --> C;
 
-    X[Source Symbol] --> Y{relate_to(Other, 'how')};
+    X[Source Symbol] --> Y{relate_to&#40;Other, 'how'&#41;};
     Y --> Z[Other Symbol];
     X -- "how" --> Z;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style X fill:#FFD700,stroke:#333,stroke-width:2px;
-    style Y fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style Z fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
+    style X fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## `symbol.tree()` / `.que()` / `.relate()`: Lazy Traversal
 
@@ -178,20 +158,16 @@ while q:
 ```mermaid
 graph TD
     A[Root Symbol] --> B{Traversal Method};
-    B -- "tree()" --> C[Depth-First Traversal];
-    B -- "que()" --> D[Breadth-First Traversal];
-    B -- "relate()" --> E[Custom Relationship Traversal];
+    B -- "tree&#40;&#41;" --> C[Depth-First Traversal];
+    B -- "que&#40;&#41;" --> D[Breadth-First Traversal];
+    B -- "relate&#40;&#41;" --> E[Custom Relationship Traversal];
     C --> F[Yields Symbols];
     D --> F;
     E --> F;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#90EE90,stroke:#333,stroke-width:2px;
-    style F fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#1c06ab,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    style A fill:#1c06ab,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ## `symbol.patch(other)`: Recursive, Structural Deep Merge
 
@@ -227,7 +203,7 @@ print(f"Base children: {[c.name for c in base.children]}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Current Symbol] --> B{patch(Other Symbol)};
+    A[Current Symbol] --> B{patch&#40;Other Symbol&#41;};
     B -- "Merges" --> C[Other Symbol's Children];
     B -- "Merges" --> D[Other Symbol's Parents];
     B -- "Merges" --> E[Other Symbol's Related Entities];
@@ -235,13 +211,9 @@ graph TD
     D --> F;
     E --> F;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#90EE90,stroke:#333,stroke-width:2px;
-    style F fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#681388,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    style A fill:#681388,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ## `symbol.to_mmd()`: Outputs Tree Graph in Mermaid Diagram Syntax
 
@@ -275,20 +247,18 @@ print(mermaid_syntax)
 #     Task1 --> Subtask1_1
 ```
 
+
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{to_mmd()};
-    B --> C[Traverse Children];
+    A[Symbol Instance] --> B{to_mmd&#40;&#41;};
+    B --> C[Traverse Children];;
     C --> D[Generate Mermaid Syntax];
     D --> E[Return String];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style E fill:#8A2BE2,stroke:#333,stroke-width:2px;
-```
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## `symbol.to_ascii()`: Outputs ASCII Art Representation of Graphs
 
@@ -325,17 +295,14 @@ print(ascii_art)
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{to_ascii()};
+    A[Symbol Instance] --> B{to_ascii&#40;&#41;};
     B --> C[Traverse Children];
     C --> D[Format as ASCII Art];
     D --> E[Return String];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style E fill:#8A2BE2,stroke:#333,stroke-width:2px;
-```
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## `symbol.delete()`: Removes Node and Its Inverse References
 
@@ -371,7 +338,7 @@ print(f"After delete: Child parents: {[p.name for p in child.parents]}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol to Delete] --> B{delete()};
+    A[Symbol to Delete] --> B{delete&#40;&#41;};
     B -- "Removes from" --> C[Parents' Children Lists];
     B -- "Removes from" --> D[Children's Parents Lists];
     B -- "Clears" --> E[Its Own Parent/Child Lists];
@@ -379,13 +346,9 @@ graph TD
     D --> F;
     E --> F;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#90EE90,stroke:#333,stroke-width:2px;
-    style F fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#3ed964,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#3ed964,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## `symbol.elevate()`: Promotes Metadata to Instance Attributes/Methods
 
@@ -422,20 +385,16 @@ print(f"Elevated method call: {s.get_info()}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol.metadata] --> B{elevate()};
+    A[Symbol.metadata] --> B{elevate&#40;&#41;};
     B -- "Transforms" --> C[Key-Value Pairs];
     C --> D[Direct Instance Attributes];
     C --> E[Direct Instance Methods];
     D --> F[Faster Access];
     E --> F;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style F fill:#32CD32,stroke:#333,stroke-width:2px;
-```
+    style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## `symbol.slim()`: Removes Unused Dynamically Applied Mixins
 
@@ -469,17 +428,14 @@ print(f"After slim: Has 'temp_method'? {hasattr(s, 'temp_method')}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{slim()};
+    A[Symbol Instance] --> B{slim&#40;&#41;};
     B -- "Identifies" --> C[Dynamically Applied Mixins];
     C -- "Removes" --> D[Unused Attributes/Methods];
     D --> E[Reduced Memory Footprint];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style E fill:#32CD32,stroke:#333,stroke-width:2px;
-```
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## `symbol.immute()`: Orchestrates Maturing Process (Elevate, Slim, Freeze)
 
@@ -518,19 +474,15 @@ print(f"Elevated attribute: {s.config_param}")
 ### Diagram
 ```mermaid
 graph TD
-    A[Initial Symbol State] --> B{immute()};
-    B -- "1. Elevate()" --> C[Metadata to Attributes];
-    C -- "2. Slim()" --> D[Remove Unused Mixins];
-    D -- "3. Freeze()" --> E[Lock Symbol Class];
+    A[Initial Symbol State] --> B{immute&#40;&#41;};
+    B -- "1. Elevate&#40;&#41;" --> C[Metadata to Attributes];
+    C -- "2. Slim&#40;&#41;" --> D[Remove Unused Mixins];
+    D -- "3. Freeze&#40;&#41;" --> E[Lock Symbol Class];
     E --> F[Optimized, Immutable Symbol];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#90EE90,stroke:#333,stroke-width:2px;
-    style F fill:#32CD32,stroke:#333,stroke-width:2px;
-```
+    style A fill:#f750dc,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#f750dc,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## `symbol.ref`: Alias for `symbol.origin` to Track Source Provenance
 
@@ -567,12 +519,9 @@ graph TD
     C -- "Accessed via" --> D[symbol.ref];
     D --> E[Provenance Tracking];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#32CD32,stroke:#333,stroke-width:2px;
-```
+    style A fill:#338880,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    style A fill:#338880,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ## `Scheduler.add_job(job)`: Schedules a New Job for Execution
 
@@ -584,17 +533,17 @@ To add a `ScheduledJob` to the scheduler's queue for future execution. This is h
 ### Code Example
 ```python
 from symbol.core.schedule import Scheduler, ScheduledJob
-import datetime
+import pendulum
 import time
 
 def my_scheduled_task(message):
-    print(f"[{datetime.datetime.now()}] Scheduled task executed: {message}")
+    print(f"[{pendulum.now()}] Scheduled task executed: {message}")
 
 # Initialize the scheduler
 scheduler = Scheduler()
 
 # Schedule a job to run in 5 seconds
-future_time = datetime.datetime.now() + datetime.timedelta(seconds=5)
+future_time = pendulum.now().add(seconds=5)
 job1 = ScheduledJob(my_scheduled_task, args=("Hello from future!",), kwargs={}, schedule=future_time)
 scheduler.add_job(job1)
 
@@ -619,16 +568,12 @@ finally:
 graph TD
     A[Callable Function] --> B[Create ScheduledJob];
     C[Schedule Details] --> B;
-    B --> D{Scheduler.add_job(job)};
+    B --> D{Scheduler.add_job&#40;job&#41;};
     D --> E[Add to Internal Queue];
     E --> F[Job Awaits Execution];
+    style C fill:#6b894b,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style E fill:#DA70D6,stroke:#333,stroke-width:2px;
-    style F fill:#8A2BE2,stroke:#333,stroke-width:2px;
-```
+    style A fill:#92925a,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#6b894b,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 For a comprehensive overview of the Symbol API, refer to the [API Overview Diagram](api_overview.mmd).

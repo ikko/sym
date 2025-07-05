@@ -28,9 +28,9 @@ print(hello.tree())
 graph TD
     A[hello] --> B[world];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#5d4140,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    style A fill:#5d4140,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ## ESG Example: Tracking Deforestation in a Supply Chain
 
@@ -38,25 +38,18 @@ This example illustrates how `Symbol` can model complex supply chain relationshi
 
 ### Code Example
 ```python
-from symbol import s, Symbol
+from symbol import s
 
-# --- ESG Example: Tracking Deforestation in a Supply Chain ---
-# Define our supply chain entities
 s.Global_Goods_Inc.buys_from(s.Palm_Oil_Processor)
 s.Palm_Oil_Processor.buys_from(s.Supplier_A)
 s.Palm_Oil_Processor.buys_from(s.Supplier_B)
-
 s.Supplier_A.sources_from(s.Plantation_X)
 s.Supplier_B.sources_from(s.Plantation_Y)
-
-# Add deforestation data (hypothetical)
 s.Plantation_Y.add(s.deforestation_event_2024_Q4)
 
-# Now, let's find the tainted products
 def has_deforestation(symbol):
     return 'deforestation' in symbol.name
 
-# Find all paths from the company to a deforestation event
 for path in s.Global_Goods_Inc.match(has_deforestation):
     print(f"Deforestation Link Found: {path.path_to(s.deforestation_event_2024_Q4)}")
 ```
@@ -77,14 +70,9 @@ graph TD
     D --> F[Plantation_Y];
     F --> G[deforestation_event_2024_Q4];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style F fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style G fill:#DC143C,stroke:#333,stroke-width:2px;
-```
+    style A fill:#1be6c8,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#1be6c8,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## Timeline Example
 
@@ -93,14 +81,14 @@ This example showcases the use of `symbol.builtins.timeline` to manage and analy
 ### Code Example
 ```python
 from symbol.builtins.timeline import Timeline
-import datetime
+import pendulum
 
 timeline1 = Timeline()
-timeline1.add_period(datetime.datetime(2023, 1, 1), datetime.datetime(2023, 1, 15))
-timeline1.add_period(datetime.datetime(2023, 1, 10), datetime.datetime(2023, 1, 20))
+timeline1.add_period(pendulum.datetime(2023, 1, 1), pendulum.datetime(2023, 1, 15))
+timeline1.add_period(pendulum.datetime(2023, 1, 10), pendulum.datetime(2023, 1, 20))
 
 timeline2 = Timeline()
-timeline2.add_period(datetime.datetime(2023, 1, 5), datetime.datetime(2023, 1, 12))
+timeline2.add_period(pendulum.datetime(2023, 1, 5), pendulum.datetime(2023, 1, 12))
 
 overlap_timeline = timeline1.overlap(timeline2)
 print(f"Overlap periods: {list(overlap_timeline)}")
@@ -109,25 +97,21 @@ print(timeline1.to_ascii())
 
 ### Explanation
 - `Timeline()`: Instantiates a `Timeline` object, which is a specialized `Symbol` for managing time intervals.
-- `add_period()`: Adds a time period (defined by start and end `datetime` objects) to the timeline. These periods are internally represented as `Symbol` instances.
+- `add_period()`: Adds a time period (defined by start and end `pendulum.DateTime` objects) to the timeline. These periods are internally represented as `Symbol` instances.
 - `overlap()`: A method provided by the `Timeline` class that calculates the overlapping periods between two timelines. This demonstrates `Symbol`'s ability to extend its core functionality for domain-specific operations.
 - `to_ascii()`: Visualizes the timeline using ASCII art, providing a quick textual representation of the time periods.
 
 ### Diagram
 ```mermaid
 graph LR
-    A[Timeline 1] -- "Period 1" --> B(2023-01-01 to 2023-01-15);
-    A -- "Period 2" --> C(2023-01-10 to 2023-01-20);
-    X[Timeline 2] -- "Period 3" --> Y(2023-01-05 to 2023-01-12);
-    A -- "overlap()" --> Z[Overlap Periods];
+    A[Timeline 1] -- "Period 1" --> B&#40;2023-01-01 to 2023-01-15&#41;;
+    A -- "Period 2" --> C&#40;2023-01-10 to 2023-01-20&#41;;
+    X[Timeline 2] -- "Period 3" --> Y&#40;2023-01-05 to 2023-01-12&#41;;
+    A -- "overlap&#40;&#41;" --> Z[Overlap Periods];
+    style X fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style X fill:#FFD700,stroke:#333,stroke-width:2px;
-    style Y fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style Z fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style X fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ## Batch Processing Example
 
@@ -149,31 +133,29 @@ print(f"Batch processing results: {results}")
 ### Diagram
 ```mermaid
 graph LR
-    A[Input List] --> B{process_batch()};
-    C[Function (e.g., square)] --> B;
+    A[Input List] --> B{process_batch&#40;&#41;};
+    C[Function &#40;e.g., square&#41;] --> B;
     B --> D[Processed Results];
+    style C fill:lighten&#40;#283d9e, 30%&#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#da417d,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:lighten(#283d9e, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ## Scheduler Example
 
-This example demonstrates the use of `symbol.core.schedule` to schedule and execute tasks at specified times. It showcases the `Scheduler` and `ScheduledJob` classes, allowing for the automation of functions based on datetime objects.
+This example demonstrates the use of `symbol.core.schedule` to schedule and execute tasks at specified times. It showcases the `Scheduler` and `ScheduledJob` classes, allowing for the automation of functions based on time dimension objects.
 
 ### Code Example
 ```python
 from symbol.core.schedule import Scheduler, ScheduledJob
 import time
-import datetime
+import pendulum
 
 def my_task(message):
     print(f"Executing task: {message}")
 
 scheduler = Scheduler()
-job = ScheduledJob(my_task, args=("Hello from the scheduler!",), schedule=datetime.datetime.now() + datetime.timedelta(seconds=5))
+job = ScheduledJob(my_task, args=("Hello from the scheduler!",), schedule=pendulum.now().add(seconds=5))
 scheduler.add_job(job)
 
 scheduler.start()
@@ -192,18 +174,15 @@ scheduler.stop()
 ### Diagram
 ```mermaid
 graph TD
-    A[Function (my_task)] --> B[ScheduledJob];
-    C[Schedule (datetime)] --> B;
-    B --> D[Scheduler.add_job()];
-    D --> E[Scheduler.start()];
+    A[Function &#40;my_task&#41;] --> B[ScheduledJob];
+    C[Schedule &#40;pendulum.DateTime&#41;] --> B;
+    B --> D[Scheduler.add_job&#40;&#41;];
+    D --> E[Scheduler.start&#40;&#41;];
     E -- "Executes at time" --> A;
+    style C fill:lighten&#40;#dfceac, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style E fill:#DA70D6,stroke:#333,stroke-width:2px;
-```
+    style A fill:lighten(#7c2ccd, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:lighten(#b83750, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ## Conclusion
 

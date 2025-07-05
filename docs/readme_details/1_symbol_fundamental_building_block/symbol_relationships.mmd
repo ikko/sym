@@ -5,6 +5,7 @@ graph TD
         C[Graph: Collection of Nodes and Edges]
     end
 
+
     subgraph "Core Properties"
         A -- "has unique name" --> D[Interning Pool]
         A -- "can connect to" --> A
@@ -17,6 +18,7 @@ graph TD
         A -- "related to [generic]" --> F[Other Symbol]
     end
 
+
     subgraph "Example: Project Management"
         G[Project A] --> H[Task 1.1]
         G --> I[Task 1.2]
@@ -25,21 +27,14 @@ graph TD
         L[Team Member X] --> H
         L --> K
         M[Resource Y] --> J
-
-        style G fill:#FFD700,stroke:#333,stroke-width:2px;
-        style H fill:#ADFF2F,stroke:#333,stroke-width:2px;
-        style I fill:#ADFF2F,stroke:#333,stroke-width:2px;
-        style J fill:#90EE90,stroke:#333,stroke-width:2px;
-        style K fill:#90EE90,stroke:#333,stroke-width:2px;
-        style L fill:#1E90FF,stroke:#333,stroke-width:2px;
-        style M fill:#8A2BE2,stroke:#333,stroke-width:2px;
     end
 
     subgraph "Styling"
-        style A fill:#FF6347,stroke:#333,stroke-width:2px;
-        style B fill:#FFD700,stroke:#333,stroke-width:2px;
-        style C fill:#ADFF2F,stroke:#333,stroke-width:2px;
-        style D fill:#ADD8E6,stroke:#333,stroke-width:2px;
-        style E fill:#90EE90,stroke:#333,stroke-width:2px;
-        style F fill:#DA70D6,stroke:#333,stroke-width:2px;
     end
+
+    style A fill:#0f9e3d,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:lighten(#b388ef, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:lighten(#e8cb1c, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style G fill:#accc7f,stroke:#333,stroke-width:2px,color:#000000;
+    style L fill:#960900,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style M fill:#9fa276,stroke:#333,stroke-width:2px,color:#000000;

@@ -15,7 +15,7 @@ Beyond the built-in mixins, `Symbol` allows you to define and register your own 
 Imagine modeling aircraft components and their maintenance schedules. We can create a custom mixin to handle `last_inspected` and `next_inspection_due` properties.
 
 ```python
-import datetime
+import pendulum
 from symbol.core.symbol import Symbol
 from symbol.core.mixinability import register_mixin
 from symbol.core.protocols import SymbolProtocol
@@ -24,18 +24,18 @@ class AircraftComponentMixin(SymbolProtocol):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._last_inspected = None
-        self._inspection_interval = datetime.timedelta(days=365) # Default 1 year
+        self._inspection_interval = pendulum.duration(days=365) # Default 1 year
 
     @property
-    def last_inspected(self) -> Optional[datetime.datetime]:
+    def last_inspected(self) -> Optional[pendulum.DateTime]:
         return self._last_inspected
 
     @last_inspected.setter
-    def last_inspected(self, dt: datetime.datetime):
+    def last_inspected(self, dt: pendulum.DateTime):
         self._last_inspected = dt
 
     @property
-    def next_inspection_due(self) -> Optional[datetime.datetime]:
+    def next_inspection_due(self) -> Optional[pendulum.DateTime]:
         if self._last_inspected:
             return self._last_inspected + self._inspection_interval
         return None
@@ -45,7 +45,7 @@ register_mixin(Symbol, "aircraft_component", AircraftComponentMixin)
 
 # Usage
 engine = Symbol("Engine_Turbofan_A320")
-engine.aircraft_component.last_inspected = datetime.datetime(2024, 1, 15)
+engine.aircraft_component.last_inspected = pendulum.datetime(2024, 1, 15)
 
 print(f"Engine last inspected: {engine.aircraft_component.last_inspected}")
 print(f"Engine next inspection due: {engine.aircraft_component.next_inspection_due}")
@@ -55,15 +55,13 @@ print(f"Engine next inspection due: {engine.aircraft_component.next_inspection_d
 
 ```mermaid
 graph TD
-    A[Aircraft] --> B(Engine_Turbofan_A320)
-    B -- "Last Inspected: 2024-01-15" --> C(Next Due: 2025-01-15)
+    A[Aircraft] --> B&#40;Engine_Turbofan_A320&#41;
+    B -- "Last Inspected: 2024-01-15" --> C&#40;Next Due: 2025-01-15&#41;
 
     subgraph "Styling"
-        style A fill:#ff9,stroke:#333,stroke-width:2px
-        style B fill:#9cf,stroke:#333,stroke-width:2px
-        style C fill:#9f9,stroke:#333,stroke-width:2px
     end
-```
+
+    style A fill:#b95086,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ### 2. Complex Graph Manipulations and Traversal Strategies
 
@@ -94,18 +92,15 @@ print(auth_service.to_mmd(mode="graph"))
 
 ```mermaid
 graph LR
-    A[AuthService] --> B(UserService)
-    B --> C(ProductService)
-    C --> D(PaymentService)
+    A[AuthService] --> B&#40;UserService&#41;
+    B --> C&#40;ProductService&#41;
+    C --> D&#40;PaymentService&#41;
     D --> A
 
     subgraph "Styling"
-        style A fill:#ff9,stroke:#333,stroke-width:2px
-        style B fill:#9cf,stroke:#333,stroke-width:2px
-        style C fill:#9f9,stroke:#333,stroke-width:2px
-        style D fill:#c9f,stroke:#333,stroke-width:2px
     end
-```
+
+    style A fill:#f33a1d,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 #### 2.2. Use Case Modeling: Healthcare (Patient Journey Mapping)
 
@@ -132,21 +127,16 @@ print(admission.to_mmd())
 
 ```mermaid
 graph TD
-    Adm[Admission] --> GP(Consultation_GP)
-    GP --> LT(LabTests)
-    LT --> SR(SpecialistReferral)
-    SR --> T(Treatment)
-    T --> Dis(Discharge)
+    Adm[Admission] --> GP&#40;Consultation_GP&#41;
+    GP --> LT&#40;LabTests&#41;
+    LT --> SR&#40;SpecialistReferral&#41;
+    SR --> T&#40;Treatment&#41;
+    T --> Dis&#40;Discharge&#41;
 
     subgraph "Styling"
-        style Adm fill:#ff9,stroke:#333,stroke-width:2px
-        style GP fill:#9cf,stroke:#333,stroke-width:2px
-        style LT fill:#9f9,stroke:#333,stroke-width:2px
-        style SR fill:#c9f,stroke:#333,stroke-width:2px
-        style T fill:#f9c,stroke:#333,stroke-width:2px
-        style Dis fill:#f99,stroke:#333,stroke-width:2px
     end
-```
+
+    style Adm fill:#4326f0,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ### 3. Strategic Applications: DSLs and Semantic Modeling
 
@@ -176,17 +166,14 @@ print(line_1.to_mmd())
 
 ```mermaid
 graph TD
-    L1[AssemblyLine1] --> S1(Station1)
-    S1 --> RA(RobotArmA)
-    RA --> PW(ProcessWeld)
+    L1[AssemblyLine1] --> S1&#40;Station1&#41;
+    S1 --> RA&#40;RobotArmA&#41;
+    RA --> PW&#40;ProcessWeld&#41;
 
     subgraph "Styling"
-        style L1 fill:#ff9,stroke:#333,stroke-width:2px
-        style S1 fill:#9cf,stroke:#333,stroke-width:2px
-        style RA fill:#9f9,stroke:#333,stroke-width:2px
-        style PW fill:#c9f,stroke:#333,stroke-width:2px
     end
-```
+
+    style L1 fill:#7340aa,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 #### 3.2. Semantic Data Modeling: Real Estate (Property Attributes and Relationships)
 
@@ -211,17 +198,14 @@ print(property_123.to_mmd())
 
 ```mermaid
 graph TD
-    P[Property_123MainSt] --> B(Bedroom)
-    P --> Ba(Bathroom)
-    P --> K(Kitchen)
+    P[Property_123MainSt] --> B&#40;Bedroom&#41;
+    P --> Ba&#40;Bathroom&#41;
+    P --> K&#40;Kitchen&#41;
 
     subgraph "Styling"
-        style P fill:#ff9,stroke:#333,stroke-width:2px
-        style B fill:#9cf,stroke:#333,stroke-width:2px
-        style Ba fill:#9f9,stroke:#333,stroke-width:2px
-        style K fill:#c9f,stroke:#333,stroke-width:2px
     end
-```
+
+    style P fill:#44f24d,stroke:#333,stroke-width:2px,color:#000000;```
 
 ### Conclusion
 

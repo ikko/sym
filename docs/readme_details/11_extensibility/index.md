@@ -49,11 +49,9 @@ graph TD
     C --> D[Symbol Instance];
     D -- "Executes" --> A;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#512916,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    style A fill:#512916,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ## `MixinFunction` Protocol for Formal Mixin Interface
 
@@ -99,13 +97,9 @@ graph TD
     D --> E;
     E --> F[Symbol Extensibility];
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
-    style F fill:#32CD32,stroke:#333,stroke-width:2px;
-```
+    style A fill:#59d01f,stroke:#333,stroke-width:2px,color:#000000;
+
+    style A fill:#59d01f,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## `SymbolAdapter` Mixinable Interface Enables Different Logical Structures
 
@@ -153,18 +147,15 @@ network_node.receive_response()
 ### Diagram
 ```mermaid
 graph TD
-    A[Generic Symbol] --> B{Apply Mixin (Adapter)};
+    A[Generic Symbol] --> B{Apply Mixin &#40;Adapter&#41;};
     B -- "DatabaseRecordMixin" --> C[Behaves as Database Record];
     B -- "NetworkEndpointMixin" --> D[Behaves as Network Endpoint];
     C --> E[Specific Operations];
     D --> E;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-    style D fill:#90EE90,stroke:#333,stroke-width:2px;
-    style E fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#17ae2e,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    style A fill:#17ae2e,stroke:#333,stroke-width:2px,color:#FFFFFF;```
 
 ## Compatible with Enum Reflection and External DSL Inputs
 
@@ -189,10 +180,6 @@ traffic_symbols = Symbol.from_enum(TrafficLight)
 for sym in traffic_symbols:
     print(f"Enum Symbol: {sym.name}")
 
-# External DSL Input (Conceptual Example)
-# Imagine a simple DSL for defining relationships:
-# "user -> post, post -> comment"
-
 def parse_dsl(dsl_string: str):
     symbols = {}
     for line in dsl_string.split(','):
@@ -210,7 +197,6 @@ def parse_dsl(dsl_string: str):
 dsl_input = "user -> post, post -> comment, user -> like"
 parsed_symbols = parse_dsl(dsl_input)
 
-# Verify the graph structure
 user_sym = parsed_symbols['user']
 print("\nDSL-defined graph:")
 for sym in user_sym.tree():
@@ -220,20 +206,15 @@ for sym in user_sym.tree():
 ### Diagram
 ```mermaid
 graph TD
-    A[Enum Type] --> B{Symbol.from_enum()};
+    A[Enum Type] --> B{Symbol.from_enum&#40;&#41;};
     B --> C[Symbol Instances];
 
     X[External DSL Input] --> Y{DSL Parser};
     Y --> Z[Symbol Graph Construction];
+    style X fill:#58f895,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#ADFF2F,stroke:#333,stroke-width:2px;
-
-    style X fill:#FFD700,stroke:#333,stroke-width:2px;
-    style Y fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style Z fill:#ADFF2F,stroke:#333,stroke-width:2px;
-```
+    style A fill:#7f059a,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style X fill:#58f895,stroke:#333,stroke-width:2px,color:#000000;```
 
 ## Conclusion
 

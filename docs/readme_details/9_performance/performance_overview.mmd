@@ -1,17 +1,17 @@
 graph TD
     subgraph "Symbol Performance Characteristics"
-        A[O(1) Symbol Instantiation] --> B[Intern Pool [Flyweight Pattern]];
+        A[O&#40;1&#41; Symbol Instantiation] --> B[Intern Pool [Flyweight Pattern]];
         A --> C[Memory Efficiency];
 
-        D[O(1) Relationship Linking] --> E[Direct List Appends];
+        D[O&#40;1&#41; Relationship Linking] --> E[Direct List Appends];
         D --> F[Optimized for Graph Building];
 
-        G[O(1) Traversal with Cache] --> H[Cached Lengths];
+        G[O&#40;1&#41; Traversal with Cache] --> H[Cached Lengths];
         G --> I[Float-based Cursor Insertion];
         G --> J[Efficient Graph Navigation];
 
-        K[O(log n) Insert/Search] --> L[Bisect-based Insertion Order];
-        K --> M[Balanced Trees (AVL/Red-Black)];
+        K[O&#40;log n&#41; Insert/Search] --> L[Bisect-based Insertion Order];
+        K --> M[Balanced Trees &#40;AVL/Red-Black&#41;];
         K --> N[Scalable Indexing];
     end
 
@@ -23,28 +23,15 @@ graph TD
         S[SymbolIndex] --> L;
         T[AVLTree/RedBlackTree] --> M;
     end
+    style T fill:#91f7a3,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#FFD700,stroke:#333,stroke-width:2px;
-    style B fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style C fill:#90EE90,stroke:#333,stroke-width:2px;
-
-    style D fill:#FFD700,stroke:#333,stroke-width:2px;
-    style E fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style F fill:#90EE90,stroke:#333,stroke-width:2px;
-
-    style G fill:#FFD700,stroke:#333,stroke-width:2px;
-    style H fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style I fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style J fill:#90EE90,stroke:#333,stroke-width:2px;
-
-    style K fill:#FFD700,stroke:#333,stroke-width:2px;
-    style L fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style M fill:#ADD8E6,stroke:#333,stroke-width:2px;
-    style N fill:#90EE90,stroke:#333,stroke-width:2px;
-
-    style O fill:#FF6347,stroke:#333,stroke-width:2px;
-    style P fill:#FF6347,stroke:#333,stroke-width:2px;
-    style Q fill:#FF6347,stroke:#333,stroke-width:2px;
-    style R fill:#FF6347,stroke:#333,stroke-width:2px;
-    style S fill:#FF6347,stroke:#333,stroke-width:2px;
-    style T fill:#FF6347,stroke:#333,stroke-width:2px;
+    style A fill:lighten(#a05fb8, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style D fill:lighten(#a22f9f, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style G fill:lighten(#d3de02, 30%),stroke:#333,stroke-width:2px,color:#000000;
+    style K fill:lighten(#b42f90, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style O fill:#9dd027,stroke:#333,stroke-width:2px,color:#000000;
+    style P fill:lighten(#4872ad, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Q fill:#eaa451,stroke:#333,stroke-width:2px,color:#000000;
+    style R fill:#9ee31b,stroke:#333,stroke-width:2px,color:#000000;
+    style S fill:#426e94,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style T fill:#91f7a3,stroke:#333,stroke-width:2px,color:#000000;

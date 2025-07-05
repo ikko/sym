@@ -1,16 +1,21 @@
-# Symbol: A Framework for Symbolic Data Manipulation
-
-**Symbol** is a Python framework for creating, manipulating, and analyzing complex, graph-based data structures. It provides a versatile `Symbol` object that serves as a node in a dynamic, directed acyclic graph (DAG). The framework is designed to be lean, modular, and extensible, making it suitable for a wide range of applications, from data science and AI to domain-specific modeling.
-
-# «symbol» namespace dsl
-
-> `symbol.py` — A Lazy, Graph-Oriented, Immutable Symbol System for Domain-Specific Abstraction
+# «symbol»
+**A Framework for Symbolic Data Manipulation**
 
 _inspired by ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)_
 
+> `symbol.py` — A Lazy, Graph-Oriented, Immutable Symbol Concept for Domain-Specific Abstraction
+
+## What is Symbol?
+
+**Symbol** is a namespace fsl, where dsl means (domain specific language). It is a Python framework for creating, manipulating, and analyzing complex, graph-based data structures. It provides a versatile `Symbol` object that serves as a node in a dynamic, directed acyclic graph (DAG). The framework is designed to be lean, modular, and extensible, making it suitable for a wide range of applications, from data science and AI to domain-specific modeling.
+
+
+
+
+
 ## Core Concepts
 
--   **Symbol**: The fundamental building block. Each symbol has a unique name and can be connected to other symbols, forming complex relationships.
+-   **«symbol»**: The fundamental building block. Each symbol has a unique name and can be connected to other symbols, forming complex relationships.
 -   **Flyweight Design**: Symbols are unique. `Symbol('a')` will always return the same object, saving memory and ensuring consistency.
 -   **Layered Architecture**: The core is minimal. Functionality is added through modular, "builtin" extensions for features like date/time handling, advanced collections, and visualization.
 -   **Per-Instance Indexing**: Every symbol has its own private, weighted index of other symbols, allowing for the creation of sophisticated, nested data structures.
@@ -36,6 +41,8 @@ API Highlights:
 
 Performance:
 ------------
+For detailed performance analysis and empirical validation of Big O notations, refer to the [Performance Notations and Empirical Validation](docs/notations.md) document.
+
 - O(1) symbol instantiation (intern pool)
 - O(1) relationship linking
 - O(1) traversal with cache and float-based cursor insertion
@@ -85,12 +92,12 @@ graph TD
     D --> M[symbol.builtins.timeline]
     
     subgraph "Styling"
-        style A fill:#ff9,stroke:#333,stroke-width:2px
-        style B fill:#9cf,stroke:#333,stroke-width:2px
-        style C fill:#9f9,stroke:#333,stroke-width:2px
-        style D fill:#c9f,stroke:#333,stroke-width:2px
     end
 ```
+    style A fill:#9400D3,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:#ADFF2F,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#BDB76B,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#ADFF2F,stroke:#333,stroke-width:2px,color:#000000;
 
 ## Software Architecture
 
@@ -100,6 +107,7 @@ graph TD
         A[symbol] --> B(symbol.core)
         A --> C(symbol.builtins)
     end
+    style A fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
 
     subgraph "Core Modules"
         B --> B1[symbol.core.symbol]

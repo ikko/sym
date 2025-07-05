@@ -3,7 +3,7 @@
 It allows for creating and managing indexes on Symbol attributes,
 and provides methods for rebalancing the index using different strategies.
 """
-import datetime
+import pendulum
 import orjson
 from typing import Any, Union, Optional, Callable, Literal
 
@@ -120,10 +120,10 @@ class SymbolIndex:
             self.root = copy_from_rbt(tree.root)
 
         elif strategy == 'hybrid':
-            now = datetime.datetime.now()
+            now = pendulum.now()
             def hybrid_weight(sym: 'Symbol'):
                 try:
-                    ts = datetime.datetime.fromisoformat(sym.name)
+                    ts = pendulum.parse(sym.name)
                 except Exception:
                     ts = now
                 age = (now - ts).total_seconds()
