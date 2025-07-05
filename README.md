@@ -78,7 +78,7 @@ The project is organized into two main packages:
 
 ```mermaid
 graph TD
-    A[User Application] --> B(symbol)
+    A[User Application] --> B&#40;symbol&#41;
     B --> C{symbol.core}
     B --> D{symbol.builtins}
     C --> E[symbol.core.symbol]
@@ -104,8 +104,8 @@ graph TD
 ```mermaid
 graph TD
     subgraph "Symbol Package"
-        A[symbol] --> B(symbol.core)
-        A --> C(symbol.builtins)
+        A[symbol] --> B&#40;symbol.core&#41;
+        A --> C&#40;symbol.builtins&#41;
     end
     style A fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
 

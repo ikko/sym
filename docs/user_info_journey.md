@@ -41,12 +41,12 @@ This section provides a hypothetical summary of the files, classes, and function
 
 *   **File**: `middleware/auth.py`
     *   **Class**: `AuthMiddleware`
-        *   **Function**: `__call__&#40;self, request&#41;`
+        *   **Function**: `__call__&(self, request&)`
             *   **Description**: This middleware would be responsible for intercepting incoming requests, extracting the user information from the HTTP headers, and creating a user object or session.
 
 *   **File**: `services/user_service.py`
     *   **Class**: `UserService`
-        *   **Function**: `get_or_create_user&#40;self, user_data&#41;`
+        *   **Function**: `get_or_create_user&(self, user_data&)`
             *   **Description**: This function would take the user data extracted from the headers and either retrieve an existing user from the database or create a new one.
 
 ### 3. Data Models

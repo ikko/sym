@@ -2,11 +2,11 @@ graph TD
     subgraph "Symbol Memory Awareness"
         A[GC-aware Deletion] --> B[Respects ENABLE_ORIGIN];
         A --> C[Respects MEMORY_AWARE_DELETE];
-        A --> D[Symbol.delete[] Method];
+        A --> D[Symbol.delete&#40;&#41; Method];
 
         E[Proactive Memory Management] --> F[Symbol.context Attribute];
         E --> G[DefDict for Context];
-        E --> H[Symbol.clear_context[] Method];
+        E --> H[Symbol.clear_context&#40;&#41; Method];
 
         I[deep_del Utility] --> J[Recursively Deletes Attributes];
         I --> K[Handles Unreferenced Objects];

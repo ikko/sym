@@ -109,8 +109,8 @@ graph TD
     subgraph "Styling"
     end
 
-    style E1 fill:lighten(#737df5, 30%),stroke:#333,stroke-width:2px,color:#000000;
-    style E2 fill:lighten(#2f78e8, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E1 fill:#737df5,stroke:#333,stroke-width:2px,color:#000000;
+    style E2 fill:#2f78e8,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 #### 2.2. Pathfinding in Graphs
 
@@ -184,7 +184,7 @@ graph TD
     subgraph "Styling"
     end
 
-    style P fill:lighten(#710bd8, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style P fill:#710bd8,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 
 ### Conclusion

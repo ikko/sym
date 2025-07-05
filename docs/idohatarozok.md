@@ -1,4 +1,4 @@
-Rendben, itt egy részletes és hosszú **lista angol időhatározókról** &#40;adverbs of time&#41;, **előfordulásuk gyakorisága szerint csökkenő sorrendben**, a [Corpus of Contemporary American English &#40;COCA&#41;]&#40;https://www.english-corpora.org/coca/&#41; és egyéb nagykorpuszok &#40;BNC, NOW&#41; gyakorisági adatai alapján. A lista **az írott és beszélt nyelv együttes gyakoriságát** tükrözi.
+Rendben, itt egy részletes és hosszú **lista angol időhatározókról** &(adverbs of time&), **előfordulásuk gyakorisága szerint csökkenő sorrendben**, a [Corpus of Contemporary American English &(COCA&)]&(https://www.english-corpora.org/coca/&) és egyéb nagykorpuszok &(BNC, NOW&) gyakorisági adatai alapján. A lista **az írott és beszélt nyelv együttes gyakoriságát** tükrözi.
 
 ---
 
@@ -17,7 +17,7 @@ Rendben, itt egy részletes és hosszú **lista angol időhatározókról** &#40
 
 ---
 
-### 🔁 **Nagyon gyakori &#40;Top 50&#41;**
+### 🔁 **Nagyon gyakori &(Top 50&)**
 
 11. **tonight** – ma este
 12. **eventually** – végül
@@ -33,7 +33,7 @@ Rendben, itt egy részletes és hosszú **lista angol időhatározókról** &#40
 22. **once** – egyszer / valaha
 23. **sometimes** – néha
 24. **just** – épp most
-25. **afterwards** – később &#40;brit&#41;
+25. **afterwards** – később &(brit&)
 26. **meanwhile** – időközben
 27. **frequently** – gyakran
 28. **always** – mindig
@@ -105,8 +105,8 @@ Rendben, itt egy részletes és hosszú **lista angol időhatározókról** &#40
 
 ### 📌 Következő lépések, ha érdekel:
 
-* [Az időhatározók szórendje angol mondatban &#40;Cambridge&#41;]&#40;https://dictionary.cambridge.org/grammar/british-grammar/adverb-position&#41;
+* [Az időhatározók szórendje angol mondatban &(Cambridge&)]&(https://dictionary.cambridge.org/grammar/british-grammar/adverb-position&)
 * Különbségek: **"yet" vs "already"**, **"still" vs "again"**
-* Gyakorisági alapú tanuláshoz hasznos: [Sketch Engine Frequency Lists]&#40;https://www.sketchengine.eu/&#41; vagy [COCA Word Frequency]&#40;https://www.wordfrequency.info/&#41;
+* Gyakorisági alapú tanuláshoz hasznos: [Sketch Engine Frequency Lists]&(https://www.sketchengine.eu/&) vagy [COCA Word Frequency]&(https://www.wordfrequency.info/&)
 
 ---

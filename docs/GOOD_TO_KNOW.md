@@ -1,13 +1,13 @@
 ### Index Callable Weight Evaluation
 - cause: `TypeError` when comparing callable weight with numerical value during SymbolIndex insertion.
-- reason: The `_insert` function in `SymbolIndex` was attempting to directly compare a callable `weight` with `node.eval_weight&#40;&#41;` without evaluating the callable first.
-- resolution: Modified `_insert` to evaluate the `weight` using `weight&#40;sym&#41;` if it's callable before comparison, ensuring a numerical value is used.
+- reason: The `_insert` function in `SymbolIndex` was attempting to directly compare a callable `weight` with `node.eval_weight&(&)` without evaluating the callable first.
+- resolution: Modified `_insert` to evaluate the `weight` using `weight&(sym&)` if it's callable before comparison, ensuring a numerical value is used.
 - takeaway: Always ensure that values are of compatible types before comparison, especially when dealing with dynamic or callable attributes.
 
 ### Index Callable Weight Argument Mismatch
 - cause: `AttributeError` in `dynamic_weight` function during `SymbolIndex` insertion test.
 - reason: The `IndexNode.eval_weight` method was modified to pass `self.symbol` to the callable weight, but the test's `dynamic_weight` function was still expecting an integer argument (e.g., `10`) instead of a `Symbol` object.
-- resolution: Modified `dynamic_weight` in `tests/builtins/test_index.py` to accept a `Symbol` object and derive a numerical weight from its `name` attribute (e.g., `len&#40;sym.name&#41; * 2`). Also, updated the assertion in the test to reflect the correct expected value from `eval_weight&#40;&#41;`.
+- resolution: Modified `dynamic_weight` in `tests/builtins/test_index.py` to accept a `Symbol` object and derive a numerical weight from its `name` attribute (e.g., `len&(sym.name&) * 2`). Also, updated the assertion in the test to reflect the correct expected value from `eval_weight&(&)`.
 - takeaway: When refactoring, ensure all dependent components (like test functions) are updated to reflect changes in function signatures or expected argument types.
 
 ### Mermaid Diagram Non-Deterministic Output
