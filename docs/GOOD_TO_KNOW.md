@@ -15,3 +15,9 @@
 - reason: Although children were sorted before appending, the recursive `walk` function in `to_mmd` could still lead to variations in the final string due to the order of recursive calls.
 - resolution: Modified the `to_mmd` function in `symbol/builtins/visual.py` to collect all generated lines (excluding the header) and then sort them alphabetically before joining them into the final Mermaid string. The header is prepended after sorting.
 - takeaway: For deterministic output from recursive functions that build strings, especially for visual representations, consider collecting all parts and sorting them before final assembly.
+
+### Lazy Loading of Core Components
+- cause: Import errors and circular dependencies when importing `symbol` due to eager loading of submodules.
+- reason: Initial design loaded all submodules directly in `symbol/__init__.py`, leading to issues when certain modules depended on others that were not yet fully initialized or caused circular imports.
+- resolution: Implemented lazy loading for core components (`Symbol`, `s`, `GraphTraversal`) and builtins submodules in `symbol/__init__.py`. This defers the actual import until the component is first accessed, resolving import order issues and improving startup performance.
+- takeaway: For complex Python packages with interdependencies, lazy loading can be an effective strategy to manage import order, prevent circular dependencies, and optimize initial load times. This requires careful consideration of `__getattr__` and `__all__` in `__init__.py` files.
