@@ -7,7 +7,7 @@ _inspired by ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)_
 
 ## What is Symbol?
 
-**Symbol** is a namespace fsl, where dsl means (domain specific language). It is a Python framework for creating, manipulating, and analyzing complex, graph-based data structures. It provides a versatile `Symbol` object that serves as a node in a dynamic, directed acyclic graph (DAG). The framework is designed to be lean, modular, and extensible, making it suitable for a wide range of applications, from data science and AI to domain-specific modeling.
+**Symbol** is a namespace dsl. It is a Python framework for creating, manipulating, and analyzing complex, graph-based data structures. It provides a versatile `Symbol` object that serves as a node in a dynamic, directed acyclic graph (DAG). The framework is designed to be lean, modular, and extensible, making it suitable for a wide range of applications, from data science and AI to domain-specific modeling.
 
 
 ## Core Concepts
