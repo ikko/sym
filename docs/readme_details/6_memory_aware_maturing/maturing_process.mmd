@@ -1,17 +1,17 @@
 graph TD
-    subgraph "Memory-Aware Maturing Process &#40;immute&#40;&#41;&#41;"
-        A[Initial Symbol Instance] --> B{1. Elevate Metadata &#40;elevate&#40;&#41;&#41;};
+    subgraph "Memory-Aware Maturing Process #40;immute#40;#41;#41;"
+        A[Initial Symbol Instance] --> B{1. Elevate Metadata #40;elevate#40;#41;#41;};
         B -- "Metadata in .metadata" --> C[Promoted to Attributes/Methods];
-        C --> D{2. Slim Down &#40;slim&#40;&#41;&#41;};
+        C --> D{2. Slim Down #40;slim#40;#41;#41;};
         D -- "Removes Dynamic Mixins" --> E[Optimized Memory Footprint];
-        E --> F{3. Freeze Symbol Class &#40;freeze&#40;&#41;&#41;};
+        E --> F{3. Freeze Symbol Class #40;freeze#40;#41;#41;};
         F -- "Prevents Further Changes" --> G[Immutable, Production-Ready Symbol];
     end
 
     subgraph "Key Components"
-        H[Symbol.metadata &#40;DefDict&#41;] --> I[Dynamic Key-Value Store];
-        J[deep_del&#40;&#41;] --> K[Recursive Attribute Deletion];
-        L[gc.collect&#40;&#41;] --> M[Explicit Garbage Collection];
+        H[Symbol.metadata #40;DefDict#41;] --> I[Dynamic Key-Value Store];
+        J[deep_del#40;#41;] --> K[Recursive Attribute Deletion];
+        L[gc.collect#40;#41;] --> M[Explicit Garbage Collection];
         N[_apply_merge_strategy[]] --> O[Handles Attribute Overwrites];
     end
 
@@ -21,7 +21,7 @@ graph TD
         T[Enhanced Stability] --> U[Predictable Behavior in Production];
         V[Clear Lifecycle Management] --> W[Defined State Transitions];
     end
-    style V fill:lighten&#40;#05ac1f, 30%&#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style V fill:lighten#40;#05ac1f, 30%#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:lighten(#c66115, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;
     style H fill:lighten(#592daf, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;

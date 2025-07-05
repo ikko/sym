@@ -1,5 +1,6 @@
 import pytest
 from symbol.core.symbol import Symbol
+import copy
 from symbol.core.symbol import to_sym
 
 def test_from_int():
@@ -178,6 +179,9 @@ def test_nested_conversion():
     s = to_sym(nested_data)
     assert isinstance(s, Symbol)
     assert s.name == "dict"
+    # The origin attribute for collections is a deepcopy of the original data.
+    # The nested elements within the origin are NOT converted to Symbol objects.
+    # So, direct comparison with original_nested_data is correct here.
     assert s.origin == original_nested_data
 
     # Check 'a' key and its list child
@@ -191,9 +195,14 @@ def test_nested_conversion():
     # Check nested dict within the list
     nested_dict_sym = list_sym.children[1]
     assert nested_dict_sym.name == "dict"
+    # Verify the origin of the nested dict symbol
+    assert nested_dict_sym.origin == original_nested_data["a"][1]
+
     key_b = next(c for c in nested_dict_sym.children if c.name == "b")
     assert key_b
     assert key_b.children[0].name == "True"
+    # Verify the origin of the boolean symbol
+    assert key_b.children[0].origin is True
 
     # Check 'c' key and its tuple child
     key_c = next(c for c in s.children if c.name == "c")
@@ -202,6 +211,8 @@ def test_nested_conversion():
     assert tuple_sym.name == "tuple"
     assert len(tuple_sym.children) == 1
     assert tuple_sym.children[0].name == "None"
+    # Verify the origin of the None symbol
+    assert tuple_sym.children[0].origin is None
 
 def test_global_to_sym_fallback():
     class CustomClass:

@@ -16,6 +16,7 @@ dependencies = [
     "pytz",
     "python-dateutil",
     "toml",
+    "pendulum>=3.1.0",
 ]
 requires-python = ">=3.9"
 license = {text = "MIT"}

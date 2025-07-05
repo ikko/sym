@@ -1,8 +1,10 @@
-"""This module defines the core Symbol class and its extended functionalities.
+"""
+This module defines the core Symbol class and its extended functionalities.
 
 It builds upon the foundational Symbol defined in base_symbol.py,
 adding graph traversal, index, maturing, and serialization capabilities.
 """
+
 import pendulum
 import enum
 import orjson
@@ -13,7 +15,7 @@ import gc
 import copy
 from typing import Any, Union, Iterator, Optional, Literal, Set, Type, TypeVar
 
-from .base_symbol import Symbol as BaseSymbol, _to_symbol
+from .base_symbol import Symbol as BaseSymbol
 from ..builtins.collections import OrderedSymbolSet
 from ..builtins.index import SymbolIndex
 from ..core.maturing import DefDict, deep_del, _apply_merge_strategy
@@ -72,10 +74,12 @@ class Symbol(BaseSymbol):
         if ENABLE_ORIGIN:
             obj.origin = origin
         return obj
-        return obj
 
     def append(self, child: 'Symbol') -> 'Symbol':
-        child = _to_symbol(child)
+        # Ensure child is a Symbol instance
+        if not isinstance(child, Symbol):
+            child = Symbol.from_object(child)
+
         if child not in self.children:
             self.children.append(child)
             self._length_cache = None
@@ -84,13 +88,19 @@ class Symbol(BaseSymbol):
         return self
 
     def add(self, child: 'Symbol') -> 'Symbol':
-        child = _to_symbol(child)
+        # Ensure child is a Symbol instance
+        if not isinstance(child, Symbol):
+            child = Symbol.from_object(child)
+
         if child not in self.children:
             return self.append(child)
         return self
 
     def insert(self, child: 'Symbol', at: float = None) -> 'Symbol':
-        child = _to_symbol(child)
+        # Ensure child is a Symbol instance
+        if not isinstance(child, Symbol):
+            child = Symbol.from_object(child)
+
         if child in self.children:
             self.children.remove(child)
         if at is None:
@@ -261,43 +271,60 @@ class Symbol(BaseSymbol):
     def from_none(cls, value: None) -> 'Symbol':
         return cls('None', origin=value)
 
-    import copy
-# ... (rest of imports)
-
-# ... (rest of Symbol class and methods)
-
     @classmethod
     def from_list(cls, value: list) -> 'Symbol':
-        sym = cls('list', origin=value)
+        sym = cls('list', origin=copy.deepcopy(value))
         for item in value:
-            sym.append(to_sym(item))
+            sym.append(Symbol.from_object(item))
         return sym
 
     @classmethod
     def from_dict(cls, value: dict) -> 'Symbol':
-        sym = cls('dict', origin=value)
+        sym = cls('dict', origin=copy.deepcopy(value))
         for k, v in value.items():
-            key_sym = to_sym(k)
-            val_sym = to_sym(v)
+            key_sym = Symbol.from_object(k)
+            val_sym = Symbol.from_object(v)
             sym.append(key_sym)
             key_sym.append(val_sym)
         return sym
 
     @classmethod
     def from_tuple(cls, value: tuple) -> 'Symbol':
-        sym = cls('tuple', origin=value)
+        sym = cls('tuple', origin=copy.deepcopy(value))
         for item in value:
-            sym.append(to_sym(item))
+            sym.append(Symbol.from_object(item))
         return sym
 
     @classmethod
     def from_set(cls, value: set) -> 'Symbol':
-        sym = cls('set', origin=value)
+        sym = cls('set', origin=copy.deepcopy(value))
         for item in value:
-            sym.append(to_sym(item))
+            sym.append(Symbol.from_object(item))
         return sym
 
-# ... (rest of to_sym function and SymbolNamespace class)
+    @classmethod
+    def from_object(cls, obj: Any) -> 'Symbol':
+        """Converts an object to a Symbol, acting as a central router."""
+        if isinstance(obj, Symbol):
+            return obj
+
+        # Try to find a specific from_ method
+        type_name = type(obj).__name__
+        factory_method_name = f"from_{type_name}"
+        factory_method = getattr(cls, factory_method_name, None)
+
+        if factory_method:
+            return factory_method(obj)
+        elif obj is None:
+            return cls('None', origin=None)
+        elif isinstance(obj, (int, float, str, bool)):
+            return cls(str(obj), origin=obj)
+        else:
+            try:
+                name = orjson.dumps(obj).decode()
+                return cls(name, origin=obj)
+            except (TypeError, orjson.JSONEncodeError):
+                raise TypeError(f"Cannot convert {type(obj)} to Symbol")
 
     @classmethod
     def seek(cls, pos: float) -> Optional['Symbol']:
@@ -416,27 +443,8 @@ class Symbol(BaseSymbol):
 
 def to_sym(obj: Any) -> 'Symbol':
     """Converts an object to a Symbol."""
-    if isinstance(obj, Symbol):
-        return obj
+    return Symbol.from_object(obj)
 
-    type_name = type(obj).__name__
-    factory_method_name = f"from_{type_name}"
-    factory_method = getattr(Symbol, factory_method_name, None)
-
-    if factory_method:
-        return factory_method(obj)
-    elif obj is None:
-        return Symbol('None', origin=None)
-    elif isinstance(obj, (int, float, str, bool)):
-        return Symbol(str(obj), origin=obj)
-    elif isinstance(obj, (list, dict, set, tuple)):
-        return Symbol(type(obj).__name__.lower(), origin=copy.deepcopy(obj))
-    else:
-        try:
-            name = orjson.dumps(obj).decode()
-            return Symbol(name, origin=obj)
-        except (TypeError, orjson.JSONEncodeError):
-            raise TypeError(f"Cannot convert {type(obj)} to Symbol")
 
 class SymbolNamespace:
     """Provides a convenient way to create Symbol instances via attribute access."""

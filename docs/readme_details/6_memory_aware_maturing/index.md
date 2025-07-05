@@ -1,16 +1,16 @@
 # Memory-Aware Maturing: Optimizing Symbol Lifecycle
 
-The `Symbol` framework incorporates a sophisticated "maturing" process, orchestrated by the `immute&#40;&#41;` method. This process is designed to optimize the memory footprint and performance of `Symbol` instances by transitioning them from a flexible, dynamically extensible state to a more rigid, optimized, and immutable form. This is particularly beneficial for long-lived symbols or those that have reached a stable state in their lifecycle, where further dynamic modifications are not anticipated.
+The `Symbol` framework incorporates a sophisticated "maturing" process, orchestrated by the `immute()` method. This process is designed to optimize the memory footprint and performance of `Symbol` instances by transitioning them from a flexible, dynamically extensible state to a more rigid, optimized, and immutable form. This is particularly beneficial for long-lived symbols or those that have reached a stable state in their lifecycle, where further dynamic modifications are not anticipated.
 
 ## The Maturing Process: Elevate, Slim, and Freeze
 
-The `immute&#40;&#41;` method orchestrates three distinct phases:
+The `immute()` method orchestrates three distinct phases:
 
-1.  **Elevate Metadata &#40;`elevate&#40;&#41;`&#41;:** This phase promotes key-value pairs stored in the `Symbol`'s `metadata` `DefDict` &#40;a `defaultdict` of `defaultdict`s&#41; directly into instance attributes or methods. This transformation reduces the overhead associated with dictionary lookups and allows for faster, direct attribute access. Various merge strategies &#40;e.g., `overwrite`, `patch`, `smooth`&#41; can be applied to handle potential conflicts with existing attributes.
+1.  **Elevate Metadata (`elevate()`)** This phase promotes key-value pairs stored in the `Symbol`'s `metadata` `DefDict` (a `defaultdict` of `defaultdict`s); directly into instance attributes or methods. This transformation reduces the overhead associated with dictionary lookups and allows for faster, direct attribute access. Various merge strategies (e.g., `overwrite`, `patch`, `smooth`); can be applied to handle potential conflicts with existing attributes.
 
     ```mermaid
-graph TD
-        A[Symbol.metadata] --> B{Elevate&#40;&#41;};
+    graph TD
+        A[Symbol.metadata] --> B{Elevate};
         B -- "Promotes" --> C[Dynamic Key-Value Pairs];
         C --> D[Direct Instance Attributes/Methods];
         D -- "Faster Access" --> E[Optimized Performance];
@@ -19,11 +19,11 @@ graph TD
 
     style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;```
 
-2.  **Slim Down &#40;`slim&#40;&#41;`&#41;:** Following elevation, the `slim&#40;&#41;` method removes dynamically applied mixins that are no longer needed or have been elevated. This process is crucial for memory optimization, as it cleans up transient attributes and methods, reducing the overall memory footprint of the `Symbol` instance. The `deep_del` utility is employed to recursively delete attributes and their contents, ensuring that unreferenced objects are promptly garbage collected.
+2.  **Slim Down (`slim()`);:** Following elevation, the `slim()` method removes dynamically applied mixins that are no longer needed or have been elevated. This process is crucial for memory optimization, as it cleans up transient attributes and methods, reducing the overall memory footprint of the `Symbol` instance. The `deep_del` utility is employed to recursively delete attributes and their contents, ensuring that unreferenced objects are promptly garbage collected.
 
     ```mermaid
 graph TD
-        A[Symbol Instance] --> B{Slim&#40;&#41;};
+        A[Symbol Instance] --> B{Slim()};
         B -- "Removes" --> C[Unused Dynamic Mixins];
         C --> D[Transient Attributes];
         D -- "Reduces" --> E[Memory Footprint];
@@ -32,11 +32,11 @@ graph TD
 
     style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;```
 
-3.  **Freeze &#40;`freeze&#40;&#41;`&#41;:** The final step in the maturing process is to globally freeze the `Symbol` class. This prevents any further runtime modifications, including the registration of new mixins or the elevation of additional metadata. Freezing ensures the immutability and predictability of `Symbol` behavior in production environments, safeguarding against unintended side effects and maintaining system integrity.
+3.  **Freeze (`freeze()`);:** The final step in the maturing process is to globally freeze the `Symbol` class. This prevents any further runtime modifications, including the registration of new mixins or the elevation of additional metadata. Freezing ensures the immutability and predictability of `Symbol` behavior in production environments, safeguarding against unintended side effects and maintaining system integrity.
 
     ```mermaid
 graph TD
-        A[Symbol Class] --> B{Freeze&#40;&#41;};
+        A[Symbol Class] --> B{Freeze()};
         B -- "Prevents" --> C[Further Dynamic Modifications];
         C --> D[New Mixin Registrations];
         D --> E[Ensures] --> F[Immutability & Predictability];
@@ -82,13 +82,13 @@ graph TD
     subgraph "Knowledge Graph Optimization"
         A[Dynamic KnowledgeEntity] --> B{Data Ingestion};
         B -- "Populates" --> C[Symbol.metadata];
-        C -- "Stabilizes" --> D[immute&#40;&#41; Call];
+        C -- "Stabilizes" --> D[immute() Call];
         D -- "Elevates" --> E[Direct Attributes];
         D -- "Slimes" --> F[Unused Mixins];
         D -- "Freezes" --> G[Optimized, Immutable Entity];
     end
 
-    style A fill:lighten&#40;#8aae75, 30%&#41;,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#8aae75, 30%);,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:lighten(#8aae75, 30%),stroke:#333,stroke-width:2px,color:#000000;```
 
@@ -122,14 +122,14 @@ print(f"Settlement date: {transaction.settlement_date}")
 graph TD
     subgraph "Financial Transaction Optimization"
         A[Pending Transaction Symbol] --> B{Processing & Validation};
-        B -- "Adds" --> C[Dynamic Metadata &#40;status, settlement_date&#41;];
-        C -- "Settled" --> D[immute&#40;&#41; Call];
-        D -- "Elevates" --> E[Fixed Attributes &#40;amount, currency, status&#41;];
+        B -- "Adds" --> C[Dynamic Metadata (status, settlement_date);];
+        C -- "Settled" --> D[immute() Call];
+        D -- "Elevates" --> E[Fixed Attributes (amount, currency, status);];
         D -- "Slimes" --> F[Temporary Metadata];
         D -- "Freezes" --> G[Optimized, Immutable Transaction];
     end
 
-    style A fill:lighten&#40;#4481b3, 30%&#41;,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#4481b3, 30%);,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     style A fill:lighten(#4481b3, 30%),stroke:#333,stroke-width:2px,color:#FFFFFF;```
 

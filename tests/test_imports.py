@@ -29,14 +29,24 @@ def test_direct_imports_skip_time_dim():
         pytest.fail(f"Direct import failed unexpectedly: {e}")
 
 def test_direct_imports_skip_core_and_builtins():
-    # Attempt to import modules that should not directly import core or builtins
-    # This tests the top-level symbol package's ability to abstract these.
-
     # Temporarily remove core and builtins from sys.modules to ensure fresh imports
     if 'symbol.core' in sys.modules:
         del sys.modules['symbol.core']
     if 'symbol.builtins' in sys.modules:
         del sys.modules['symbol.builtins']
+
+    # Remove specific submodules if they were already loaded
+    for module_name in [
+        'symbol.core.symbol',
+        'symbol.builtins.time_dim',
+        'symbol.builtins.collections',
+        'symbol.builtins.index',
+        'symbol.builtins.path',
+        'symbol.builtins.visual',
+        'symbol.builtins.timeline',
+    ]:
+        if module_name in sys.modules:
+            del sys.modules[module_name]
 
     try:
         import symbol
@@ -47,20 +57,27 @@ def test_direct_imports_skip_core_and_builtins():
 
         # Accessing aliases should trigger their import, but not necessarily the top-level package
         _ = symbol.s
-        _ = symbol.Symbol
-        _ = symbol.time_dim
-        _ = symbol.collections
-        _ = symbol.index
-        _ = symbol.path
-        _ = symbol.visual
-        _ = symbol.timeline
-
         assert 'symbol.core.symbol' in sys.modules
+
+        _ = symbol.Symbol
+        assert 'symbol.core.symbol' in sys.modules
+
+        _ = symbol.time_dim
         assert 'symbol.builtins.time_dim' in sys.modules
+
+        _ = symbol.collections
         assert 'symbol.builtins.collections' in sys.modules
+
+        _ = symbol.index
         assert 'symbol.builtins.index' in sys.modules
+
+        _ = symbol.path
         assert 'symbol.builtins.path' in sys.modules
+
+        _ = symbol.visual
         assert 'symbol.builtins.visual' in sys.modules
+
+        _ = symbol.timeline
         assert 'symbol.builtins.timeline' in sys.modules
 
     except ImportError as e:

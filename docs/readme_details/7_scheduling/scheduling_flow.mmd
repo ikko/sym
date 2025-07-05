@@ -1,24 +1,24 @@
 graph TD
     subgraph "Symbol Scheduling Mechanism"
-        A[ScheduledJob] --> B{Scheduler.add_job&#40;&#41;};
-        B -- "Adds to" --> C[Min-Heap &#40;_schedule&#41;];
-        C -- "Stores in" --> D[Job Map &#40;job_map&#41;];
-        D -- "Persists &#40;Optional&#41;" --> E[Schedule File];
+        A[ScheduledJob] --> B{Scheduler.add_job#40;#41;};
+        B -- "Adds to" --> C[Min-Heap #40;_schedule#41;];
+        C -- "Stores in" --> D[Job Map #40;job_map#41;];
+        D -- "Persists #40;Optional#41;" --> E[Schedule File];
     end
 
-    subgraph "Scheduler Execution &#40;_run&#40;&#41;&#41;"
-        F[Scheduler.start[]]; --> G{Main Loop &#40;Thread&#41;};
+    subgraph "Scheduler Execution #40;_run#40;#41;#41;"
+        F[Scheduler.start[]]; --> G{Main Loop #40;Thread#41;};
         G -- "Periodically Checks" --> H[Next Job in Heap];
-        H -- "Time to Run" --> I[Execute Job &#40;func&#41;];
+        H -- "Time to Run" --> I[Execute Job #40;func#41;];
         I -- "If Recurring" --> J[Recalculate next_run];
         J --> B;
         I -- "If One-Off" --> K[Remove from Job Map];
     end
 
-    subgraph "Job Definition &#40;ScheduledJob&#41;"
+    subgraph "Job Definition #40;ScheduledJob#41;"
         L[Callable Function] --> M[func];
         N[Arguments] --> O[args, kwargs];
-        P[Schedule &#40;cron, datetime, Symbol&#41;] --> Q[schedule];
+        P[Schedule #40;cron, datetime, Symbol#41;] --> Q[schedule];
         Q -- "Calculates" --> R[next_run];
     end
 
