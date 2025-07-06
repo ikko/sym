@@ -148,8 +148,8 @@ print(f"Batch processing results: {results}")
 ### Diagram
 ```mermaid
 graph LR
-    A[Input List] --> B{process_batch#40;#41;};
-    C[Function #40;e.g., square#41;] --> B;
+    A[Input List] --> B{process_batch#40;;#41;;};
+    C[Function #40;;e.g., square#41;;] --> B;
     B --> D[Processed Results];
 
     style C fill:#283d9e,stroke:#333,stroke-width:2px,color:#FFFFFF;
@@ -189,10 +189,10 @@ scheduler.stop()
 ### Diagram
 ```mermaid
 graph TD
-    A[Function #40;my_task#41;] --> B[ScheduledJob];
-    C[Schedule #40;time_dim.DateTime#41;] --> B;
-    B --> D[Scheduler.add_job#40;#41;];
-    D --> E[Scheduler.start#40;#41;];
+    A[Function #40;;my_task#41;;] --> B[ScheduledJob];
+    C[Schedule #40;;time_dim.DateTime#41;;] --> B;
+    B --> D[Scheduler.add_job#40;;#41;;];
+    D --> E[Scheduler.start#40;;#41;;];
     E -- "Executes at time" --> A;
     style C fill:#dfceac,stroke:#333,stroke-width:2px,color:#000000;
 

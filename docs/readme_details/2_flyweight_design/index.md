@@ -8,15 +8,15 @@ In the context of `Symbol`, the intrinsic state—the `name` of the symbol—is 
 
 ```mermaid
 graph TD
-    A[Client Request: Symbol#40'apple'#41] --> B{Symbol Pool?};
+    A[Client Request: Symbol#40;'apple'#41;] --> B{Symbol Pool?};
     B -- "'apple' exists?" --> C{Yes};
-    C --> D[Return existing Symbol#40'apple'#41];
+    C --> D[Return existing Symbol#40;'apple'#41;];
     B -- "'apple' exists?" --> E{No};
     E --> F[New Symbol 'B'];
     F --> G[Add to Symbol Pool];
     G --> D;
 
-    style A fill:lighten#40#fe6266, 30%#41,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:lighten#40;#fe6266, 30%#41;,stroke:#333,stroke-width:2px,color:#000000;
 
     style A fill:#fe6266,stroke:#333,stroke-width:2px,color:#000000;
 ```

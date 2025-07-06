@@ -8,7 +8,7 @@ At the heart of per-instance indexing is the `SymbolIndex` class, located in `sy
 
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{SymbolIndex #40Private#41};
+    A[Symbol Instance] --> B{SymbolIndex #40;Private#41;};
     B --> C[IndexNode 1];
     B --> D[IndexNode 2];
     B --> E[...];

@@ -15,11 +15,11 @@ The core architecture of the `symbol` library is divided into two main layers: t
 ```mermaid
 graph TD
     subgraph "Symbol Package"
-        A[symbol] --> B#40symbol.core#41
-        A --> C#40symbol.builtins#41
+        A[symbol] --> B#40;symbol.core#41;
+        A --> C#40;symbol.builtins#41;
     end
 
-    subgraph "Core Layer #40symbol.core#41"
+    subgraph "Core Layer #40;symbol.core#41;"
         B --> B1[symbol.core.base_symbol]
         B --> B2[symbol.core.symbol]
         B --> B3[symbol.core.graph]
@@ -33,7 +33,7 @@ graph TD
         B --> B11[symbol.core.batch_processing]
     end
 
-    subgraph "Builtin Extensions Layer #40symbol.builtins#41"
+    subgraph "Builtin Extensions Layer #40;symbol.builtins#41;"
         C --> C1[symbol.builtins.collections]
         C --> C2[symbol.builtins.time_dim]
         C --> C3[symbol.builtins.index]

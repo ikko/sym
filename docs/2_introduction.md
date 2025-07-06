@@ -67,10 +67,10 @@ print(project_alpha.to_mmd())
 
 ```mermaid
 graph TD
-    A[ProjectAlpha] --> B#40TaskDesign#41
-    A --> C#40TaskDevelopment#41
-    C --> D#40SubTaskCoding#41
-    C --> E#40SubTaskTesting#41
+    A[ProjectAlpha] --> B#40;TaskDesign#41;
+    A --> C#40;TaskDevelopment#41;
+    C --> D#40;SubTaskCoding#41;
+    C --> E#40;SubTaskTesting#41;
 
     subgraph "Styling"
     end
@@ -153,9 +153,9 @@ print(warehouse_a.to_mmd())
 
 ```mermaid
 graph LR
-    W[WarehouseA] --> F#40FactoryB#41
-    F --> D#40DistributionCenterC#41
-    D --> R#40RetailStoreD#41
+    W[WarehouseA] --> F#40;FactoryB#41;
+    F --> D#40;DistributionCenterC#41;
+    D --> R#40;RetailStoreD#41;
 
     subgraph "Styling"
     end
@@ -192,9 +192,9 @@ print(f"Assets by risk (in-order): {[str(sym) for sym in portfolio.index.travers
 ```mermaid
 graph TD
     P[MyInvestmentPortfolio]
-    P --> S1#40StockA: 0.7#41
-    P --> B1#40BondB: 0.2#41
-    P --> M1#40MutualFundC: 0.5#41
+    P --> S1#40;StockA: 0.7#41;
+    P --> B1#40;BondB: 0.2#41;
+    P --> M1#40;MutualFundC: 0.5#41;
 
     subgraph "Styling"
     end

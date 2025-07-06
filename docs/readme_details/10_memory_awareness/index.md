@@ -46,7 +46,7 @@ print("Garbage collection run.")
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{delete#40#41};
+    A[Symbol Instance] --> B{delete#40;#41;};
     B -- "Breaks References" --> C[Parents];
     B -- "Breaks References" --> D[Children];
     B -- "Removes from" --> E[Internal Pools];
@@ -92,9 +92,9 @@ print("Garbage collection run after clearing context.")
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol.context #40DefDict#41] --> B{clear_context#40#41};
+    A[Symbol.context #40;DefDict#41;] --> B{clear_context#40;#41;};
     B -- "Iterates & Deletes" --> C[Key-Value Pairs];
-    C -- "Uses" --> D[deep_del#40#41];
+    C -- "Uses" --> D[deep_del#40;#41;];
     D -- "Recursively Unreferences" --> E[Nested Data Structures];
     E --> F[Eligible for GC];
 
