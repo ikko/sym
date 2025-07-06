@@ -79,7 +79,7 @@ Consider `Symbol` as the foundational layer for a dynamic knowledge graph. Each 
 ```mermaid
 graph TD
     subgraph Symbol_Core
-        A[Symbol Interning] --> B#40;Graph_Structure#41;
+        A[Symbol Interning] --> B&#40Graph_Structure&#41
         B --> C{Mixinability}
     end
 
@@ -91,10 +91,10 @@ graph TD
     end
 
     subgraph Applications
-        D --> H#40;Time-Series_Analysis#41;
-        E --> I#40;Dependency_Mapping#41;
-        F --> J#40;Semantic_Search#41;
-        G --> K#40;Deferred_Execution#41;
+        D --> H&&#40Time-Series_Analysis&&#41
+        E --> I&&#40Dependency_Mapping&&#41
+        F --> J&&#40Semantic_Search&&#41
+        G --> K&&#40Deferred_Execution&&#41
     end
 
     style A fill:#72ddba,stroke:#333,stroke-width:2px,color:#000000

@@ -30,7 +30,7 @@ def process_mermaid_blocks(root_dir: Path):
             if is_code and line.rstrip().endswith("```") and line.rstrip() != "```":
                 content = line.rstrip()[:-3].rstrip()
                 # Replace before separating
-                content = content.replace("#40", "#40;").replace("#41", "#41;")
+                content = content.replace(r"#40;", r"&#40").replace(r"#41;", r"&#41")
                 processed_lines.append(content + "\n")
                 processed_lines.append("```\n")
                 is_code = False
@@ -38,7 +38,7 @@ def process_mermaid_blocks(root_dir: Path):
 
             # Inside mermaid block: perform replacement
             if is_code:
-                line = line.replace("#40", "#40;").replace("#41", "#41;")
+                line = line.replace(r"#40;", r"&#40").replace(r"#41;", r"&#41")
 
             processed_lines.append(line)
 

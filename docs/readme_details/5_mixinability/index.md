@@ -17,9 +17,9 @@ This proactive validation ensures the robustness and integrity of the `Symbol` e
 ```mermaid
 graph TD
     A[Proposed Mixin] --> B{validate_mixin_callable};
-    B -- "Static Analysis #40;LibCST#41;" --> C{Checks Signature};
-    B -- "Static Analysis #40;LibCST#41;" --> D{Checks Async/Await};
-    B -- "Static Analysis #40;LibCST#41;" --> E{Checks Forbidden Imports};
+    B -- "Static Analysis &#40LibCST&#41" --> C{Checks Signature};
+    B -- "Static Analysis &#40LibCST&#41" --> D{Checks Async/Await};
+    B -- "Static Analysis &#40LibCST&#41" --> E{Checks Forbidden Imports};
     C -- "Valid" --> F[Validation Result];
     D -- "Valid" --> F;
     E -- "Valid" --> F;

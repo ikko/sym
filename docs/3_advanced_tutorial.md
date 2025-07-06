@@ -86,7 +86,7 @@ print(auth_service.to_mmd(mode="graph"))
 ```mermaid
  graph TD
     subgraph Symbol_Core
-        A[Symbol_Interning] --> B#40;Graph_Structure#41;
+        A[Symbol_Interning] --> B&#40Graph_Structure&#41
         B --> C{Mixinability}
      end
 ```
@@ -116,11 +116,11 @@ print(admission.to_mmd())
 
 ```mermaid
 graph TD
-    Adm[Admission] --> GP#40;Consultation_GP#41;
-    GP --> LT#40;LabTests#41;
-    LT --> SR#40;SpecialistReferral#41;
-    SR --> T#40;Treatment#41;
-    T --> Dis#40;Discharge#41;
+    Adm[Admission] --> GP&#40Consultation_GP&#41
+    GP --> LT&#40LabTests&#41
+    LT --> SR&#40SpecialistReferral&#41
+    SR --> T&#40Treatment&#41
+    T --> Dis&#40Discharge&#41
 
     subgraph "Styling"
     end
@@ -156,9 +156,9 @@ print(line_1.to_mmd())
 
 ```mermaid
 graph TD
-    L1[AssemblyLine1] --> S1#40;Station1#41;
-    S1 --> RA#40;RobotArmA#41;
-    RA --> PW#40;ProcessWeld#41;
+    L1[AssemblyLine1] --> S1&#40Station1&#41
+    S1 --> RA&#40RobotArmA&#41
+    RA --> PW&#40ProcessWeld&#41
 
     subgraph "Styling"
     end
@@ -189,9 +189,9 @@ print(property_123.to_mmd())
 
 ```mermaid
 graph TD
-    P[Property_123MainSt] --> B#40;Bedroom#41;
-    P --> Ba#40;Bathroom#41;
-    P --> K#40;Kitchen#41;
+    P[Property_123MainSt] --> B&#40Bedroom&#41
+    P --> Ba&#40Bathroom&#41
+    P --> K&#40Kitchen&#41
 
     subgraph "Styling"
     end
