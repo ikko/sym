@@ -1,29 +1,29 @@
 """This module provides functions for performing arithmetic operations on time-related objects.
 
-It supports addition and subtraction of pendulum.DateTime and pendulum.Duration objects,
+It supports addition and subtraction of datetime.datetime and datetime.timedelta objects,
 providing a convenient way to manipulate time-based data.
 """
-import pendulum
+import datetime
 from typing import Union
 
-def add_time_objects(obj1: Union[pendulum.DateTime, pendulum.Duration], obj2: Union[pendulum.DateTime, pendulum.Duration]) -> Union[pendulum.DateTime, pendulum.Duration]:
-    """Adds two time-related objects (DateTime or Duration)."""
-    if isinstance(obj1, pendulum.DateTime) and isinstance(obj2, pendulum.Duration):
+def add_time_objects(obj1: Union[datetime.datetime, datetime.timedelta], obj2: Union[datetime.datetime, datetime.timedelta]) -> Union[datetime.datetime, datetime.timedelta]:
+    """Adds two time-related objects (datetime or timedelta)."""
+    if isinstance(obj1, datetime.datetime) and isinstance(obj2, datetime.timedelta):
         return obj1 + obj2
-    elif isinstance(obj1, pendulum.Duration) and isinstance(obj2, pendulum.DateTime):
+    elif isinstance(obj1, datetime.timedelta) and isinstance(obj2, datetime.datetime):
         return obj2 + obj1
-    elif isinstance(obj1, pendulum.Duration) and isinstance(obj2, pendulum.Duration):
+    elif isinstance(obj1, datetime.timedelta) and isinstance(obj2, datetime.timedelta):
         return obj1 + obj2
     else:
         raise TypeError(f"Unsupported operand types for +: {type(obj1)} and {type(obj2)}")
 
-def subtract_time_objects(obj1: Union[pendulum.DateTime, pendulum.Duration], obj2: Union[pendulum.DateTime, pendulum.Duration]) -> Union[pendulum.DateTime, pendulum.Duration]:
-    """Subtracts two time-related objects (DateTime or Duration)."""
-    if isinstance(obj1, pendulum.DateTime) and isinstance(obj2, pendulum.Duration):
+def subtract_time_objects(obj1: Union[datetime.datetime, datetime.timedelta], obj2: Union[datetime.datetime, datetime.timedelta]) -> Union[datetime.datetime, datetime.timedelta]:
+    """Subtracts two time-related objects (datetime or timedelta)."""
+    if isinstance(obj1, datetime.datetime) and isinstance(obj2, datetime.timedelta):
         return obj1 - obj2
-    elif isinstance(obj1, pendulum.DateTime) and isinstance(obj2, pendulum.DateTime):
+    elif isinstance(obj1, datetime.datetime) and isinstance(obj2, datetime.datetime):
         return obj1 - obj2
-    elif isinstance(obj1, pendulum.Duration) and isinstance(obj2, pendulum.Duration):
+    elif isinstance(obj1, datetime.timedelta) and isinstance(obj2, datetime.timedelta):
         return obj1 - obj2
     else:
         raise TypeError(f"Unsupported operand types for -: {type(obj1)} and {type(obj2)}")

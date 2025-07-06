@@ -5,6 +5,8 @@ ensuring efficient search, insertion, and deletion operations.
 """
 from typing import Optional, Union, Callable, Any
 
+from ..core.base_symbol import Symbol
+
 class AVLNode:
     def __init__(self, symbol: 'Symbol', weight: Union[float, Callable[[Any], float]]):
         self.symbol = symbol

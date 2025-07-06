@@ -3,11 +3,13 @@
 It allows for creating and managing indexes on Symbol attributes,
 and provides methods for rebalancing the index using different strategies.
 """
-import pendulum
+import datetime
 import orjson
 from typing import Any, Union, Optional, Callable, Literal
 
 from ..core.base_symbol import Symbol
+from .avl_tree import AVLTree
+from .red_black_tree import RedBlackTree
 
 ENABLE_ORIGIN = True
 MEMORY_AWARE_DELETE = True
@@ -89,12 +91,11 @@ class SymbolIndex:
             self.root = build_balanced(weights)
 
         elif strategy == 'avl':
-            from avl_tree import AVLTree
             tree = AVLTree()
             root = None
             for sym, w in weights:
                 root = tree.insert(root, sym, w)
-            from avl_tree import AVLNode
+            from .avl_tree import AVLNode
             def copy_from_avl(node: Optional[AVLNode]) -> Optional[IndexNode]:
                 if not node:
                     return None
@@ -105,11 +106,10 @@ class SymbolIndex:
             self.root = copy_from_avl(root)
 
         elif strategy == 'red_black':
-            from red_black_tree import RedBlackTree
             tree = RedBlackTree()
             for sym, w in weights:
                 tree.insert(sym, w)
-            from red_black_tree import RedBlackNode
+            from .red_black_tree import RedBlackNode
             def copy_from_rbt(node: Optional[RedBlackNode]) -> Optional[IndexNode]:
                 if not node:
                     return None
@@ -118,12 +118,10 @@ class SymbolIndex:
                 n.right = copy_from_rbt(node.right)
                 return n
             self.root = copy_from_rbt(tree.root)
-
-        elif strategy == 'hybrid':
-            now = pendulum.now()
+            now = datetime.datetime.now()
             def hybrid_weight(sym: 'Symbol'):
                 try:
-                    ts = pendulum.parse(sym.name)
+                    ts = datetime.datetime.fromisoformat(sym.name)
                 except Exception:
                     ts = now
                 age = (now - ts).total_seconds()

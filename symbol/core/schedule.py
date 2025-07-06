@@ -4,7 +4,7 @@ It includes the Scheduler class, which is responsible for managing the schedule 
 and the ScheduledJob class, which represents a single scheduled job.
 """
 import asyncio
-import pendulum
+import datetime
 import heapq
 import threading
 import time
@@ -25,7 +25,7 @@ class ScheduledJob:
         func: Callable[..., Any],
         args: tuple,
         kwargs: dict,
-        schedule: Union[str, pendulum.DateTime, pendulum.Date, pendulum.Time, Symbol],
+        schedule: Union[str, datetime.datetime, datetime.date, datetime.time, Symbol],
         new_process: bool = False,
         new_thread: bool = True,
         id: Optional[str] = None,
@@ -40,40 +40,39 @@ class ScheduledJob:
         self.next_run: Optional[pendulum.DateTime] = None
         self._calculate_next_run()
 
-    def _calculate_next_run(self, base_time: Optional[pendulum.DateTime] = None):
+    def _calculate_next_run(self, base_time: Optional[datetime.datetime] = None):
         """Calculates the next run time for the job."""
-        now = base_time or pendulum.now()
-        
-        schedule = self.schedule
-        if isinstance(schedule, str):
-            if croniter.is_valid(schedule):
-                self.next_run = croniter(schedule, now).get_next(pendulum.DateTime)
-            else:
-                try:
-                    # Attempt to parse as an ISO datetime string
-                    self.next_run = pendulum.parse(schedule)
-                except ValueError:
-                    raise ValueError(f"Schedule string '{schedule}' is not a valid cron or ISO 8601 format.")
-        elif isinstance(schedule, pendulum.DateTime):
-            self.next_run = schedule
-        elif isinstance(schedule, pendulum.Date):
-            self.next_run = pendulum.datetime(schedule.year, schedule.month, schedule.day)
-        elif isinstance(schedule, pendulum.Time):
-            today = pendulum.today()
-            self.next_run = today.at(schedule.hour, schedule.minute, schedule.second)
-            if self.next_run < now: # If time is already past today, schedule for tomorrow
-                self.next_run = self.next_run.add(days=1)
-        elif isinstance(schedule, Symbol):
-            try:
-                self.next_run = pendulum.parse(schedule.name)
-            except ValueError:
-                raise ValueError(f"Symbol name '{schedule.name}' is not a valid ISO 8601 datetime string.")
-        else:
-            raise TypeError(f"Unsupported schedule type: {type(schedule)}")
+        now = base_time or datetime.datetime.now()
 
-        # Ensure one-off jobs in the past are not scheduled to run
-        if not isinstance(self.schedule, str) and self.next_run and self.next_run < now:
-            self.next_run = None # Mark as not to be run
+        if isinstance(self.schedule, str):
+            # Handle cron string
+            try:
+                self.next_run = croniter(self.schedule, now).get_next(datetime.datetime)
+            except (ValueError, KeyError):
+                # Handle ISO 8601 string
+                try:
+                    self.next_run = datetime.datetime.fromisoformat(self.schedule)
+                except ValueError:
+                    raise ValueError(f"Schedule string '{self.schedule}' is not a valid cron or ISO 8601 format.")
+        elif isinstance(self.schedule, datetime.datetime):
+            self.next_run = self.schedule
+        elif isinstance(self.schedule, datetime.date):
+            self.next_run = datetime.datetime.combine(self.schedule, datetime.time.min)
+        elif isinstance(self.schedule, datetime.time):
+            today = datetime.date.today()
+            self.next_run = datetime.datetime.combine(today, self.schedule)
+            if self.next_run < now:
+                self.next_run += datetime.timedelta(days=1)
+        elif isinstance(self.schedule, Symbol):
+            try:
+                self.next_run = datetime.datetime.fromisoformat(self.schedule.name)
+            except ValueError:
+                raise ValueError(f"Symbol name '{self.schedule.name}' is not a valid ISO 8601 datetime string.")
+        else:
+            raise TypeError(f"Unsupported schedule type: {type(self.schedule)}")
+
+        if self.next_run < now:
+            self.next_run = None # Job will not run again
 
     def __lt__(self, other: "ScheduledJob") -> bool:
         if self.next_run is None:

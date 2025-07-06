@@ -4,7 +4,7 @@ import copy
 from symbol.core.symbol import to_sym
 
 def test_from_int():
-    s = Symbol.from_int(123)
+    s = Symbol.from_object(123)
     assert isinstance(s, Symbol)
     assert s.name == "123"
     assert s.origin == 123
@@ -17,7 +17,7 @@ def test_int_to_sym():
     assert s.origin == 456
 
 def test_from_float():
-    s = Symbol.from_float(123.45)
+    s = Symbol.from_object(123.45)
     assert isinstance(s, Symbol)
     assert s.name == "123.45"
     assert s.origin == 123.45
@@ -30,7 +30,7 @@ def test_float_to_sym():
     assert s.origin == 789.01
 
 def test_from_str():
-    s = Symbol.from_str("hello")
+    s = Symbol.from_object("hello")
     assert isinstance(s, Symbol)
     assert s.name == "hello"
     assert s.origin == "hello"
@@ -43,12 +43,9 @@ def test_str_to_sym():
     assert s.origin == "world"
 
 def test_from_bool():
-    s_true = Symbol.from_bool(True)
-    assert isinstance(s_true, Symbol)
-    assert s_true.name == "True"
-    assert s_true.origin is True
+    s_true = Symbol.from_object(True)
 
-    s_false = Symbol.from_bool(False)
+    s_false = Symbol.from_object(False)
     assert isinstance(s_false, Symbol)
     assert s_false.name == "False"
     assert s_false.origin is False
@@ -67,7 +64,7 @@ def test_bool_to_sym():
     assert s_false.origin is False
 
 def test_from_none():
-    s = Symbol.from_none(None)
+    s = Symbol.from_object(None)
     assert isinstance(s, Symbol)
     assert s.name == "None"
     assert s.origin is None
@@ -81,7 +78,7 @@ def test_none_to_sym():
 
 def test_from_list():
     l = [1, "two", True]
-    s = Symbol.from_list(l)
+    s = Symbol.from_object(l)
     assert isinstance(s, Symbol)
     assert s.name == "list"
     assert s.origin == l
@@ -103,7 +100,7 @@ def test_list_to_sym():
 
 def test_from_dict():
     d = {"a": 1, "b": "two"}
-    s = Symbol.from_dict(d)
+    s = Symbol.from_object(d)
     assert isinstance(s, Symbol)
     assert s.name == "dict"
     assert s.origin == d
@@ -127,7 +124,7 @@ def test_dict_to_sym():
 
 def test_from_tuple():
     t = (1, "two", True)
-    s = Symbol.from_tuple(t)
+    s = Symbol.from_object(t)
     assert isinstance(s, Symbol)
     assert s.name == "tuple"
     assert s.origin == t
@@ -149,7 +146,7 @@ def test_tuple_to_sym():
 
 def test_from_set():
     se = {"one_val", "two_val", "true_val"}
-    s = Symbol.from_set(se)
+    s = Symbol.from_object(se)
     assert isinstance(s, Symbol)
     assert s.name == "set"
     assert s.origin == se

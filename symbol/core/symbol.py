@@ -5,7 +5,7 @@ It builds upon the foundational Symbol defined in base_symbol.py,
 adding graph traversal, index, maturing, and serialization capabilities.
 """
 
-import pendulum
+import datetime
 import enum
 import orjson
 import threading
@@ -222,17 +222,17 @@ class Symbol(BaseSymbol):
 
     @classmethod
     def auto_date(cls) -> 'Symbol':
-        iso = pendulum.today().to_iso8601_string()
+        iso = datetime.date.today().isoformat()
         return cls(iso)
 
     @classmethod
     def auto_datetime(cls) -> 'Symbol':
-        iso = pendulum.now().to_iso8601_string()
+        iso = datetime.datetime.now().isoformat()
         return cls(iso)
 
     @classmethod
     def auto_time(cls) -> 'Symbol':
-        iso = pendulum.now().time().to_iso8601_string()
+        iso = datetime.datetime.now().time().isoformat()
         return cls(iso)
 
     @classmethod
@@ -268,83 +268,61 @@ class Symbol(BaseSymbol):
         return len(cls._numbered)
 
     @classmethod
-    def from_enum(cls, enum_cls: enum.EnumMeta) -> list['Symbol']:
-        return [cls(member.name) for member in enum_cls]
-
-    @classmethod
-    def from_int(cls, value: int) -> 'Symbol':
-        return cls(str(value), origin=value)
-
-    @classmethod
-    def from_float(cls, value: float) -> 'Symbol':
-        return cls(str(value), origin=value)
-
-    @classmethod
-    def from_str(cls, value: str) -> 'Symbol':
-        return cls(value, origin=value)
-
-    @classmethod
-    def from_bool(cls, value: bool) -> 'Symbol':
-        return cls(str(value), origin=value)
-
-    @classmethod
-    def from_none(cls, value: None) -> 'Symbol':
-        return cls('None', origin=value)
-
-    @classmethod
-    def from_list(cls, value: list) -> 'Symbol':
-        sym = cls('list', origin=copy.deepcopy(value))
-        for item in value:
-            sym.append(Symbol.from_object(item))
-        return sym
-
-    @classmethod
-    def from_dict(cls, value: dict) -> 'Symbol':
-        sym = cls('dict', origin=copy.deepcopy(value))
-        for k, v in value.items():
-            key_sym = Symbol.from_object(k)
-            val_sym = Symbol.from_object(v)
-            sym.append(key_sym)
-            key_sym.append(val_sym)
-        return sym
-
-    @classmethod
-    def from_tuple(cls, value: tuple) -> 'Symbol':
-        sym = cls('tuple', origin=copy.deepcopy(value))
-        for item in value:
-            sym.append(Symbol.from_object(item))
-        return sym
-
-    @classmethod
-    def from_set(cls, value: set) -> 'Symbol':
-        sym = cls('set', origin=copy.deepcopy(value))
-        for item in value:
-            sym.append(Symbol.from_object(item))
-        return sym
-
-    @classmethod
     def from_object(cls, obj: Any) -> 'Symbol':
         """Converts an object to a Symbol, acting as a central router."""
         if isinstance(obj, Symbol):
             return obj
 
-        # Try to find a specific from_ method
-        type_name = type(obj).__name__
-        factory_method_name = f"from_{type_name}"
-        factory_method = getattr(cls, factory_method_name, None)
+        # Conversion functions for different types
+        def from_list(value: list) -> 'Symbol':
+            sym = cls('list', origin=copy.deepcopy(value))
+            for item in value:
+                sym.append(Symbol.from_object(item))
+            return sym
 
-        if factory_method:
-            return factory_method(obj)
-        elif obj is None:
-            return cls('None', origin=None)
-        elif isinstance(obj, (int, float, str, bool)):
-            return cls(str(obj), origin=obj)
+        def from_dict(value: dict) -> 'Symbol':
+            sym = cls('dict', origin=copy.deepcopy(value))
+            for k, v in value.items():
+                key_sym = Symbol.from_object(k)
+                val_sym = Symbol.from_object(v)
+                sym.append(key_sym)
+                key_sym.append(val_sym)
+            return sym
+
+        def from_tuple(value: tuple) -> 'Symbol':
+            sym = cls('tuple', origin=copy.deepcopy(value))
+            for item in value:
+                sym.append(Symbol.from_object(item))
+            return sym
+
+        def from_set(value: set) -> 'Symbol':
+            sym = cls('set', origin=copy.deepcopy(value))
+            for item in value:
+                sym.append(Symbol.from_object(item))
+            return sym
+        
+        type_map = {
+            list: from_list,
+            dict: from_dict,
+            tuple: from_tuple,
+            set: from_set,
+            int: lambda v: cls(str(v), origin=v),
+            float: lambda v: cls(str(v), origin=v),
+            str: lambda v: cls(v, origin=v),
+            bool: lambda v: cls(str(v), origin=v),
+            type(None): lambda v: cls('None', origin=v)
+        }
+
+        # Try to find a specific from_ method
+        obj_type = type(obj)
+        if obj_type in type_map:
+            return type_map[obj_type](obj)
         else:
             try:
                 name = orjson.dumps(obj).decode()
                 return cls(name, origin=obj)
             except (TypeError, orjson.JSONEncodeError):
-                raise TypeError(f"Cannot convert {type(obj)} to Symbol")
+                raise TypeError(f"Cannot convert {obj_type} to Symbol")
 
     @classmethod
     def seek(cls, pos: float) -> Optional['Symbol']:
@@ -422,7 +400,8 @@ class Symbol(BaseSymbol):
             if attr_name not in protected_attributes:
                 # Check if the attribute actually exists on this instance before attempting to delete
                 if hasattr(self, attr_name):
-                    deep_del(self, attr_name)
+                    if getattr(self, attr_name) is SENTINEL:
+                        deep_del(self, attr_name)
 
         gc.collect() # Explicitly call garbage collector after deletions
 

@@ -19,8 +19,7 @@ def apply_builtins():
     if register_mixin(SymbolPathMixin.match, 'match'): successful_mixins += 1
 
     # Time Dimension Mixin
-    total_mixins += 1
-    if register_mixin(SymbolTimeDimMixin._parse_timestamp, '_parse_timestamp'): successful_mixins += 1
+    
     
     total_mixins += 1
     if register_mixin(SymbolTimeDimMixin.time_head, 'time_head'): successful_mixins += 1

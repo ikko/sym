@@ -3,6 +3,8 @@
 A red-black tree is a self-balancing binary search tree that maintains a balanced height,
 ensuring efficient search, insertion, and deletion operations.
 """
+from typing import Any, Callable, Optional, Union
+
 from ..core.base_symbol import Symbol
 
 RED = True

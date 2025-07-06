@@ -3,72 +3,50 @@
 It allows for adding, manipulating, and calculating overlaps between timelines.
 """
 from typing import List, Tuple, Optional, Iterator
-import pendulum
+import datetime
 
 from ..core.base_symbol import Symbol
 
 class Timeline:
     """Represents a series of periods, typically associated with a Symbol."""
-    def __init__(self, periods: Optional[List[Tuple[pendulum.DateTime, pendulum.DateTime]]] = None):
+    def __init__(self, periods: Optional[List[Tuple[datetime.datetime, datetime.datetime]]] = None):
         self._periods = []
         if periods:
             for start, end in periods:
                 self.add_period(start, end)
 
-    def add_period(self, start: pendulum.DateTime, end: pendulum.DateTime) -> None:
-        """Adds a period to the timeline, ensuring periods are ordered and non-overlapping (if possible)."""
+    def add_period(self, start: datetime.datetime, end: datetime.datetime) -> None:
         if start >= end:
-            raise ValueError("Period start must be before end.")
-        # For simplicity, we'll just append for now. Overlap handling will be more complex.
+            raise ValueError("Start datetime must be before end datetime.")
         self._periods.append((start, end))
-        self._periods.sort() # Keep periods sorted
+        self._periods.sort()
 
-    def __len__(self) -> int:
-        return len(self._periods)
-
-    def __iter__(self) -> Iterator[Tuple[pendulum.DateTime, pendulum.DateTime]]:
+    def __iter__(self) -> Iterator[Tuple[datetime.datetime, datetime.datetime]]:
         return iter(self._periods)
 
-    def overlap(self, other: 'Timeline') -> 'Timeline':
-        """Calculates the overlapping periods between this timeline and another."""
-        overlaps = []
-        i, j = 0, 0
-        while i < len(self._periods) and j < len(other._periods):
-            self_start, self_end = self._periods[i]
-            other_start, other_end = other._periods[j]
-
-            # Find the intersection of the two periods
-            max_start = max(self_start, other_start)
-            min_end = min(self_end, other_end)
-
-            if max_start < min_end: # There is an overlap
-                overlaps.append((max_start, min_end))
-
-            # Move to the next period in the timeline that ends earlier
-            if self_end < other_end:
-                i += 1
-            else:
-                j += 1
-        return Timeline(overlaps)
-
-    def to_ascii(self, resolution: pendulum.Duration = pendulum.duration(days=1)) -> str:
-        """Generates an ASCII representation of the timeline."""
+    def to_ascii(self, resolution: datetime.timedelta = datetime.timedelta(days=1)) -> str:
         if not self._periods:
-            return "(Empty Timeline)"
+            return ""
 
-        min_date = min(p[0] for p in self._periods).date()
-        max_date = max(p[1] for p in self._periods).date()
+        min_time = min(p[0] for p in self._periods)
+        max_time = max(p[1] for p in self._periods)
 
-        lines = []
-        current_date = min_date
-        while current_date <= max_date:
-            line = f"{current_date.to_iso8601_string()}: "
+        # Adjust min_time to the start of the day for consistent alignment
+        min_time = datetime.datetime(min_time.year, min_time.month, min_time.day)
+
+        # Calculate total duration and number of steps
+        total_duration = max_time - min_time
+        num_steps = int(total_duration / resolution) + 1
+
+        # Create a timeline string
+        timeline_str = ""
+        for i in range(num_steps):
+            current_time = min_time + i * resolution
+            marker = "-"
             for start, end in self._periods:
-                if start.date() <= current_date <= end.date():
-                    line += "#" # Represents an active period
-                else:
-                    line += "-" # Represents an inactive period
-            lines.append(line)
-            current_date += resolution
+                if start <= current_time < end:
+                    marker = "#"
+                    break
+            timeline_str += marker
 
-        return "\n".join(lines)
+        return timeline_str
