@@ -179,3 +179,208 @@ Let me know if you'd like deeper dives—e.g., node technology comparisons, EUV 
 [12]: https://en.wikipedia.org/wiki/Infineon_Technologies_Austria?utm_source=chatgpt.com "Infineon Technologies Austria"
 [13]: https://visiblealpha.com/technology/semiconductor-fabrication/semiconductor-kpis/?utm_source=chatgpt.com "KPI Guide: Semiconductor Industry KPIs for Investment Professionals"
 [14]: https://www.mckinsey.com/~/media/mckinsey/industries/semiconductors/our%20insights/mckinsey%20on%20semiconductors%202024/mck_semiconductors_2024_webpdf.pdf?utm_source=chatgpt.com "[PDF] McKinsey on Semiconductors"
+
+---
+
+Integrated Circuit (IC) manufacturers—especially **foundries** like TSMC or Samsung—operate through **multi-stage, tightly-controlled workflows**, blending *physics, chemistry, supply chain precision*, and *automated control systems*. These workflows can be organized into **8 major stages**, each with sub-processes.
+
+I'll outline these workflows both **conceptually** and **visually**, with detailed Mermaid diagrams and context.
+
+---
+
+## 🏭 1. **Design Handoff**
+
+(typically from a fabless company like AMD, Apple)
+
+* Input: **GDSII** / **OASIS** layout file (tapeout)
+* Validation: DRC/LVS (Design Rule & Layout vs. Schematic Checks)
+* EDA tools used: Synopsys, Cadence, Siemens EDA
+
+```mermaid
+flowchart LR
+  Designer["Fabless IC Designer"] -->|Tapeout&#40;GDSII/OASIS&#41;| DesignTeam
+  DesignTeam --> DRC["Design Rule Check"]
+  DesignTeam --> LVS["Layout vs Schematic"]
+```
+
+---
+
+## 🧪 2. **Front-End of Line (FEOL)**
+
+Creating the transistor layers (on the silicon wafer)
+
+**Steps**:
+
+* **Wafer cleaning & prep** (chemical scrub)
+* **Ion implantation** (doping)
+* **Oxidation** (SiO₂ layer formation)
+* **Lithography** (EUV/DUV patterning)
+* **Etching** (RIE: Reactive Ion Etch)
+* **Thin film deposition** (CVD/ALD)
+* **CMP**: Chemical Mechanical Planarization
+
+```mermaid
+graph TD
+  FEOL[Front-End Of Line]
+  FEOL --> Clean[Wafer Cleaning]
+  Clean --> Dope[Ion Implantation]
+  Dope --> Oxide[Oxidation]
+  Oxide --> Litho[Lithography]
+  Litho --> Etch[Etching]
+  Etch --> Depo[Deposition]
+  Depo --> CMP["CMP&#40;planarization&#41;"]
+```
+
+---
+
+## 🧲 3. **Middle of Line (MOL)**
+
+Contacts between transistor and interconnect
+
+* Formation of **contact vias**, **local interconnects**
+* High aspect ratio etching + metal fill (usually tungsten)
+
+```mermaid
+graph LR
+  MOL --> ContactEtch["High-Aspect Etch"]
+  ContactEtch --> TungstenFill["W Plug Fill"]
+```
+
+---
+
+## 🔌 4. **Back-End of Line (BEOL)**
+
+Builds **interconnect layers**—copper, low-k dielectrics
+
+* Dielectric deposition (e.g. SiOCH, SiN)
+* **Dual-damascene** Cu metallization
+* CMP to isolate layers
+* Repeated for multi-layer metal stacks (10–20+ layers)
+
+```mermaid
+graph TD
+  BEOL --> Dielectrics
+  Dielectrics --> Copper1["Copper Metallization"]
+  Copper1 --> CMP1["CMP"]
+  CMP1 --> Repeat[Repeat Layers &#40M2_M10+&#41]
+```
+
+---
+
+## 🔬 5. **Process Control & Inline Metrology**
+
+Used in every step:
+
+* CD-SEM: Critical dimension scanning
+* Scatterometry
+* AFM: Surface roughness
+* Overlay & defect inspection
+* Statistical Process Control (SPC) tools
+
+```mermaid
+flowchart LR
+  AnyStep --> Inspection["Inline Metrology"]
+  Inspection --> SPC["Statistical Process Control"]
+  SPC --> Feedback[Real-time Step Feedback]
+```
+
+---
+
+## 📦 6. **Wafer Test (Sort)**
+
+* Electrical test of each **die** (wafer level)
+* Dies marked as known good (KGD) or defective
+* E-test pads used for IV curves, leakage, logic
+
+---
+
+## 🧊 7. **Back-End Assembly, Test & Packaging (OSAT)**
+
+Can be in-house (IDMs) or 3rd party (Amkor, ASE)
+
+* **Wafer dicing** → **Die attach** → **Wirebonding** or **Flip-chip**
+* **Encapsulation** (plastic mold, ceramic)
+* **Final test**: functional and burn-in
+* **Marking**, **sorting**, **tape & reel**
+
+```mermaid
+flowchart TD
+  Wafer --> Dice
+  Dice --> DieAttach
+  DieAttach --> Wirebond
+  Wirebond --> Encapsulate
+  Encapsulate --> Test["Final Electrical Test"]
+  Test --> Packaging
+```
+
+---
+
+## 🚚 8. **Shipping & Yield Analysis**
+
+* **Yield Reporting**: die per wafer, binning
+* Packaging logistics
+* Shipping to OEMs (Apple, Nvidia, Bosch)
+
+---
+
+## 🔄 Feedback Loops Throughout
+
+Each major stage includes:
+
+* **Inline metrology**
+* **SPC**
+* **Rework decisions**
+* **Data sent to design team** for DFM improvement
+
+```mermaid
+flowchart TD
+  StepA --> StepB --> StepC
+  StepC --> QA
+  QA -->|SPC Metrics| Decision
+  Decision -->|Pass| NextStep
+  Decision -->|Fail| Rework
+```
+
+---
+
+## 🎯 Summary: Full Workflow Map
+
+```mermaid
+flowchart TD
+  Design --> FEOL
+  FEOL --> MOL
+  MOL --> BEOL
+  BEOL --> WaferTest
+  WaferTest --> OSAT
+  OSAT --> FinalTest
+  FinalTest --> Shipping
+  style Design fill:#333,color:white
+  style FEOL fill:#4477cc,color:white
+  style MOL fill:#88cc88,color:black
+  style BEOL fill:#ffcc00,color:black
+  style WaferTest fill:#999999,color:white
+  style OSAT fill:#6600cc,color:white
+  style FinalTest fill:#ff8888,color:black
+  style Shipping fill:#eeeeee,color:black
+```
+
+---
+
+## 🧠 Learning this Workflow
+
+### Mastery Stages:
+
+| Stage    | Learning Focus                                                 |
+| -------- | -------------------------------------------------------------- |
+| Early    | Understand wafer structure, transistor layout, GDSII           |
+| Mid      | Dive into FEOL/MOL/BEOL toolchains, deposition/etch            |
+| Advanced | Learn SPC methods, rework analysis, yield modeling             |
+| Expert   | Optimize DFM flow, manage fab scheduling, integrate AI control |
+
+Would you like:
+
+* 🎥 **interactive walkthroughs of fab floors**
+* 📊 **KPI dashboards for each stage**
+* 🧮 **cost breakdown models**
+* 🧠 **learning plan or flashcard set**?
+
