@@ -3,13 +3,15 @@
 It includes the Scheduler class, which is responsible for managing the schedule of jobs,
 and the ScheduledJob class, which represents a single scheduled job.
 """
-import asyncio
+import anyio
 import datetime
 import heapq
 import threading
 import time
 import uuid
 from typing import Callable, Any, Optional, Union
+import inspect
+import logging
 
 import orjson
 from croniter import croniter
@@ -37,12 +39,14 @@ class ScheduledJob:
         self.schedule = schedule
         self.new_process = new_process
         self.new_thread = new_thread
-        self.next_run: Optional[pendulum.DateTime] = None
+        self.next_run: Optional[datetime.datetime] = None
         self._calculate_next_run()
+        logging.debug(f"ScheduledJob {self.id} initialized. Next run: {self.next_run}")
 
     def _calculate_next_run(self, base_time: Optional[datetime.datetime] = None):
         """Calculates the next run time for the job."""
         now = base_time or datetime.datetime.now()
+        logging.debug(f"Calculating next run for job {self.id} at base_time {now}")
 
         if isinstance(self.schedule, str):
             # Handle cron string
@@ -146,36 +150,53 @@ class Scheduler:
 
     def _run(self):
         """The main loop of the scheduler."""
+        logging.debug("Scheduler _run started.")
         while self._running:
             with self._lock:
                 if not self._schedule:
+                    logging.debug("Schedule is empty. Sleeping for 1 second.")
                     time_to_sleep = 1
                 else:
-                    now = pendulum.now()
+                    now = datetime.datetime.now()
                     next_job = self._schedule[0]
+                    logging.debug(f"Current time: {now}, Next job scheduled for: {next_job.next_run}")
                     
-                    if now >= next_job.next_run:
+                    if next_job.next_run is not None and now >= next_job.next_run:
                         job_to_run = heapq.heappop(self._schedule)
+                        job_to_run = heapq.heappop(self._schedule)
+                        job_to_run = heapq.heappop(self._schedule)
+                        logging.debug(f"Job {job_to_run.id} is due. Current time: {now}, Next run: {next_job.next_run}")
+                        logging.debug(f"Executing job: {job_to_run.id}")
                         
                         # Run the job
-                        if asyncio.iscoroutinefunction(job_to_run.func):
-                            asyncio.run(job_to_run.func(*job_to_run.args, **job_to_run.kwargs))
+                        if inspect.iscoroutinefunction(job_to_run.func):
+                            logging.info(f"Running async job {job_to_run.id}")
+                            anyio.run(job_to_run.func, *job_to_run.args, **job_to_run.kwargs)
                         else:
+                            logging.info(f"Running sync job {job_to_run.id}")
                             job_to_run.func(*job_to_run.args, **job_to_run.kwargs)
 
                         # Reschedule if it's a recurring job (cron string)
                         if isinstance(job_to_run.schedule, str) and croniter.is_valid(job_to_run.schedule):
                             job_to_run._calculate_next_run(base_time=now)
-                            self.add_job(job_to_run)
+                            if job_to_run.next_run:
+                                self.add_job(job_to_run)
+                                logging.debug(f"Job {job_to_run.id} rescheduled for: {job_to_run.next_run}")
+                            else:
+                                logging.debug(f"Job {job_to_run.id} is a recurring job but has no future runs. Removing.")
+                                self.job_map.pop(job_to_run.id, None)
                         else:
                             # One-off job, remove from map
                             self.job_map.pop(job_to_run.id, None)
+                            logging.debug(f"One-off job {job_to_run.id} executed and removed.")
                         
                         continue # Check for next job immediately
 
-                    time_to_sleep = (next_job.next_run - now).total_seconds()
-
+                    time_to_sleep = (next_job.next_run - now).total_seconds() if next_job.next_run else 1
             time.sleep(max(0, time_to_sleep))
+                    logging.debug(f"Next job not due yet. Sleeping for {time_to_sleep:.2f} seconds.")
+
+            
 
     def start(self):
         """Starts the scheduler."""

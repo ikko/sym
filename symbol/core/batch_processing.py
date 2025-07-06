@@ -4,9 +4,9 @@ It offers a flexible and efficient way to apply a function to a collection of it
 with support for parallel execution using threads or processes.
 """
 from typing import Iterable, Callable, Any, List, TypeVar, Union, Awaitable
-import asyncio
 import anyio
 import logging
+import inspect
 
 from ..core.symbol import Symbol
 
@@ -29,32 +29,22 @@ async def a_process_batch(batch: Iterable[T], func: Callable[[T], Union[U, Await
         A list of results from processing each item.
     """
     results = []
-    async def _process_item(item: T) -> U:
-        if new_process:
-            # Running in a new process requires serialization, more complex setup
-            # For now, we'll log a warning and fall back to thread/direct execution
-            log.warning("new_process is not fully implemented for batch processing. Falling back to new_thread/direct.")
-            if new_thread:
-                return await anyio.to_thread.run_sync(func, item)
-            else:
-                return func(item)
-        elif new_thread:
-            return await anyio.to_thread.run_sync(func, item)
-        else:
-            # Check if the function is a coroutine function
-            if inspect.iscoroutinefunction(func):
-                return await func(item)
-            else:
-                return func(item)
-
     async with anyio.create_task_group() as tg:
         for item in batch:
-            tg.start_soon(_process_item, item)
-    
-    # Collect results (this part needs refinement to actually collect from task group)
-    # For now, this is a placeholder. Actual results would be collected from tasks.
-    log.warning("Batch processing result collection is a placeholder. Actual results not yet collected.")
-    return results # Placeholder
+            if new_process:
+                log.warning("new_process is not fully implemented for batch processing. Falling back to new_thread/direct.")
+                if new_thread:
+                    results.append(await tg.start_soon(anyio.to_thread.run_sync, func, item))
+                else:
+                    results.append(tg.start_soon(func, item)) # This will run sync func directly in async context
+            elif new_thread:
+                results.append(await tg.start_soon(anyio.to_thread.run_sync, func, item))
+            else:
+                if inspect.iscoroutinefunction(func):
+                    results.append(await tg.start_soon(func, item))
+                else:
+                    results.append(tg.start_soon(func, item)) # This will run sync func directly in async context
+    return results
 
 def process_batch(batch: Iterable[T], func: Callable[[T], U], 
                   new_process: bool = False, new_thread: bool = True) -> List[U]:

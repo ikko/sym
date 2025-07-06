@@ -1,4 +1,5 @@
 import pytest
+import anyio
 from symbol.core.symbol import Symbol
 from symbol.builtins.visual import SymbolRender
 
@@ -71,4 +72,27 @@ def test_to_mmd_simple_graph():
     assert len(actual_lines) == len(expected_lines)
     for line in expected_lines:
         assert line in actual_lines
+
+@pytest.mark.anyio
+async def test_a_to_svg_simple_tree(simple_symbol_tree):
+    a, _, _, _ = simple_symbol_tree
+    try:
+        svg_output = await SymbolRender(a).a_to_svg(mode="tree")
+        assert "<svg" in svg_output
+        assert "A" in svg_output
+        assert "B" in svg_output
+        assert "C" in svg_output
+        assert "D" in svg_output
+    except ImportError as e:
+        pytest.skip(f"Graphviz not installed: {e}")
+
+@pytest.mark.anyio
+async def test_a_to_png_simple_tree(simple_symbol_tree):
+    a, _, _, _ = simple_symbol_tree
+    try:
+        png_output = await SymbolRender(a).a_to_png(mode="tree")
+        assert isinstance(png_output, bytes)
+        assert len(png_output) > 0
+    except ImportError as e:
+        pytest.skip(f"Graphviz not installed: {e}")
 

@@ -3,7 +3,6 @@
 It allows for rendering Symbol graphs to various formats, such as DOT, SVG, PNG, and Mermaid.
 """
 from typing import Literal, Optional
-import asyncio
 import anyio
 import warnings
 
