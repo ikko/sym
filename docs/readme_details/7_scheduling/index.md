@@ -6,54 +6,68 @@ The `Symbol` framework integrates a robust scheduling mechanism, enabling the de
 
 The scheduling system is built around two primary components:
 
-1.  **`ScheduledJob`**: This class encapsulates a single task to be executed. It holds references to the callable function (`func`), its arguments (`args`, `kwargs`), and crucially, the `schedule` on which it should run. The `schedule` can be a `pendulum.DateTime` object for one-off tasks, a `cron` string for recurring jobs, or even a `Symbol` instance whose name represents an ISO 8601 datetime string.
+1.  **`ScheduledJob`**: This class encapsulates a single task to be executed. It holds references to the callable function (`func`), its arguments (`args`, `kwargs`), and crucially, the `schedule` on which it should run. The `schedule` can be a `datetime.datetime` object for one-off tasks, a `cron` string for recurring jobs, or even a `Symbol` instance whose name represents an ISO 8601 datetime string.
 
     ```mermaid
 graph TD
         A[Callable Function] --> B[ScheduledJob];
-        C[Arguments &#40args, kwargs&#41] --> B;
-        D[Schedule &#40pendulum.DateTime, cron string, Symbol&#41] --> B;
+        C[Arguments (args, kwargs)] --> B;
+        D[Schedule (datetime.datetime, cron string, Symbol)] --> B;
         B -- "Calculates" --> E[Next Run Time];
-    style D fill:lighten&#40#896807, 30%&#41,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#92925a,stroke:#333,stroke-width:2px,color:#000000;
-    style C fill:#910f48,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style D fill:#a5efdd,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 2.  **`Scheduler`**: This class manages a collection of `ScheduledJob` instances. It operates in a separate thread, continuously monitoring the jobs and executing them when their `next_run` time arrives. The `Scheduler` uses a min-heap (`_schedule`) to efficiently retrieve the next job to be executed, ensuring timely processing. It also supports persistence, allowing the schedule to be saved to and loaded from a file, thus surviving application restarts.
 
     ```mermaid
 graph TD
-        A[Scheduler] --> B{add_job&#40&#41};
+        A[Scheduler] --> B{add_job()};
         B -- "Adds Job to" --> C[Min-Heap];;
         C -- "Monitors" --> D[Execution Thread];
         D -- "Executes Job" --> E[Callable Function];
         E -- "If Recurring" --> F[Reschedules Job];
 
-    style A fill:#ffaac1,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#ffaac1,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## Illustrative Examples
 
 ### High-Tech Industry: Microservice Orchestration
 ```python
-from symbol.core.schedule import Scheduler, ScheduledJob
-import pendulum, time
+>>> from symbol.core.schedule import Scheduler, ScheduledJob
+>>> import datetime, time
 
-def data_ingestion(): print(f"[{pendulum.now()}] Data Ingestion.")
-def data_transformation(): print(f"[{pendulum.now()}] Data Transformation.")
-def data_loading(): print(f"[{pendulum.now()}] Data Loading.")
+>>> def data_ingestion(): print(f"[{datetime.datetime.now()}] Data Ingestion.")
+>>> def data_transformation(): print(f"[{datetime.datetime.now()}] Data Transformation.")
+>>> def data_loading(): print(f"[{datetime.datetime.now()}] Data Loading.")
 
-scheduler = Scheduler()
-scheduler.add_job(ScheduledJob(data_ingestion, args=(), kwargs={}, schedule="* * * * *"))
-scheduler.add_job(ScheduledJob(data_transformation, args=(), kwargs={}, schedule=pendulum.now().add(seconds=10)))
-scheduler.add_job(ScheduledJob(data_loading, args=(), kwargs={}, schedule=pendulum.now().add(seconds=20)))
+>>> scheduler = Scheduler()
+>>> scheduler.add_job(ScheduledJob(data_ingestion, args=(), kwargs={}, schedule="* * * * *"))
+>>> scheduler.add_job(ScheduledJob(data_transformation, args=(), kwargs={}, schedule=datetime.datetime.now() + datetime.timedelta(seconds=10)))
+>>> scheduler.add_job(ScheduledJob(data_loading, args=(), kwargs={}, schedule=datetime.datetime.now() + datetime.timedelta(seconds=20)))
 
-scheduler.start()
-time.sleep(5) # Run for 5 seconds
-scheduler.stop()
+>>> scheduler.start()
+>>> time.sleep(5) # Run for 5 seconds
+>>> scheduler.stop()
 ```
+<details>
+
+```text
+[2025-07-06 16:25:00.000000] Data Ingestion.
+[2025-07-06 16:25:00.000000] Data Ingestion.
+[2025-07-06 16:25:00.000000] Data Ingestion.
+[2025-07-06 16:25:00.000000] Data Ingestion.
+[2025-07-06 16:25:00.000000] Data Ingestion.
+```
+</details>
 
 ```mermaid
 graph TD
@@ -64,57 +78,68 @@ graph TD
         B -- "Recurring" --> A;
     end
 
-    style A fill:#7779f4,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#7779f4,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ### Low-Tech Industry: Automated Report Generation
 
 For businesses, automated report generation is a common requirement. The `Symbol` scheduler can reliably handle tasks like generating daily sales reports, weekly inventory summaries, or monthly financial statements.
 
 ```python
-from symbol.core.schedule import Scheduler, ScheduledJob
-import pendulum
-import time
+>>> from symbol.core.schedule import Scheduler, ScheduledJob
+>>> import datetime
+>>> import time
 
-def generate_daily_sales_report():
-    print(f"[{pendulum.now()}] Generating daily sales report...")
-    # Simulate report generation logic
-    time.sleep(0.5)
-    print(f"[{pendulum.now()}] Daily sales report generated.")
+>>> def generate_daily_sales_report():
+>>>     print(f"[{datetime.datetime.now()}] Generating daily sales report...")
+>>>     # Simulate report generation logic
+>>>     time.sleep(0.5)
+>>>     print(f"[{datetime.datetime.now()}] Daily sales report generated.")
 
-def generate_weekly_inventory_summary():
-    print(f"[{pendulum.now()}] Generating weekly inventory summary...")
-    # Simulate report generation logic
-    time.sleep(1)
-    print(f"[{pendulum.now()}] Weekly inventory summary generated.")
+>>> def generate_weekly_inventory_summary():
+>>>     print(f"[{datetime.datetime.now()}] Generating weekly inventory summary...")
+>>>     # Simulate report generation logic
+>>>     time.sleep(1)
+>>>     print(f"[{datetime.datetime.now()}] Weekly inventory summary generated.")
 
-scheduler = Scheduler()
+>>> scheduler = Scheduler()
 
-# Schedule daily sales report for 23:00 every day
-# Note: In a real scenario, you'd set the time more precisely, e.g., '0 23 * * *'
-# For demonstration, we'll schedule it for a few seconds from now.
-now = pendulum.now()
-daily_report_time = now.add(seconds=5)
-job_daily = ScheduledJob(generate_daily_sales_report, args=(), kwargs={}, schedule=daily_report_time)
-scheduler.add_job(job_daily)
+>>> # Schedule daily sales report for 23:00 every day
+>>> # Note: In a real scenario, you'd set the time more precisely, e.g., '0 23 * * *'
+>>> # For demonstration, we'll schedule it for a few seconds from now.
+>>> daily_report_time = datetime.datetime.now() + datetime.timedelta(seconds=5)
+>>> job_daily = ScheduledJob(generate_daily_sales_report, args=(), kwargs={}, schedule=daily_report_time)
+>>> scheduler.add_job(job_daily)
 
-# Schedule weekly inventory summary for every Monday at 09:00
-# For demonstration, we'll use a cron string for every minute
-job_weekly = ScheduledJob(generate_weekly_inventory_summary, args=(), kwargs={}, schedule="* * * * MON")
-scheduler.add_job(job_weekly)
+>>> # Schedule weekly inventory summary for every Monday at 09:00
+>>> # For demonstration, we'll use a cron string for every minute
+>>> job_weekly = ScheduledJob(generate_weekly_inventory_summary, args=(), kwargs={}, schedule="* * * * MON")
+>>> scheduler.add_job(job_weekly)
 
-print("Starting report generation scheduler...")
-scheduler.start()
+>>> print("Starting report generation scheduler...")
+>>> scheduler.start()
 
-try:
-    time.sleep(70) # Let it run for a bit
-except KeyboardInterrupt:
-    pass
-finally:
-    scheduler.stop()
-    print("Scheduler stopped.")
+>>> try:
+>>>     time.sleep(70) # Let it run for a bit
+>>> except KeyboardInterrupt:
+>>>     pass
+>>> finally:
+>>>     scheduler.stop()
+>>>     print("Scheduler stopped.")
 ```
+<details>
+
+```text
+Starting report generation scheduler...
+[2025-07-06 16:25:00.000000] Generating daily sales report...
+[2025-07-06 16:25:00.000000] Daily sales report generated.
+[2025-07-06 16:25:00.000000] Generating weekly inventory summary...
+[2025-07-06 16:25:00.000000] Weekly inventory summary generated.
+Scheduler stopped.
+```
+</details>
 
 ```mermaid
 graph TD
@@ -124,10 +149,9 @@ graph TD
         C[Weekly Inventory Summary] --> B;
         B -- "Triggers Weekly" --> C;
     end
-    style C fill:lighten&#40#12dde0, 30%&#41,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#93dd47,stroke:#333,stroke-width:2px,color:#000000;
-    style C fill:#12dde0,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
 ```
 ## Conclusion
 

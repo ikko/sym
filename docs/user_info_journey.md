@@ -22,11 +22,17 @@ graph TD
         F --> I[archived_by];
     end
 
-    subgraph "Styling"
-    end
+    style A fill:#FF5733,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:#FF5733,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#cbc4b9,stroke:#333,stroke-width:2px,color:#000000;
-    style C fill:#72f3da,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#33FF57,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#33FF57,stroke:#333,stroke-width:2px,color:#000000;
+    style E fill:#33FF57,stroke:#333,stroke-width:2px,color:#000000;
+    style F fill:#33FF57,stroke:#333,stroke-width:2px,color:#000000;
+
+    style G fill:#3357FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style H fill:#3357FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style I fill:#3357FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## Involved Files, Classes, and Functions (Hypothetical)
 

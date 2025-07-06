@@ -15,41 +15,49 @@ Beyond the built-in mixins, `Symbol` allows you to define and register your own 
 Imagine modeling aircraft components and their maintenance schedules. We can create a custom mixin to handle `last_inspected` and `next_inspection_due` properties.
 
 ```python
-import pendulum
-from symbol.core.symbol import Symbol
-from symbol.core.mixinability import register_mixin
-from symbol.core.protocols import SymbolProtocol
+>>> import datetime
+>>> from symbol.core.symbol import Symbol
+>>> from symbol.core.mixinability import register_mixin
+>>> from symbol.core.protocols import SymbolProtocol
 
-class AircraftComponentMixin(SymbolProtocol):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._last_inspected = None
-        self._inspection_interval = pendulum.duration(days=365) # Default 1 year
+>>> class AircraftComponentMixin(SymbolProtocol):
+>>>     def __init__(self, *args, **kwargs):
+>>>         super().__init__(*args, **kwargs)
+>>>         self._last_inspected = None
+>>>         self._inspection_interval = datetime.timedelta(days=365) # Default 1 year
 
-    @property
-    def last_inspected(self) -> Optional[pendulum.DateTime]:
-        return self._last_inspected
+>>>     @property
+>>>     def last_inspected(self) -> Optional[datetime.datetime]:
+>>>         return self._last_inspected
 
-    @last_inspected.setter
-    def last_inspected(self, dt: pendulum.DateTime):
-        self._last_inspected = dt
+>>>     @last_inspected.setter
+>>>     def last_inspected(self, dt: datetime.datetime):
+>>>         self._last_inspected = dt
 
-    @property
-    def next_inspection_due(self) -> Optional[pendulum.DateTime]:
-        if self._last_inspected:
-            return self._last_inspected + self._inspection_interval
-        return None
+>>>     @property
+>>>     def next_inspection_due(self) -> Optional[datetime.datetime]:
+>>>         if self._last_inspected:
+>>>             return self._last_inspected + self._inspection_interval
+>>>         return None
 
-# Register the mixin
-register_mixin(AircraftComponentMixin, expand=True)
+>>> # Register the mixin
+>>> register_mixin(AircraftComponentMixin, expand=True)
 
-# Usage
-engine = Symbol("Engine_Turbofan_A320")
-engine.aircraft_component.last_inspected = pendulum.datetime(2024, 1, 15)
+>>> # Usage
+>>> engine = Symbol("Engine_Turbofan_A320")
+>>> engine.aircraft_component.last_inspected = datetime.datetime(2024, 1, 15)
 
-print(f"Engine last inspected: {engine.aircraft_component.last_inspected}")
-print(f"Engine next inspection due: {engine.aircraft_component.next_inspection_due}")
+>>> print(f"Engine last inspected: {engine.aircraft_component.last_inspected}")
+>>> print(f"Engine next inspection due: {engine.aircraft_component.next_inspection_due}")
 ```
+<details>
+
+```text
+Engine last inspected: 2024-01-15 00:00:00
+Engine next inspection due: 2025-01-15 00:00:00
+```
+</details>
+
 ### 2. Complex Graph Manipulations and Traversal Strategies
 
 `Symbol`'s graph capabilities extend to modeling intricate relationships beyond simple parent-child hierarchies. You can represent complex networks and apply various traversal algorithms.
@@ -59,36 +67,50 @@ print(f"Engine next inspection due: {engine.aircraft_component.next_inspection_d
 Representing software modules and their dependencies is crucial for understanding system architecture. `Symbol` can model these relationships, and its traversal methods can identify critical paths or circular dependencies.
 
 ```python
-from symbol import s
-from symbol.builtins import apply_builtins
+>>> from symbol import s
+>>> from symbol.builtins import apply_builtins
 
-apply_builtins()
+>>> apply_builtins()
 
-# Example: Microservices Architecture
-auth_service = s.AuthService
-user_service = s.UserService
-product_service = s.ProductService
-payment_service = s.PaymentService
+>>> # Example: Microservices Architecture
+>>> auth_service = s.AuthService
+>>> user_service = s.UserService
+>>> product_service = s.ProductService
+>>> payment_service = s.PaymentService
 
-auth_service.append(user_service) # Auth depends on User
-user_service.append(product_service) # User depends on Product
-product_service.append(payment_service) # Product depends on Payment
-payment_service.append(auth_service) # Payment depends on Auth (potential cycle!)
+>>> auth_service.append(user_service) # Auth depends on User
+>>> user_service.append(product_service) # User depends on Product
+>>> product_service.append(payment_service) # Product depends on Payment
+>>> payment_service.append(auth_service) # Payment depends on Auth (potential cycle!)
 
-# Using Symbol's graph traversal to detect cycles or critical paths
-# (This would involve more advanced graph algorithms, potentially custom mixins)
+>>> # Using Symbol's graph traversal to detect cycles or critical paths
+>>> # (This would involve more advanced graph algorithms, potentially custom mixins)
 
-# Visualize the microservices dependencies
-print(auth_service.to_mmd(mode="graph"))
+>>> # Visualize the microservices dependencies
+>>> print(auth_service.to_mmd(mode="graph"))
 ```
+<details>
+
+```text
+graph TD
+    AuthService --> UserService
+    UserService --> ProductService
+    ProductService --> PaymentService
+    PaymentService --> AuthService
+```
+</details>
 
 
 ```mermaid
- graph TD
+graph TD
     subgraph Symbol_Core
-        A[Symbol_Interning] --> B&#40Graph_Structure&#41
+        A[Symbol_Interning] --> B(Graph_Structure)
         B --> C{Mixinability}
-     end
+    end
+
+    style A fill:#FF6347,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:#FF6347,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#FF6347,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 
 #### 2.2. Use Case Modeling: Healthcare (Patient Journey Mapping)
@@ -96,36 +118,51 @@ print(auth_service.to_mmd(mode="graph"))
 Map a patient's journey through a healthcare system, from admission to discharge, including various medical procedures and consultations. Each step can be a `Symbol`, and their sequence forms a graph.
 
 ```python
-# Example: Patient Journey
-admission = s.Admission
-consultation_gp = s.Consultation_GP
-lab_tests = s.LabTests
-specialist_referral = s.SpecialistReferral
-treatment = s.Treatment
-discharge = s.Discharge
+>>> from symbol import s
 
-admission.append(consultation_gp)
-consultation_gp.append(lab_tests)
-lab_tests.append(specialist_referral)
-specialist_referral.append(treatment)
-treatment.append(discharge)
+>>> # Example: Patient Journey
+>>> admission = s.Admission
+>>> consultation_gp = s.Consultation_GP
+>>> lab_tests = s.LabTests
+>>> specialist_referral = s.SpecialistReferral
+>>> treatment = s.Treatment
+>>> discharge = s.Discharge
 
-# Visualize the patient journey
-print(admission.to_mmd())
+>>> admission.append(consultation_gp)
+>>> consultation_gp.append(lab_tests)
+>>> lab_tests.append(specialist_referral)
+>>> specialist_referral.append(treatment)
+>>> treatment.append(discharge)
+
+>>> # Visualize the patient journey
+>>> print(admission.to_mmd())
 ```
+<details>
+
+```text
+graph TD
+    Admission --> Consultation_GP
+    Consultation_GP --> LabTests
+    LabTests --> SpecialistReferral
+    SpecialistReferral --> Treatment
+    Treatment --> Discharge
+```
+</details>
 
 ```mermaid
 graph TD
-    Adm[Admission] --> GP&#40Consultation_GP&#41
-    GP --> LT&#40LabTests&#41
-    LT --> SR&#40SpecialistReferral&#41
-    SR --> T&#40Treatment&#41
-    T --> Dis&#40Discharge&#41
+    Adm[Admission] --> GP(Consultation_GP)
+    GP --> LT(LabTests)
+    LT --> SR(SpecialistReferral)
+    SR --> T(Treatment)
+    T --> Dis(Discharge)
 
-    subgraph "Styling"
-    end
-
-    style Adm fill:#4326f0,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Adm fill:#007BFF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style GP fill:#007BFF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style LT fill:#007BFF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style SR fill:#007BFF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style T fill:#007BFF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Dis fill:#007BFF,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 
 ### 3. Strategic Applications: DSLs and Semantic Modeling
@@ -137,33 +174,44 @@ graph TD
 Define an assembly line using a `Symbol`-based DSL, where each `Symbol` represents a station, a robot, or a process step. This allows for a highly readable and verifiable configuration.
 
 ```python
-# Example: Assembly Line DSL
-line_1 = s.AssemblyLine1
-station_1 = s.Station1
-robot_arm_a = s.RobotArmA
-process_weld = s.ProcessWeld
+>>> from symbol import s
 
-line_1.append(station_1)
-station_1.append(robot_arm_a)
-robot_arm_a.append(process_weld)
+>>> # Example: Assembly Line DSL
+>>> line_1 = s.AssemblyLine1
+>>> station_1 = s.Station1
+>>> robot_arm_a = s.RobotArmA
+>>> process_weld = s.ProcessWeld
 
-# You could define custom methods on 'Station' or 'RobotArm' Symbols
-# via mixins to validate configurations or simulate operations.
+>>> line_1.append(station_1)
+>>> station_1.append(robot_arm_a)
+>>> robot_arm_a.append(process_weld)
 
-# Visualize the assembly line configuration
-print(line_1.to_mmd())
+>>> # You could define custom methods on 'Station' or 'RobotArm' Symbols
+>>> # via mixins to validate configurations or simulate operations.
+
+>>> # Visualize the assembly line configuration
+>>> print(line_1.to_mmd())
 ```
+<details>
+
+```text
+graph TD
+    AssemblyLine1 --> Station1
+    Station1 --> RobotArmA
+    RobotArmA --> ProcessWeld
+```
+</details>
 
 ```mermaid
 graph TD
-    L1[AssemblyLine1] --> S1&#40Station1&#41
-    S1 --> RA&#40RobotArmA&#41
-    RA --> PW&#40ProcessWeld&#41
+    L1[AssemblyLine1] --> S1(Station1)
+    S1 --> RA(RobotArmA)
+    RA --> PW(ProcessWeld)
 
-    subgraph "Styling"
-    end
-
-    style L1 fill:#7340aa,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style L1 fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style S1 fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style RA fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style PW fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
 ```
 
 #### 3.2. Semantic Data Modeling: Real Estate (Property Attributes and Relationships)
@@ -171,32 +219,43 @@ graph TD
 Model real estate properties, their features, and relationships (e.g., `has_bedroom`, `located_in`). `Symbol` can represent both entities and their attributes, creating a rich semantic network.
 
 ```python
-# Example: Property Listing
-property_123 = s.Property_123MainSt
-bedroom_sym = s.Bedroom
-bathroom_sym = s.Bathroom
-kitchen_sym = s.Kitchen
+>>> from symbol import s
 
-property_123.append(bedroom_sym)
-property_123.append(bathroom_sym)
-property_123.append(kitchen_sym)
+>>> # Example: Property Listing
+>>> property_123 = s.Property_123MainSt
+>>> bedroom_sym = s.Bedroom
+>>> bathroom_sym = s.Bathroom
+>>> kitchen_sym = s.Kitchen
 
-# You could define custom mixins for property valuation, search filters, etc.
+>>> property_123.append(bedroom_sym)
+>>> property_123.append(bathroom_sym)
+>>> property_123.append(kitchen_sym)
 
-# Visualize property attributes
-print(property_123.to_mmd())
+>>> # You could define custom mixins for property valuation, search filters, etc.
+
+>>> # Visualize property attributes
+>>> print(property_123.to_mmd())
 ```
+<details>
+
+```text
+graph TD
+    Property_123MainSt --> Bedroom
+    Property_123MainSt --> Bathroom
+    Property_123MainSt --> Kitchen
+```
+</details>
 
 ```mermaid
 graph TD
-    P[Property_123MainSt] --> B&#40Bedroom&#41
-    P --> Ba&#40Bathroom&#41
-    P --> K&#40Kitchen&#41
+    P[Property_123MainSt] --> B(Bedroom)
+    P --> Ba(Bathroom)
+    P --> K(Kitchen)
 
-    subgraph "Styling"
-    end
-
-    style P fill:#44f24d,stroke:#333,stroke-width:2px,color:#000000;
+    style P fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style Ba fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style K fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
 ```
 
 ### Conclusion

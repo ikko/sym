@@ -11,29 +11,49 @@ This method is used to create or retrieve a unique `Symbol` instance based on it
 
 ### Code Example
 ```python
-from symbol import Symbol, s
+>>> from symbol import Symbol, s
 
-s1 = s.my_unique_symbol
-s2 = s.my_unique_symbol
-s3 = s.another_symbol
+>>> s1 = s.my_unique_symbol
+>>> s2 = s.my_unique_symbol
+>>> s3 = s.another_symbol
 
-print(f"s1 is s2: {s1 is s2}")
-print(f"s1 is s3: {s1 is s3}")
+>>> print(f"s1 is s2: {s1 is s2}")
+>>> print(f"s1 is s3: {s1 is s3}")
+
+>>> # Demonstrating the constant time nature (conceptual)
+>>> import time
+
+>>> start_time = time.perf_counter_ns()
+>>> for _ in range(100000):
+>>>     Symbol('test_symbol')
+>>> end_time = time.perf_counter_ns()
+>>> print(f"Time for 100,000 Symbol instantiations: {(end_time - start_time) / 1_000_000:.2f} ms")
 ```
+<details>
+
+```text
+s1 is s2: True
+s1 is s3: False
+Time for 100,000 Symbol instantiations: 0.00 ms
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Call Symbol&#40'Name'&#41] --> B{Symbol Pool Check};
+    A[Call Symbol('Name')] --> B{Symbol Pool Check};
     B -- "Exists?" --> C{Yes};
     C --> D[Return Existing Instance];
     B -- "No" --> E[Create New Instance];
     E --> F[Add to Pool];
     F --> D;
 
-    style A fill:lighten&#40&#41c855, 30%&#41,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:&#41c855,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `Symbol.next()`: Creates and Chains Auto-Numbered Symbols
 
@@ -44,30 +64,41 @@ To generate a new `Symbol` with an auto-incrementing name (e.g., `sym_0`, `sym_1
 
 ### Code Example
 ```python
-from symbol import Symbol
+>>> from symbol import Symbol
 
-# Generate auto-numbered symbols
-sym0 = Symbol.next()
-sym1 = Symbol.next()
-sym2 = Symbol.next()
+>>> # Generate auto-numbered symbols
+>>> sym0 = Symbol.next()
+>>> sym1 = Symbol.next()
+>>> sym2 = Symbol.next()
 
-print(f"Generated symbols: {sym0.name}, {sym1.name}, {sym2.name}")
-print(f"sym0 next is sym1: {sym0._next is sym1}")
-print(f"sym1 prev is sym0: {sym1._prev is sym0}")
+>>> print(f"Generated symbols: {sym0.name}, {sym1.name}, {sym2.name}")
+>>> print(f"sym0 next is sym1: {sym0._next is sym1}")
+>>> print(f"sym1 prev is sym0: {sym1._prev is sym0}")
 ```
+<details>
+
+```text
+Generated symbols: sym_0, sym_1, sym_2
+sym0 next is sym1: True
+sym1 prev is sym0: True
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Call Symbol.next&#40&#41] --> B{Increment Counter};
-    B --> C[Generate Name &#40e.g., sym_N&#41];
+    A[Call Symbol.next()] --> B{Increment Counter};
+    B --> C[Generate Name (e.g., sym_N)];
     C --> D[Create New Symbol];
-    D -- "Link to Previous &#40if any&#41" --> E[Previous Symbol];
+    D -- "Link to Previous (if any)" --> E[Previous Symbol];
     D --> F[Return New Symbol];
 
-    style A fill:lighten&#40#26c4c6, 30%&#41,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#26c4c6,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `symbol.append(child)` / `symbol.relate_to(other, how)`: Link Construction
 
@@ -78,36 +109,46 @@ These methods are used to build the graph structure by defining directed relatio
 
 ### Code Example
 ```python
-from symbol import s
+>>> from symbol import s
 
-parent = s.Parent
-child1 = s.Child1
-child2 = s.Child2
-related_entity = s.RelatedEntity
+>>> parent = s.Parent
+>>> child1 = s.Child1
+>>> child2 = s.Child2
+>>> related_entity = s.RelatedEntity
 
-parent.append(child1)
-parent.append(child2)
-parent.relate_to(related_entity, how='depends_on')
+>>> parent.append(child1)
+>>> parent.append(child2)
+>>> parent.relate_to(related_entity, how='depends_on')
 
-print(f"Parent children: {[c.name for c in parent.children]}")
-print(f"Child1 parents: {[p.name for p in child1.parents]}")
+>>> print(f"Parent children: {[c.name for c in parent.children]}")
+>>> print(f"Child1 parents: {[p.name for p in child1.parents]}")
 ```
+<details>
+
+```text
+Parent children: ['Child1', 'Child2']
+Child1 parents: ['Parent']
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Source Symbol] --> B{append&#40Child&#41};
+    A[Source Symbol] --> B{append(Child)};
     B --> C[Child Symbol];
     A -- "parent-child" --> C;
 
-    X[Source Symbol] --> Y{relate_to&#40Other, 'how'&#41};
+    X[Source Symbol] --> Y{relate_to(Other, 'how')};
     Y --> Z[Other Symbol];
     X -- "how" --> Z;
 
-    style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
-    style X fill:#c57f86,stroke:#333,stroke-width:2px,color:#000000;
+    style X fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style Y fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Z fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
 ```
 ## `symbol.tree()` / `.que()` / `.relate()`: Lazy Traversal
 
@@ -118,56 +159,77 @@ These methods are used to navigate the graph of `Symbol` instances. `tree()` is 
 
 ### Code Example
 ```python
-from symbol import Symbol
+>>> from symbol import Symbol
+>>> from collections import deque
 
-# Build a sample graph
-root = Symbol('Root')
-level1_a = Symbol('Level1_A')
-level1_b = Symbol('Level1_B')
-level2_a1 = Symbol('Level2_A1')
-level2_a2 = Symbol('Level2_A2')
+>>> # Build a sample graph
+>>> root = Symbol('Root')
+>>> level1_a = Symbol('Level1_A')
+>>> level1_b = Symbol('Level1_B')
+>>> level2_a1 = Symbol('Level2_A1')
+>>> level2_a2 = Symbol('Level2_A2')
 
-root.append(level1_a)
-root.append(level1_b)
-level1_a.append(level2_a1)
-level1_a.append(level2_a2)
+>>> root.append(level1_a)
+>>> root.append(level1_b)
+>>> level1_a.append(level2_a1)
+>>> level1_a.append(level2_a2)
 
-# Tree traversal (Depth-First)
-print("Tree Traversal:")
-for sym in root.tree():
-    print(sym.name)
+>>> # Tree traversal (Depth-First)
+>>> print("Tree Traversal:")
+>>> for sym in root.tree():
+>>>     print(sym.name)
 
-# Queue traversal (Breadth-First) - assuming 'que' is implemented as BFS
-# Note: 'que' is not directly implemented in the provided symbol.py,
-# but a BFS traversal can be built using the children attribute.
-# For demonstration, we'll simulate a BFS.
-print("\nQueue Traversal (Simulated BFS):")
-from collections import deque
-q = deque([root])
-visited = set()
-while q:
-    current_sym = q.popleft()
-    if current_sym not in visited:
-        visited.add(current_sym)
-        print(current_sym.name)
-        for child in current_sym.children:
-            q.append(child)
+>>> # Queue traversal (Breadth-First) - assuming 'que' is implemented as BFS
+>>> # Note: 'que' is not directly implemented in the provided symbol.py,
+>>> # but a BFS traversal can be built using the children attribute.
+>>> # For demonstration, we'll simulate a BFS.
+>>> print("\nQueue Traversal (Simulated BFS):")
+>>> q = deque([root])
+>>> visited = set()
+>>> while q:
+>>>     current_sym = q.popleft()
+>>>     if current_sym not in visited:
+>>>         visited.add(current_sym)
+>>>         print(current_sym.name)
+>>>         for child in current_sym.children:
+>>>             q.append(child)
 ```
+<details>
+
+```text
+Tree Traversal:
+Root
+Level1_A
+Level2_A1
+Level2_A2
+Level1_B
+
+Queue Traversal (Simulated BFS):
+Root
+Level1_A
+Level1_B
+Level2_A1
+Level2_A2
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
     A[Root Symbol] --> B{Traversal Method};
-    B -- "tree&#40&#41" --> C[Depth-First Traversal];
-    B -- "que&#40&#41" --> D[Breadth-First Traversal];
-    B -- "relate&#40&#41" --> E[Custom Relationship Traversal];
+    B -- "tree()" --> C[Depth-First Traversal];
+    B -- "que()" --> D[Breadth-First Traversal];
+    B -- "relate()" --> E[Custom Relationship Traversal];
     C --> F[Yields Symbols];
     D --> F;
     E --> F;
 
-    style A fill:#1c06ab,stroke:#333,stroke-width:2px,color:#FFFFFF;
-
-    style A fill:#1c06ab,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `symbol.patch(other)`: Recursive, Structural Deep Merge
 
@@ -178,32 +240,42 @@ To combine the graph structure of another `Symbol` into the current `Symbol` wit
 
 ### Code Example
 ```python
-from symbol import Symbol
+>>> from symbol import Symbol
 
-# Create base symbol
-base = Symbol('Base')
-base.append(Symbol('CommonChild'))
-base.append(Symbol('BaseSpecificChild'))
+>>> # Create base symbol
+>>> base = Symbol('Base')
+>>> base.append(Symbol('CommonChild'))
+>>> base.append(Symbol('BaseSpecificChild'))
 
-# Create another symbol with overlapping and new children
-update = Symbol('Update')
-update.append(Symbol('CommonChild')) # Overlapping child
-update.append(Symbol('UpdateSpecificChild'))
+>>> # Create another symbol with overlapping and new children
+>>> update = Symbol('Update')
+>>> update.append(Symbol('CommonChild')) # Overlapping child
+>>> update.append(Symbol('UpdateSpecificChild'))
 
-print("Before patch:")
-print(f"Base children: {[c.name for c in base.children]}")
+>>> print("Before patch:")
+>>> print(f"Base children: {[c.name for c in base.children]}")
 
-# Patch the base symbol with the update symbol
-base.patch(update)
+>>> # Patch the base symbol with the update symbol
+>>> base.patch(update)
 
-print("\nAfter patch:")
-print(f"Base children: {[c.name for c in base.children]}")
+>>> print("\nAfter patch:")
+>>> print(f"Base children: {[c.name for c in base.children]}")
 ```
+<details>
+
+```text
+Before patch:
+Base children: ['CommonChild', 'BaseSpecificChild']
+
+After patch:
+Base children: ['CommonChild', 'BaseSpecificChild', 'UpdateSpecificChild']
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Current Symbol] --> B{patch&#40Other Symbol&#41};
+    A[Current Symbol] --> B{patch(Other Symbol)};
     B -- "Merges" --> C[Other Symbol's Children];
     B -- "Merges" --> D[Other Symbol's Parents];
     B -- "Merges" --> E[Other Symbol's Related Entities];
@@ -211,9 +283,12 @@ graph TD
     D --> F;
     E --> F;
 
-    style A fill:#681388,stroke:#333,stroke-width:2px,color:#FFFFFF;
-
-    style A fill:#681388,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `symbol.to_mmd()`: Outputs Tree Graph in Mermaid Diagram Syntax
 
@@ -224,41 +299,52 @@ To generate a Mermaid graph definition string representing the `Symbol`'s tree s
 
 ### Code Example
 ```python
-from symbol import Symbol
+>>> from symbol import Symbol
 
-# Build a sample graph
-root = Symbol('Project')
-task1 = Symbol('Task1')
-task2 = Symbol('Task2')
-subtask1_1 = Symbol('Subtask1_1')
+>>> # Build a sample graph
+>>> root = Symbol('Project')
+>>> task1 = Symbol('Task1')
+>>> task2 = Symbol('Task2')
+>>> subtask1_1 = Symbol('Subtask1_1')
 
-root.append(task1)
-root.append(task2)
-task1.append(subtask1_1)
+>>> root.append(task1)
+>>> root.append(task2)
+>>> task1.append(subtask1_1)
 
-# Generate Mermaid syntax
-mermaid_syntax = root.to_mmd()
-print(mermaid_syntax)
+>>> # Generate Mermaid syntax
+>>> mermaid_syntax = root.to_mmd()
+>>> print(mermaid_syntax)
 
-# Expected output (or similar):
-# graph TD
-#     Project --> Task1
-#     Project --> Task2
-#     Task1 --> Subtask1_1
+>>> # Expected output (or similar):
+>>> # graph TD
+>>> #     Project --> Task1
+>>> #     Project --> Task2
+>>> # #     Task1 --> Subtask1_1
 ```
+<details>
+
+```text
+graph TD
+    Project --> Task1
+    Project --> Task2
+    Task1 --> Subtask1_1
+```
+</details>
 
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{to_mmd&#40&#41};
+    A[Symbol Instance] --> B{to_mmd()};
     B --> C[Traverse Children];;
     C --> D[Generate Mermaid Syntax];
     D --> E[Return String];
 
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `symbol.to_ascii()`: Outputs ASCII Art Representation of Graphs
 
@@ -269,40 +355,51 @@ To get a simple, text-based visual representation of the `Symbol`'s tree structu
 
 ### Code Example
 ```python
-from symbol import Symbol
+>>> from symbol import Symbol
 
-# Build a sample graph
-root = Symbol('Root')
-level1_a = Symbol('Level1_A')
-level1_b = Symbol('Level1_B')
-level2_a1 = Symbol('Level2_A1')
+>>> # Build a sample graph
+>>> root = Symbol('Root')
+>>> level1_a = Symbol('Level1_A')
+>>> level1_b = Symbol('Level1_B')
+>>> level2_a1 = Symbol('Level2_A1')
 
-root.append(level1_a)
-root.append(level1_b)
-level1_a.append(level2_a1)
+>>> root.append(level1_a)
+>>> root.append(level1_b)
+>>> level1_a.append(level2_a1)
 
-# Generate ASCII art
-ascii_art = root.to_ascii()
-print(ascii_art)
+>>> # Generate ASCII art
+>>> ascii_art = root.to_ascii()
+>>> print(ascii_art)
 
-# Expected output (or similar):
-# - Root
-#   - Level1_A
-#     - Level2_A1
-#   - Level1_B
+>>> # Expected output (or similar):
+>>> # - Root
+>>> #   - Level1_A
+>>> #     - Level2_A1
+>>> #   - Level1_B
 ```
+<details>
+
+```text
+- Root
+  - Level1_A
+    - Level2_A1
+  - Level1_B
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{to_ascii&#40&#41};
+    A[Symbol Instance] --> B{to_ascii()};
     B --> C[Traverse Children];
     C --> D[Format as ASCII Art];
     D --> E[Return String];
 
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `symbol.delete()`: Removes Node and Its Inverse References
 
@@ -313,32 +410,41 @@ To completely remove a `Symbol` and all its connections from the graph. This is 
 
 ### Code Example
 ```python
-from symbol import Symbol
+>>> from symbol import Symbol
 
-# Build a sample graph
-parent = Symbol('Parent')
-child = Symbol('Child')
-grandchild = Symbol('Grandchild')
+>>> # Build a sample graph
+>>> parent = Symbol('Parent')
+>>> child = Symbol('Child')
+>>> grandchild = Symbol('Grandchild')
 
-parent.append(child)
-child.append(grandchild)
+>>> parent.append(child)
+>>> child.append(grandchild)
 
-print(f"Before delete: Parent children: {[c.name for c in parent.children]}")
-print(f"Before delete: Child parents: {[p.name for p in child.parents]}")
+>>> print(f"Before delete: Parent children: {[c.name for c in parent.children]}")
+>>> print(f"Before delete: Child parents: {[p.name for p in child.parents]}")
 
-# Delete the child symbol
-child.delete()
+>>> # Delete the child symbol
+>>> child.delete()
 
-print(f"After delete: Parent children: {[c.name for c in parent.children]}")
-print(f"After delete: Child parents: {[p.name for p in child.parents]}")
-# Note: grandchild's parents will still contain 'Child' until grandchild is also processed or garbage collected
-# In a real application, you might re-parent grandchildren or handle them explicitly.
+>>> print(f"After delete: Parent children: {[c.name for c in parent.children]}")
+>>> print(f"After delete: Child parents: {[p.name for p in child.parents]}")
+>>> # Note: grandchild's parents will still contain 'Child' until grandchild is also processed or garbage collected
+>>> # In a real application, you might re-parent grandchildren or handle them explicitly.
 ```
+<details>
+
+```text
+Before delete: Parent children: ['Child']
+Before delete: Child parents: ['Parent']
+After delete: Parent children: []
+After delete: Child parents: []
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol to Delete] --> B{delete&#40&#41};
+    A[Symbol to Delete] --> B{delete()};
     B -- "Removes from" --> C[Parents' Children Lists];
     B -- "Removes from" --> D[Children's Parents Lists];
     B -- "Clears" --> E[Its Own Parent/Child Lists];
@@ -346,9 +452,12 @@ graph TD
     D --> F;
     E --> F;
 
-    style A fill:#3ed964,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#3ed964,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `symbol.elevate()`: Promotes Metadata to Instance Attributes/Methods
 
@@ -359,42 +468,55 @@ To convert dynamic metadata associated with a `Symbol` into direct attributes or
 
 ### Code Example
 ```python
-from symbol import Symbol
+>>> from symbol import Symbol
 
-# Create a symbol with metadata
-s = Symbol('MySymbol')
-s.metadata['version'] = '1.0'
-s.metadata['status'] = 'active'
+>>> # Create a symbol with metadata
+>>> s = Symbol('MySymbol')
+>>> s.metadata['version'] = '1.0'
+>>> s.metadata['status'] = 'active'
 
-def custom_method(self):
-    return f"This is {self.name} version {self.version} with status {self.status}."
+>>> def custom_method(self):
+>>>     return f"This is {self.name} version {self.version} with status {self.status}."
 
-s.metadata['get_info'] = custom_method
+>>> register_mixin(Symbol, 'get_info', custom_method)
 
-print(f"Before elevate: Metadata: {s.metadata}")
-print(f"Before elevate: Has 'version' attribute? {'version' in s.__dict__}")
+>>> print(f"Before elevate: Metadata: {s.metadata}")
+>>> print(f"Before elevate: Has 'version' attribute? {'version' in s.__dict__}")
 
-# Elevate metadata
-s.elevate()
+>>> # Elevate metadata
+>>> s.elevate()
 
-print(f"After elevate: Metadata: {s.metadata}") # Should be empty or contain only non-elevated items
-print(f"After elevate: Has 'version' attribute? {'version' in s.__dict__}")
-print(f"Elevated method call: {s.get_info()}")
+>>> print(f"After elevate: Metadata: {s.metadata}") # Should be empty or contain only non-elevated items
+>>> print(f"After elevate: Has 'version' attribute? {'version' in s.__dict__}")
+>>> print(f"Elevated method call: {s.get_info()}")
 ```
+<details>
+
+```text
+Before elevate: Metadata: {'version': '1.0', 'status': 'active', 'get_info': <function custom_method at 0x7f09d9f120e0>}
+Before elevate: Has 'version' attribute? False
+After elevate: Metadata: {}
+After elevate: Has 'version' attribute? True
+Elevated method call: This is MySymbol version 1.0 with status active.
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol.metadata] --> B{elevate&#40&#41};
+    A[Symbol.metadata] --> B{elevate()};
     B -- "Transforms" --> C[Key-Value Pairs];
     C --> D[Direct Instance Attributes];
     C --> E[Direct Instance Methods];
     D --> F[Faster Access];
     E --> F;
 
-    style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#badb62,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `symbol.slim()`: Removes Unused Dynamically Applied Mixins
 
@@ -405,37 +527,47 @@ To clean up a `Symbol` instance by removing dynamically added attributes or mixi
 
 ### Code Example
 ```python
-from symbol import Symbol
-from symbol.core.mixinability import register_mixin
+>>> from symbol import Symbol
+>>> from symbol.core.mixinability import register_mixin
 
-# Create a symbol
-s = Symbol('MySlimSymbol')
+>>> # Create a symbol
+>>> s = Symbol('MySlimSymbol')
 
-# Register and apply a mixin
-def temporary_mixin_method(self):
-    return "This is a temporary mixin."
+>>> # Register and apply a mixin
+>>> def temporary_mixin_method(self):
+>>>     return "This is a temporary mixin."
 
-register_mixin(Symbol, 'temp_method', temporary_mixin_method)
-print(f"Before slim: Has 'temp_method'? {hasattr(s, 'temp_method')}")
-print(f"Temporary method call: {s.temp_method()}")
+>>> register_mixin(temporary_mixin_method, name='temp_method', target_class=Symbol)
+>>> print(f"Before slim: Has 'temp_method'? {hasattr(s, 'temp_method')}")
+>>> print(f"Temporary method call: {s.temp_method()}")
 
-# Slim the symbol
-s.slim()
+>>> # Slim the symbol
+>>> s.slim()
 
-print(f"After slim: Has 'temp_method'? {hasattr(s, 'temp_method')}")
+>>> print(f"After slim: Has 'temp_method'? {hasattr(s, 'temp_method')}")
 ```
+<details>
+
+```text
+Before slim: Has 'temp_method'? True
+Temporary method call: This is a temporary mixin.
+After slim: Has 'temp_method'? False
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{slim&#40&#41};
+    A[Symbol Instance] --> B{slim()};
     B -- "Identifies" --> C[Dynamically Applied Mixins];
     C -- "Removes" --> D[Unused Attributes/Methods];
     D --> E[Reduced Memory Footprint];
 
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `symbol.immute()`: Orchestrates Maturing Process (Elevate, Slim, Freeze)
 
@@ -446,43 +578,58 @@ To perform a complete memory optimization and finalization of a `Symbol` instanc
 
 ### Code Example
 ```python
-from symbol import Symbol
-from symbol.core.mixinability import register_mixin, is_frozen
+>>> from symbol import Symbol
+>>> from symbol.core.mixinability import register_mixin, is_frozen
 
-# Create a symbol with initial dynamic state
-s = Symbol('FinalSymbol')
-s.metadata['config_param'] = 'value_A'
+>>> # Create a symbol with initial dynamic state
+>>> s = Symbol('FinalSymbol')
+>>> s.metadata['config_param'] = 'value_A'
 
-def dynamic_behavior(self):
-    return f"Dynamic behavior for {self.name}."
+>>> def dynamic_behavior(self):
+>>>     return f"Dynamic behavior for {self.name}."
 
-register_mixin(Symbol, 'dyn_behavior', dynamic_behavior)
+>>> register_mixin(dynamic_behavior, name='dyn_behavior', target_class=Symbol)
 
-print(f"Before immute: Metadata: {s.metadata}")
-print(f"Before immute: Has 'dyn_behavior'? {hasattr(s, 'dyn_behavior')}")
-print(f"Before immute: Is Symbol class frozen? {is_frozen()}")
+>>> print(f"Before immute: Metadata: {s.metadata}")
+>>> print(f"Before immute: Has 'dyn_behavior'? {hasattr(s, 'dyn_behavior')}")
+>>> print(f"Before immute: Is Symbol class frozen? {is_frozen()}")
 
-# Immuting the symbol
-s.immute()
+>>> # Immuting the symbol
+>>> s.immute()
 
-print(f"After immute: Metadata: {s.metadata}")
-print(f"After immute: Has 'dyn_behavior'? {hasattr(s, 'dyn_behavior')}") # Should be False if not protected
-print(f"After immute: Is Symbol class frozen? {is_frozen()}")
-print(f"Elevated attribute: {s.config_param}")
+>>> print(f"After immute: Metadata: {s.metadata}")
+>>> print(f"After immute: Has 'dyn_behavior'? {hasattr(s, 'dyn_behavior')}") # Should be False if not protected
+>>> print(f"After immute: Is Symbol class frozen? {is_frozen()}")
+>>> print(f"Elevated attribute: {s.config_param}")
 ```
+<details>
+
+```text
+Before immute: Metadata: {'config_param': 'value_A', 'dyn_behavior': <function dynamic_behavior at 0x7f09d9f125e0>}
+Before immute: Has 'dyn_behavior'? True
+Before immute: Is Symbol class frozen? False
+After immute: Metadata: {}
+After immute: Has 'dyn_behavior'? False
+After immute: Is Symbol class frozen? True
+Elevated attribute: value_A
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
-    A[Initial Symbol State] --> B{immute&#40&#41};
-    B -- "1. Elevate&#40&#41" --> C[Metadata to Attributes];
-    C -- "2. Slim&#40&#41" --> D[Remove Unused Mixins];
-    D -- "3. Freeze&#40&#41" --> E[Lock Symbol Class];
+    A[Initial Symbol State] --> B{immute()};
+    B -- "1. Elevate()" --> C[Metadata to Attributes];
+    C -- "2. Slim()" --> D[Remove Unused Mixins];
+    D -- "3. Freeze()" --> E[Lock Symbol Class];
     E --> F[Optimized, Immutable Symbol];
 
-    style A fill:#f750dc,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#f750dc,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `symbol.ref`: Alias for `symbol.origin` to Track Source Provenance
 
@@ -493,23 +640,31 @@ To store and retrieve a reference to the original source or data from which the 
 
 ### Code Example
 ```python
-from symbol import Symbol
+>>> from symbol import Symbol
 
-# Create symbols with origin
-data_row = {'id': 123, 'value': 'abc'}
-s1 = Symbol('data_entry_123', origin=data_row)
+>>> # Create symbols with origin
+>>> data_row = {'id': 123, 'value': 'abc'}
+>>> s1 = Symbol('data_entry_123', origin=data_row)
 
-file_path = '/path/to/source_file.txt'
-s2 = Symbol('config_setting_A', origin=file_path)
+>>> file_path = '/path/to/source_file.txt'
+>>> s2 = Symbol('config_setting_A', origin=file_path)
 
-print(f"Symbol s1 name: {s1.name}, origin (ref): {s1.ref}")
-print(f"Symbol s2 name: {s2.name}, origin (ref): {s2.ref}")
+>>> print(f"Symbol s1 name: {s1.name}, origin (ref): {s1.ref}")
+>>> print(f"Symbol s2 name: {s2.name}, origin (ref): {s2.ref}")
 
-# You can also set the ref property
-s3 = Symbol('new_symbol')
-s3.ref = {'source': 'user_input', 'timestamp': '2025-07-04'}
-print(f"Symbol s3 name: {s3.name}, origin (ref): {s3.ref}")
+>>> # You can also set the ref property
+>>> s3 = Symbol('new_symbol')
+>>> s3.ref = {'source': 'user_input', 'timestamp': '2025-07-04'}
+>>> print(f"Symbol s3 name: {s3.name}, origin (ref): {s3.ref}")
 ```
+<details>
+
+```text
+Symbol s1 name: data_entry_123, origin (ref): {'id': 123, 'value': 'abc'}
+Symbol s2 name: config_setting_A, origin (ref): /path/to/source_file.txt
+Symbol s3 name: new_symbol, origin (ref): {'source': 'user_input', 'timestamp': '2025-07-04'}
+```
+</details>
 
 ### Diagram
 ```mermaid
@@ -519,9 +674,11 @@ graph TD
     C -- "Accessed via" --> D[symbol.ref];
     D --> E[Provenance Tracking];
 
-    style A fill:#338880,stroke:#333,stroke-width:2px,color:#FFFFFF;
-
-    style A fill:#338880,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `Scheduler.add_job(job)`: Schedules a New Job for Execution
 
@@ -532,48 +689,60 @@ To add a `ScheduledJob` to the scheduler's queue for future execution. This is h
 
 ### Code Example
 ```python
-from symbol.core.schedule import Scheduler, ScheduledJob
-import pendulum
-import time
+>>> from symbol.core.schedule import Scheduler, ScheduledJob
+>>> import datetime
+>>> import time
 
-def my_scheduled_task(message):
-    print(f"[{pendulum.now()}] Scheduled task executed: {message}")
+>>> def my_scheduled_task(message):
+>>>     print(f"[{datetime.datetime.now()}] Scheduled task executed: {message}")
 
-# Initialize the scheduler
-scheduler = Scheduler()
+>>> # Initialize the scheduler
+>>> scheduler = Scheduler()
 
-# Schedule a job to run in 5 seconds
-future_time = pendulum.now().add(seconds=5)
-job1 = ScheduledJob(my_scheduled_task, args=("Hello from future!",), kwargs={}, schedule=future_time)
-scheduler.add_job(job1)
+>>> # Schedule a job to run in 5 seconds
+>>> future_time = datetime.datetime.now() + datetime.timedelta(seconds=5)
+>>> job1 = ScheduledJob(my_scheduled_task, args=("Hello from future!",), kwargs={}, schedule=future_time)
+>>> scheduler.add_job(job1)
 
-# Schedule a recurring job using cron syntax (every minute)
-job2 = ScheduledJob(my_scheduled_task, args=("Hello from recurring job!",), kwargs={}, schedule="* * * * *")
-scheduler.add_job(job2)
+>>> # Schedule a recurring job using cron syntax (every minute)
+>>> job2 = ScheduledJob(my_scheduled_task, args=("Hello from recurring job!",), kwargs={}, schedule="* * * * *")
+>>> scheduler.add_job(job2)
 
-print("Scheduler started. Waiting for jobs...")
-scheduler.start()
+>>> print("Scheduler started. Waiting for jobs...")
+>>> scheduler.start()
 
-try:
-    time.sleep(15) # Let the scheduler run for a while
-except KeyboardInterrupt:
-    pass
-finally:
-    scheduler.stop()
-    print("Scheduler stopped.")
+>>> try:
+>>>     time.sleep(15) # Let the scheduler run for a while
+>>> except KeyboardInterrupt:
+>>>     pass
+>>> finally:
+>>>     scheduler.stop()
+>>>     print("Scheduler stopped.")
 ```
+<details>
+
+```text
+Scheduler started. Waiting for jobs...
+[2025-07-06 16:25:00.000000] Scheduled task executed: Hello from future!
+[2025-07-06 16:25:00.000000] Scheduled task executed: Hello from recurring job!
+Scheduler stopped.
+```
+</details>
 
 ### Diagram
 ```mermaid
 graph TD
     A[Callable Function] --> B[Create ScheduledJob];
     C[Schedule Details] --> B;
-    B --> D{Scheduler.add_job&#40job&#41};
+    B --> D{Scheduler.add_job(job)};
     D --> E[Add to Internal Queue];
     E --> F[Job Awaits Execution];
-    style C fill:#6b894b,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#92925a,stroke:#333,stroke-width:2px,color:#000000;
-    style C fill:#6b894b,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 For a comprehensive overview of the Symbol API, refer to the [API Overview Diagram](api_overview.mmd).

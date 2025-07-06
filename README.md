@@ -75,7 +75,7 @@ The project is organized into two main packages:
 
 ```mermaid
 graph TD
-    A[User Application] --> B&#40symbol&#41
+    A[User Application] --> B(symbol)
     B --> C{symbol.core}
     B --> D{symbol.builtins}
     C --> E[symbol.core.symbol]
@@ -88,27 +88,33 @@ graph TD
     D --> L[symbol.builtins.visual]
     D --> M[symbol.builtins.timeline]
     
-    subgraph "Styling"
-    end
+    style A fill:#007BFF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:#228B22,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#FF8C00,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#800080,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+    style F fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+    style G fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+    style H fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style I fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style J fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style K fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style L fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style M fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-    style A fill:#9400D3,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style B fill:#ADFF2F,stroke:#333,stroke-width:2px,color:#000000;
-    style C fill:#BDB76B,stroke:#333,stroke-width:2px,color:#000000;
-    style D fill:#ADFF2F,stroke:#333,stroke-width:2px,color:#000000;
 
 ## Software Architecture
 
 ```mermaid
 graph TD
     subgraph "Symbol Package"
-        A[symbol] --> B&#40symbol.core&#41
-        A --> C&#40symbol.builtins&#41
+        A[symbol] --> B(symbol.core)
+        A --> C(symbol.builtins)
     end
-    style A fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#228B22,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     subgraph "Core Modules"
         B --> B1[symbol.core.symbol]
-        B --> B2[symbol.core.graph]
         B --> B3[symbol.core.maturing]
         B --> B4[symbol.core.mixinability]
         B --> B5[symbol.core.mixin_validator]
@@ -117,6 +123,7 @@ graph TD
         B --> B8[symbol.core.time_arithmetics]
         B --> B9[symbol.core.schedule]
     end
+    style B fill:#FF8C00,stroke:#333,stroke-width:2px,color:#000000;
 
     subgraph "Builtin Extensions"
         C --> C1[symbol.builtins.collections]
@@ -128,8 +135,8 @@ graph TD
         C --> C7[symbol.builtins.avl_tree]
         C --> C8[symbol.builtins.timeline]
     end
+    style C fill:#800080,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    B1 -- uses --> B2
     B1 -- uses --> B3
     B1 -- uses --> B4
     B1 -- uses --> C1
@@ -155,11 +162,23 @@ graph TD
     C5 -- uses --> B8
     C8 -- uses --> B8
 
-    subgraph "Styling"
-        style A fill:#ff9,stroke:#333,stroke-width:2px
-        style B fill:#9cf,stroke:#333,stroke-width:2px
-        style C fill:#c9f,stroke:#333,stroke-width:2px
-    end
+    style B1 fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+    style B3 fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+    style B4 fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+    style B5 fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+    style B6 fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+    style B7 fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+    style B8 fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+    style B9 fill:#FFA07A,stroke:#333,stroke-width:2px,color:#000000;
+
+    style C1 fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C2 fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C3 fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C4 fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C5 fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C6 fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C7 fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C8 fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 
 ## Getting Started
@@ -167,24 +186,106 @@ graph TD
 To begin, simply import the `Symbol` or `s` namespace factory:
 
 ```python
-from symbol import Symbol, s
+>>> from symbol import Symbol, s
 
-# Create symbols
-hello = Symbol('hello')
-world = s.world
+>>> # Create symbols
+>>> hello = Symbol('hello')
+>>> world = s.world
 
-# Build relationships
-hello.add(world)
+>>> # Build relationships
+>>> hello.add(world)
 
-# Traverse the graph
-print(hello.tree())
-
+>>> # Traverse the graph
+>>> print(hello.tree())
 ```
+<details>
+
+```text
+[<Symbol: hello>, <Symbol: world>]
+```
+</details>
 
 ## Running Tests
 
 To run all tests, execute the following command from the project root directory:
 
 ```bash
-python -m pytest tests
+>>> python -m pytest tests
 ```
+<details>
+
+```text
+============================= test session starts ==============================
+platform linux -- Python 3.13.3, pytest-8.4.1, pluggy-1.6.0 -- /home/miki/.virtualenvs/gemini/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/miki/code/ikko/symbol
+configfile: pytest.ini
+plugins: anyio-4.9.0, cov-6.2.1
+collected 62 items
+
+tests/builtins/test_collections.py::test_ordered_symbol_set_creation_and_add PASSED
+tests/builtins/test_collections.py::test_ordered_symbol_set_iteration_length_and_containment PASSED
+tests/builtins/test_index.py::test_symbol_index_instantiation PASSED
+tests/builtins/test_index.py::test_symbol_index_insertion PASSED
+tests/builtins/test_index.py::test_symbol_index_traverse_inorder PASSED
+tests/builtins/test_index.py::test_symbol_index_traverse_preorder PASSED
+tests/builtins/test_index.py::test_symbol_index_traverse_postorder PASSED
+tests/builtins/test_index.py::test_symbol_index_map_and_filter PASSED
+tests/builtins/test_index.py::test_symbol_index_ascii_representation PASSED
+tests/builtins/test_path.py::test_path_to_direct_path PASSED
+tests/builtins/test_path.py::test_path_to_no_path PASSED
+tests/builtins/test_path.py::test_path_to_self PASSED
+tests/builtins/test_path.py::test_path_to_with_cycle PASSED
+tests/builtins/test_path.py::test_match_dfs PASSED
+tests/builtins/test_path.py::test_match_bfs PASSED
+tests/builtins/test_path.py::test_match_no_match PASSED
+tests/builtins/test_path.py::test_match_all_match PASSED
+tests/builtins/test_time_dim.py::test_parse_timestamp PASSED
+tests/builtins/test_time_dim.py::test_symbol_time_dim_properties PASSED
+tests/builtins/test_time_dim.py::test_symbol_head_and_tail[setup_and_teardown0] PASSED
+tests/builtins/test_time_dim.py::test_symbol_period_properties[setup_and_teardown0] PASSED
+tests/builtins/test_time_dim.py::test_symbol_period_properties[setup_and_teardown1] PASSED
+tests/builtins/test_visual.py::test_to_mmd_simple_tree PASSED
+tests/builtins/test_visual.py::test_to_mmd_simple_graph PASSED
+tests/core/test_mixinability.py::test_freeze_and_is_frozen_states PASSED
+tests/core/test_mixinability.py::test_register_mixin_basic_application PASSED
+tests/core/test_schedule.py::test_scheduler_instantiation PASSED
+tests/core/test_symbol_creation.py::test_symbol_creation_and_interning PASSED
+tests/core/test_symbol_creation.py::test_symbol_equality_and_hashing PASSED
+tests/core/test_symbol_creation.py::test_symbol_string_representation PASSED
+tests/core/test_symbol_creation.py::test_symbol_basic_graph_operations PASSED
+tests/core/test_symbol_creation.py::test_symbol_namespace PASSED
+tests/core/test_symbol_happy_path.py::test_symbol_creation_and_interning PASSED
+tests/core/test_symbol_happy_path.py::test_symbol_equality_and_hashing PASSED
+tests/core/test_symbol_happy_path.py::test_symbol_string_representation PASSED
+tests/core/test_symbol_happy_path.py::test_symbol_basic_graph_operations PASSED
+tests/core/test_symbol_happy_path.py::test_symbol_namespace PASSED
+tests/test_config.py::test_config_default_path PASSED
+tests/test_config.py::test_config_load_save PASSED
+tests/test_config.py::test_config_get_set_methods PASSED
+tests/test_conversion/test_conversions.py::test_from_int PASSED
+tests/test_conversion/test_conversions.py::test_int_to_sym PASSED
+tests/test_conversion/test_conversions.py::test_from_float PASSED
+tests/test_conversion/test_conversions.py::test_float_to_sym PASSED
+tests/test_conversion/test_conversions.py::test_from_str PASSED
+tests/test_conversion/test_conversions.py::test_str_to_sym PASSED
+tests/test_conversion/test_conversions.py::test_from_bool PASSED
+tests/test_conversion/test_conversions.py::test_bool_to_sym PASSED
+tests/test_conversion/test_conversions.py::test_from_none PASSED
+tests/test_conversion/test_conversions.py::test_none_to_sym PASSED
+tests/test_conversion/test_conversions.py::test_from_list PASSED
+tests/test_conversion/test_conversions.py::test_list_to_sym PASSED
+tests/test_conversion/test_conversions.py::test_from_dict PASSED
+tests/test_conversion/test_conversions.py::test_dict_to_sym PASSED
+tests/test_conversion/test_conversions.py::test_from_tuple PASSED
+tests/test_conversion/test_conversions.py::test_tuple_to_sym PASSED
+tests/test_conversion/test_conversions.py::test_from_set PASSED
+tests/test_conversion/test_conversions.py::test_set_to_sym PASSED
+tests/test_conversion/test_conversions.py::test_nested_conversion PASSED
+tests/test_conversion/test_conversions.py::test_global_to_sym_fallback PASSED
+tests/test_imports.py::test_direct_imports_skip_time_dim PASSED
+tests/test_imports.py::test_direct_imports_skip_core_and_builtins PASSED
+
+========================= 62 passed in 0.10s =========================
+```
+</details>

@@ -15,14 +15,13 @@ The core architecture of the `symbol` library is divided into two main layers: t
 ```mermaid
 graph TD
     subgraph "Symbol Package"
-        A[symbol] --> B&#40symbol.core&#41
-        A --> C&#40symbol.builtins&#41
+        A[symbol] --> B(symbol.core)
+        A --> C(symbol.builtins)
     end
 
-    subgraph "Core Layer &#40symbol.core&#41"
+    subgraph "Core Layer (symbol.core)"
         B --> B1[symbol.core.base_symbol]
         B --> B2[symbol.core.symbol]
-        B --> B3[symbol.core.graph]
         B --> B4[symbol.core.maturing]
         B --> B5[symbol.core.mixinability]
         B --> B6[symbol.core.mixin_validator]
@@ -33,7 +32,7 @@ graph TD
         B --> B11[symbol.core.batch_processing]
     end
 
-    subgraph "Builtin Extensions Layer &#40symbol.builtins&#41"
+    subgraph "Builtin Extensions Layer (symbol.builtins)"
         C --> C1[symbol.builtins.collections]
         C --> C2[symbol.builtins.time_dim]
         C --> C3[symbol.builtins.index]
@@ -45,7 +44,6 @@ graph TD
     end
 
     B2 -- uses --> B1
-    B2 -- uses --> B3
     B2 -- uses --> B4
     B2 -- uses --> B5
     B2 -- uses --> C1
@@ -71,12 +69,35 @@ graph TD
     C5 -- uses --> B9
     C8 -- uses --> B9
 
-    style A fill:#97bff2,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+
+    style B1 fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000;
+    style B2 fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000;
+    style B4 fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000;
+    style B5 fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000;
+    style B6 fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000;
+    style B7 fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000;
+    style B8 fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000;
+    style B9 fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000;
+    style B10 fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000;
+    style B11 fill:#ADD8E6,stroke:#333,stroke-width:2px,color:#000000;
+
+    style C1 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
+    style C2 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
+    style C3 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
+    style C4 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
+    style C5 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
+    style C6 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
+    style C7 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
+    style C8 fill:#90EE90,stroke:#333,stroke-width:2px,color:#000000;
 ```
 
 ### Legend
 
-*   **Blue Boxes**: Core architectural components.
+*   **Yellow Boxes**: Core architectural components.
+*   **Blue Boxes**: Core Layer modules.
 *   **Green Boxes**: Builtin extension modules.
 *   **Light Blue Boxes**: Modules within the `symbol.core` layer.
 *   **Light Green Boxes**: Modules within the `symbol.builtins` layer.

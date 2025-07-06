@@ -36,14 +36,22 @@ It supports symbolic interning, ordered chaining (`que`), DAG tree modeling (`tr
 ## Highlights
 
 ```python
-s = SymbolNamespace()
+>>> from symbol.core.symbol import SymbolNamespace
+>>> s = SymbolNamespace()
 
-s.page.append(s.header).append(s.footer)
-s.backend.relate_to(s.database, how=s.uses)
+>>> s.page.append(s.header).append(s.footer)
+>>> s.backend.relate_to(s.database, how=s.uses)
 
-s.page.to_mmd()        # Mermaid.js format
-to_svg(s.page.graph()) # Graphviz rendering (symb[visual])
+>>> print(s.page.to_mmd())        # Mermaid.js format
 ```
+<details>
+
+```text
+graph TD
+    page --> header
+    page --> footer
+```
+</details>
 
 ## Render Pipelines
 
@@ -54,9 +62,16 @@ to_svg(s.page.graph()) # Graphviz rendering (symb[visual])
 ## Installation
 
 ```bash
-pip install symb             # core
-pip install symb[visual]     # with Graphviz + render pipeline
+>>> pip install symb             # core
+>>> pip install symb[visual]     # with Graphviz + render pipeline
 ```
+<details>
+
+```text
+ERROR: Could not find a version that satisfies the requirement symb (from versions: none)
+ERROR: No matching distribution found for symb
+```
+</details>
 
 ## Performance
 

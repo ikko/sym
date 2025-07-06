@@ -5,36 +5,58 @@ This diagram illustrates the most direct import paths to each accessible module 
 ```mermaid
 graph TD
     subgraph "Public API"
-        A[symbol] --> B&#40symbol.s&#41
-        A --> C&#40symbol.Symbol&#41
-        A --> D&#40symbol.to_sym&#41
-        A --> E&#40symbol.SymbolNamespace&#41
+        A[symbol] --> B(symbol.s)
+        A --> C(symbol.Symbol)
+        A --> D(symbol.to_sym)
+        A --> E(symbol.SymbolNamespace)
     end
 
     subgraph "Core Modules"
-        C --> F&#40symbol.core.base_symbol&#41
-        C --> G&#40symbol.core.symbol&#41
-        C --> H&#40symbol.core.graph&#41
-        C --> I&#40symbol.core.maturing&#41
-        C --> J&#40symbol.core.mixinability&#41
-        C --> K&#40symbol.core.mixin_validator&#41
-        C --> L&#40symbol.core.protocols&#41
-        C --> M&#40symbol.core.symbolable&#41
-        C --> N&#40symbol.core.time_arithmetics&#41
-        C --> O&#40symbol.core.schedule&#41
-        C --> P&#40symbol.core.batch_processing&#41
+        C --> F(symbol.core.base_symbol)
+        C --> G(symbol.core.symbol)
+        C --> I(symbol.core.maturing)
+        C --> J(symbol.core.mixinability)
+        C --> K(symbol.core.mixin_validator)
+        C --> L(symbol.core.protocols)
+        C --> M(symbol.core.symbolable)
+        C --> N(symbol.core.time_arithmetics)
+        C --> O(symbol.core.schedule)
+        C --> P(symbol.core.batch_processing)
     end
 
     subgraph "Builtin Extensions"
-        C --> Q&#40symbol.builtins.collections&#41
-        C --> R&#40symbol.builtins.time_dim&#41
-        C --> S&#40symbol.builtins.index&#41
-        C --> T&#40symbol.builtins.path&#41
-        C --> U&#40symbol.builtins.visual&#41
-        C --> V&#40symbol.builtins.red_black_tree&#41
-        C --> W&#40symbol.builtins.avl_tree&#41
-        C --> X&#40symbol.builtins.timeline&#41
+        C --> Q(symbol.builtins.collections)
+        C --> R(symbol.builtins.time_dim)
+        C --> S(symbol.builtins.index)
+        C --> T(symbol.builtins.path)
+        C --> U(symbol.builtins.visual)
+        C --> V(symbol.builtins.red_black_tree)
+        C --> W(symbol.builtins.avl_tree)
+        C --> X(symbol.builtins.timeline)
     end
 
-    style A fill:#97bff2,stroke:#333,stroke-width:2px,color:#000000;
-```
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style E fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+
+    style F fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style G fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style I fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style J fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style K fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style L fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style M fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style N fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style O fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style P fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    style Q fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style R fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style S fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style T fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style U fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style V fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style W fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style X fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
