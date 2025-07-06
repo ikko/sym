@@ -21,8 +21,8 @@ sym_b = Symbol("concept_A")
 assert sym_a is sym_b # True: Same instance
 
 # Namespace access: Convenient interning
-sym_c = s.another_concept
-sym_d = s.another_concept
+sym_c = s.concept_C
+sym_d = s.concept_C
 assert sym_c is sym_d # True: Same instance
 ```
 
@@ -91,10 +91,10 @@ graph TD
     end
 
     subgraph Applications
-        D --> H&&#40Time-Series_Analysis&&#41
-        E --> I&&#40Dependency_Mapping&&#41
-        F --> J&&#40Semantic_Search&&#41
-        G --> K&&#40Deferred_Execution&&#41
+        D --> H&#40Time-Series_Analysis&#41
+        E --> I&#40Dependency_Mapping&#41
+        F --> J&#40Semantic_Search&#41
+        G --> K&#40Deferred_Execution&#41
     end
 
     style A fill:#72ddba,stroke:#333,stroke-width:2px,color:#000000
