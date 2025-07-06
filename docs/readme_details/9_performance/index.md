@@ -35,7 +35,7 @@ print(f"Time for 100,000 Symbol instantiations: {(end_time - start_time) / 1_000
 ### Diagram
 ```mermaid
 graph TD
-    A[Request Symbol#40name#41] --> B{Check Symbol._pool};
+    A[Request Symbol#40;name#41;] --> B{Check Symbol._pool};
     B -- "Found" --> C[Return Existing Symbol];
     B -- "Not Found" --> D[Create New Symbol];
     D --> E[Add to Symbol._pool];
