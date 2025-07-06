@@ -2,9 +2,7 @@ from pathlib import Path
 import datetime
 import timeit
 import tracemalloc
-import pandas as pd
 from dateutil import parser as dateutil_parser
-import rich
 from rich.console import Console
 from rich.table import Table
 from rich.progress import track
@@ -45,27 +43,29 @@ def benchmark_datetime_libraries():
             results.append({
                 "Library": lib_name,
                 "N": N,
-                "Time (s)": round(t, 6),
-                "Peak Memory (KB)": peak // 1024,
+                "Time (s)": f"{t:.6f}",
+                "Peak Memory (B)": f"{peak:,}"
             })
 
     for lib_name, func in track(libraries.items(), description="Benchmarking..."):
         measure(lib_name, func)
 
+    # Order by N
+    results.sort(key=lambda row: row["N"])
     return results
 
 # Pretty output
 def render_results_table(results):
     console = Console()
-    table = Table(title="Datetime Library Benchmark")
+    table = Table(title="📊 Datetime Library Benchmark")
 
     table.add_column("Library", style="cyan", no_wrap=True)
     table.add_column("N", justify="right", style="magenta")
     table.add_column("Time (s)", justify="right", style="green")
-    table.add_column("Peak Memory (KB)", justify="right", style="yellow")
+    table.add_column("Peak Memory (B)", justify="right", style="yellow")
 
     for row in results:
-        table.add_row(str(row["Library"]), str(row["N"]), str(row["Time (s)"]), str(row["Peak Memory (KB)"]))
+        table.add_row(str(row["Library"]), str(row["N"]), row["Time (s)"], row["Peak Memory (B)"])
 
     console.print(table)
 
