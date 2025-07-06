@@ -104,12 +104,18 @@ graph TD
 *   **Domain-Specific Layers (Blue):** Illustrates how mixins extend `Symbol` with specialized capabilities relevant to particular domains.
 *   **Applications (Green):** Shows how these extended `Symbol` instances can be leveraged to build concrete applications.
 
-### 3. Advanced Considerations for Researchers
+### 3. Considerations for Researchers
 
 *   **Formal Verification:** The immutability of `Symbol` instances (once interned) and the explicit graph structure lend themselves well to formal verification techniques for system properties.
 *   **Semantic Web Integration:** `Symbol` can serve as a lightweight, in-memory RDF-like store, where `Symbol` names are URIs and relationships form triples.
 *   **Dynamic Systems Modeling:** The mixin architecture enables runtime adaptation of system behavior, crucial for simulating adaptive or self-organizing systems.
 *   **Memory Footprint:** While interning optimizes for unique names, be mindful of the graph's overall memory consumption for extremely large-scale graphs. The `MEMORY_AWARE_DELETE` flag offers control over garbage collection behavior.
+
+### 4. Advice to Engineers
+
+1. **Model** your solution from **top to bottom** using Breadth-first search (BFS), this way you'll ensure that no high level abstraction wi'll be missing.
+2. **Model** your solution **at detail** on the bottom. Choose low-level protocoral, non-protocoral and hybrid concepts then draft the conceptual zone they consists of.
+3. **Review** high-level concepts, adapt and apply **takeaway lessons** observed at previous step. 
 
 ### Conclusion
 
