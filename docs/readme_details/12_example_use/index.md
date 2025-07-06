@@ -8,14 +8,20 @@ This example demonstrates the fundamental operations of creating `Symbol` instan
 
 ### Code Example
 ```python
-from symbol import s, Symbol
+>>> from symbol import s, Symbol
 
-# --- Basic Symbol creation and relationships ---
-hello = Symbol('hello')
-world = s.world
-hello.add(world)
-print(hello.tree())
+>>> # --- Basic Symbol creation and relationships ---
+>>> hello = Symbol('hello')
+>>> world = s.world
+>>> hello.add(world)
+>>> print(hello.tree())
 ```
+<details>
+
+```text
+[<Symbol: hello>, <Symbol: world>]
+```
+</details>
 
 ### Explanation
 - `Symbol('hello')`: Creates a `Symbol` instance named 'hello'. Due to the interning mechanism, if 'hello' already exists, the existing instance is returned.
@@ -28,9 +34,8 @@ print(hello.tree())
 graph TD
     A[hello] --> B[world];
 
-    style A fill:#5d4140,stroke:#333,stroke-width:2px,color:#FFFFFF;
-
-    style A fill:#5d4140,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## ESG Example: Tracking Deforestation in a Supply Chain
 
@@ -38,34 +43,40 @@ This example illustrates how `Symbol` can model complex supply chain relationshi
 
 ### Code Example
 ```python
-from symbol import s, Symbol
-from symbol.core.mixinability import register_mixin
-from symbol.core.protocols import SymbolProtocol
-from symbol.builtins import apply_builtins
+>>> from symbol import s, Symbol
+>>> from symbol.core.mixinability import register_mixin
+>>> from symbol.core.protocols import SymbolProtocol
+>>> from symbol.builtins import apply_builtins
 
-class SupplyChainMixin(SymbolProtocol):
-    def buys_from(self, supplier: Symbol):
-        self.add(supplier)
+>>> class SupplyChainMixin(SymbolProtocol):
+>>>     def buys_from(self, supplier: Symbol):
+>>>         self.add(supplier)
 
-    def sources_from(self, source: Symbol):
-        self.add(source)
+>>>     def sources_from(self, source: Symbol):
+>>>         self.add(source)
 
-register_mixin(SupplyChainMixin, expand=True)
-apply_builtins()
+>>> register_mixin(SupplyChainMixin, expand=True)
+>>> apply_builtins()
 
-s.Global_Goods_Inc.buys_from(s.Palm_Oil_Processor)
-s.Palm_Oil_Processor.buys_from(s.Supplier_A)
-s.Palm_Oil_Processor.buys_from(s.Supplier_B)
-s.Supplier_A.sources_from(s.Plantation_X)
-s.Supplier_B.sources_from(s.Plantation_Y)
-s.Plantation_Y.add(s.deforestation_event_2024_Q4)
+>>> s.Global_Goods_Inc.buys_from(s.Palm_Oil_Processor)
+>>> s.Palm_Oil_Processor.buys_from(s.Supplier_A)
+>>> s.Palm_Oil_Processor.buys_from(s.Supplier_B)
+>>> s.Supplier_A.sources_from(s.Plantation_X)
+>>> s.Supplier_B.sources_from(s.Plantation_Y)
+>>> s.Plantation_Y.add(s.deforestation_event_2024_Q4)
 
-def has_deforestation(symbol):
-    return 'deforestation' in symbol.name
+>>> def has_deforestation(symbol):
+>>>     return 'deforestation' in symbol.name
 
-for path in s.Global_Goods_Inc.match(has_deforestation):
-    print(f"Deforestation Link Found: {path.path_to(s.deforestation_event_2024_Q4)}")
+>>> for path in s.Global_Goods_Inc.match(has_deforestation):
+>>>     print(f"Deforestation Link Found: {path.path_to(s.deforestation_event_2024_Q4)}")
 ```
+<details>
+
+```text
+Deforestation Link Found: ['<Symbol: Global_Goods_Inc>', '<Symbol: Palm_Oil_Processor>', '<Symbol: Supplier_B>', '<Symbol: Plantation_Y>', '<Symbol: deforestation_event_2024_Q4>']
+```
+</details>
 
 ### Explanation
 - **Supply Chain Modeling**: Each entity (e.g., `Global_Goods_Inc`, `Palm_Oil_Processor`, `Plantation_X`) is represented as a `Symbol`. Relationships like `buys_from` and `sources_from` are established using custom methods (which would internally use `add()` or `relate_to()`).
@@ -83,9 +94,13 @@ graph TD
     D --> F[Plantation_Y];
     F --> G[deforestation_event_2024_Q4];
 
-    style A fill:#1be6c8,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#1be6c8,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style G fill:#00FFFF,stroke:#333,stroke-width:2px,color:#000000;
 ```
 ## Timeline Example
 
@@ -93,53 +108,67 @@ This example showcases the use of `symbol.builtins.timeline` to manage and analy
 
 ### Code Example
 ```python
-from symbol.builtins.timeline import Timeline
-import pendulum
+>>> from symbol.builtins.timeline import Timeline
+>>> import datetime
 
-timeline1 = Timeline()
-timeline1.add_period(pendulum.datetime(2023, 1, 1), pendulum.datetime(2023, 1, 15))
-timeline1.add_period(pendulum.datetime(2023, 1, 10), pendulum.datetime(2023, 1, 20))
+>>> timeline1 = Timeline()
+>>> timeline1.add_period(datetime.datetime(2023, 1, 1), datetime.datetime(2023, 1, 15))
+>>> timeline1.add_period(datetime.datetime(2023, 1, 10), datetime.datetime(2023, 1, 20))
 
-timeline2 = Timeline()
-timeline2.add_period(pendulum.datetime(2023, 1, 5), pendulum.datetime(2023, 1, 12))
+>>> timeline2 = Timeline()
+>>> timeline2.add_period(datetime.datetime(2023, 1, 5), datetime.datetime(2023, 1, 12))
 
-overlap_timeline = timeline1.overlap(timeline2)
-print(f"Overlap periods: {list(overlap_timeline)}")
-print(timeline1.to_ascii())
+>>> overlap_timeline = timeline1.overlap(timeline2)
+>>> print(f"Overlap periods: {list(overlap_timeline)}")
+>>> print(timeline1.to_ascii())
 ```
+<details>
+
+```text
+Overlap periods: []
+#----------#----
+```
+</details>
 
 ### Explanation
 - `Timeline()`: Instantiates a `Timeline` object, which is a specialized `Symbol` for managing time intervals.
-- `add_period()`: Adds a time period (defined by start and end `pendulum.DateTime` objects) to the timeline. These periods are internally represented as `Symbol` instances.
+- `add_period()`: Adds a time period (defined by start and end `datetime.datetime` objects) to the timeline. These periods are internally represented as `Symbol` instances.
 - `overlap()`: A method provided by the `Timeline` class that calculates the overlapping periods between two timelines. This demonstrates `Symbol`'s ability to extend its core functionality for domain-specific operations.
 - `to_ascii()`: Visualizes the timeline using ASCII art, providing a quick textual representation of the time periods.
 
 ### Diagram
-
 ```mermaid
 graph TD
     A[Timeline 1] -- "Period 1" --> B[2023-01-01_to_2023-01-15]
     A -- "Period 2" --> C[2023-01-10_to_2023-01-20]
     X[Timeline 2] -- "Period 3" --> Y[2023-01-05_to_2023-01-12]
     A -- "overlap()" --> Z[Overlap Periods];
-    style X fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
-    style A fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style X fill:#3d1f92,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style X fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Y fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Z fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-
 ## Batch Processing Example
 
 This example demonstrates a simple batch processing utility, showcasing how `Symbol` can be used in conjunction with functional programming paradigms to apply a given function to a collection of inputs. While `Symbol` itself is not a batch processing engine, its extensibility allows for the integration of such utilities.
 
 ### Code Example
 ```python
-from symbol.core.batch_processing import process_batch
+>>> from symbol.core.batch_processing import process_batch
 
-def square(x): return x * x
-results = process_batch([1, 2, 3, 4], square)
-print(f"Batch processing results: {results}")
+>>> def square(x): return x * x
+>>> results = process_batch([1, 2, 3, 4], square)
+>>> print(f"Batch processing results: {results}")
 ```
+<details>
+
+```text
+Batch processing results: [1, 4, 9, 16]
+```
+</details>
 
 ### Explanation
 - `process_batch()`: A utility function (likely part of `symbol.core.batch_processing`) that takes a list of inputs and a function, applying the function to each input in a batch. This highlights how `Symbol` can be part of a larger system, where its symbolic representations can be processed by external functions.
@@ -148,13 +177,14 @@ print(f"Batch processing results: {results}")
 ### Diagram
 ```mermaid
 graph LR
-    A[Input List] --> B{process_batch&#40;&#41;};
-    C[Function &#40;e.g., square&#41;] --> B;
+    A[Input List] --> B{process_batch()};
+    C[Function (e.g., square)] --> B;
     B --> D[Processed Results];
 
-    style C fill:#283d9e,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style A fill:#da417d,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style C fill:#283d9e,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## Scheduler Example
 
@@ -162,21 +192,27 @@ This example demonstrates the use of `symbol.core.schedule` to schedule and exec
 
 ### Code Example
 ```python
-from symbol.core.schedule import Scheduler, ScheduledJob
-import time
-import pendulum
+>>> from symbol.core.schedule import Scheduler, ScheduledJob
+>>> import time
+>>> import datetime
 
-def my_task(message):
-    print(f"Executing task: {message}")
+>>> def my_task(message):
+>>>     print(f"Executing task: {message}")
 
-scheduler = Scheduler()
-job = ScheduledJob(my_task, args=("Hello from the scheduler!",), schedule=pendulum.now().add(seconds=5))
-scheduler.add_job(job)
+>>> scheduler = Scheduler()
+>>> job = ScheduledJob(my_task, args=("Hello from the scheduler!",), schedule=datetime.datetime.now() + datetime.timedelta(seconds=5))
+>>> scheduler.add_job(job)
 
-scheduler.start()
-time.sleep(6) # Wait for the job to run
-scheduler.stop()
+>>> scheduler.start()
+>>> time.sleep(6) # Wait for the job to run
+>>> scheduler.stop()
 ```
+<details>
+
+```text
+Executing task: Hello from the scheduler!
+```
+</details>
 
 ### Explanation
 - `Scheduler()`: Initializes the scheduler, which runs in a separate thread to monitor and execute jobs.
@@ -189,15 +225,17 @@ scheduler.stop()
 ### Diagram
 ```mermaid
 graph TD
-    A[Function &#40;my_task&#41;] --> B[ScheduledJob];
-    C[Schedule &#40;time_dim.DateTime&#41;] --> B;
-    B --> D[Scheduler.add_job&#40;&#41;];
-    D --> E[Scheduler.start&#40;&#41;];
+    A[Function (my_task)] --> B[ScheduledJob];
+    C[Schedule (datetime.datetime)] --> B;
+    B --> D[Scheduler.add_job()];
+    D --> E[Scheduler.start()];
     E -- "Executes at time" --> A;
-    style C fill:#dfceac,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#7c2ccd,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style C fill:#b83750,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## Conclusion
 

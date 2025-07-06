@@ -2,11 +2,11 @@
 
 The `Symbol` framework is designed with a **layered architecture**, a fundamental principle that separates concerns into distinct, hierarchical layers. This approach ensures a lean and stable core while allowing for flexible and modular extension of functionalities. The primary distinction is between the `symbol.core` package, which houses the essential building blocks, and the `symbol.builtins` package, which provides optional, high-level extensions.
 
-## Core Layer &(`symbol.core`&)
+## Core Layer (`symbol.core`)
 
 This layer represents the foundational elements of the `Symbol` framework. It contains the absolute minimum necessary for a `Symbol` object to exist and to participate in graph structures. Key characteristics include:
 
--   **Minimalism**: Focuses solely on the fundamental definition of a `Symbol`, its unique identification &(interning&), and the basic mechanisms for establishing and managing relationships &(parents, children&).
+-   **Minimalism**: Focuses solely on the fundamental definition of a `Symbol`, its unique identification (interning), and the basic mechanisms for establishing and managing relationships (parents, children).
 -   **Stability**: Designed to be highly stable and rarely change, providing a robust base for all other functionalities.
 -   **Independence**: Ideally, this layer has minimal dependencies on higher-level components, ensuring its integrity and reusability.
 
@@ -17,15 +17,17 @@ graph TD
     A --> D[maturing.py];
     A --> E[mixinability.py];
 
-    style A fill:#10883c,stroke:#333,stroke-width:2px,color:#FFFFFF;
-
-    style A fill:#10883c,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style D fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## Builtin Extensions Layer &(`symbol.builtins`&)
+## Builtin Extensions Layer (`symbol.builtins`)
 
 This layer comprises a collection of modular extensions that provide specialized functionalities to `Symbol` objects. These extensions are designed to be plug-and-play, allowing developers to include only the features relevant to their specific application without bloating the core.
 
--   **Modularity**: Each module within `symbol.builtins` addresses a specific domain &(e.g., date/time, collections, visualization&).
+-   **Modularity**: Each module within `symbol.builtins` addresses a specific domain (e.g., date/time, collections, visualization).
 -   **Extensibility**: New functionalities can be easily added by creating new modules in this layer, adhering to the framework's extension protocols.
 -   **Controlled Dependencies**: While `symbol.builtins` modules depend on `symbol.core`, the `symbol.core` generally remains independent of `symbol.builtins`, maintaining the hierarchical integrity.
 
@@ -38,9 +40,13 @@ graph TD
     A --> F[visual.py];
     A --> G[timeline.py];
 
-    style A fill:#5f36bb,stroke:#333,stroke-width:2px,color:#FFFFFF;
-
-    style A fill:#5f36bb,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style E fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style F fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
+    style G fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
 ```
 ## Inter-Layer Communication
 
@@ -67,32 +73,44 @@ class Symbol(BaseSymbol):
 
 **High-Tech: Microservices Architecture**
 ```python
-from symbol import s
+>>> from symbol import s
 
-# Core services
-s.AuthService.provides(s.UserAuthentication)
-s.DataStorageService.provides(s.DataPersistence)
+>>> # Core services
+>>> s.AuthService.provides(s.UserAuthentication)
+>>> s.DataStorageService.provides(s.DataPersistence)
 
-# Specialized services &(builtins&)
-s.PaymentProcessingService.uses(s.AuthService)
-s.RecommendationEngine.uses(s.DataStorageService)
+>>> # Specialized services (builtins)
+>>> s.PaymentProcessingService.uses(s.AuthService)
+>>> s.RecommendationEngine.uses(s.DataStorageService)
 
-print(f"Payment service uses: {[c.name for c in s.PaymentProcessingService.children]}")
+>>> print(f"Payment service uses: {[c.name for c in s.PaymentProcessingService.children]}")
 ```
+<details>
+
+```text
+Payment service uses: []
+```
+</details>
 
 **Low-Tech: Modular Furniture Design**
 ```python
-from symbol import s
+>>> from symbol import s
 
-# Core components
-s.BasicFrame.connects_with(s.StandardConnector)
+>>> # Core components
+>>> s.BasicFrame.connects_with(s.StandardConnector)
 
-# Add-on modules &(builtins&)
-s.ShelfModule.attaches_to(s.BasicFrame)
-s.DrawerModule.attaches_to(s.BasicFrame)
+>>> # Add-on modules (builtins)
+>>> s.ShelfModule.attaches_to(s.BasicFrame)
+>>> s.DrawerModule.attaches_to(s.BasicFrame)
 
-print(f"Basic frame connections: {[c.name for c in s.BasicFrame.children]}")
+>>> print(f"Basic frame connections: {[c.name for c in s.BasicFrame.children]}")
 ```
+<details>
+
+```text
+Basic frame connections: []
+```
+</details>
 
 ## Conclusion
 
