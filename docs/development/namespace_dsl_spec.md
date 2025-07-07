@@ -36,13 +36,13 @@ It supports symbolic interning, ordered chaining (`que`), DAG tree modeling (`tr
 ## Highlights
 
 ```python
->>> from symbol.core.symbol import SymbolNamespace
->>> s = SymbolNamespace()
+from symbol.core.symbol import SymbolNamespace
+s = SymbolNamespace()
 
->>> s.page.append(s.header).append(s.footer)
->>> s.backend.relate_to(s.database, how=s.uses)
+s.page.append(s.header).append(s.footer)
+s.backend.relate_to(s.database, how=s.uses)
 
->>> print(s.page.to_mmd())        # Mermaid.js format
+print(s.page.to_mmd())        # Mermaid.js format
 ```
 <details>
 
@@ -62,8 +62,8 @@ graph TD
 ## Installation
 
 ```bash
->>> pip install symb             # core
->>> pip install symb[visual]     # with Graphviz + render pipeline
+pip install symb             # core
+pip install symb[visual]     # with Graphviz + render pipeline
 ```
 <details>
 

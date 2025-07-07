@@ -10,42 +10,42 @@ Strategic decision-making in the semiconductor industry is a complex endeavor, r
 Let's demonstrate how `«symbol»` can be used to evaluate the strategic positioning of `Project_Orion` in the market, considering its features, target segments, and competitive landscape.
 
 ```python
->>> # Recall existing symbols: project_orion, market_segment_automotive, market_segment_industrial_iot
->>> # competitor_chip_x
+# Recall existing symbols: project_orion, market_segment_automotive, market_segment_industrial_iot
+# competitor_chip_x
 
->>> # Define strategic metrics as metadata for Project_Orion
->>> project_orion.metadata['projected_market_share_automotive'] = 0.15 # 15% in automotive
->>> project_orion.metadata['projected_market_share_industrial_iot'] = 0.20 # 20% in industrial IoT
->>> project_orion.metadata['r_and_d_investment_usd'] = 500_000_000 # 500 Million USD
->>> project_orion.metadata['time_to_market_months'] = 18
+# Define strategic metrics as metadata for Project_Orion
+project_orion.metadata['projected_market_share_automotive'] = 0.15 # 15% in automotive
+project_orion.metadata['projected_market_share_industrial_iot'] = 0.20 # 20% in industrial IoT
+project_orion.metadata['r_and_d_investment_usd'] = 500_000_000 # 500 Million USD
+project_orion.metadata['time_to_market_months'] = 18
 
->>> # Define strategic metrics for Competitor_Chip_X
->>> competitor_chip_x.metadata['projected_market_share_industrial_iot'] = 0.30 # 30% in industrial IoT
->>> competitor_chip_x.metadata['r_and_d_investment_usd'] = 700_000_000
->>> competitor_chip_x.metadata['time_to_market_months'] = 24
+# Define strategic metrics for Competitor_Chip_X
+competitor_chip_x.metadata['projected_market_share_industrial_iot'] = 0.30 # 30% in industrial IoT
+competitor_chip_x.metadata['r_and_d_investment_usd'] = 700_000_000
+competitor_chip_x.metadata['time_to_market_months'] = 24
 
->>> # Model a strategic partnership with a major automotive OEM
->>> partner_automotive_oem = s.Partner_GlobalAutoCorp
->>> project_orion.add(partner_automotive_oem)
->>> partner_automotive_oem.add(market_segment_automotive)
+# Model a strategic partnership with a major automotive OEM
+partner_automotive_oem = s.Partner_GlobalAutoCorp
+project_orion.add(partner_automotive_oem)
+partner_automotive_oem.add(market_segment_automotive)
 
->>> # Use Symbol's indexing to prioritize strategic initiatives
->>> # We can define a custom weight function for strategic importance
->>> def strategic_importance_weight(sym: Symbol) -> float:
->>>     if sym.name == 'Project_Orion':
->>>         return project_orion.metadata.get('projected_market_share_automotive', 0) * 100 + \
->>>                project_orion.metadata.get('projected_market_share_industrial_iot', 0) * 100
->>>     elif sym.name == 'Competitor_Chip_X':
->>>         return competitor_chip_x.metadata.get('projected_market_share_industrial_iot', 0) * 100
->>>     return 0.0
+# Use Symbol's indexing to prioritize strategic initiatives
+# We can define a custom weight function for strategic importance
+def strategic_importance_weight(sym: Symbol) -> float:
+    if sym.name == 'Project_Orion':
+        return project_orion.metadata.get('projected_market_share_automotive', 0) * 100 + \
+               project_orion.metadata.get('projected_market_share_industrial_iot', 0) * 100
+    elif sym.name == 'Competitor_Chip_X':
+        return competitor_chip_x.metadata.get('projected_market_share_industrial_iot', 0) * 100
+    return 0.0
 
->>> # Insert projects into a strategic index based on their calculated importance
->>> strategic_projects_index = s.Strategic_Projects_Index
->>> strategic_projects_index.index.insert(project_orion, weight=strategic_importance_weight)
->>> strategic_projects_index.index.insert(competitor_chip_x, weight=strategic_importance_weight)
+# Insert projects into a strategic index based on their calculated importance
+strategic_projects_index = s.Strategic_Projects_Index
+strategic_projects_index.index.insert(project_orion, weight=strategic_importance_weight)
+strategic_projects_index.index.insert(competitor_chip_x, weight=strategic_importance_weight)
 
->>> # Traverse the strategic index to see prioritized projects
->>> print(f"Strategic Projects (by importance): {[sym.name for sym in strategic_projects_index.index.traverse(order='in')]}")
+# Traverse the strategic index to see prioritized projects
+print(f"Strategic Projects (by importance): {[sym.name for sym in strategic_projects_index.index.traverse(order='in')]}")
 ```
 <details>
 

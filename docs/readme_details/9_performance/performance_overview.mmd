@@ -23,15 +23,33 @@ graph LR
         S["SymbolIndex"] --> L;
         T["AVLTree/RedBlackTree"] --> M;
     end
-    style T fill:#91f7a3,stroke:#333,stroke-width:2px,color:#000000;
 
-    style A fill:#a05fb8,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style D fill:#a22f9f,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style G fill:#d3de02,stroke:#333,stroke-width:2px,color:#000000;
-    style K fill:#b42f90,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style O fill:#9dd027,stroke:#333,stroke-width:2px,color:#000000;
-    style P fill:#4872ad,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style Q fill:#eaa451,stroke:#333,stroke-width:2px,color:#000000;
-    style R fill:#9ee31b,stroke:#333,stroke-width:2px,color:#000000;
-    style S fill:#426e94,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style T fill:#91f7a3,stroke:#333,stroke-width:2px,color:#000000;
+    %% O(1) Symbol Instantiation - Purple
+    style A fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#9370DB,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    %% O(1) Relationship Linking - Blue
+    style D fill:#0000CD,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#4169E1,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#4169E1,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    %% O(1) Traversal with Cache - Green
+    style G fill:#006400,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style H fill:#228B22,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style I fill:#228B22,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style J fill:#228B22,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    %% O(log n) Insert/Search - Red
+    style K fill:#8B0000,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style L fill:#B22222,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style M fill:#B22222,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style N fill:#B22222,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    %% Underlying Mechanisms - Match colors with their corresponding features
+    style O fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style P fill:#0000CD,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Q fill:#006400,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style R fill:#006400,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style S fill:#8B0000,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style T fill:#8B0000,stroke:#333,stroke-width:2px,color:#FFFFFF;

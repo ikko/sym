@@ -72,17 +72,17 @@ Conclusion:
 To begin, simply import the `Symbol` or `s` namespace factory:
 
 ```python
->>> from symbol import Symbol, s
+from symbol import Symbol, s
 
->>> # Create symbols
->>> hello = Symbol('hello')
->>> world = s.world
+# Create symbols
+hello = Symbol('hello')
+world = s.world
 
->>> # Build relationships
->>> hello.add(world)
+# Build relationships
+hello.add(world)
 
->>> # Traverse the graph
->>> print(hello.tree())
+# Traverse the graph
+print(hello.tree())
 ```
 <details>
 
@@ -96,7 +96,7 @@ To begin, simply import the `Symbol` or `s` namespace factory:
 To run all tests, execute the following command from the project root directory:
 
 ```bash
->>> python -m pytest tests
+python -m pytest tests
 ```
 
 ---

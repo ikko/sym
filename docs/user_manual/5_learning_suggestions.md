@@ -10,24 +10,24 @@ Mastering `«symbol»` and the complex domain of semiconductor manufacturing is 
 *   **KPI Tracking with `«symbol»`**: Identify key performance indicators (KPIs) relevant to your work (e.g., fab metrics like yield and cycle time, supplier ratings, project progress). Model these KPIs as `Symbol` objects and update their metadata regularly. This allows you to track trends, identify areas for improvement, and make data-driven decisions.
 
 ```python
->>> # Model a KPI for wafer yield
->>> wafer_yield_kpi = s.KPI_Wafer_Yield
->>> wafer_yield_kpi.metadata['unit'] = 'percent'
->>> wafer_yield_kpi.metadata['target'] = 0.95
+# Model a KPI for wafer yield
+wafer_yield_kpi = s.KPI_Wafer_Yield
+wafer_yield_kpi.metadata['unit'] = 'percent'
+wafer_yield_kpi.metadata['target'] = 0.95
 
->>> # Record daily yield data
->>> wafer_yield_kpi.metadata['2025-07-01'] = 0.945
->>> wafer_yield_kpi.metadata['2025-07-02'] = 0.951
->>> wafer_yield_kpi.metadata['2025-07-03'] = 0.938
+# Record daily yield data
+wafer_yield_kpi.metadata['2025-07-01'] = 0.945
+wafer_yield_kpi.metadata['2025-07-02'] = 0.951
+wafer_yield_kpi.metadata['2025-07-03'] = 0.938
 
->>> print(f"Wafer Yield KPI for 2025-07-02: {wafer_yield_kpi.metadata['2025-07-02']:.2%}")
+print(f"Wafer Yield KPI for 2025-07-02: {wafer_yield_kpi.metadata['2025-07-02']:.2%}")
 
->>> # Model a supplier rating
->>> supplier_tsmc = s.Supplier_TSMC
->>> supplier_tsmc.metadata['quality_rating'] = 4.8 # Out of 5
->>> supplier_tsmc.metadata['delivery_reliability'] = 0.99
+# Model a supplier rating
+supplier_tsmc = s.Supplier_TSMC
+supplier_tsmc.metadata['quality_rating'] = 4.8 # Out of 5
+supplier_tsmc.metadata['delivery_reliability'] = 0.99
 
->>> print(f"TSMC Quality Rating: {supplier_tsmc.metadata['quality_rating']}")
+print(f"TSMC Quality Rating: {supplier_tsmc.metadata['quality_rating']}")
 ```
 <details>
 

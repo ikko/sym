@@ -13,17 +13,17 @@ This document serves as a rapid introduction to `Symbol`, a Python library desig
 At its core, `Symbol` implements a stringent interning mechanism. Every unique string name corresponds to precisely one `Symbol` instance. This ensures referential equality (`is`) for semantically equivalent entities, optimizing memory usage and enabling O(1) lookup for symbolic identities.
 
 ```python
->>> from symbol.core.symbol import Symbol, s
+from symbol.core.symbol import Symbol, s
 
->>> # Direct instantiation: Interning ensures uniqueness
->>> sym_a = Symbol("concept_A")
->>> sym_b = Symbol("concept_A")
->>> assert sym_a is sym_b # True: Same instance
+# Direct instantiation: Interning ensures uniqueness
+sym_a = Symbol("concept_A")
+sym_b = Symbol("concept_A")
+assert sym_a is sym_b # True: Same instance
 
->>> # Namespace access: Convenient interning
->>> sym_c = s.concept_C
->>> sym_d = s.concept_C
->>> assert sym_c is sym_d # True: Same instance
+# Namespace access: Convenient interning
+sym_c = s.concept_C
+sym_d = s.concept_C
+assert sym_c is sym_d # True: Same instance
 ```
 <details>
 
@@ -36,18 +36,18 @@ At its core, `Symbol` implements a stringent interning mechanism. Every unique s
 `Symbol` instances inherently function as nodes in a directed acyclic graph (DAG), or more generally, a directed graph. Relationships are established through explicit `append` or `add` operations, forming parent-child connections. This structure is fundamental for modeling hierarchical data, dependencies, and complex networks.
 
 ```python
->>> from symbol import s
->>> # Building a simple hierarchy
->>> root_node = s.SystemRoot
->>> sub_system_1 = s.SubSystem1
->>> sub_system_2 = s.SubSystem2
+from symbol import s
+# Building a simple hierarchy
+root_node = s.SystemRoot
+sub_system_1 = s.SubSystem1
+sub_system_2 = s.SubSystem2
 
->>> root_node.append(sub_system_1)
->>> root_node.append(sub_system_2)
+root_node.append(sub_system_1)
+root_node.append(sub_system_2)
 
->>> # Accessing relationships
->>> assert sub_system_1 in root_node.children
->>> assert root_node in sub_system_1.parents
+# Accessing relationships
+assert sub_system_1 in root_node.children
+assert root_node in sub_system_1.parents
 ```
 <details>
 
@@ -60,18 +60,18 @@ At its core, `Symbol` implements a stringent interning mechanism. Every unique s
 `Symbol`'s architecture supports dynamic runtime extension via mixins. This allows for the modular injection of domain-specific behaviors (e.g., time dimension parsing, pathfinding, indexing) without modifying the core `Symbol` class. This pattern promotes a highly composable design, enabling researchers to tailor `Symbol`'s capabilities precisely to their problem domain.
 
 ```python
->>> from symbol.builtins import apply_builtins
->>> from symbol.core.symbol import Symbol
+from symbol.builtins import apply_builtins
+from symbol.core.symbol import Symbol
 
->>> apply_builtins() # Integrates standard mixins
+apply_builtins() # Integrates standard mixins
 
->>> # Time dimension mixin example
->>> event_start = Symbol("2023-10-26T10:00:00Z")
->>> event_end = Symbol("2023-10-26T11:30:00Z")
+# Time dimension mixin example
+event_start = Symbol("2023-10-26T10:00:00Z")
+event_end = Symbol("2023-10-26T11:30:00Z")
 
->>> assert event_start.as_datetime.hour == 10
->>> assert event_end.as_datetime.minute == 30
->>> assert (event_end.as_datetime - event_start.as_datetime).total_seconds() == 5400.0 # 1 hour 30 minutes
+assert event_start.as_datetime.hour == 10
+assert event_end.as_datetime.minute == 30
+assert (event_end.as_datetime - event_start.as_datetime).total_seconds() == 5400.0 # 1 hour 30 minutes
 ```
 <details>
 

@@ -2,6 +2,18 @@
 
 This process involves elevating metadata to first-class attributes and methods,
 slimming down the object by removing unnecessary attributes, and freezing it to prevent further modifications.
+
+The smooth merge strategy uses a recursive Depth-First Search (DFS) approach.
+The merge proceeds by:
+   1. Initializing merged with all items from current_value.
+   2. Iterating through new_value:
+       * If a key exists in merged:
+           * If both values are mappings, a recursive call to _apply_merge_strategy is made.
+           * If both values are lists, extend is used.
+           * If both are non-mapping/non-list, the non_mapping_conflict_strategy is applied.
+           * If types are mixed (one is mapping/list, the other is not), the new_value overwrites.
+       * If a key does not exist in merged, the new_value is simply added.
+
 """
 from collections import defaultdict, deque
 import gc
@@ -109,39 +121,41 @@ def _apply_merge_strategy(current_value: Any, new_value: Any, strategy: MergeStr
             log.warning(f"Extend strategy only applies to lists. Overwriting instead.")
             return new_value
     elif strategy == 'smooth':
-        # Smooth deep merge: BFS walk, for dicts add as sibling, recursive for subdirs.
-        # For non-dict types, it will overwrite.
         if isinstance(current_value, Mapping) and isinstance(new_value, Mapping):
             merged = type(current_value)() # Preserve type (e.g., dict, defaultdict)
-            q = deque([(merged, current_value, new_value)])
+            # Start with all items from current_value
+            for k, v in current_value.items():
+                merged[k] = v
 
-            while q:
-                m, c, n = q.popleft()
-                # Add all from current_value
-                for k, v in c.items():
-                    m[k] = v
-                # Merge new_value
-                for k, v in n.items():
-                    if k in m and isinstance(m[k], Mapping) and isinstance(v, Mapping):
-                        # If both are mappings, recurse (add to queue)
-                        m[k] = type(m[k])() # Create new dict of same type for recursion
-                        q.append((m[k], c[k], v))
-                    elif k in m and not isinstance(m[k], Mapping) and not isinstance(v, Mapping):
+            # Iterate through new_value and merge
+            for k, v in new_value.items():
+                if k in merged:
+                    # If both are mappings, recursively merge
+                    if isinstance(merged[k], Mapping) and isinstance(v, Mapping):
+                        merged[k] = _apply_merge_strategy(merged[k], v, 'smooth', non_mapping_conflict_strategy)
+                    # If both are lists, extend
+                    elif isinstance(merged[k], list) and isinstance(v, list):
+                        merged[k].extend(v)
+                    # Handle other non-mapping conflicts
+                    elif not isinstance(merged[k], Mapping) and not isinstance(v, Mapping):
                         if non_mapping_conflict_strategy == 'overwrite':
-                            m[k] = v
+                            merged[k] = v
                         elif non_mapping_conflict_strategy == 'keep_current':
-                            pass  # Keep the current value
+                            pass
                         elif non_mapping_conflict_strategy == 'raise_error':
                             raise ValueError(f"Conflict for key '{k}': Cannot merge non-mapping types with 'raise_error' strategy.")
                         elif non_mapping_conflict_strategy == 'add_sibling':
                             log.info(f"Smooth merge: Key '{k}' exists and is not a mapping. Adding as sibling.")
-                            m[f'{k}_new'] = v  # Simple sibling creation
+                            merged[f'{k}_new'] = v
                         else:
                             log.warning(f"Unknown non-mapping conflict strategy '{non_mapping_conflict_strategy}'. Overwriting instead.")
-                            m[k] = v
+                            merged[k] = v
                     else:
-                        # Otherwise, just add/overwrite
-                        m[k] = v
+                        # One is mapping/list, other is not - overwrite
+                        merged[k] = v
+                else:
+                    # Key not in current_value, just add
+                    merged[k] = v
             return merged
         else:
             log.warning(f"Smooth merge: Non-mapping types. Overwriting instead.")

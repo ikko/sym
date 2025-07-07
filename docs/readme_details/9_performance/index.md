@@ -12,24 +12,24 @@ Symbol instantiation is a constant-time operation, achieved through the implemen
 
 ### Code Example
 ```python
->>> from symbol import Symbol
+from symbol import Symbol
 
->>> # Repeated instantiation of the same symbol name
->>> s1 = Symbol('my_data_point')
->>> s2 = Symbol('my_data_point')
->>> s3 = Symbol('another_data_point')
+# Repeated instantiation of the same symbol name
+s1 = Symbol('my_data_point')
+s2 = Symbol('my_data_point')
+s3 = Symbol('another_data_point')
 
->>> print(f"s1 is s2: {s1 is s2}") # Expected: True (O(1) lookup)
->>> print(f"s1 is s3: {s1 is s3}") # Expected: False
+print(f"s1 is s2: {s1 is s2}") # Expected: True (O(1) lookup)
+print(f"s1 is s3: {s1 is s3}") # Expected: False
 
->>> # Demonstrating the constant time nature (conceptual)
->>> import time
+# Demonstrating the constant time nature (conceptual)
+import time
 
->>> start_time = time.perf_counter_ns()
->>> for _ in range(100000):
->>>     Symbol('test_symbol')
->>> end_time = time.perf_counter_ns()
->>> print(f"Time for 100,000 Symbol instantiations: {(end_time - start_time) / 1_000_000:.2f} ms")
+start_time = time.perf_counter_ns()
+for _ in range(100000):
+    Symbol('test_symbol')
+end_time = time.perf_counter_ns()
+print(f"Time for 100,000 Symbol instantiations: {(end_time - start_time) / 1_000_000:.2f} ms")
 ```
 <details>
 
@@ -65,22 +65,22 @@ Establishing relationships between `Symbol` instances (e.g., via `append()`) is 
 
 ### Code Example
 ```python
->>> from symbol import Symbol
+from symbol import Symbol
 
->>> root = Symbol('Root')
->>> child_a = Symbol('ChildA')
->>> child_b = Symbol('ChildB')
+root = Symbol('Root')
+child_a = Symbol('ChildA')
+child_b = Symbol('ChildB')
 
->>> import time
+import time
 
->>> start_time = time.perf_counter_ns()
->>> root.append(child_a) # O(1)
->>> root.append(child_b) # O(1)
->>> end_time = time.perf_counter_ns()
+start_time = time.perf_counter_ns()
+root.append(child_a) # O(1)
+root.append(child_b) # O(1)
+end_time = time.perf_counter_ns()
 
->>> print(f"Root children: {[c.name for c in root.children]}")
->>> print(f"ChildA parents: {[p.name for p in child_a.parents]}")
->>> print(f"Time for 2 relationship links: {(end_time - start_time) / 1_000_000:.2f} ms")
+print(f"Root children: {[c.name for c in root.children]}")
+print(f"ChildA parents: {[p.name for p in child_a.parents]}")
+print(f"Time for 2 relationship links: {(end_time - start_time) / 1_000_000:.2f} ms")
 ```
 <details>
 
@@ -116,20 +116,20 @@ While full graph traversals (e.g., `tree()`, `graph()`) are inherently dependent
 
 ### Code Example (Conceptual for Float-based Cursor)
 ```python
->>> from symbol import Symbol
+from symbol import Symbol
 
->>> # Symbol.next() uses float-based cursor for efficient chaining
->>> sym0 = Symbol.next()
->>> sym1 = Symbol.next()
->>> sym2 = Symbol.next()
+# Symbol.next() uses float-based cursor for efficient chaining
+sym0 = Symbol.next()
+sym1 = Symbol.next()
+sym2 = Symbol.next()
 
->>> print(f"sym0 position: {sym0._position}")
->>> print(f"sym1 position: {sym1._position}")
->>> print(f"sym2 position: {sym2._position}")
+print(f"sym0 position: {sym0._position}")
+print(f"sym1 position: {sym1._position}")
+print(f"sym2 position: {sym2._position}")
 
->>> # Accessing next/prev in a chained sequence is O(1)
->>> print(f"sym0._next is sym1: {sym0._next is sym1}")
->>> print(f"sym2._prev is sym1: {sym2._prev is sym1}")
+# Accessing next/prev in a chained sequence is O(1)
+print(f"sym0._next is sym1: {sym0._next is sym1}")
+print(f"sym2._prev is sym1: {sym2._prev is sym1}")
 ```
 <details>
 
@@ -175,26 +175,26 @@ While core relationship linking is O(1), the `Symbol` framework is designed to i
 
 ### Code Example (Conceptual with SymbolIndex)
 ```python
->>> from symbol import Symbol, s
->>> from symbol.builtins import apply_builtins
->>> from symbol.builtins.index import SymbolIndex
+from symbol import Symbol, s
+from symbol.builtins import apply_builtins
+from symbol.builtins.index import SymbolIndex
 
->>> apply_builtins()
+apply_builtins()
 
->>> # Create a Symbol and its associated index
->>> root_symbol = s.Root
+# Create a Symbol and its associated index
+root_symbol = s.Root
 
->>> root_symbol.index.insert(s.Zebra, 0.3)
->>> root_symbol.index.insert(s.Apple, 0.1)
->>> root_symbol.index.insert(s.Banana, 0.2)
+root_symbol.index.insert(s.Zebra, 0.3)
+root_symbol.index.insert(s.Apple, 0.1)
+root_symbol.index.insert(s.Banana, 0.2)
 
->>> print(f"Symbols in index (sorted): {[s.name for s in root_symbol.index.traverse()]}")
+print(f"Symbols in index (sorted): {[s.name for s in root_symbol.index.traverse()]}")
 
->>> # Search for a symbol in the index (O(log n))
->>> # The SymbolIndex.find method is not directly available,
->>> # so we'll simulate a search by checking if the symbol is in the traversed list.
->>> found_symbol = next((s for s in root_symbol.index.traverse() if s.name == 'Apple'), None)
->>> print(f"Found Apple: {found_symbol.name if found_symbol else 'Not Found'}")
+# Search for a symbol in the index (O(log n))
+# The SymbolIndex.find method is not directly available,
+# so we'll simulate a search by checking if the symbol is in the traversed list.
+found_symbol = next((s for s in root_symbol.index.traverse() if s.name == 'Apple'), None)
+print(f"Found Apple: {found_symbol.name if found_symbol else 'Not Found'}")
 ```
 <details>
 

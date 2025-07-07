@@ -73,17 +73,17 @@ class Symbol(BaseSymbol):
 
 **High-Tech: Microservices Architecture**
 ```python
->>> from symbol import s
+from symbol import s
 
->>> # Core services
->>> s.AuthService.provides(s.UserAuthentication)
->>> s.DataStorageService.provides(s.DataPersistence)
+# Core services
+s.AuthService.provides(s.UserAuthentication)
+s.DataStorageService.provides(s.DataPersistence)
 
->>> # Specialized services (builtins)
->>> s.PaymentProcessingService.uses(s.AuthService)
->>> s.RecommendationEngine.uses(s.DataStorageService)
+# Specialized services (builtins)
+s.PaymentProcessingService.uses(s.AuthService)
+s.RecommendationEngine.uses(s.DataStorageService)
 
->>> print(f"Payment service uses: {[c.name for c in s.PaymentProcessingService.children]}")
+print(f"Payment service uses: {[c.name for c in s.PaymentProcessingService.children]}")
 ```
 <details>
 
@@ -94,16 +94,16 @@ Payment service uses: []
 
 **Low-Tech: Modular Furniture Design**
 ```python
->>> from symbol import s
+from symbol import s
 
->>> # Core components
->>> s.BasicFrame.connects_with(s.StandardConnector)
+# Core components
+s.BasicFrame.connects_with(s.StandardConnector)
 
->>> # Add-on modules (builtins)
->>> s.ShelfModule.attaches_to(s.BasicFrame)
->>> s.DrawerModule.attaches_to(s.BasicFrame)
+# Add-on modules (builtins)
+s.ShelfModule.attaches_to(s.BasicFrame)
+s.DrawerModule.attaches_to(s.BasicFrame)
 
->>> print(f"Basic frame connections: {[c.name for c in s.BasicFrame.children]}")
+print(f"Basic frame connections: {[c.name for c in s.BasicFrame.children]}")
 ```
 <details>
 

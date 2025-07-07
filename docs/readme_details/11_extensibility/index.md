@@ -11,34 +11,34 @@ To ensure that any callable object can be consistently used within the `Symbol` 
 
 ### Code Example
 ```python
->>> from symbol import Symbol
->>> from typing import Protocol, Any, Union, Awaitable
->>> from symbol.core.mixinability import register_mixin
+from symbol import Symbol
+from typing import Protocol, Any, Union, Awaitable
+from symbol.core.mixinability import register_mixin
 
->>> # Define a custom Symbolable class
->>> class MyCustomAction(Protocol):
->>>     def __call__(self, *args: Any, **kwargs: Any) -> Union[Any, Awaitable[Any]]:
->>>         ...
+# Define a custom Symbolable class
+class MyCustomAction(Protocol):
+    def __call__(self, *args: Any, **kwargs: Any) -> Union[Any, Awaitable[Any]]:
+        ...
 
->>> class LogActionMixin:
->>>     def log_message(self, message: str):
->>>         print(f"[LOG] {message}")
+class LogActionMixin:
+    def log_message(self, message: str):
+        print(f"[LOG] {message}")
 
->>> class CalculateSumMixin:
->>>     def calculate_sum(self, a: int, b: int) -> int:
->>>         return a + b
+class CalculateSumMixin:
+    def calculate_sum(self, a: int, b: int) -> int:
+        return a + b
 
->>> # Register mixins
->>> register_mixin(LogActionMixin, expand=True)
->>> register_mixin(CalculateSumMixin, expand=True)
+# Register mixins
+register_mixin(LogActionMixin, expand=True)
+register_mixin(CalculateSumMixin, expand=True)
 
->>> log_symbol = Symbol('Logger')
->>> calc_symbol = Symbol('Calculator')
+log_symbol = Symbol('Logger')
+calc_symbol = Symbol('Calculator')
 
->>> # Using the integrated Symbolable objects
->>> log_symbol.log_message("Application started.")
->>> result = calc_symbol.calculate_sum(10, 20)
->>> print(f"Calculation result: {result}")
+# Using the integrated Symbolable objects
+log_symbol.log_message("Application started.")
+result = calc_symbol.calculate_sum(10, 20)
+print(f"Calculation result: {result}")
 ```
 <details>
 
@@ -70,29 +70,29 @@ To define a standard for mixin functions, particularly those that might involve 
 
 ### Code Example
 ```python
->>> from symbol import Symbol
->>> from symbol.core.mixinability import register_mixin
->>> from symbol.core.protocols import MixinFunction
->>> import asyncio
+from symbol import Symbol
+from symbol.core.mixinability import register_mixin
+from symbol.core.protocols import MixinFunction
+import asyncio
 
->>> # A mixin function conforming to MixinFunction protocol
->>> class AsyncDataFetcher(MixinFunction):
->>>     async def __call__(self, url: str, new_process: bool = False, new_thread: bool = True) -> str:
->>>         print(f"Fetching data from {url} in a new thread: {new_thread}, new process: {new_process}")
->>>         await asyncio.sleep(0.1) # Simulate async I/O
->>>         return f"Data from {url}"
+# A mixin function conforming to MixinFunction protocol
+class AsyncDataFetcher(MixinFunction):
+    async def __call__(self, url: str, new_process: bool = False, new_thread: bool = True) -> str:
+        print(f"Fetching data from {url} in a new thread: {new_thread}, new process: {new_process}")
+        await asyncio.sleep(0.1) # Simulate async I/O
+        return f"Data from {url}"
 
->>> # Register the mixin
->>> register_mixin(AsyncDataFetcher, expand=True)
+# Register the mixin
+register_mixin(AsyncDataFetcher, expand=True)
 
->>> # Use the mixin
->>> async def main():
->>>     web_symbol = Symbol('WebResource')
->>>     data = await web_symbol.fetch_data("https://example.com")
->>>     print(data)
+# Use the mixin
+async def main():
+    web_symbol = Symbol('WebResource')
+    data = await web_symbol.fetch_data("https://example.com")
+    print(data)
 
->>> if __name__ == "__main__":
->>>     asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 <details>
 
@@ -128,39 +128,39 @@ To dynamically change the logical interpretation or behavior of a `Symbol` insta
 
 ### Code Example
 ```python
->>> from symbol import Symbol
->>> from symbol.core.mixinability import register_mixin
->>> from symbol.builtins import apply_builtins
+from symbol import Symbol
+from symbol.core.mixinability import register_mixin
+from symbol.builtins import apply_builtins
 
->>> # Define mixins for different logical structures
->>> class DatabaseRecordMixin:
->>>     def save(self):
->>>         print(f"Saving {self.name} as a database record.")
+# Define mixins for different logical structures
+class DatabaseRecordMixin:
+    def save(self):
+        print(f"Saving {self.name} as a database record.")
 
->>>     def load(self):
->>>         print(f"Loading {self.name} from database.")
+    def load(self):
+        print(f"Loading {self.name} from database.")
 
->>> class NetworkEndpointMixin:
->>>     def send_request(self, data):
->>>         print(f"Sending request from {self.name} with data: {data}")
+class NetworkEndpointMixin:
+    def send_request(self, data):
+        print(f"Sending request from {self.name} with data: {data}")
 
->>>     def receive_response(self):
->>>         print(f"Receiving response for {self.name}.")
+    def receive_response(self):
+        print(f"Receiving response for {self.name}.")
 
->>> # Register mixins
->>> register_mixin(DatabaseRecordMixin, expand=True)
->>> register_mixin(NetworkEndpointMixin, expand=True)
+# Register mixins
+register_mixin(DatabaseRecordMixin, expand=True)
+register_mixin(NetworkEndpointMixin, expand=True)
 
->>> apply_builtins()
+apply_builtins()
 
->>> # Create a symbol and apply behaviors dynamically
->>> db_entity = Symbol('UserAccount')
->>> db_entity.save()
->>> db_entity.load()
+# Create a symbol and apply behaviors dynamically
+db_entity = Symbol('UserAccount')
+db_entity.save()
+db_entity.load()
 
->>> network_node = Symbol('API_Gateway')
->>> network_node.send_request({"query": "status"})
->>> network_node.receive_response()
+network_node = Symbol('API_Gateway')
+network_node.send_request({"query": "status"})
+network_node.receive_response()
 ```
 <details>
 
@@ -196,44 +196,44 @@ To easily convert `enum` members into `Symbol` instances and to allow external D
 
 ### Code Example
 ```python
->>> from symbol import Symbol
->>> import enum
->>> from symbol.builtins import apply_builtins
+from symbol import Symbol
+import enum
+from symbol.builtins import apply_builtins
 
->>> apply_builtins()
+apply_builtins()
 
->>> # Enum Reflection
->>> class TrafficLight(enum.Enum):
->>>     RED = 1
->>>     YELLOW = 2
->>>     GREEN = 3
+# Enum Reflection
+class TrafficLight(enum.Enum):
+    RED = 1
+    YELLOW = 2
+    GREEN = 3
 
->>> # Convert enum members to Symbols
->>> traffic_symbols = Symbol.from_enum(TrafficLight)
->>> for sym in traffic_symbols:
->>>     print(f"Enum Symbol: {sym.name}")
+# Convert enum members to Symbols
+traffic_symbols = Symbol.from_enum(TrafficLight)
+for sym in traffic_symbols:
+    print(f"Enum Symbol: {sym.name}")
 
->>> def parse_dsl(dsl_string: str):
->>>     symbols = {}
->>>     for line in dsl_string.split(','):
->>>         parts = line.strip().split('->')
->>>         if len(parts) == 2:
->>>             source_name = parts[0].strip()
->>>             target_name = parts[1].strip()
->>>             source_sym = symbols.get(source_name, Symbol(source_name))
->>>             target_sym = symbols.get(target_name, Symbol(target_name))
->>>             source_sym.append(target_sym)
->>>             symbols[source_name] = source_sym
->>>             symbols[target_name] = target_sym
->>>     return symbols
+def parse_dsl(dsl_string: str):
+    symbols = {}
+    for line in dsl_string.split(','):
+        parts = line.strip().split('->')
+        if len(parts) == 2:
+            source_name = parts[0].strip()
+            target_name = parts[1].strip()
+            source_sym = symbols.get(source_name, Symbol(source_name))
+            target_sym = symbols.get(target_name, Symbol(target_name))
+            source_sym.append(target_sym)
+            symbols[source_name] = source_sym
+            symbols[target_name] = target_sym
+    return symbols
 
->>> dsl_input = "user -> post, post -> comment, user -> like"
->>> parsed_symbols = parse_dsl(dsl_input)
+dsl_input = "user -> post, post -> comment, user -> like"
+parsed_symbols = parse_dsl(dsl_input)
 
->>> user_sym = parsed_symbols['user']
->>> print("\nDSL-defined graph:")
->>> for sym in user_sym.tree():
->>>     print(sym.name)
+user_sym = parsed_symbols['user']
+print("\nDSL-defined graph:")
+for sym in user_sym.tree():
+    print(sym.name)
 ```
 <details>
 

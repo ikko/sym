@@ -35,32 +35,32 @@ graph TD
 Imagine a product configurator where a `Product` symbol needs to index its `Features` with associated `weights` (e.g., importance, cost impact).
 
 ```python
->>> from symbol import Symbol, s
->>> from symbol.builtins import apply_builtins
+from symbol import Symbol, s
+from symbol.builtins import apply_builtins
 
->>> apply_builtins()
+apply_builtins()
 
->>> # Create product and feature symbols
->>> product_laptop = s.Laptop
->>> feature_ssd = s.SSD
->>> feature_ram = s.RAM
->>> feature_gpu = s.GPU
+# Create product and feature symbols
+product_laptop = s.Laptop
+feature_ssd = s.SSD
+feature_ram = s.RAM
+feature_gpu = s.GPU
 
->>> # Initialize SymbolIndex for the product (this happens automatically in Symbol.__new__)
->>> # product_laptop.index = SymbolIndex(product_laptop) # Conceptual, already done
+# Initialize SymbolIndex for the product (this happens automatically in Symbol.__new__)
+# product_laptop.index = SymbolIndex(product_laptop) # Conceptual, already done
 
->>> # Insert features into the product's private index with weights
->>> product_laptop.index.insert(feature_ssd, weight=0.8) # High importance
->>> product_laptop.index.insert(feature_ram, weight=0.6) # Medium importance
->>> product_laptop.index.insert(feature_gpu, weight=0.9) # Very high importance
+# Insert features into the product's private index with weights
+product_laptop.index.insert(feature_ssd, weight=0.8) # High importance
+product_laptop.index.insert(feature_ram, weight=0.6) # Medium importance
+product_laptop.index.insert(feature_gpu, weight=0.9) # Very high importance
 
->>> # Traverse the product's index (e.g., by weight)
->>> print("Laptop features by importance:")
->>> for feature_sym in product_laptop.index.traverse(order="in"):
->>>     print(f"- {feature_sym.name} (Weight: {product_laptop.index._function_map[feature_sym.name].eval_weight()})")
+# Traverse the product's index (e.g., by weight)
+print("Laptop features by importance:")
+for feature_sym in product_laptop.index.traverse(order="in"):
+    print(f"- {feature_sym.name} (Weight: {product_laptop.index._function_map[feature_sym.name].eval_weight()})")
 
->>> # Rebalance the index based on weight (conceptual, SymbolIndex supports this)
->>> # product_laptop.index.rebalance(strategy='weight')
+# Rebalance the index based on weight (conceptual, SymbolIndex supports this)
+# product_laptop.index.rebalance(strategy='weight')
 ```
 <details>
 
@@ -76,21 +76,21 @@ Laptop features by importance:
 
 **High-Tech: Recommendation Systems**
 ```python
->>> from symbol import s
->>> from symbol.builtins import apply_builtins
+from symbol import s
+from symbol.builtins import apply_builtins
 
->>> apply_builtins()
+apply_builtins()
 
->>> # User and Product symbols
->>> user_alice = s.Alice
->>> product_book = s.Book_A
->>> product_movie = s.Movie_B
+# User and Product symbols
+user_alice = s.Alice
+product_book = s.Book_A
+product_movie = s.Movie_B
 
->>> # User's private index of liked products with preference scores
->>> user_alice.index.insert(product_book, weight=0.9)
->>> user_alice.index.insert(product_movie, weight=0.7)
+# User's private index of liked products with preference scores
+user_alice.index.insert(product_book, weight=0.9)
+user_alice.index.insert(product_movie, weight=0.7)
 
->>> print(f"Alice's liked items: {[item.name for item in user_alice.index.traverse()]}")
+print(f"Alice's liked items: {[item.name for item in user_alice.index.traverse()]}")
 ```
 <details>
 
@@ -101,21 +101,21 @@ Alice's liked items: ['Movie_B', 'Book_A']
 
 **Low-Tech: Library Cataloging and Cross-Referencing**
 ```python
->>> from symbol import s
->>> from symbol.builtins import apply_builtins
+from symbol import s
+from symbol.builtins import apply_builtins
 
->>> apply_builtins()
+apply_builtins()
 
->>> # Book and Keyword symbols
->>> book_history = s.History_of_Time
->>> keyword_physics = s.Physics
->>> keyword_cosmology = s.Cosmology
+# Book and Keyword symbols
+book_history = s.History_of_Time
+keyword_physics = s.Physics
+keyword_cosmology = s.Cosmology
 
->>> # Book's private index of keywords with relevance
->>> book_history.index.insert(keyword_physics, weight=0.8)
->>> book_history.index.insert(keyword_cosmology, weight=0.95)
+# Book's private index of keywords with relevance
+book_history.index.insert(keyword_physics, weight=0.8)
+book_history.index.insert(keyword_cosmology, weight=0.95)
 
->>> print(f"Keywords for 'History of Time': {[kw.name for kw in book_history.index.traverse()]}")
+print(f"Keywords for 'History of Time': {[kw.name for kw in book_history.index.traverse()]}")
 ```
 <details>
 

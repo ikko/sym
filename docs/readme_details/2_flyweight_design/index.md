@@ -33,21 +33,21 @@ graph TD
 ### Code Example: Demonstrating Flyweight Behavior
 
 ```python
->>> from symbol import Symbol
+from symbol import Symbol
 
->>> sym1 = Symbol('product_id_123')
->>> sym2 = Symbol('product_id_123')
->>> sym3 = Symbol('user_session_abc')
+sym1 = Symbol('product_id_123')
+sym2 = Symbol('product_id_123')
+sym3 = Symbol('user_session_abc')
 
->>> print(f"sym1: {sym1}")
->>> print(f"sym2: {sym2}")
->>> print(f"sym3: {sym3}")
+print(f"sym1: {sym1}")
+print(f"sym2: {sym2}")
+print(f"sym3: {sym3}")
 
->>> print(f"Are sym1 and sym2 the same object? {sym1 is sym2}") # Expected: True
->>> print(f"Are sym1 and sym3 the same object? {sym1 is sym3}") # Expected: False
+print(f"Are sym1 and sym2 the same object? {sym1 is sym2}") # Expected: True
+print(f"Are sym1 and sym3 the same object? {sym1 is sym3}") # Expected: False
 
->>> # Verify internal pool size (conceptual, not directly exposed in public API)
->>> # assert len(Symbol._pool) == 2 # Only 'product_id_123' and 'user_session_abc' should be in the pool
+# Verify internal pool size (conceptual, not directly exposed in public API)
+# assert len(Symbol._pool) == 2 # Only 'product_id_123' and 'user_session_abc' should be in the pool
 ```
 <details>
 
@@ -64,16 +64,16 @@ Are sym1 and sym3 the same object? False
 
 **High-Tech: Compiler Design and Abstract Syntax Trees (ASTs)**
 ```python
->>> from symbol import s
+from symbol import s
 
->>> # Simulate AST nodes for literals
->>> literal_zero_1 = s.Literal_0
->>> literal_zero_2 = s.Literal_0
->>> variable_x_1 = s.Variable_X
->>> variable_x_2 = s.Variable_X
+# Simulate AST nodes for literals
+literal_zero_1 = s.Literal_0
+literal_zero_2 = s.Literal_0
+variable_x_1 = s.Variable_X
+variable_x_2 = s.Variable_X
 
->>> print(f"Literal 0 (1) is Literal 0 (2): {literal_zero_1 is literal_zero_2}")
->>> print(f"Variable X (1) is Variable X (2): {variable_x_1 is variable_x_2}")
+print(f"Literal 0 (1) is Literal 0 (2): {literal_zero_1 is literal_zero_2}")
+print(f"Variable X (1) is Variable X (2): {variable_x_1 is variable_x_2}")
 ```
 <details>
 
@@ -85,14 +85,14 @@ Variable X (1) is Variable X (2): True
 
 **Low-Tech: Document Processing and Word Processors**
 ```python
->>> from symbol import s
+from symbol import s
 
->>> # Simulate a document with repeated words
->>> document_words = [s.The, s.quick, s.brown, s.fox, s.jumps, s.over, s.the, s.lazy, s.dog, s.The]
+# Simulate a document with repeated words
+document_words = [s.The, s.quick, s.brown, s.fox, s.jumps, s.over, s.the, s.lazy, s.dog, s.The]
 
->>> # Check if repeated words are the same Symbol object
->>> print(f"First 'The' is same as second 'The': {document_words[0] is document_words[6]}")
->>> print(f"First 'The' is same as third 'The': {document_words[0] is document_words[9]}")
+# Check if repeated words are the same Symbol object
+print(f"First 'The' is same as second 'The': {document_words[0] is document_words[6]}")
+print(f"First 'The' is same as third 'The': {document_words[0] is document_words[9]}")
 ```
 <details>
 

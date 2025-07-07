@@ -8,13 +8,13 @@ This example demonstrates the fundamental operations of creating `Symbol` instan
 
 ### Code Example
 ```python
->>> from symbol import s, Symbol
+from symbol import s, Symbol
 
->>> # --- Basic Symbol creation and relationships ---
->>> hello = Symbol('hello')
->>> world = s.world
->>> hello.add(world)
->>> print(hello.tree())
+# --- Basic Symbol creation and relationships ---
+hello = Symbol('hello')
+world = s.world
+hello.add(world)
+print(hello.tree())
 ```
 <details>
 
@@ -43,33 +43,33 @@ This example illustrates how `Symbol` can model complex supply chain relationshi
 
 ### Code Example
 ```python
->>> from symbol import s, Symbol
->>> from symbol.core.mixinability import register_mixin
->>> from symbol.core.protocols import SymbolProtocol
->>> from symbol.builtins import apply_builtins
+from symbol import s, Symbol
+from symbol.core.mixinability import register_mixin
+from symbol.core.protocols import SymbolProtocol
+from symbol.builtins import apply_builtins
 
->>> class SupplyChainMixin(SymbolProtocol):
->>>     def buys_from(self, supplier: Symbol):
->>>         self.add(supplier)
+class SupplyChainMixin(SymbolProtocol):
+    def buys_from(self, supplier: Symbol):
+        self.add(supplier)
 
->>>     def sources_from(self, source: Symbol):
->>>         self.add(source)
+    def sources_from(self, source: Symbol):
+        self.add(source)
 
->>> register_mixin(SupplyChainMixin, expand=True)
->>> apply_builtins()
+register_mixin(SupplyChainMixin, expand=True)
+apply_builtins()
 
->>> s.Global_Goods_Inc.buys_from(s.Palm_Oil_Processor)
->>> s.Palm_Oil_Processor.buys_from(s.Supplier_A)
->>> s.Palm_Oil_Processor.buys_from(s.Supplier_B)
->>> s.Supplier_A.sources_from(s.Plantation_X)
->>> s.Supplier_B.sources_from(s.Plantation_Y)
->>> s.Plantation_Y.add(s.deforestation_event_2024_Q4)
+s.Global_Goods_Inc.buys_from(s.Palm_Oil_Processor)
+s.Palm_Oil_Processor.buys_from(s.Supplier_A)
+s.Palm_Oil_Processor.buys_from(s.Supplier_B)
+s.Supplier_A.sources_from(s.Plantation_X)
+s.Supplier_B.sources_from(s.Plantation_Y)
+s.Plantation_Y.add(s.deforestation_event_2024_Q4)
 
->>> def has_deforestation(symbol):
->>>     return 'deforestation' in symbol.name
+def has_deforestation(symbol):
+    return 'deforestation' in symbol.name
 
->>> for path in s.Global_Goods_Inc.match(has_deforestation):
->>>     print(f"Deforestation Link Found: {path.path_to(s.deforestation_event_2024_Q4)}")
+for path in s.Global_Goods_Inc.match(has_deforestation):
+    print(f"Deforestation Link Found: {path.path_to(s.deforestation_event_2024_Q4)}")
 ```
 <details>
 
@@ -108,19 +108,19 @@ This example showcases the use of `symbol.builtins.timeline` to manage and analy
 
 ### Code Example
 ```python
->>> from symbol.builtins.timeline import Timeline
->>> import datetime
+from symbol.builtins.timeline import Timeline
+import datetime
 
->>> timeline1 = Timeline()
->>> timeline1.add_period(datetime.datetime(2023, 1, 1), datetime.datetime(2023, 1, 15))
->>> timeline1.add_period(datetime.datetime(2023, 1, 10), datetime.datetime(2023, 1, 20))
+timeline1 = Timeline()
+timeline1.add_period(datetime.datetime(2023, 1, 1), datetime.datetime(2023, 1, 15))
+timeline1.add_period(datetime.datetime(2023, 1, 10), datetime.datetime(2023, 1, 20))
 
->>> timeline2 = Timeline()
->>> timeline2.add_period(datetime.datetime(2023, 1, 5), datetime.datetime(2023, 1, 12))
+timeline2 = Timeline()
+timeline2.add_period(datetime.datetime(2023, 1, 5), datetime.datetime(2023, 1, 12))
 
->>> overlap_timeline = timeline1.overlap(timeline2)
->>> print(f"Overlap periods: {list(overlap_timeline)}")
->>> print(timeline1.to_ascii())
+overlap_timeline = timeline1.overlap(timeline2)
+print(f"Overlap periods: {list(overlap_timeline)}")
+print(timeline1.to_ascii())
 ```
 <details>
 
@@ -157,11 +157,11 @@ This example demonstrates a simple batch processing utility, showcasing how `Sym
 
 ### Code Example
 ```python
->>> from symbol.core.batch_processing import process_batch
+from symbol.core.batch_processing import process_batch
 
->>> def square(x): return x * x
->>> results = process_batch([1, 2, 3, 4], square)
->>> print(f"Batch processing results: {results}")
+def square(x): return x * x
+results = process_batch([1, 2, 3, 4], square)
+print(f"Batch processing results: {results}")
 ```
 <details>
 
@@ -192,20 +192,20 @@ This example demonstrates the use of `symbol.core.schedule` to schedule and exec
 
 ### Code Example
 ```python
->>> from symbol.core.schedule import Scheduler, ScheduledJob
->>> import time
->>> import datetime
+from symbol.core.schedule import Scheduler, ScheduledJob
+import time
+import datetime
 
->>> def my_task(message):
->>>     print(f"Executing task: {message}")
+def my_task(message):
+    print(f"Executing task: {message}")
 
->>> scheduler = Scheduler()
->>> job = ScheduledJob(my_task, args=("Hello` from the scheduler!",), schedule=datetime.datetime.now() + datetime.timedelta(seconds=5))
->>> scheduler.add_job(job)
+scheduler = Scheduler()
+job = ScheduledJob(my_task, args=("Hello` from the scheduler!",), schedule=datetime.datetime.now() + datetime.timedelta(seconds=5))
+scheduler.add_job(job)
 
->>> scheduler.start()
->>> time.sleep(6) # Wait for the job to run
->>> scheduler.stop()
+scheduler.start()
+time.sleep(6) # Wait for the job to run
+scheduler.stop()
 ```
 <details>
 

@@ -10,36 +10,36 @@ The final stage of the IC product lifecycle at H.A.L.42 Inc. is Customer Follow-
 Let's model a customer interaction related to our `Project_Orion` AI Accelerator, including a support ticket and its resolution.
 
 ```python
->>> # Continuing from Project_Orion sales
->>> # Define customer accounts and support interactions
->>> customer_a = s.Customer_GlobalTechSolutions
->>> support_ticket_orion_001 = s.SupportTicket_Orion_001
->>> service_product_technical_support = s.ServiceProduct_Technical_Support
->>> resolution_firmware_update = s.Resolution_Firmware_Update
+# Continuing from Project_Orion sales
+# Define customer accounts and support interactions
+customer_a = s.Customer_GlobalTechSolutions
+support_ticket_orion_001 = s.SupportTicket_Orion_001
+service_product_technical_support = s.ServiceProduct_Technical_Support
+resolution_firmware_update = s.Resolution_Firmware_Update
 
->>> # Link customer to purchased product (Orion BGA Unit)
->>> customer_a.add(orion_bga_unit_001)
+# Link customer to purchased product (Orion BGA Unit)
+customer_a.add(orion_bga_unit_001)
 
->>> # Link support ticket to customer and product
->>> customer_a.add(support_ticket_orion_001)
->>> support_ticket_orion_001.add(orion_bga_unit_001)
+# Link support ticket to customer and product
+customer_a.add(support_ticket_orion_001)
+support_ticket_orion_001.add(orion_bga_unit_001)
 
->>> # Link service product to support ticket
->>> support_ticket_orion_001.add(service_product_technical_support)
+# Link service product to support ticket
+support_ticket_orion_001.add(service_product_technical_support)
 
->>> # Record ticket details and resolution as metadata
->>> support_ticket_orion_001.metadata['status'] = 'Open'
->>> support_ticket_orion_001.metadata['issue_description'] = 'AI_Inferencing_Stutter_Issue'
->>> support_ticket_orion_001.metadata['priority'] = 'High'
+# Record ticket details and resolution as metadata
+support_ticket_orion_001.metadata['status'] = 'Open'
+support_ticket_orion_001.metadata['issue_description'] = 'AI_Inferencing_Stutter_Issue'
+support_ticket_orion_001.metadata['priority'] = 'High'
 
->>> # Simulate ticket resolution
->>> support_ticket_orion_001.metadata['status'] = 'Closed'
->>> support_ticket_orion_001.metadata['resolution'] = resolution_firmware_update
->>> resolution_firmware_update.metadata['version'] = '1.0.1'
->>> resolution_firmware_update.metadata['release_date'] = '2025-07-15'
+# Simulate ticket resolution
+support_ticket_orion_001.metadata['status'] = 'Closed'
+support_ticket_orion_001.metadata['resolution'] = resolution_firmware_update
+resolution_firmware_update.metadata['version'] = '1.0.1'
+resolution_firmware_update.metadata['release_date'] = '2025-07-15'
 
->>> # Visualize the customer support interaction
->>> print(customer_a.to_mmd())
+# Visualize the customer support interaction
+print(customer_a.to_mmd())
 ```
 <details>
 

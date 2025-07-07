@@ -62,36 +62,36 @@ graph TD
 ### Code Example: Building a Simple Knowledge Graph
 
 ```python
->>> from symbol import Symbol, s
+from symbol import Symbol, s
 
->>> # Create symbols for entities
->>> person = Symbol('Person')
->>> organization = Symbol('Organization')
->>> event = Symbol('Event')
->>> location = Symbol('Location')
+# Create symbols for entities
+person = Symbol('Person')
+organization = Symbol('Organization')
+event = Symbol('Event')
+location = Symbol('Location')
 
->>> # Create specific instances
->>> alice = s.Alice
->>> bob = s.Bob
->>> google = s.Google
->>> conference = s.Tech_Conference_2025
->>> london = s.London
+# Create specific instances
+alice = s.Alice
+bob = s.Bob
+google = s.Google
+conference = s.Tech_Conference_2025
+london = s.London
 
->>> # Establish relationships
->>> alice.add(person)
->>> bob.add(person)
->>> google.add(organization)
->>> conference.add(event)
->>> london.add(location)
+# Establish relationships
+alice.add(person)
+bob.add(person)
+google.add(organization)
+conference.add(event)
+london.add(location)
 
->>> alice.add(google) # Alice works at Google
->>> google.add(london) # Google has an office in London
->>> alice.add(conference) # Alice attends the conference
->>> conference.add(london) # Conference is in London
+alice.add(google) # Alice works at Google
+google.add(london) # Google has an office in London
+alice.add(conference) # Alice attends the conference
+conference.add(london) # Conference is in London
 
->>> # Traverse and visualize (conceptual)
->>> # print(alice.tree())
->>> # print(google.to_mmd())
+# Traverse and visualize (conceptual)
+# print(alice.tree())
+# print(google.to_mmd())
 ```
 <details>
 
@@ -103,38 +103,38 @@ graph TD
 
 **High-Tech: Semantic Web and Knowledge Graphs**
 ```python
->>> from symbol import s, Symbol
->>> from symbol.core.mixinability import register_mixin
->>> from symbol.core.protocols import SymbolProtocol
->>> from symbol.builtins import apply_builtins
+from symbol import s, Symbol
+from symbol.core.mixinability import register_mixin
+from symbol.core.protocols import SymbolProtocol
+from symbol.builtins import apply_builtins
 
->>> class KnowledgeGraphMixin(SymbolProtocol):
->>>     def has_title(self, title: Symbol):
->>>         self.add(title)
+class KnowledgeGraphMixin(SymbolProtocol):
+    def has_title(self, title: Symbol):
+        self.add(title)
 
->>>     def has_author(self, author: Symbol):
->>>         self.add(author)
+    def has_author(self, author: Symbol):
+        self.add(author)
 
->>>     def published_in(self, journal: Symbol):
->>>         self.add(journal)
+    def published_in(self, journal: Symbol):
+        self.add(journal)
 
->>>     def affiliated_with(self, organization: Symbol):
->>>         self.add(organization)
+    def affiliated_with(self, organization: Symbol):
+        self.add(organization)
 
->>>     def contains(self, component: Symbol):
->>>         self.add(component)
+    def contains(self, component: Symbol):
+        self.add(component)
 
->>> register_mixin(KnowledgeGraphMixin, expand=True)
->>> apply_builtins()
+register_mixin(KnowledgeGraphMixin, expand=True)
+apply_builtins()
 
->>> # Representing a research paper and its attributes
->>> s.Paper_A.has_title(s.The_Future_of_AI)
->>> s.Paper_A.has_author(s.Alice_Smith)
->>> s.Paper_A.published_in(s.Journal_of_AI_Research)
->>> s.Alice_Smith.affiliated_with(s.University_X)
+# Representing a research paper and its attributes
+s.Paper_A.has_title(s.The_Future_of_AI)
+s.Paper_A.has_author(s.Alice_Smith)
+s.Paper_A.published_in(s.Journal_of_AI_Research)
+s.Alice_Smith.affiliated_with(s.University_X)
 
->>> print(f"Paper A title: {s.Paper_A.children[0].name}")
->>> print(f"Author of Paper A: {s.Paper_A.children[1].name}")
+print(f"Paper A title: {s.Paper_A.children[0].name}")
+print(f"Author of Paper A: {s.Paper_A.children[1].name}")
 ```
 <details>
 
@@ -146,40 +146,40 @@ Author of Paper A: Alice_Smith
 
 **Low-Tech: Inventory Management and Bill of Materials (BOM)**
 ```python
->>> from symbol import s, Symbol
->>> from symbol.core.mixinability import register_mixin
->>> from symbol.core.protocols import SymbolProtocol
->>> from symbol.builtins import apply_builtins
+from symbol import s, Symbol
+from symbol.core.mixinability import register_mixin
+from symbol.core.protocols import SymbolProtocol
+from symbol.builtins import apply_builtins
 
->>> class KnowledgeGraphMixin(SymbolProtocol):
->>>     def has_title(self, title: Symbol):
->>>         self.add(title)
+class KnowledgeGraphMixin(SymbolProtocol):
+    def has_title(self, title: Symbol):
+        self.add(title)
 
->>>     def has_author(self, author: Symbol):
->>>         self.add(author)
+    def has_author(self, author: Symbol):
+        self.add(author)
 
->>>     def published_in(self, journal: Symbol):
->>>         self.add(journal)
+    def published_in(self, journal: Symbol):
+        self.add(journal)
 
->>>     def affiliated_with(self, organization: Symbol):
->>>         self.add(organization)
+    def affiliated_with(self, organization: Symbol):
+        self.add(organization)
 
->>>     def contains(self, component: Symbol):
->>>         self.add(component)
+    def contains(self, component: Symbol):
+        self.add(component)
 
->>> register_mixin(KnowledgeGraphMixin, expand=True)
->>> apply_builtins()
+register_mixin(KnowledgeGraphMixin, expand=True)
+apply_builtins()
 
->>> # Modeling a bicycle BOM
->>> s.Bicycle.contains(s.Frame)
->>> s.Bicycle.contains(s.Wheel_Assembly)
->>> s.Bicycle.contains(s.Handlebars)
->>> s.Wheel_Assembly.contains(s.Rim)
->>> s.Wheel_Assembly.contains(s.Spokes)
->>> s.Wheel_Assembly.contains(s.Tire)
+# Modeling a bicycle BOM
+s.Bicycle.contains(s.Frame)
+s.Bicycle.contains(s.Wheel_Assembly)
+s.Bicycle.contains(s.Handlebars)
+s.Wheel_Assembly.contains(s.Rim)
+s.Wheel_Assembly.contains(s.Spokes)
+s.Wheel_Assembly.contains(s.Tire)
 
->>> print(f"Bicycle components: {[c.name for c in s.Bicycle.children]}")
->>> print(f"Wheel Assembly components: {[c.name for c in s.Wheel_Assembly.children]}")
+print(f"Bicycle components: {[c.name for c in s.Bicycle.children]}")
+print(f"Wheel Assembly components: {[c.name for c in s.Wheel_Assembly.children]}")
 ```
 <details>
 

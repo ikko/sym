@@ -11,28 +11,28 @@ This document provides empirical validation of the Big O notations asserted for 
 **Empirical Results**:
 
 ```python
->>> import time
->>> from symbol import Symbol, s
+import time
+from symbol import Symbol, s
 
->>> def measure_symbol_instantiation(num_symbols):
->>>     start_time = time.perf_counter_ns()
->>>     for i in range(num_symbols):
->>>         Symbol(f"test_symbol_{i}") # Unique symbols
->>>     end_time = time.perf_counter_ns()
->>>     time_unique = (end_time - start_time) / 1_000_000 # milliseconds
+def measure_symbol_instantiation(num_symbols):
+    start_time = time.perf_counter_ns()
+    for i in range(num_symbols):
+        Symbol(f"test_symbol_{i}") # Unique symbols
+    end_time = time.perf_counter_ns()
+    time_unique = (end_time - start_time) / 1_000_000 # milliseconds
 
->>>     start_time = time.perf_counter_ns()
->>>     for i in range(num_symbols):
->>>         Symbol("repeated_symbol") # Repeated symbol
->>>     end_time = time.perf_counter_ns()
->>>     time_repeated = (end_time - start_time) / 1_000_000 # milliseconds
+    start_time = time.perf_counter_ns()
+    for i in range(num_symbols):
+        Symbol("repeated_symbol") # Repeated symbol
+    end_time = time.perf_counter_ns()
+    time_repeated = (end_time - start_time) / 1_000_000 # milliseconds
 
->>>     return time_unique, time_repeated
+    return time_unique, time_repeated
 
->>> print("\n--- Symbol Instantiation Performance ---")
->>> for n in [1000, 10000, 100000]:
->>>     time_u, time_r = measure_symbol_instantiation(n)
->>>     print(f"N={n}: Unique Symbols: {time_u:.4f} ms, Repeated Symbol: {time_r:.4f} ms")
+print("\n--- Symbol Instantiation Performance ---")
+for n in [1000, 10000, 100000]:
+    time_u, time_r = measure_symbol_instantiation(n)
+    print(f"N={n}: Unique Symbols: {time_u:.4f} ms, Repeated Symbol: {time_r:.4f} ms")
 ```
 <details>
 
@@ -56,24 +56,24 @@ N=100000: Unique Symbols: 100.0000 ms, Repeated Symbol: 0.0000 ms
 **Empirical Results**:
 
 ```python
->>> import time
->>> from symbol import Symbol, s
+import time
+from symbol import Symbol, s
 
->>> def measure_relationship_linking(num_links):
->>>     root = s.root_node
->>>     children = [getattr(s, f"child_{i}") for i in range(num_links)]
+def measure_relationship_linking(num_links):
+    root = s.root_node
+    children = [getattr(s, f"child_{i}") for i in range(num_links)]
 
->>>     start_time = time.perf_counter_ns()
->>>     for child in children:
->>>         root.append(child)
->>>     end_time = time.perf_counter_ns()
->>>     time_taken = (end_time - start_time) / 1_000_000 # milliseconds
->>>     return time_taken
+    start_time = time.perf_counter_ns()
+    for child in children:
+        root.append(child)
+    end_time = time.perf_counter_ns()
+    time_taken = (end_time - start_time) / 1_000_000 # milliseconds
+    return time_taken
 
->>> print("\n--- Relationship Linking Performance ---")
->>> for n in [1000, 10000, 100000]:
->>>     time_t = measure_relationship_linking(n)
->>>     print(f"N={n}: Time to link {n} children: {time_t:.4f} ms")
+print("\n--- Relationship Linking Performance ---")
+for n in [1000, 10000, 100000]:
+    time_t = measure_relationship_linking(n)
+    print(f"N={n}: Time to link {n} children: {time_t:.4f} ms")
 ```
 <details>
 
@@ -98,39 +98,39 @@ N=100000: Time to link 100000 children: 0.0000 ms
 **Empirical Results**:
 
 ```python
->>> import time
->>> import random
->>> from symbol import s
->>> from symbol.builtins.index import SymbolIndex
+import time
+import random
+from symbol import s
+from symbol.builtins.index import SymbolIndex
 
->>> def measure_index_performance(num_elements):
->>>     idx = SymbolIndex(s.index_root)
->>>     elements = [getattr(s, f"element_{i}") for i in range(num_elements)]
->>>     random.shuffle(elements)
+def measure_index_performance(num_elements):
+    idx = SymbolIndex(s.index_root)
+    elements = [getattr(s, f"element_{i}") for i in range(num_elements)]
+    random.shuffle(elements)
 
->>>     # Measure insertion
->>>     insert_start_time = time.perf_counter_ns()
->>>     for element in elements:
->>>         idx.insert(element, 0.0) # Added a dummy weight for insertion
->>>     insert_end_time = time.perf_counter_ns()
->>>     insert_time = (insert_end_time - insert_start_time) / 1_000_000
+    # Measure insertion
+    insert_start_time = time.perf_counter_ns()
+    for element in elements:
+        idx.insert(element, 0.0) # Added a dummy weight for insertion
+    insert_end_time = time.perf_counter_ns()
+    insert_time = (insert_end_time - insert_start_time) / 1_000_000
 
->>>     # Measure search (for existing elements)
->>>     search_start_time = time.perf_counter_ns()
->>>     for element in elements:
->>>         # Assuming find by name, but SymbolIndex doesn't have a find method directly
->>>         # This part of the test needs to be adjusted based on actual SymbolIndex API
->>>         # For now, we'll just iterate through the elements to simulate search
->>>         pass
->>>     search_end_time = time.perf_counter_ns()
->>>     search_time = (search_end_time - search_start_time) / 1_000_000
+    # Measure search (for existing elements)
+    search_start_time = time.perf_counter_ns()
+    for element in elements:
+        # Assuming find by name, but SymbolIndex doesn't have a find method directly
+        # This part of the test needs to be adjusted based on actual SymbolIndex API
+        # For now, we'll just iterate through the elements to simulate search
+        pass
+    search_end_time = time.perf_counter_ns()
+    search_time = (search_end_time - search_start_time) / 1_000_000
 
->>>     return insert_time, search_time
+    return insert_time, search_time
 
->>> print("\n--- SymbolIndex Performance (O(log n)) ---")
->>> for n in [1000, 10000, 100000]:
->>>     insert_t, search_t = measure_index_performance(n)
->>>     print(f"N={n}: Insert: {insert_t:.4f} ms, Search: {search_t:.4f} ms")
+print("\n--- SymbolIndex Performance (O(log n)) ---")
+for n in [1000, 10000, 100000]:
+    insert_t, search_t = measure_index_performance(n)
+    print(f"N={n}: Insert: {insert_t:.4f} ms, Search: {search_t:.4f} ms")
 ```
 <details>
 
@@ -156,28 +156,28 @@ This section identifies and analyzes operations that might exhibit higher time o
 **Analysis**: These methods perform a full traversal of the reachable graph. In the worst case (a dense graph), every vertex and every edge must be visited. While efficient for their purpose, their performance is directly proportional to the size and density of the traversed subgraph.
 
 ```python
->>> import time
->>> from symbol import s, Symbol
+import time
+from symbol import s, Symbol
 
->>> def build_dense_graph(num_nodes):
->>>     nodes = [Symbol(f"node_{i}") for i in range(num_nodes)]
->>>     for i in range(num_nodes):
->>>         for j in range(i + 1, num_nodes):
->>>             nodes[i].append(nodes[j])
->>>     return nodes[0]
+def build_dense_graph(num_nodes):
+    nodes = [Symbol(f"node_{i}") for i in range(num_nodes)]
+    for i in range(num_nodes):
+        for j in range(i + 1, num_nodes):
+            nodes[i].append(nodes[j])
+    return nodes[0]
 
->>> def measure_graph_traversal(num_nodes):
->>>     root = build_dense_graph(num_nodes)
->>>     start_time = time.perf_counter_ns()
->>>     list(root.tree()) # Convert iterator to list to force full traversal
->>>     end_time = time.perf_counter_ns()
->>>     time_taken = (end_time - start_time) / 1_000_000
->>>     return time_taken
+def measure_graph_traversal(num_nodes):
+    root = build_dense_graph(num_nodes)
+    start_time = time.perf_counter_ns()
+    list(root.tree()) # Convert iterator to list to force full traversal
+    end_time = time.perf_counter_ns()
+    time_taken = (end_time - start_time) / 1_000_000
+    return time_taken
 
->>> print("\n--- Graph Traversal Performance (O(V + E)) ---")
->>> for n in [100, 200, 400]: # Keep N small due to O(N^2) edges in dense graph
->>>     time_t = measure_graph_traversal(n)
->>>     print(f"N={n}: Time for traversal: {time_t:.4f} ms")
+print("\n--- Graph Traversal Performance (O(V + E)) ---")
+for n in [100, 200, 400]: # Keep N small due to O(N^2) edges in dense graph
+    time_t = measure_graph_traversal(n)
+    print(f"N={n}: Time for traversal: {time_t:.4f} ms")
 ```
 <details>
 
@@ -197,29 +197,29 @@ N=400: Time for traversal: 0.0000 ms
 **Analysis**: The `patch()` method performs a deep merge, which involves traversing the structure of both symbols and their children. The complexity depends on the depth and breadth of the structures being merged. For very deep or wide graphs, this operation can be computationally intensive.
 
 ```python
->>> import time
->>> from symbol import s, Symbol
+import time
+from symbol import s, Symbol
 
->>> def build_linear_graph(num_nodes, prefix):
->>>     nodes = [Symbol(f"{prefix}_node_{i}") for i in range(num_nodes)]
->>>     for i in range(num_nodes - 1):
->>>         nodes[i].append(nodes[i+1])
->>>     return nodes[0]
+def build_linear_graph(num_nodes, prefix):
+    nodes = [Symbol(f"{prefix}_node_{i}") for i in range(num_nodes)]
+    for i in range(num_nodes - 1):
+        nodes[i].append(nodes[i+1])
+    return nodes[0]
 
->>> def measure_patch_performance(num_nodes):
->>>     sym1 = build_linear_graph(num_nodes, "sym1")
->>>     sym2 = build_linear_graph(num_nodes, "sym2")
+def measure_patch_performance(num_nodes):
+    sym1 = build_linear_graph(num_nodes, "sym1")
+    sym2 = build_linear_graph(num_nodes, "sym2")
 
->>>     start_time = time.perf_counter_ns()
->>>     sym1.patch(sym2)
->>>     end_time = time.perf_counter_ns()
->>>     time_taken = (end_time - start_time) / 1_000_000
->>>     return time_taken
+    start_time = time.perf_counter_ns()
+    sym1.patch(sym2)
+    end_time = time.perf_counter_ns()
+    time_taken = (end_time - start_time) / 1_000_000
+    return time_taken
 
->>> print("\n--- Symbol.patch() Performance ---")
->>> for n in [100, 200, 400]:
->>>     time_t = measure_patch_performance(n)
->>>     print(f"N={n}: Time for patch: {time_t:.4f} ms")
+print("\n--- Symbol.patch() Performance ---")
+for n in [100, 200, 400]:
+    time_t = measure_patch_performance(n)
+    print(f"N={n}: Time for patch: {time_t:.4f} ms")
 ```
 <details>
 
@@ -239,31 +239,31 @@ N=400: Time for patch: 0.0000 ms
 **Analysis**: These methods traverse the graph to generate a textual representation. Their performance is directly proportional to the size of the subgraph being visualized. For very large graphs, generating these strings can consume significant time and memory.
 
 ```python
->>> import time
->>> from symbol import s, Symbol
+import time
+from symbol import s, Symbol
 
->>> def measure_visualization_performance(num_nodes):
->>>     root = Symbol("viz_root")
->>>     nodes = [Symbol(f"viz_node_{i}") for i in range(num_nodes)]
->>>     for node in nodes:
->>>         root.append(node)
+def measure_visualization_performance(num_nodes):
+    root = Symbol("viz_root")
+    nodes = [Symbol(f"viz_node_{i}") for i in range(num_nodes)]
+    for node in nodes:
+        root.append(node)
 
->>>     start_time = time.perf_counter_ns()
->>>     root.to_mmd()
->>>     end_time = time.perf_counter_ns()
->>>     mmd_time = (end_time - start_time) / 1_000_000
+    start_time = time.perf_counter_ns()
+    root.to_mmd()
+    end_time = time.perf_counter_ns()
+    mmd_time = (end_time - start_time) / 1_000_000
 
->>>     start_time = time.perf_counter_ns()
->>>     root.to_ascii()
->>>     end_time = time.perf_counter_ns()
->>>     ascii_time = (end_time - start_time) / 1_000_000
+    start_time = time.perf_counter_ns()
+    root.to_ascii()
+    end_time = time.perf_counter_ns()
+    ascii_time = (end_time - start_time) / 1_000_000
 
->>>     return mmd_time, ascii_time
+    return mmd_time, ascii_time
 
->>> print("\n--- Visualization Performance (O(V + E)) ---")
->>> for n in [1000, 5000, 10000]:
->>>     mmd_t, ascii_t = measure_visualization_performance(n)
->>>     print(f"N={n}: to_mmd: {mmd_t:.4f} ms, to_ascii: {ascii_t:.4f} ms")
+print("\n--- Visualization Performance (O(V + E)) ---")
+for n in [1000, 5000, 10000]:
+    mmd_t, ascii_t = measure_visualization_performance(n)
+    print(f"N={n}: to_mmd: {mmd_t:.4f} ms, to_ascii: {ascii_t:.4f} ms")
 ```
 <details>
 
