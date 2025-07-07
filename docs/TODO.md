@@ -58,6 +58,7 @@ These tests are currently skipped due to external dependencies or temporary reas
 *   **`symbol/builtins/avl_tree.py`**: Achieved 64% coverage. All tests passing.
 *   **`symbol/builtins/index.py`**: Achieved 90% coverage. All tests passing.
 *   **`symbol/builtins/red_black_tree.py`**: Achieved 57% coverage. All tests passing.
+*   **`symbol/core/maturing.py`**: Achieved 95% coverage. All tests passing.
 
 ## Plan to Increase Coverage to 75%
 
@@ -73,7 +74,7 @@ To achieve the target coverage, I will focus on adding tests for the following m
 
 ### Phase 2: Key Features and Utilities
 
-1.  **`symbol/core/maturing.py` (Current Coverage: 18%)**: Develop extensive tests for the merge algorithm, covering different merge strategies and complex data structures.
+1.  **`symbol/core/maturing.py` (Current Coverage: 95%)**: Develop extensive tests for the merge algorithm, covering different merge strategies and complex data structures.
 2.  **`symbol/core/schedule.py` (Current Coverage: 0%)**: Add more tests for scheduling various types of jobs (one-off, recurring, async, sync) and edge cases.
 3.  **`symbol/core/batch_processing.py` (Current Coverage: 31%)**: Re-implement and expand tests for synchronous and asynchronous batch processing, including new thread/process scenarios.
 4.  **`symbol/builtins/time_dim.py` (Current Coverage: 36%)**: Add tests for remaining time dimension functionalities, including filtering and time-based operations.

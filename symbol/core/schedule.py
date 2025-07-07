@@ -55,7 +55,8 @@ class ScheduledJob:
             except (ValueError, KeyError):
                 # Handle ISO 8601 string
                 try:
-                    self.next_run = datetime.datetime.fromisoformat(self.schedule)
+                    parsed_time = datetime.datetime.fromisoformat(self.schedule)
+                    self.next_run = parsed_time
                 except ValueError:
                     raise ValueError(f"Schedule string '{self.schedule}' is not a valid cron or ISO 8601 format.")
         elif isinstance(self.schedule, datetime.datetime):
@@ -64,19 +65,23 @@ class ScheduledJob:
             self.next_run = datetime.datetime.combine(self.schedule, datetime.time.min)
         elif isinstance(self.schedule, datetime.time):
             today = datetime.date.today()
-            self.next_run = datetime.datetime.combine(today, self.schedule)
+            combined_datetime = datetime.datetime.combine(today, self.schedule)
+            self.next_run = combined_datetime
             if self.next_run < now:
-                self.next_run += datetime.timedelta(days=1)
+                self.next_run += datetime.timedelta(days=1) # Schedule for next day if time has passed today
         elif isinstance(self.schedule, Symbol):
             try:
-                self.next_run = datetime.datetime.fromisoformat(self.schedule.name)
+                parsed_time = datetime.datetime.fromisoformat(self.schedule.name)
+                self.next_run = parsed_time
             except ValueError:
                 raise ValueError(f"Symbol name '{self.schedule.name}' is not a valid ISO 8601 datetime string.")
         else:
             raise TypeError(f"Unsupported schedule type: {type(self.schedule)}")
 
-        if self.next_run < now:
-            self.next_run = None # Job will not run again
+        # For one-off jobs, if the calculated next_run is in the past, set it to None
+        # For recurring jobs (cron), croniter already ensures a future date.
+        if not isinstance(self.schedule, str) and self.next_run and self.next_run < now:
+            self.next_run = None
 
     def __lt__(self, other: "ScheduledJob") -> bool:
         if self.next_run is None:

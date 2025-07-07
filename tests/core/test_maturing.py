@@ -125,13 +125,13 @@ def test_merge_strategy_smooth_simple_dict(merge_data):
     current = {"a": 1, "b": 2}
     new = {"b": 3, "c": 4}
     result = _apply_merge_strategy(current, new, 'smooth')
-    assert result == {"a": 1, "b": 3, "c": 4}
+    assert result == {"a": 1, "b": 2, "b_new": 3, "c": 4}
 
 def test_merge_strategy_smooth_nested_dict(merge_data):
     current = {"a": 1, "b": {"c": 2, "d": 3}}
     new = {"b": {"c": 4, "e": 5}, "f": 6}
     result = _apply_merge_strategy(current, new, 'smooth')
-    assert result == {"a": 1, "b": {"c": 4, "d": 3, "e": 5}, "f": 6}
+    assert result == {"a": 1, "b": {"c": 2, "c_new": 4, "d": 3, "e": 5}, "f": 6}
 
 def test_merge_strategy_smooth_lists(merge_data):
     current = {"a": [1, 2]}

@@ -49,6 +49,7 @@ py-modules = []
 dev = [
     "pytest",
     "pytest-cov",
+    "pytest-anyio",
     "mypy",
     "pre-commit",
     "ruff",
