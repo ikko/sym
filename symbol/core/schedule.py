@@ -148,7 +148,7 @@ class Scheduler:
                     self.save_schedule()
             return job
 
-    def _run(self):
+    async def _run(self):
         """The main loop of the scheduler."""
         logging.debug("Scheduler _run started.")
         while self._running:
@@ -162,8 +162,6 @@ class Scheduler:
                     logging.debug(f"Current time: {now}, Next job scheduled for: {next_job.next_run}")
                     
                     if next_job.next_run is not None and now >= next_job.next_run:
-                        job_to_run = heapq.heappop(self._schedule)
-                        job_to_run = heapq.heappop(self._schedule)
                         job_to_run = heapq.heappop(self._schedule)
                         logging.debug(f"Job {job_to_run.id} is due. Current time: {now}, Next run: {next_job.next_run}")
                         logging.debug(f"Executing job: {job_to_run.id}")
@@ -193,8 +191,8 @@ class Scheduler:
                         continue # Check for next job immediately
 
                     time_to_sleep = (next_job.next_run - now).total_seconds() if next_job.next_run else 1
-            time.sleep(max(0, time_to_sleep))
                     logging.debug(f"Next job not due yet. Sleeping for {time_to_sleep:.2f} seconds.")
+                    await anyio.sleep(max(0.01, time_to_sleep))
 
             
 
@@ -203,7 +201,7 @@ class Scheduler:
         if self._running:
             return
         self._running = True
-        self._thread = threading.Thread(target=self._run, daemon=True)
+        self._thread = threading.Thread(target=anyio.run, args=(self._run,), daemon=True)
         self._thread.start()
 
     def stop(self):

@@ -28,22 +28,24 @@ async def a_process_batch(batch: Iterable[T], func: Callable[[T], Union[U, Await
     Returns:
         A list of results from processing each item.
     """
-    results = []
+    tasks = []
     async with anyio.create_task_group() as tg:
         for item in batch:
             if new_process:
                 log.warning("new_process is not fully implemented for batch processing. Falling back to new_thread/direct.")
-                if new_thread:
-                    results.append(await tg.start_soon(anyio.to_thread.run_sync, func, item))
-                else:
-                    results.append(tg.start_soon(func, item)) # This will run sync func directly in async context
+                task = tg.start_soon(anyio.to_thread.run_sync, func, item)
             elif new_thread:
-                results.append(await tg.start_soon(anyio.to_thread.run_sync, func, item))
+                task = tg.start_soon(anyio.to_thread.run_sync, func, item)
             else:
                 if inspect.iscoroutinefunction(func):
-                    results.append(await tg.start_soon(func, item))
+                    task = tg.start_soon(func, item)
                 else:
-                    results.append(tg.start_soon(func, item)) # This will run sync func directly in async context
+                    task = tg.start_soon(anyio.to_thread.run_sync, func, item)
+            tasks.append(task)
+
+    results = []
+    for task in tasks:
+        results.append(await task)
     return results
 
 def process_batch(batch: Iterable[T], func: Callable[[T], U], 

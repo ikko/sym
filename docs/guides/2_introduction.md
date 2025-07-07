@@ -224,8 +224,6 @@ The `SymbolIndex` allows you to create weighted, searchable indexes of Symbols, 
 >>> # Traverse in-order (by weight)
 >>> print(f"Assets by risk (in-order): {[str(sym) for sym in portfolio.index.traverse()]}")
 
->>> # Visualize the index tree (conceptual)
->>> # This would typically show a binary search tree structure.
 ```
 <details>
 
