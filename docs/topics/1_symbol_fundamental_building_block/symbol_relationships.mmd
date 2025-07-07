@@ -1,0 +1,47 @@
+graph TD
+    subgraph "Symbolic Data Representation"
+        A[Symbol: Unique Node]
+        B[Relationship: Directed Edge]
+        C[Graph: Collection of Nodes and Edges]
+    end
+
+    subgraph "Core Properties"
+        A -- "has unique name" --> D[Interning Pool]
+        A -- "can connect to" --> A
+        A -- "forms" --> C
+    end
+
+    subgraph "Relationship Types"
+        A -- "parent of" --> E[Child Symbol]
+        E -- "child of" --> A
+        A -- "related to [generic]" --> F[Other Symbol]
+    end
+
+    subgraph "Example: Project Management"
+        G[Project A] --> H[Task 1.1]
+        G --> I[Task 1.2]
+        H --> J[Subtask 1.1.1]
+        I --> K[Subtask 1.2.1]
+        L[Team Member X] --> H
+        L --> K
+        M[Resource Y] --> J
+    end
+
+    %% Core symbol elements - green/teal warm tones
+    style A fill:#e63946,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:#f4a261,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#e9c46a,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#e76f51,stroke:#333,stroke-width:2px,color:#FFFFFF;
+
+    %% Relationship elements - orange/amber tones
+    style E fill:#f3722c,stroke:#333,stroke-width:2px,color:#000000;
+    style F fill:#f8961e,stroke:#333,stroke-width:2px,color:#000000;
+
+    %% Project management elements - warm browns and reds
+    style G fill:#9c6644,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style H fill:#bc6c25,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style I fill:#bc6c25,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style J fill:#dda15e,stroke:#333,stroke-width:2px,color:#000000;
+    style K fill:#dda15e,stroke:#333,stroke-width:2px,color:#000000;
+    style L fill:#ae2012,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style M fill:#bb3e03,stroke:#333,stroke-width:2px,color:#FFFFFF;

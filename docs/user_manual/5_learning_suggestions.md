@@ -30,6 +30,7 @@ supplier_tsmc.metadata['delivery_reliability'] = 0.99
 print(f"TSMC Quality Rating: {supplier_tsmc.metadata['quality_rating']}")
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 Wafer Yield KPI for 2025-07-02: 95.10%

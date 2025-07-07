@@ -1,0 +1,38 @@
+graph LR
+    subgraph "Per-Instance Indexing"
+        A[Symbol Instance #40;Owner#41;] --> B{Private SymbolIndex};
+        B -- "contains" --> C[IndexNode 1];
+        B -- "contains" --> D[IndexNode 2];
+        B -- "contains" --> E[...];
+
+        C -- "references" --> F[Indexed Symbol 1];
+        D -- "references" --> G[Indexed Symbol 2];
+
+        C -- "has" --> C_W[Weight/Metadata];
+        D -- "has" --> D_W[Weight/Metadata];
+    end
+
+    subgraph "Benefits"
+        H[Contextual Relationships] --> I[Private Views];
+        J[Weighted Associations] --> K[Relevance/Priority];
+        L[Efficient Local Querying] --> M[Optimized Traversal];
+        N[Nested Structures] --> O[Complex Hierarchies];
+    end
+
+    style A fill:#b6a416,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#b6a416,stroke:#333,stroke-width:2px,color:#000000;
+    style C fill:#e67e22,stroke:#333,stroke-width:2px,color:#000000;
+    style D fill:#e67e22,stroke:#333,stroke-width:2px,color:#000000;
+    style E fill:#e67e22,stroke:#333,stroke-width:2px,color:#000000;
+    style F fill:#2980b9,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style G fill:#2980b9,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C_W fill:#8e44ad,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style D_W fill:#8e44ad,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style H fill:#f4740a,stroke:#333,stroke-width:2px,color:#000000;
+    style I fill:#f4740a,stroke:#333,stroke-width:2px,color:#000000;
+    style J fill:#21b117,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style K fill:#21b117,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style L fill:#562357,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style M fill:#562357,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style N fill:#3a5521,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style O fill:#3a5521,stroke:#333,stroke-width:2px,color:#FFFFFF;

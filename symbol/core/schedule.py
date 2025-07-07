@@ -78,10 +78,7 @@ class ScheduledJob:
         else:
             raise TypeError(f"Unsupported schedule type: {type(self.schedule)}")
 
-        # For one-off jobs, if the calculated next_run is in the past, set it to None
-        # For recurring jobs (cron), croniter already ensures a future date.
-        if not isinstance(self.schedule, str) and self.next_run and self.next_run < now:
-            self.next_run = None
+        
 
     def __lt__(self, other: "ScheduledJob") -> bool:
         if self.next_run is None:
@@ -127,7 +124,6 @@ class Scheduler:
         self._schedule: list[ScheduledJob] = []
         self._lock = threading.RLock()
         self._running = False
-        self._thread: Optional[threading.Thread] = None
         self.job_map: dict[str, ScheduledJob] = {}
         self.schedule_file = schedule_file
         if self.schedule_file:
@@ -136,7 +132,9 @@ class Scheduler:
     def add_job(self, job: ScheduledJob):
         """Adds a job to the schedule."""
         with self._lock:
-            if job.next_run: # Only schedule jobs that have a future run time
+            # Only schedule jobs that have a future run time or are recurring (cron)
+            if (job.next_run and job.next_run >= datetime.datetime.now()) or \
+               (isinstance(job.schedule, str) and croniter.is_valid(job.schedule)):
                 heapq.heappush(self._schedule, job)
                 self.job_map[job.id] = job
                 if self.schedule_file:
@@ -174,10 +172,10 @@ class Scheduler:
                         # Run the job
                         if inspect.iscoroutinefunction(job_to_run.func):
                             logging.info(f"Running async job {job_to_run.id}")
-                            anyio.run(job_to_run.func, *job_to_run.args, **job_to_run.kwargs)
+                            await job_to_run.func(*job_to_run.args, **job_to_run.kwargs)
                         else:
                             logging.info(f"Running sync job {job_to_run.id}")
-                            job_to_run.func(*job_to_run.args, **job_to_run.kwargs)
+                            await anyio.to_thread.run_sync(job_to_run.func, *job_to_run.args, **job_to_run.kwargs)
 
                         # Reschedule if it's a recurring job (cron string)
                         if isinstance(job_to_run.schedule, str) and croniter.is_valid(job_to_run.schedule):
@@ -201,21 +199,18 @@ class Scheduler:
 
             
 
-    def start(self):
+    async def start(self, task_group: anyio.abc.TaskGroup):
         """Starts the scheduler."""
         if self._running:
             return
         self._running = True
-        self._thread = threading.Thread(target=anyio.run, args=(self._run,), daemon=True)
-        self._thread.start()
+        task_group.start_soon(self._run)
 
-    def stop(self):
+    async def stop(self):
         """Stops the scheduler."""
         if not self._running:
             return
         self._running = False
-        if self._thread:
-            self._thread.join()
 
     def save_schedule(self):
         """Saves the schedule to a file."""

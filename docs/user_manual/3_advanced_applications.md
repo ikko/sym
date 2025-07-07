@@ -48,6 +48,7 @@ strategic_projects_index.index.insert(competitor_chip_x, weight=strategic_import
 print(f"Strategic Projects (by importance): {[sym.name for sym in strategic_projects_index.index.traverse(order='in')]}")
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 Strategic Projects (by importance): ['Competitor_Chip_X', 'Project_Orion']

@@ -42,6 +42,7 @@ resolution_firmware_update.metadata['release_date'] = '2025-07-15'
 print(customer_a.to_mmd())
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 graph TD

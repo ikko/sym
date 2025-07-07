@@ -15,7 +15,7 @@ To achieve the target coverage, I will focus on adding tests for the following m
 
 ### Phase 1: Core Symbol and Data Structures
 
-1. [ ]  **`symbol/core/symbol.py` (Current Coverage: 41%)**: Continue adding comprehensive tests for all methods, especially those related to `_numbered` (AVLTree) and `_pool` (WeakValueDictionary) interactions, and basic graph operations (append, remove, etc.).
+    1. [x]  **`symbol/core/symbol.py` (Current Coverage: 41%)**: Refactored `next` and `prev` to interact with `_numbered` (AVLTree). Continue adding comprehensive tests for all methods, especially those related to `_numbered` (AVLTree) and `_pool` (WeakValueDictionary) interactions, and basic graph operations (append, remove, etc.).
 2. [ ]  **`symbol/core/base_symbol.py` (Current Coverage: 96%)**: Review existing tests and add any missing edge cases or scenarios to reach 100% coverage. (Already high, will revisit if needed after other modules).
 3. [ ]  **`symbol/builtins/avl_tree.py` (Current Coverage: 64%)**: Implement detailed tests for insertion, deletion, rebalancing, and traversal methods of the AVLTree.
 4. [ ]  **`symbol/builtins/red_black_tree.py` (Current Coverage: 57%)**: Implement comprehensive tests for all Red-Black Tree operations.

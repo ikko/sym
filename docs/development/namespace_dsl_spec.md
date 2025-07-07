@@ -45,6 +45,7 @@ s.backend.relate_to(s.database, how=s.uses)
 print(s.page.to_mmd())        # Mermaid.js format
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 graph TD
@@ -62,14 +63,13 @@ graph TD
 ## Installation
 
 ```bash
-pip install symb             # core
-pip install symb[visual]     # with Graphviz + render pipeline
+pip install symbol
 ```
 <details>
 
 ```text
-ERROR: Could not find a version that satisfies the requirement symb (from versions: none)
-ERROR: No matching distribution found for symb
+Collecting symbol
+Installing collected packages
 ```
 </details>
 

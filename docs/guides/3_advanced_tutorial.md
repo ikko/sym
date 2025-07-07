@@ -51,6 +51,7 @@ print(f"Engine last inspected: {engine.aircraft_component.last_inspected}")
 print(f"Engine next inspection due: {engine.aircraft_component.next_inspection_due}")
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 Engine last inspected: 2024-01-15 00:00:00
@@ -90,6 +91,7 @@ payment_service.append(auth_service) # Payment depends on Auth (potential cycle!
 print(auth_service.to_mmd(mode="graph"))
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 graph TD
@@ -138,6 +140,7 @@ treatment.append(discharge)
 print(admission.to_mmd())
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 graph TD
@@ -193,6 +196,7 @@ robot_arm_a.append(process_weld)
 print(line_1.to_mmd())
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 graph TD
@@ -237,6 +241,7 @@ property_123.append(kitchen_sym)
 print(property_123.to_mmd())
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 graph TD

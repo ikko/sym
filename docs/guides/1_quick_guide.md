@@ -26,6 +26,7 @@ sym_d = s.concept_C
 assert sym_c is sym_d # True: Same instance
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 ```
@@ -50,6 +51,7 @@ assert sub_system_1 in root_node.children
 assert root_node in sub_system_1.parents
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 ```
@@ -74,6 +76,7 @@ assert event_end.as_datetime.minute == 30
 assert (event_end.as_datetime - event_start.as_datetime).total_seconds() == 5400.0 # 1 hour 30 minutes
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 ```

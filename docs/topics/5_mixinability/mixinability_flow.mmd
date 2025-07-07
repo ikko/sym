@@ -1,0 +1,58 @@
+graph TB
+    subgraph "Mixinability in Symbol Framework"
+        A[Symbol Class] --> B{register_mixin#40;target_class, name, value#41;};
+        B -- "1. Check if frozen" --> C{is_frozen?};
+        C -- "Yes" --> D[Error: Class is Frozen];
+        C -- "No" --> E{2. Validate Mixin Callable};
+        E -- "Validation Fails" --> F[Error: Invalid Mixin];
+        E -- "Validation Success" --> G[3. Apply Mixin to Symbol Class];
+        G -- "Attribute Exists" --> H[Warning: Overwriting Existing Attribute];
+        G -- "Attribute Does Not Exist" --> I[Success: Mixin Applied];
+    end
+
+    subgraph "Mixin Validation [mixin_validator.py]"
+        E --> J[LibCST Static Analysis];
+        J -- "Checks for" --> K[Correct Signature #40;self#41;];
+        J -- "Checks for" --> L[Async/Await Consistency];
+        J -- "Checks for" --> M[Forbidden Imports/Operations];
+        J -- "Generates" --> N[ValidationResult #40;errors/warnings#41;];
+    end
+
+    subgraph "Benefits"
+        O[Dynamic Extensibility] --> P[Runtime Feature Addition];
+        Q[Code Reusability] --> R[Modular Behavior Units];
+        S[Robustness] --> T[Validated Mixin Application];
+        U[Memory Optimization] --> V[slim#40;#41; for Unused Mixins];
+    end
+
+    %% Main flow - purple theme
+    style A fill:#8a2be2,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style B fill:#9932cc,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style C fill:#9932cc,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style E fill:#9932cc,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style G fill:#9932cc,stroke:#333,stroke-width:2px,color:#FFFFFF
+
+    %% Success states - green theme
+    style I fill:#228B22,stroke:#333,stroke-width:2px,color:#FFFFFF
+
+    %% Warning/Error states - red theme
+    style D fill:#B22222,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style F fill:#B22222,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style H fill:#FF8C00,stroke:#333,stroke-width:2px,color:#000000
+
+    %% Validation section - blue theme
+    style J fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style K fill:#4169E1,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style L fill:#4169E1,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style M fill:#4169E1,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style N fill:#6495ED,stroke:#333,stroke-width:2px,color:#FFFFFF
+
+    %% Benefits section - vibrant colors
+    style O fill:#dc143c,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style P fill:#ff1493,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style Q fill:#9400d3,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style R fill:#8a2be2,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style S fill:#006400,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style T fill:#228b22,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style U fill:#4b0082,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style V fill:#6a5acd,stroke:#333,stroke-width:2px,color:#FFFFFF

@@ -35,6 +35,7 @@ project_alpha_again = Symbol("ProjectAlpha")
 assert project_alpha is project_alpha_again
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 Project Alpha: <Symbol: ProjectAlpha>
@@ -74,6 +75,7 @@ print(f"Parents of {task_design}: {list(task_design.parents)}")
 print(project_alpha.to_mmd())
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 Children of <Symbol: ProjectAlpha>: [<Symbol: TaskDesign>, <Symbol: TaskDevelopment>]
@@ -128,6 +130,7 @@ print(f"Time difference: {network_event_2.as_datetime - network_event_1.as_datet
 # This would typically involve a series of events linked chronologically.
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 Event 1 Datetime: 2023-10-26 14:05:10
@@ -178,6 +181,7 @@ print(f"Path from Warehouse A to Retail Store D: {[str(sym) for sym in path]}")
 print(warehouse_a.to_mmd())
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 Path from Warehouse A to Retail Store D: ['<Symbol: WarehouseA>', '<Symbol: FactoryB>', '<Symbol: DistributionCenterC>', '<Symbol: RetailStoreD>']
@@ -226,6 +230,7 @@ print(f"Assets by risk (in-order): {[str(sym) for sym in portfolio.index.travers
 
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 Assets by risk (in-order): ['<Symbol: BondB>', '<Symbol: MutualFundC>', '<Symbol: StockA>']

@@ -1,0 +1,36 @@
+graph TB
+    subgraph "Flyweight Pattern for Symbol Instantiation"
+        A[Client] --> B[Symbol Factory: Symbol.__new__];
+        B -- "Request Symbol['Name']" --> C[Symbol Pool - Symbol._pool];
+        C -- "Check if 'Name' exists" --> D{Exists?};
+        D -- "Yes" --> E[Return Existing Symbol Instance];
+        D -- "No" --> F[Create New Symbol Instance];
+        F --> G[Add New Instance to Pool];
+        G --> E;
+    end
+
+    subgraph "Benefits"
+        H[Memory Efficiency] --> I[Reduced Duplication];
+        J[Consistency] --> K[Guaranteed Identity];
+        L[Performance] --> M[Faster Lookups/Comparisons];
+    end
+
+    E -- "is a" --> N[Shared Flyweight Object];
+
+    %% Main process flow - warm red/orange tones
+    style A fill:#e63946,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:#e63946,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#f94144,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style D fill:#f8961e,stroke:#333,stroke-width:2px,color:#000000;
+    style E fill:#f9844a,stroke:#333,stroke-width:2px,color:#000000;
+    style F fill:#f9c74f,stroke:#333,stroke-width:2px,color:#000000;
+    style G fill:#f9c74f,stroke:#333,stroke-width:2px,color:#000000;
+    style N fill:#f3722c,stroke:#333,stroke-width:2px,color:#000000;
+
+    %% Benefits section - warm purple/brown tones
+    style H fill:#90532b,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style I fill:#c1793e,stroke:#333,stroke-width:2px,color:#000000;
+    style J fill:#90532b,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style K fill:#c1793e,stroke:#333,stroke-width:2px,color:#000000;
+    style L fill:#90532b,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style M fill:#c1793e,stroke:#333,stroke-width:2px,color:#000000;

@@ -378,6 +378,8 @@ class Symbol(BaseSymbol):
             last = cls.last()
             name = f"sym_{cls._auto_counter}"
             sym = cls(name)
+            sym._position = cls._auto_counter  # Set position for AVLTree
+            cls._numbered.insert(cls._numbered.root, sym, sym._position) # Insert into AVLTree
             if last:
                 last._next = sym
                 sym._prev = last
@@ -386,10 +388,13 @@ class Symbol(BaseSymbol):
 
     @classmethod
     def prev(cls) -> Optional['Symbol']:
-        if cls._auto_counter <= 0:
-            return None
-        cls._auto_counter -= 1
-        return cls(f"sym_{cls._auto_counter}")
+        with cls._lock:
+            if cls._auto_counter <= 0:
+                return None
+            cls._auto_counter -= 1
+            # Search for the symbol at the decremented position
+            node = cls._numbered.search(cls._auto_counter)
+            return node.symbol if node else None
 
     @classmethod
     def first(cls) -> Optional['Symbol']:

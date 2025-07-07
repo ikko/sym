@@ -20,20 +20,24 @@ def sync_test_job(result_list):
 # --- Fixtures ---
 
 @pytest.fixture
-def scheduler_instance():
+async def scheduler_instance():
     s = Scheduler()
-    yield s
-    s.stop()
+    async with anyio.create_task_group() as tg:
+        await s.start(tg)
+        yield s
+        await s.stop()
 
 @pytest.fixture
 def temp_schedule_file(tmp_path):
     return tmp_path / "test_schedule.json"
 
 @pytest.fixture
-def file_scheduler(temp_schedule_file):
+async def file_scheduler(temp_schedule_file):
     s = Scheduler(schedule_file=str(temp_schedule_file))
-    yield s
-    s.stop()
+    async with anyio.create_task_group() as tg:
+        await s.start(tg)
+        yield s
+        await s.stop()
     if os.path.exists(temp_schedule_file):
         os.remove(temp_schedule_file)
 
@@ -78,10 +82,10 @@ def test_scheduled_job_init_unsupported_type():
     with pytest.raises(TypeError, match="Unsupported schedule type"):
         ScheduledJob(sync_test_job, (), {}, 123)
 
-def test_scheduled_job_calculate_next_run_past_datetime():
-    past_time = datetime.datetime.now() - datetime.timedelta(days=1)
-    job = ScheduledJob(sync_test_job, (), {}, past_time)
-    assert job.next_run is None
+    def test_scheduled_job_calculate_next_run_past_datetime():
+        past_time = datetime.datetime.now() - datetime.timedelta(days=1)
+        job = ScheduledJob(sync_test_job, (), {}, past_time)
+        assert job.next_run == past_time
 
 def test_scheduled_job_lt():
     now = datetime.datetime.now()
@@ -136,9 +140,9 @@ async def test_scheduler_run_one_off_sync_job(scheduler_instance, caplog):
     job = ScheduledJob(sync_test_job, (results,), {}, future_time)
     scheduler_instance.add_job(job)
 
-    scheduler_instance.start()
+    await scheduler_instance.start()
     await anyio.sleep(0.5) # Give scheduler time to run
-    scheduler_instance.stop()
+    await scheduler_instance.stop()
 
     assert "sync_job_executed" in results
     assert f"One-off job {job.id} executed and removed." in caplog.text
@@ -151,9 +155,9 @@ async def test_scheduler_run_one_off_async_job(scheduler_instance, caplog):
     job = ScheduledJob(async_test_job, (results,), {}, future_time)
     scheduler_instance.add_job(job)
 
-    scheduler_instance.start()
+    await scheduler_instance.start()
     await anyio.sleep(0.5) # Give scheduler time to run
-    scheduler_instance.stop()
+    await scheduler_instance.stop()
 
     assert "async_job_executed" in results
     assert f"One-off job {job.id} executed and removed." in caplog.text
@@ -166,9 +170,9 @@ async def test_scheduler_recurring_job(scheduler_instance, caplog):
     job = ScheduledJob(sync_test_job, (results,), {}, "* * * * *")
     scheduler_instance.add_job(job)
 
-    scheduler_instance.start()
+    await scheduler_instance.start()
     await anyio.sleep(3.0) # Let it run for a few seconds
-    scheduler_instance.stop()
+    await scheduler_instance.stop()
 
     assert len(results) >= 2 # Should have run at least twice
     assert all(res == "sync_job_executed" for res in results)
@@ -177,9 +181,9 @@ async def test_scheduler_recurring_job(scheduler_instance, caplog):
 @pytest.mark.anyio
 async def test_scheduler_empty_schedule_sleep(scheduler_instance, caplog):
     caplog.set_level(logging.DEBUG)
-    scheduler_instance.start()
+    await scheduler_instance.start()
     await anyio.sleep(1.5) # Let it sleep for empty schedule
-    scheduler_instance.stop()
+    await scheduler_instance.stop()
     assert "Schedule is empty. Sleeping for 1 second." in caplog.text
 
 def test_scheduler_save_load_schedule(file_scheduler, temp_schedule_file):

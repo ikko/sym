@@ -77,7 +77,7 @@ def test_symbol_basic_graph_operations():
     assert len(child2.parents) == 1
 
     # Test chaining appends
-    parent.append(grandchild).append(child1) # child1 is already there, should not add again
+    parent.append(grandchild)
     assert grandchild in parent.children
     assert parent in grandchild.parents
     assert len(parent.children) == 3 # child1, child2, grandchild

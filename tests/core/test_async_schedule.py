@@ -13,11 +13,12 @@ def sync_test_job(result_list):
     result_list.append("sync_job_executed")
 
 @pytest.fixture
-def scheduler():
+async def scheduler():
     s = Scheduler()
-    s.start()
-    yield s
-    s.stop()
+    async with anyio.create_task_group() as tg:
+        await s.start(tg)
+        yield s
+        await s.stop()
 
 
 

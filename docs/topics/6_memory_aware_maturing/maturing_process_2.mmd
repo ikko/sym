@@ -1,0 +1,19 @@
+graph TD
+    subgraph "Memory-Aware Maturing Process #40;immute#40;#41;#41;"
+        H[Symbol.metadata #40;DefDict#41;] --> I[Dynamic Key-Value Store];
+        J[deep_del#40;#41;] --> K[Recursive Attribute Deletion];
+        L[gc.collect#40;#41;] --> M[Explicit Garbage Collection];
+        N[_apply_merge_strategy#40;#41;] --> O[Handles Attribute Overwrites];
+    end
+
+    %% Method nodes - left side
+    style H fill:#592daf,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style J fill:#28db32,stroke:#333,stroke-width:2px,color:#000000
+    style L fill:#b54446,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style N fill:#67f134,stroke:#333,stroke-width:2px,color:#000000
+    
+    %% Result nodes - right side (matching colors with their corresponding method)
+    style I fill:#7b52c7,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style K fill:#4fe357,stroke:#333,stroke-width:2px,color:#000000
+    style M fill:#d16769,stroke:#333,stroke-width:2px,color:#FFFFFF
+    style O fill:#8af45c,stroke:#333,stroke-width:2px,color:#000000

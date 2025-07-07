@@ -2,7 +2,7 @@
      «symbol»: A Principled Framework for Dynamic Symbolic Computation and Knowledge Graph
      Construction in Python
      
-     Authors: [Miklós Béky/Symbolic Systems Lab Researh Team Inc.]
+     Authors: [Miklós Béky/Symbolic Systems Lab Inc. Researh Team]
      Affiliation: Symbolic Systems Lab Inc., Knowledge Garden Research Division
      
      
@@ -231,7 +231,7 @@
      
      5 Applications and Case Studies
      
-     H.A.L.42 Inc., a leading innovator in the IC industry, leverages «symbol» across its entire
+     H.A.L.42 Inc., a hypothetical leading innovator in the IC industry, leverages «symbol» across its entire
      product lifecycle, demonstrating  the framework's versatility in modeling complex, evolving
      systems.
      
@@ -261,7 +261,7 @@
           segments (MarketSegment_Automotive). Metadata captures unique selling points and
           competitive features, supporting portfolio analysis and strategic positioning.
         * Customer Follow-up & Support: Customer accounts are linked to purchased products and support
-           tickets. Metadata tracks issue descriptions, priorities, and resolutions, forming a
+          tickets. Metadata tracks issue descriptions, priorities, and resolutions, forming a
           comprehensive Customer Relationship Management (CRM) system for efficient issue resolution
           and feedback integration.
      
@@ -342,8 +342,8 @@
      
      7 Conclusion
      
-     In  this         paper, we introduced «symbol», a novel Python framework for dynamic symbolic
-     computation       and knowledge graph construction. We elucidated its core design principles,
+     In  this   paper,  we  introduced  «symbol», a  novel  Python  framework for dynamic symbolic
+     computation  and  knowledge  graph  construction.  We  elucidated its core design principles,
      including interning       for canonical identity, graph-centricity for intuitive relationship
      modeling,       and mixin-based extensibility for dynamic behavior injection. We demonstrated
      «symbol»'s practical utility through comprehensive case studies within the integrated circuit

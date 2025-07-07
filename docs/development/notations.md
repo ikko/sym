@@ -35,6 +35,7 @@ for n in [1000, 10000, 100000]:
     print(f"N={n}: Unique Symbols: {time_u:.4f} ms, Repeated Symbol: {time_r:.4f} ms")
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 
@@ -76,6 +77,7 @@ for n in [1000, 10000, 100000]:
     print(f"N={n}: Time to link {n} children: {time_t:.4f} ms")
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 
@@ -133,6 +135,7 @@ for n in [1000, 10000, 100000]:
     print(f"N={n}: Insert: {insert_t:.4f} ms, Search: {search_t:.4f} ms")
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 
@@ -180,6 +183,7 @@ for n in [100, 200, 400]: # Keep N small due to O(N^2) edges in dense graph
     print(f"N={n}: Time for traversal: {time_t:.4f} ms")
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 
@@ -222,6 +226,7 @@ for n in [100, 200, 400]:
     print(f"N={n}: Time for patch: {time_t:.4f} ms")
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 
@@ -266,6 +271,7 @@ for n in [1000, 5000, 10000]:
     print(f"N={n}: to_mmd: {mmd_t:.4f} ms, to_ascii: {ascii_t:.4f} ms")
 ```
 <details>
+<summary>Outcome</summary>
 
 ```text
 

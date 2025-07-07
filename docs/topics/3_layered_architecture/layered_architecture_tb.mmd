@@ -1,0 +1,43 @@
+graph TB
+    subgraph "Symbol Framework Architecture"
+        A[User Application] --> B[Symbol Package];
+        B --> C[symbol.core];
+        B --> D[symbol.builtins];
+    end
+
+    subgraph "Core Layer #40;symbol.core#41;"
+        C --> C1[Base Symbol Definition];
+        C --> C2[Core Symbol Functionality];
+        C --> C3[Maturing & Mixinability];
+    end
+
+    subgraph "Builtin Extensions Layer #40;symbol.builtins#41;"
+        D --> D1[Collections Extensions];
+        D --> D2[Datetime Extensions];
+        D --> D3[Index Extensions];
+        D --> D4[Pathfinding Extensions];
+        D --> D5[Visualization Extensions];
+        D --> D6[Timeline Extensions];
+    end
+
+    C2 -- "uses #40;controlled dependency#41;" --> D3;
+    C2 -- "uses [controlled dependency]" --> D1;
+
+    %% Framework architecture styles
+    style A fill:#d5b05d,stroke:#333,stroke-width:2px,color:#000000;
+    style B fill:#f9c74f,stroke:#333,stroke-width:2px,color:#000000;
+
+    %% Core layer styles - using blue tones
+    style C fill:#277da1,stroke:#333,stroke-width:2px,color:#ffffff;
+    style C1 fill:#4d908e,stroke:#333,stroke-width:2px,color:#ffffff;
+    style C2 fill:#4d908e,stroke:#333,stroke-width:2px,color:#ffffff;
+    style C3 fill:#4d908e,stroke:#333,stroke-width:2px,color:#ffffff;
+
+    %% Builtin extensions styles - using orange-ish darker tones
+    style D fill:#e76f51,stroke:#333,stroke-width:2px,color:#ffffff;
+    style D1 fill:#f4a261,stroke:#333,stroke-width:2px,color:#000000;
+    style D2 fill:#f4a261,stroke:#333,stroke-width:2px,color:#000000;
+    style D3 fill:#f4a261,stroke:#333,stroke-width:2px,color:#000000;
+    style D4 fill:#f4a261,stroke:#333,stroke-width:2px,color:#000000;
+    style D5 fill:#f4a261,stroke:#333,stroke-width:2px,color:#000000;
+    style D6 fill:#f4a261,stroke:#333,stroke-width:2px,color:#000000;
