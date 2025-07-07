@@ -1,6 +1,5 @@
-# Symbol: An Introduction to Symbolic Modeling
-
-## General Tutorial
+# `«symbol»` Tutorial
+## An Introduction to Symbolic Modeling
 
 ### Abstract
 
@@ -253,3 +252,5 @@ graph TD
 ### Conclusion
 
 This introduction has covered the core aspects of the `Symbol` library, from basic creation and relationship building to leveraging built-in mixins for time dimension handling, pathfinding, and indexing. `Symbol` provides a flexible and powerful foundation for modeling complex systems across various domains. For more in-depth exploration of advanced features and custom extensions, please refer to the Advanced Tutorial and API Documentation.
+
+---

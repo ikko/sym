@@ -1,6 +1,5 @@
-# Symbol: Advanced Symbolic Modeling and Applications
-
-## Advanced Tutorial
+# `«symbol»` Tutorial
+## Symbolic Modeling and Applications
 
 ### Abstract
 

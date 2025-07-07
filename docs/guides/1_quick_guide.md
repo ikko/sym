@@ -1,6 +1,6 @@
-# Symbol: A Foundational Primitive for Symbolic Systems
+# `«symbol»` Quick Guide
 
-## Quick Guide for Advanced Researchers
+## A Foundational Primitive for Symbolic Systems
 
 ### Abstract
 
@@ -25,12 +25,6 @@ sym_c = s.concept_C
 sym_d = s.concept_C
 assert sym_c is sym_d # True: Same instance
 ```
-<details>
-<summary>Outcome</summary>
-
-```text
-```
-</details>
 
 #### 1.2. Graph-based Representation
 
@@ -50,22 +44,13 @@ root_node.append(sub_system_2)
 assert sub_system_1 in root_node.children
 assert root_node in sub_system_1.parents
 ```
-<details>
-<summary>Outcome</summary>
-
-```text
-```
-</details>
 
 #### 1.3. Mixin-based Extensibility
 
 `Symbol`'s architecture supports dynamic runtime extension via mixins. This allows for the modular injection of domain-specific behaviors (e.g., time dimension parsing, pathfinding, indexing) without modifying the core `Symbol` class. This pattern promotes a highly composable design, enabling researchers to tailor `Symbol`'s capabilities precisely to their problem domain.
 
 ```python
-from symbol.builtins import apply_builtins
 from symbol.core.symbol import Symbol
-
-apply_builtins() # Integrates standard mixins
 
 # Time dimension mixin example
 event_start = Symbol("2023-10-26T10:00:00Z")
@@ -75,12 +60,6 @@ assert event_start.as_datetime.hour == 10
 assert event_end.as_datetime.minute == 30
 assert (event_end.as_datetime - event_start.as_datetime).total_seconds() == 5400.0 # 1 hour 30 minutes
 ```
-<details>
-<summary>Outcome</summary>
-
-```text
-```
-</details>
 
 #### 1.4. Lazy Evaluation & Performance Characteristics
 
