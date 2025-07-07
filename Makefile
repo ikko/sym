@@ -5,9 +5,10 @@ SHELL := /bin/bash
 VENV_PATH := $(HOME)/.virtualenvs/symbol
 
 install:
-#	uv venv $(VENV_PATH)
-#	source $(HOME)/.virtualenvs/symbol/bin/activate
-	uv pip install -e .[dev] --system
+	uv venv $(VENV_PATH)
+	source $(HOME)/.virtualenvs/symbol/bin/activate
+	python -m ensurepip
+	python -m pip install -e .[dev]
 
 test:
 	PYTHONPATH=. $(VENV_PATH)/bin/python -m pytest
