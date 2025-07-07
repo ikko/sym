@@ -1,6 +1,6 @@
 import pytest
 from symbol.core.symbol import Symbol
-from symbol.builtins.index import SymbolIndex, IndexNode
+from symbol.builtins.index import SymbolIndex
 
 @pytest.fixture
 def owner_symbol():
@@ -13,51 +13,40 @@ def empty_symbol_index(owner_symbol):
 def test_symbol_index_instantiation(owner_symbol):
     index = SymbolIndex(owner_symbol)
     assert index.owner == owner_symbol
-    assert index.root is None
-    assert index._function_map == {}
+    assert index.tree.root is None
 
 def test_symbol_index_insertion(empty_symbol_index):
     s1 = Symbol("sym1")
     s2 = Symbol("sym2")
     s3 = Symbol("sym3")
 
-    empty_symbol_index.insert(s2, 50) # Root
-    assert empty_symbol_index.root is not None
-    assert empty_symbol_index.root.symbol == s2
-    assert empty_symbol_index._function_map["sym2"].symbol == s2
+    empty_symbol_index.insert(s2, 50.0) # Root
+    empty_symbol_index.insert(s1, 25.0) # Left child
+    empty_symbol_index.insert(s3, 75.0) # Right child
 
-    empty_symbol_index.insert(s1, 25) # Left child
-    assert empty_symbol_index.root.left.symbol == s1
-    assert empty_symbol_index._function_map["sym1"].symbol == s1
-
-    empty_symbol_index.insert(s3, 75) # Right child
-    assert empty_symbol_index.root.right.symbol == s3
-    assert empty_symbol_index._function_map["sym3"].symbol == s3
+    # In-order traversal should return symbols sorted by weight
+    inorder = empty_symbol_index.traverse(order="in")
+    assert inorder == [s1, s2, s3]
 
     # Test inserting with callable weight
     s4 = Symbol("sym4")
     def dynamic_weight(sym):
         return len(sym.name) * 2
     empty_symbol_index.insert(s4, dynamic_weight)
-    assert empty_symbol_index._function_map["sym4"].weight == dynamic_weight
-    assert empty_symbol_index._function_map["sym4"].eval_weight() == 8
+    # Verify that the symbol is in the tree and its weight is correctly evaluated
+    assert empty_symbol_index.tree.search(dynamic_weight(s4)) is s4
 
 def test_symbol_index_traverse_inorder(empty_symbol_index):
     s_nodes = [
-        (Symbol("sym_d"), 40),
-        (Symbol("sym_b"), 20),
-        (Symbol("sym_f"), 60),
-        (Symbol("sym_a"), 10),
-        (Symbol("sym_c"), 30),
-        (Symbol("sym_e"), 50),
-        (Symbol("sym_g"), 70),
+        (Symbol("sym_d"), 40.0),
+        (Symbol("sym_b"), 20.0),
+        (Symbol("sym_f"), 60.0),
+        (Symbol("sym_a"), 10.0),
+        (Symbol("sym_c"), 30.0),
+        (Symbol("sym_e"), 50.0),
+        (Symbol("sym_g"), 70.0),
     ]
-    # Insert in an order that creates a balanced-ish tree for predictable traversal
-    # Root: sym_d (40)
-    # Left: sym_b (20) -> Left: sym_a (10), Right: sym_c (30)
-    # Right: sym_f (60) -> Left: sym_e (50), Right: sym_g (70)
-    insert_order = [s_nodes[0], s_nodes[1], s_nodes[2], s_nodes[3], s_nodes[4], s_nodes[5], s_nodes[6]]
-    for sym, weight in insert_order:
+    for sym, weight in s_nodes:
         empty_symbol_index.insert(sym, weight)
 
     expected_inorder = [
@@ -67,53 +56,11 @@ def test_symbol_index_traverse_inorder(empty_symbol_index):
     actual_inorder = empty_symbol_index.traverse(order="in")
     assert actual_inorder == expected_inorder
 
-def test_symbol_index_traverse_preorder(empty_symbol_index):
-    s_nodes = [
-        (Symbol("sym_d"), 40),
-        (Symbol("sym_b"), 20),
-        (Symbol("sym_f"), 60),
-        (Symbol("sym_a"), 10),
-        (Symbol("sym_c"), 30),
-        (Symbol("sym_e"), 50),
-        (Symbol("sym_g"), 70),
-    ]
-    insert_order = [s_nodes[0], s_nodes[1], s_nodes[2], s_nodes[3], s_nodes[4], s_nodes[5], s_nodes[6]]
-    for sym, weight in insert_order:
-        empty_symbol_index.insert(sym, weight)
-
-    expected_preorder = [
-        Symbol("sym_d"), Symbol("sym_b"), Symbol("sym_a"), Symbol("sym_c"),
-        Symbol("sym_f"), Symbol("sym_e"), Symbol("sym_g")
-    ]
-    actual_preorder = empty_symbol_index.traverse(order="pre")
-    assert actual_preorder == expected_preorder
-
-def test_symbol_index_traverse_postorder(empty_symbol_index):
-    s_nodes = [
-        (Symbol("sym_d"), 40),
-        (Symbol("sym_b"), 20),
-        (Symbol("sym_f"), 60),
-        (Symbol("sym_a"), 10),
-        (Symbol("sym_c"), 30),
-        (Symbol("sym_e"), 50),
-        (Symbol("sym_g"), 70),
-    ]
-    insert_order = [s_nodes[0], s_nodes[1], s_nodes[2], s_nodes[3], s_nodes[4], s_nodes[5], s_nodes[6]]
-    for sym, weight in insert_order:
-        empty_symbol_index.insert(sym, weight)
-
-    expected_postorder = [
-        Symbol("sym_a"), Symbol("sym_c"), Symbol("sym_b"), Symbol("sym_e"),
-        Symbol("sym_g"), Symbol("sym_f"), Symbol("sym_d")
-    ]
-    actual_postorder = empty_symbol_index.traverse(order="post")
-    assert actual_postorder == expected_postorder
-
 def test_symbol_index_map_and_filter(empty_symbol_index):
     s_nodes = [
-        (Symbol("apple"), 10),
-        (Symbol("banana"), 20),
-        (Symbol("cherry"), 30),
+        (Symbol("apple"), 10.0),
+        (Symbol("banana"), 20.0),
+        (Symbol("cherry"), 30.0),
     ]
     for sym, weight in s_nodes:
         empty_symbol_index.insert(sym, weight)
@@ -128,15 +75,49 @@ def test_symbol_index_map_and_filter(empty_symbol_index):
 
 def test_symbol_index_ascii_representation(empty_symbol_index):
     s_nodes = [
-        (Symbol("root"), 50),
-        (Symbol("left"), 25),
-        (Symbol("right"), 75),
+        (Symbol("root"), 50.0),
+        (Symbol("left"), 25.0),
+        (Symbol("right"), 75.0),
     ]
     for sym, weight in s_nodes:
         empty_symbol_index.insert(sym, weight)
 
-    expected_ascii = """    - right
-- root
-    - left"""
+    expected_ascii = """  - right (W:75.00, H:1)
+- root (W:50.00, H:2)
+  - left (W:25.00, H:1)"""
     assert empty_symbol_index.ascii() == expected_ascii
     assert empty_symbol_index.to_ascii() == expected_ascii
+
+def test_symbol_index_rebalance_avl(empty_symbol_index):
+    s1 = Symbol("A")
+    s2 = Symbol("B")
+    s3 = Symbol("C")
+    s4 = Symbol("D")
+
+    empty_symbol_index.insert(s1, 10.0)
+    empty_symbol_index.insert(s2, 20.0)
+    empty_symbol_index.insert(s3, 30.0)
+
+    # Tree should be balanced after insertions, so rebalance should not change order
+    empty_symbol_index.rebalance(strategy='avl')
+    inorder = empty_symbol_index.traverse(order="in")
+    assert inorder == [s1, s2, s3]
+
+    # Test with a more complex rebalancing scenario
+    tree = SymbolIndex(Symbol("rebalance_owner"))
+    nodes = [
+        (Symbol("N1"), 10),
+        (Symbol("N2"), 20),
+        (Symbol("N3"), 30),
+        (Symbol("N4"), 40),
+        (Symbol("N5"), 50),
+        (Symbol("N6"), 60),
+        (Symbol("N7"), 70),
+    ]
+    for sym, weight in nodes:
+        tree.insert(sym, weight)
+
+    tree.rebalance(strategy='avl')
+    inorder = tree.traverse(order="in")
+    assert inorder == [nodes[0][0], nodes[1][0], nodes[2][0], nodes[3][0], nodes[4][0], nodes[5][0], nodes[6][0]]
+

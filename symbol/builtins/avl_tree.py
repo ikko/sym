@@ -15,7 +15,7 @@ class AVLNode:
         self.right: Optional['AVLNode'] = None
 
     def eval_weight(self, *args, **kwargs) -> float:
-        return self.weight(*args, **kwargs) if callable(self.weight) else self.weight
+        return self.weight(self.symbol) if callable(self.weight) else self.weight
 
 
 class AVLTree:
@@ -83,12 +83,75 @@ class AVLTree:
         if not node:
             return AVLNode(symbol, weight)
 
-        if weight < node.eval_weight():
+        if (weight(symbol) if callable(weight) else weight) < node.eval_weight():
             node.left = self.insert(node.left, symbol, weight)
         else:
             node.right = self.insert(node.right, symbol, weight)
 
         return self._rebalance(node)
+
+    def search(self, weight: float) -> Optional['Symbol']:
+        """Searches for a symbol with the given weight."""
+        node = self.root
+        while node:
+            if weight == node.eval_weight():
+                return node.symbol
+            elif weight < node.eval_weight():
+                node = node.left
+            else:
+                node = node.right
+        return None
+
+    def remove(self, weight: float) -> Optional[AVLNode]:
+        """Removes a node with the given weight from the tree."""
+        self.root = self._remove(self.root, weight)
+        return self.root
+
+    def _remove(self, node: Optional[AVLNode], weight: float) -> Optional[AVLNode]:
+        if not node:
+            return node
+
+        if weight < node.eval_weight():
+            node.left = self._remove(node.left, weight)
+        elif weight > node.eval_weight():
+            node.right = self._remove(node.right, weight)
+        else:
+            # Node with the given weight found
+
+            # Case 1: Node with only one child or no child
+            if not node.left:
+                return node.right
+            elif not node.right:
+                return node.left
+
+            # Case 2: Node with two children
+            # Get the in-order successor (smallest in the right subtree)
+            temp = self._min_value_node(node.right)
+            node.symbol = temp.symbol
+            node.weight = temp.weight
+            node.right = self._remove(node.right, temp.weight)
+
+        # Rebalance the current node after deletion (or recursive calls)
+        return self._rebalance(node)
+
+    def _min_value_node(self, node: AVLNode) -> AVLNode:
+        current = node
+        while current.left:
+            current = current.left
+        return current
+
+    def min_node(self) -> Optional[AVLNode]:
+        if not self.root:
+            return None
+        return self._min_value_node(self.root)
+
+    def max_node(self) -> Optional[AVLNode]:
+        if not self.root:
+            return None
+        current = self.root
+        while current.right:
+            current = current.right
+        return current
 
     def traverse_inorder(self, node: Optional[AVLNode] = None) -> list['Symbol']:
         if node is None:

@@ -6,7 +6,7 @@ This is the Gemini CLI. We are setting up the context for our chat.
 
 /home/miki/code/ikko/symbol/
 ├───.gitignore
-├───AGENT_CONTEXT.md
+├───context.md
 ├───README.md
 ├───v.0.0.1
 ├───.git/...
@@ -42,3 +42,8 @@ This is the Gemini CLI. We are setting up the context for our chat.
         ├───red_black_tree.py
         ├───avl_tree.py
         └───timeline.py
+
+
+-- here comes the tree --
+
+

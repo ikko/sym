@@ -136,7 +136,7 @@ class Symbol(BaseSymbol):
                 self._length_cache = None
             if self not in child.parents:
                 child.parents.append(self)
-        return self
+        return child
 
     def add(self, child: 'Symbol') -> 'Symbol':
         # Ensure child is a Symbol instance
@@ -269,42 +269,81 @@ class Symbol(BaseSymbol):
     def relate(self, other: 'Symbol', how: str = 'related') -> 'Symbol':
         """Establishes a bidirectional relationship with another Symbol."""
         with self._lock:
-            if other not in self.related_to:
+            # Check if this specific relationship already exists
+            relationship_exists = False
+            for i, existing_other in enumerate(self.related_to):
+                if existing_other == other and self.related_how[i] == how:
+                    relationship_exists = True
+                    break
+
+            if not relationship_exists:
                 self.related_to.append(other)
                 self.related_how.append(how)
             
             # Establish inverse relationship
-            if self not in other.related_to:
+            inverse_how = f"_inverse_{how}"
+            inverse_relationship_exists = False
+            for i, existing_self in enumerate(other.related_to):
+                if existing_self == self and other.related_how[i] == inverse_how:
+                    inverse_relationship_exists = True
+                    break
+
+            if not inverse_relationship_exists:
                 other.related_to.append(self)
-                other.related_how.append(f"_inverse_{how}")
+                other.related_how.append(inverse_how)
         return self
 
     def unrelate(self, other: 'Symbol', how: Optional[str] = None) -> 'Symbol':
         """Removes a bidirectional relationship with another Symbol."""
         with self._lock:
             # Remove forward relationship
-            if other in self.related_to:
-                idx = self.related_to.index(other)
-                if how is None or self.related_how[idx] == how:
-                    self.related_to.pop(idx)
-                    self.related_how.pop(idx)
+            relationships_to_keep_self = []
+            for i, related_sym in enumerate(self.related_to):
+                if related_sym == other:
+                    # This is the 'other' symbol we are trying to unrelate
+                    if how is None:
+                        # If 'how' is None, remove all relationships with 'other'
+                        continue
+                    elif self.related_how[i] == how:
+                        # If 'how' is specified and matches, remove this specific relationship
+                        continue
+                    else:
+                        # If 'how' is specified but doesn't match, keep this relationship
+                        relationships_to_keep_self.append((related_sym, self.related_how[i]))
+                else:
+                    # Keep relationships with other symbols (not 'other')
+                    relationships_to_keep_self.append((related_sym, self.related_how[i]))
+
+            self.related_to = [r[0] for r in relationships_to_keep_self]
+            self.related_how = [r[1] for r in relationships_to_keep_self]
 
             # Remove inverse relationship
-            if self in other.related_to:
-                idx = other.related_to.index(self)
-                if how is None or other.related_how[idx] == f"_inverse_{how}":
-                    other.related_to.pop(idx)
-                    other.related_how.pop(idx)
+            relationships_to_keep_other = []
+            for i, related_sym in enumerate(other.related_to):
+                if related_sym == self:
+                    # This is 'self' in the context of 'other's relationships
+                    expected_inverse_how = f"_inverse_{how}" if how is not None else None
+                    if how is None:
+                        # If 'how' is None, remove all inverse relationships with 'self'
+                        continue
+                    elif other.related_how[i] == expected_inverse_how:
+                        # If 'how' is specified and matches, remove this specific inverse relationship
+                        continue
+                    else:
+                        # If 'how' is specified but doesn't match, keep this inverse relationship
+                        relationships_to_keep_other.append((related_sym, other.related_how[i]))
+                else:
+                    # Keep relationships with other symbols (not 'self')
+                    relationships_to_keep_other.append((related_sym, other.related_how[i]))
+
+            other.related_to = [r[0] for r in relationships_to_keep_other]
+            other.related_how = [r[1] for r in relationships_to_keep_other]
         return self
 
     @property
     def ref(self) -> Optional[Any]:
         """Alias for .origin, representing the original source or reference of the Symbol."""
         return self.origin
-
-    @ref.setter
-    def ref(self, value: Any):
-        self.origin = value
 
     def head(self, up_to_position: float = 5.0):
         cur = self

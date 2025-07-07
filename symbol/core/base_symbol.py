@@ -52,7 +52,7 @@ class Symbol:
             obj._length_cache = None
             cls._write_cursor += 1.0
             cls._pool[name] = obj
-            cls._numbered.insert(None, obj, obj._position) # Insert into AVLTree
+            cls._numbered.root = cls._numbered.insert(cls._numbered.root, obj, obj._position) # Insert into AVLTree
             return obj
 
     def __repr__(self):
@@ -69,7 +69,10 @@ class Symbol:
 
     # Basic comparison for numbered symbols, more complex logic in symbol.py
     def __lt__(self, other):
-        if self in self._numbered and other in self._numbered:
+        # Check if both symbols are in the numbered tree by searching for their positions
+        if isinstance(other, Symbol) and \
+           self._numbered.search(self._position) is not None and \
+           other._numbered.search(other._position) is not None:
             return self._position < other._position
         raise TypeError("Unordered comparison not supported for non-numbered symbols")
 
