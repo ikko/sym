@@ -2,6 +2,7 @@
 
 It allows for rendering Symbol graphs to various formats, such as DOT, SVG, PNG, and Mermaid.
 """
+from __future__ import annotations
 from typing import Literal, Optional
 import anyio
 import warnings
@@ -12,12 +13,11 @@ try:
 except ImportError:
     _GRAPHVIZ_AVAILABLE = False
 
-from ..core.base_symbol import Symbol
 from ..core.protocols import SymbolVisualProtocol
 
 
 class SymbolRender(SymbolVisualProtocol):
-    def __init__(self, root: Symbol):
+    def __init__(self, root: 'Symbol'):
         self.root = root
 
     def _build_dot_source(self, mode: Literal["tree", "graph"]) -> str:

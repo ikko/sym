@@ -3,22 +3,21 @@
 It includes a mixin that adds properties for accessing the date and time components of a Symbol's name,
 as well as for calculating time periods and durations.
 """
+from __future__ import annotations
 import datetime
 from typing import Iterator, Union, Any, Callable
 
-from ..core.base_symbol import Symbol
-
 class SymbolTimeDimMixin:
     @staticmethod
-    def _parse_timestamp(s: Symbol) -> datetime.datetime:
+    def _parse_timestamp(s: 'Symbol') -> datetime.datetime:
         try:
             return datetime.datetime.fromisoformat(s.name)
         except ValueError:
             return datetime.datetime.combine(datetime.date.today(), datetime.time.min)
 
     @staticmethod
-    def _sorted_by_time(symbol_cls: type[Symbol]) -> list['Symbol']:
-        return sorted(Symbol._numbered, key=lambda s: SymbolTimeDimMixin._parse_timestamp(s))
+    def _sorted_by_time(symbol_cls: type['Symbol']) -> list['Symbol']:
+        return sorted(symbol_cls._numbered, key=lambda s: SymbolTimeDimMixin._parse_timestamp(s))
 
     @property
     def time_head(self) -> 'SymbolHeadTailView':

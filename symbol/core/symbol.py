@@ -36,32 +36,33 @@ class GraphTraversal:
         self.result = []
 
     def traverse(self):
-        self._walk(self.root)
+        stack = [self.root]
+        while stack:
+            symbol = stack.pop()
+            if symbol in self.visited:
+                continue
+            self.visited.add(symbol)
+            self.result.append(symbol)
+            neighbors = symbol.children if self.mode == 'tree' else symbol.children
+            # Push children in reverse order to maintain original order when popped
+            for child in reversed(neighbors):
+                stack.append(child)
         return self.result
-
-    def _walk(self, symbol: 'Symbol'):
-        if symbol in self.visited:
-            warnings.warn(f"Cycle detected in {self.mode} at {symbol}")
-            return
-        self.visited.add(symbol)
-        self.result.append(symbol)
-        neighbors = symbol.children if self.mode == 'tree' else symbol.children
-        for child in neighbors:
-            self._walk(child)
 
     def to_ascii(self) -> str:
         lines = []
         visited_ascii = set()
+        stack = [(self.root, "")] # (symbol, indent)
 
-        def _walk_ascii(symbol: 'Symbol', indent: str = ""):
+        while stack:
+            symbol, indent = stack.pop()
             if symbol in visited_ascii:
-                return
+                continue
             visited_ascii.add(symbol)
             lines.append(f"{indent}- {symbol.name}")
-            for child in symbol.children:
-                _walk_ascii(child, indent + "  ")
-
-        _walk_ascii(self.root)
+            # Push children in reverse order to maintain original order when popped
+            for child in reversed(symbol.children):
+                stack.append((child, indent + "  "))
         return "\n".join(lines)
 
 
@@ -212,7 +213,6 @@ class Symbol(BaseSymbol):
                 pass # Removed 'del self' due to potential object corruption
             except Exception:
                 pass
-        gc.collect()
 
     def pop(self) -> 'Symbol':
         """Safely removes the symbol from its hierarchy, re-parenting its children.
@@ -335,15 +335,14 @@ class Symbol(BaseSymbol):
 
     @classmethod
     def next(cls) -> 'Symbol':
-        name = f"sym_{cls._auto_counter}"
-        sym = cls(name)
-        if sym not in cls._numbered:
-            if cls._numbered:
-                last = cls._numbered[-1]
+        with cls._lock:
+            last = cls.last()
+            name = f"sym_{cls._auto_counter}"
+            sym = cls(name)
+            if last:
                 last._next = sym
                 sym._prev = last
-            cls._numbered.append(sym)
-        cls._auto_counter += 1
+            cls._auto_counter += 1
         return sym
 
     @classmethod
@@ -355,15 +354,17 @@ class Symbol(BaseSymbol):
 
     @classmethod
     def first(cls) -> Optional['Symbol']:
-        return cls._numbered[0] if cls._numbered else None
+        node = cls._numbered.min_node()
+        return node.value if node else None
 
     @classmethod
     def last(cls) -> Optional['Symbol']:
-        return cls._numbered[-1] if cls._numbered else None
+        node = cls._numbered.max_node()
+        return node.value if node else None
 
     @classmethod
     def len(cls) -> int:
-        return len(cls._numbered)
+        return cls._numbered.size()
 
     @classmethod
     def from_object(cls, obj: Any) -> 'Symbol':
@@ -426,23 +427,25 @@ class Symbol(BaseSymbol):
 
     @classmethod
     def seek(cls, pos: float) -> Optional['Symbol']:
-        for sym in cls._numbered:
-            if sym._position == pos:
-                return sym
-        return None
+        node = cls._numbered.search(pos)
+        return node.value if node else None
 
     @classmethod
-    def each(cls, start: Union[int, 'Symbol', None] = None) -> Iterator['Symbol']:
+    def each(cls, start: Union[float, 'Symbol', None] = None) -> Iterator['Symbol']:
         if start is None:
-            idx = 0
-        elif isinstance(start, int):
-            idx = start
+            # Iterate through all symbols in order
+            for node in cls._numbered.inorder_traverse():
+                yield node.value
+        elif isinstance(start, (int, float)):
+            # Find the symbol at or after the given position and iterate from there
+            for node in cls._numbered.inorder_traverse(start_key=start):
+                yield node.value
         elif isinstance(start, Symbol):
-            idx = cls._numbered.index(start)
+            # Find the starting symbol and iterate from there
+            for node in cls._numbered.inorder_traverse(start_key=start._position):
+                yield node.value
         else:
             raise TypeError(f"Invalid start parameter {repr(start)} instance of {type(start)} in each")
-        for sym in cls._numbered[idx:]:
-            yield sym
 
     def each_parents(self) -> Iterator['Symbol']:
         return iter(self.parents)
@@ -537,7 +540,6 @@ class Symbol(BaseSymbol):
         for key in list(self.context.keys()):
             # DefDict's __delitem__ will handle logging and potential deep_del for nested DefDicts
             del self.context[key]
-        gc.collect() # Explicitly call garbage collector after deletions
 
     def to(self, target_type: Type[T]) -> T:
         """Converts the Symbol to an object of the specified type."""

@@ -3,16 +3,17 @@
 These protocols establish a clear contract for extending the Symbol class with new functionality,
 promoting a clean and maintainable architecture.
 """
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Iterator, List, Optional, Protocol, Union, Callable, Awaitable, runtime_checkable
 import datetime
 
-from ..core.base_symbol import Symbol
 
 
 class SymbolPathProtocol(Protocol):
     @abstractmethod
-    def path_to(self, target: Symbol) -> List[Symbol]:
+    def path_to(self, target: 'Symbol') -> List['Symbol']:
+
         """Finds a path from this Symbol to a target Symbol."""
         ...
 

@@ -4,7 +4,9 @@ It serves as a base for the more extensive Symbol functionality defined elsewher
 specifically designed to prevent circular import dependencies.
 """
 import threading
-from typing import Any, Optional, TypeVar
+from typing import Optional, Union, Callable, Any, TypeVar
+from weakref import WeakValueDictionary
+
 from ..builtins.avl_tree import AVLTree
 
 T = TypeVar("T")
@@ -21,9 +23,10 @@ class Symbol:
         '_next',
         '_prev',
         '_length_cache',
+        '__weakref__',
     )
 
-    _pool: dict[str, 'Symbol'] = {}
+    _pool: WeakValueDictionary[str, 'Symbol'] = WeakValueDictionary()
     _numbered: AVLTree = AVLTree()
     _auto_counter: int = 0
     _read_cursor: float = 0.0
@@ -49,7 +52,7 @@ class Symbol:
             obj._length_cache = None
             cls._write_cursor += 1.0
             cls._pool[name] = obj
-            cls._numbered.insert(obj._position, obj) # Insert into AVLTree
+            cls._numbered.insert(None, obj, obj._position) # Insert into AVLTree
             return obj
 
     def __repr__(self):

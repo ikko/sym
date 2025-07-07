@@ -1,4 +1,3 @@
-from ..core.base_symbol import Symbol
 from ..core.mixinability import register_mixin
 from .path import SymbolPathMixin
 from .time_dim import SymbolTimeDimMixin
@@ -9,6 +8,7 @@ import logging
 log = logging.getLogger(__name__)
 
 def apply_builtins():
+    from ..core.base_symbol import Symbol
     successful_mixins = 0
     total_mixins = 0
 

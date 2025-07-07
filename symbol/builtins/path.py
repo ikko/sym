@@ -3,9 +3,9 @@
 It includes a mixin that adds methods for finding paths between Symbols
 and for matching Symbols based on a predicate.
 """
+from __future__ import annotations
 from typing import Callable, Iterator, List
 
-from ..core.base_symbol import Symbol
 from ..core.protocols import SymbolPathProtocol
 
 class SymbolPathMixin(SymbolPathProtocol):

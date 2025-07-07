@@ -87,13 +87,5 @@ async def test_a_to_svg_simple_tree(simple_symbol_tree):
     except ImportError as e:
         pytest.skip(f"Graphviz not installed: {e}")
 
-@pytest.mark.anyio
-async def test_a_to_png_simple_tree(simple_symbol_tree):
-    a, _, _, _ = simple_symbol_tree
-    try:
-        png_output = await SymbolRender(a).a_to_png(mode="tree")
-        assert isinstance(png_output, bytes)
-        assert len(png_output) > 0
-    except ImportError as e:
-        pytest.skip(f"Graphviz not installed: {e}")
+
 

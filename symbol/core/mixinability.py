@@ -40,9 +40,11 @@ def is_frozen() -> bool:
     return _is_frozen
 
 import re
-from ..core.base_symbol import Symbol # Import Symbol for default target_class
 
-def register_mixin(value: Any, name: str = None, target_class: type = Symbol, safe: bool = False, expand: bool = True) -> bool:
+def register_mixin(value: Any, name: str = None, target_class: type = None, safe: bool = False, expand: bool = True) -> bool:
+    if target_class is None:
+        from ..core.base_symbol import Symbol
+        target_class = Symbol
     """Registers a mixin to be applied to the target class, with validation and error handling.
     Returns True if the mixin was successfully registered, False otherwise.
     """

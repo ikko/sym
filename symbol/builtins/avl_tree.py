@@ -3,9 +3,8 @@
 An AVL tree is a self-balancing binary search tree that maintains a balanced height,
 ensuring efficient search, insertion, and deletion operations.
 """
+from __future__ import annotations
 from typing import Optional, Union, Callable, Any
-
-from ..core.base_symbol import Symbol
 
 class AVLNode:
     def __init__(self, symbol: 'Symbol', weight: Union[float, Callable[[Any], float]]):

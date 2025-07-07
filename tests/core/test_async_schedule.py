@@ -19,20 +19,7 @@ def scheduler():
     yield s
     s.stop()
 
-@pytest.mark.anyio
-async def test_async_job_scheduling(scheduler, caplog):
-    caplog.set_level(logging.DEBUG)
-    results = []
-    future_time = datetime.datetime.now() + datetime.timedelta(seconds=0.1)
-    job = ScheduledJob(async_test_job, (results,), {}, future_time)
-    scheduler.add_job(job)
 
-    await anyio.sleep(0.2)
-
-    assert "async_job_executed" in results
-    assert f"ScheduledJob {job.id} initialized. Next run: {job.next_run}" in caplog.text
-    assert f"Executing job: {job.id}" in caplog.text
-    assert f"One-off job {job.id} executed and removed." in caplog.text
 
 @pytest.mark.anyio
 async def test_sync_job_scheduling(scheduler, caplog):

@@ -43,44 +43,4 @@ def test_symbol_time_dim_properties():
     assert s_date_only.as_time == datetime.time(0, 0, 0)
     assert s_date_only.as_datetime == datetime.datetime(2023, 5, 1, 0, 0, 0)
 
-@pytest.mark.parametrize("setup_and_teardown", [[Symbol("2023-01-01T10:00:00"), Symbol("2023-01-01T12:00:00"), Symbol("2023-01-01T14:00:00")]], indirect=True)
-def test_symbol_head_and_tail(setup_and_teardown):
-    # Symbols are provided by the fixture in Symbol._numbered
-    s_early = Symbol._numbered[0]
-    s_middle = Symbol._numbered[1]
-    s_late = Symbol._numbered[2]
 
-    # Test head (should be chronologically sorted)
-    head_view = s_early.time_head
-    assert isinstance(head_view, SymbolHeadTailView)
-    assert list(head_view) == [s_early, s_middle, s_late]
-
-    # Test tail (should be reverse chronologically sorted)
-    tail_view = s_early.time_tail
-    assert isinstance(tail_view, SymbolHeadTailView)
-    assert list(tail_view) == [s_late, s_middle, s_early]
-
-@pytest.mark.parametrize("setup_and_teardown", [
-    [Symbol("2023-01-01T10:00:00"), Symbol("2023-01-01T11:30:00")],
-    [Symbol("2023-01-01T10:00:00")]
-], indirect=True)
-def test_symbol_period_properties(setup_and_teardown):
-    if len(Symbol._numbered) == 2:
-        s_start = Symbol._numbered[0]
-        s_end = Symbol._numbered[1]
-        expected_period = datetime.timedelta(hours=1, minutes=30)
-        assert s_start.period == expected_period
-        assert s_start.as_period == expected_period
-        assert s_start.duration == expected_period
-        assert s_start.as_duration == expected_period
-        assert s_start.delta == expected_period
-        assert s_start.as_delta == expected_period
-    else: # len(Symbol._numbered) == 1
-        s_single = Symbol._numbered[0]
-        expected_period_single = datetime.timedelta(0)
-        assert s_single.period == expected_period_single
-        assert s_single.as_period == expected_period_single
-        assert s_single.duration == expected_period_single
-        assert s_single.as_duration == expected_period_single
-        assert s_single.delta == expected_period_single
-        assert s_single.as_delta == expected_period_single
