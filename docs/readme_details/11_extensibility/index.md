@@ -175,7 +175,7 @@ Receiving response for API_Gateway.
 ### Diagram
 ```mermaid
 graph TD
-    A[Generic Symbol] --> B{Apply Mixin (Adapter)};
+    A[Generic Symbol] --> B{Apply Mixin &#40Adapter&#41};
     B -- "DatabaseRecordMixin" --> C[Behaves as Database Record];
     B -- "NetworkEndpointMixin" --> D[Behaves as Network Endpoint];
     C --> E[Specific Operations];
@@ -253,7 +253,7 @@ like
 ### Diagram
 ```mermaid
 graph TD
-    A[Enum Type] --> B{Symbol.from_enum()};
+    A[Enum Type] --> B{Symbol.from_enum&#40&#41};
     B --> C[Symbol Instances];
 
     X[External DSL Input] --> Y{DSL Parser};
@@ -272,3 +272,5 @@ graph TD
 The `Symbol` framework's commitment to extensibility empowers developers to build highly adaptable and interoperable systems. By providing clear protocols for callable integration, formal interfaces for mixins, and seamless compatibility with external data formats, `Symbol` facilitates the creation of flexible, domain-specific solutions that can evolve with changing requirements. This design philosophy ensures that `Symbol` remains a versatile tool for a wide range of symbolic data manipulation tasks.
 
 For a comprehensive overview of the Symbol's extensibility, refer to the [Extensibility Overview Diagram](extensibility_overview.mmd).
+
+--

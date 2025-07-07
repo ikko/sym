@@ -43,7 +43,7 @@ Time for 100,000 Symbol instantiations: 0.00 ms
 ### Diagram
 ```mermaid
 graph TD
-    A[Request Symbol(name)] --> B{Check Symbol._pool};
+    A[Request Symbol&#40name&#41] --> B{Check Symbol._pool};
     B -- "Found" --> C[Return Existing Symbol];
     B -- "Not Found" --> D[Create New Symbol];
     D --> E[Add to Symbol._pool];
@@ -94,10 +94,10 @@ Time for 2 relationship links: 0.00 ms
 ### Diagram
 ```mermaid
 graph TD
-    A[Source Symbol] --> B{append(Target Symbol)};
+    A[Source Symbol] --> B{append&#40Target Symbol&#41};
     B -- "Add Target to Source.children" --> C[Source.children List];
     B -- "Add Source to Target.parents" --> D[Target.parents List];
-    C --> E[O(1) Operation];
+    C --> E[O#40;1#41; Operation];
     D --> E;
 
     style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
@@ -146,15 +146,14 @@ sym2._prev is sym1: True
 ```mermaid
 graph TD
     A[Traversal Operation] --> B{Check Cache};
-    B -- "Cache Hit" --> C[Return Cached Value (O(1))];
-    B -- "Cache Miss" --> D[Perform Traversal (O(V+E))];
+    B -- "Cache Hit" --> C[Return Cached Value #40;O#40;1#41;#41;];
+    B -- "Cache Miss" --> D[Perform Traversal #40;O#40;V+E#41;#41;];
     D --> E[Update Cache];
     E --> C;
 
     X[New Symbol Insertion] --> Y{Assign Float Position};
     Y --> Z[Maintain Conceptual Order];
-    Z --> AA[Avoid Re-indexing (O(1) for sequential)];
-
+    Z --> AA[Avoid Re-indexing #40;O#40;1#41; for sequential#41;];
     style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
     style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
@@ -209,10 +208,10 @@ Found Apple: Apple
 ```mermaid
 graph TD
     A[Collection of Symbols] --> B{SymbolIndex};
-    B -- "Uses" --> C[Balanced BST (AVL/Red-Black)];
-    C -- "Insert" --> D[O(log n)];
-    C -- "Search" --> E[O(log n)];
-    C -- "Delete" --> F[O(log n)];
+    B -- "Uses" --> C[Balanced BST #40;AVL/Red-Black#41;];
+    C -- "Insert" --> D[O#40;log n#41;];
+    C -- "Search" --> E[O#40;log n#41;];
+    C -- "Delete" --> F[O#40;log n#41;];
 
     style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
     style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;

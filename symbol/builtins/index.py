@@ -209,5 +209,5 @@ class SymbolIndex:
         return self.ascii()
 
 
-# Patch Symbol class (assume it exists in the scope):
+# Patch Symbol class:
 # Already mounted via Symbol.__new__: obj.index = SymbolIndex(obj)

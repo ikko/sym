@@ -199,7 +199,9 @@ class Symbol(BaseSymbol):
     def popleft(self) -> Optional['Symbol']:
         if self.children:
             self._length_cache = None
-            return self.children.pop(0)
+            popped_child = self.children.pop(0)
+            popped_child.delete() # Ensure full cleanup of the popped child
+            return popped_child
         return None
 
     def graph(self):

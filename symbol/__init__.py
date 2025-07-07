@@ -7,7 +7,7 @@ from .core.mixinability import freeze, is_frozen
 from .core.time_arithmetics import add_time_objects, subtract_time_objects
 from .core.batch_processing import a_process_batch, process_batch
 from .config import Config
-from . import builtins
+from . import builtins, core
 
 # Apply the mixins first to ensure the Symbol class is fully featured
 # This call should ideally happen once at application startup, not on every import
@@ -18,7 +18,9 @@ apply_builtins()
 
 # Expose builtin modules at the top level (lazy loaded)
 def __getattr__(name):
-    if name == "time_dim":
+    if name == "schedule":
+        return core.schedule
+    elif name == "time_dim":
         return builtins.time_dim
     elif name == "collections":
         return builtins.collections
@@ -52,7 +54,7 @@ def __getattr__(name):
 
 def __dir__():
     return sorted(list(globals().keys()) + [
-        "time_dim", "collections", "index", "path", "timeline", "visual",
+        "schedule", "time_dim", "collections", "index", "path", "timeline", "visual",
         "add_time", "subtract_time", "a_process_batch", "process_batch",
         "td", "coll", "idx", "vis", "tl"
     ])

@@ -177,8 +177,8 @@ Batch processing results: [1, 4, 9, 16]
 ### Diagram
 ```mermaid
 graph LR
-    A[Input List] --> B{process_batch()};
-    C[Function (e.g., square)] --> B;
+    A[Input List] --> B{process_batch&#40&#41};
+    C[Function &#40e.g., square&#41] --> B;
     B --> D[Processed Results];
 
     style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
@@ -200,7 +200,7 @@ This example demonstrates the use of `symbol.core.schedule` to schedule and exec
 >>>     print(f"Executing task: {message}")
 
 >>> scheduler = Scheduler()
->>> job = ScheduledJob(my_task, args=("Hello from the scheduler!",), schedule=datetime.datetime.now() + datetime.timedelta(seconds=5))
+>>> job = ScheduledJob(my_task, args=("Hello` from the scheduler!",), schedule=datetime.datetime.now() + datetime.timedelta(seconds=5))
 >>> scheduler.add_job(job)
 
 >>> scheduler.start()
@@ -225,10 +225,10 @@ Executing task: Hello from the scheduler!
 ### Diagram
 ```mermaid
 graph TD
-    A[Function (my_task)] --> B[ScheduledJob];
-    C[Schedule (datetime.datetime)] --> B;
-    B --> D[Scheduler.add_job()];
-    D --> E[Scheduler.start()];
+    A[Function &#40my_task&#41] --> B[ScheduledJob];
+    C[Schedule &#40datetime.datetime&#41] --> B;
+    B --> D[Scheduler.add_job&#40&#41];
+    D --> E[Scheduler.start&#40&#41];
     E -- "Executes at time" --> A;
 
     style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
@@ -240,3 +240,5 @@ graph TD
 ## Conclusion
 
 These examples collectively demonstrate the versatility and power of the `Symbol` framework. From basic graph construction to complex supply chain analysis, temporal data management, batch processing, and task scheduling, `Symbol` provides a flexible and efficient foundation for building sophisticated applications. Its modular design and extensibility allow developers to tailor its capabilities to specific domain requirements, making it a valuable tool for a wide array of symbolic data manipulation tasks.
+
+---

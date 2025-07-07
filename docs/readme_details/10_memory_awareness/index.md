@@ -46,16 +46,18 @@ print("Garbage collection run.")
 ### Diagram
 ```mermaid
 graph TD
-    A[Symbol Instance] --> B{delete&#40&#41};
-    B -- "Breaks References" --> C[Parents];
-    B -- "Breaks References" --> D[Children];
-    B -- "Removes from" --> E[Internal Pools];
-    E -- "Aids" --> F[Garbage Collector];
-    F --> G[Memory Deallocation];
+    A[Symbol.context &#40DefDict&#41] --> B{clear_context&#40&#41};
+    B -- "Iterates & Deletes" --> C[Key-Value Pairs];
+    C -- "Uses" --> D[deep_del&#40&#41];
+    D -- "Recursively Unreferences" --> E[Nested Data Structures];
+    E --> F[Eligible for GC];
 
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
-
-    style A fill:#10cc31,stroke:#333,stroke-width:2px,color:#000000;
+    style A fill:#2E8B57,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:#4169E1,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style D fill:#FF6347,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF8C00,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## Proactive Memory Management for `context` Attribute via `deep_del`
 
@@ -91,19 +93,25 @@ print("Garbage collection run after clearing context.")
 
 ### Diagram
 ```mermaid
-graph TD
+
+graph LR
     A[Symbol.context &#40DefDict&#41] --> B{clear_context&#40&#41};
     B -- "Iterates & Deletes" --> C[Key-Value Pairs];
     C -- "Uses" --> D[deep_del&#40&#41];
     D -- "Recursively Unreferences" --> E[Nested Data Structures];
     E --> F[Eligible for GC];
 
-    style A fill:#201f47,stroke:#333,stroke-width:2px,color:#FFFFFF;
-
-    style A fill:#201f47,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style A fill:#2E8B57,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:#4169E1,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style D fill:#FF6347,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style F fill:#FF8C00,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## Conclusion
 
 Memory awareness is a fundamental aspect of the `Symbol` framework's design, ensuring its suitability for high-performance and long-running applications. Through GC-aware deletion, proactive management of dynamic attributes like `context`, and the strategic use of utilities like `deep_del`, `Symbol` minimizes its memory footprint and contributes to overall system stability. This commitment to efficient resource management allows developers to build complex symbolic systems without undue concern for memory-related performance bottlenecks.
 
 For a comprehensive overview of the Symbol's memory awareness, refer to the [Memory Awareness Overview Diagram](memory_awareness_overview.mmd).
+
+---
