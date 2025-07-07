@@ -1,25 +1,18 @@
-This is the Gemini CLI. We are setting up the context for our chat.
-  Today's date is Tuesday, July 1, 2025.
-  My operating system is: linux
-  I'm currently working in the directory: /home/miki/code/ikko/symbol
-  Showing up to 200 items (files + folders). Folders or files indicated with ... contain more items not shown, were ignored, or the display limit (200 items) was reached.
+Operating system is: linux
 
-/home/miki/code/ikko/symbol/
 ├───.gitignore
 ├───context.md
 ├───README.md
 ├───v.0.0.1
-├───.git/...
-├───.idea/...
 ├───pyproject.toml
 ├───scripts/
 │   └───generate_code_inventory.py
-└───docs/
-    ├───idohatarozok.md
-    ├───namespace_dsl_spec.md
-    ├───methods.md
-    ├───GLOSSARY.md
-    └───TODO.md
+├───docs/
+│   ├───idohatarozok.md
+│   ├───namespace_dsl_spec.md
+│   ├───methods.md
+│   ├───GLOSSARY.md
+│   ├───TODO.md
 └───symbol/
     ├───__init__.py
     ├───core/
@@ -42,8 +35,4 @@ This is the Gemini CLI. We are setting up the context for our chat.
         ├───red_black_tree.py
         ├───avl_tree.py
         └───timeline.py
-
-
--- here comes the tree --
-
 

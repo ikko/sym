@@ -1,4 +1,6 @@
-# Symbol Framework: Catalyzing Value and Unifying Knowledge
+# `«symbol»` Impact
+
+## Catalyzing Value and Unifying Knowledge
 
 ## Empowering Innovation Through Semantic Precision and Seamless Integration
 
@@ -12,11 +14,6 @@ In today's rapidly evolving technological landscape, the ability to precisely de
 
 The Symbol framework excels at representing intricate relationships in a concise and human-readable format. Consider the following example, demonstrating a compact graph of interconnected concepts:
 
-<details>
-<summary>Click to view graph example</summary>
-
-- reference TODO:
-
 ```mermaid
 graph LR
     A[Financial Instrument] -- has type --> B(Stock)
@@ -25,15 +22,19 @@ graph LR
     C -- issued by --> E[Corporation]
     D -- located in --> F(Country)
     E -- located in --> F
-    style A fill:#FFDDC1,stroke:#333,stroke-width:2px,color:#333;
-    style B fill:#FFDDC1,stroke:#333,stroke-width:2px,color:#333;
-    style C fill:#FFDDC1,stroke:#333,stroke-width:2px,color:#333;
-    style D fill:#CCEEFF,stroke:#333,stroke-width:2px,color:#333;
-    style E fill:#CCEEFF,stroke:#333,stroke-width:2px,color:#333;
-    style F fill:#D1FFC1,stroke:#333,stroke-width:2px,color:#333;
+    
+    %% Financial instruments - warm reds
+    style A fill:#e63946,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style B fill:#e76f51,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style C fill:#f4a261,stroke:#333,stroke-width:2px,color:#000000;
+    
+    %% Market entities - blues
+    style D fill:#1d3557,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#457b9d,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% Location - green
+    style F fill:#2a9d8f,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-
-</details>
 
 ## Business Impact of a Symbol Domain-Specific Language (DSL)
 
@@ -45,7 +46,7 @@ The adoption of a Symbol-based Domain-Specific Language (DSL) can yield signific
 *   **Enhanced Maintainability and Scalability:** Create self-documenting systems where the business logic is explicitly captured in the DSL. This simplifies maintenance, reduces technical debt, and allows for easier scaling of operations.
 *   **Greater Data Consistency and Quality:** Enforce semantic rules and constraints directly within the DSL, leading to higher data quality and reduced errors across integrated systems.
 
-## Developer/User-Facing Interface Diagram
+## Developer Friendly Interface
 
 ```mermaid
 graph LR
@@ -56,18 +57,30 @@ graph LR
     D -- extends --> F[Symbol Objects]
     E -- extends --> F
     F --> G[Data Storage/Persistence]
-    style A fill:#FFDDC1,stroke:#333,stroke-width:2px,color:#333;
-    style B fill:#CCEEFF,stroke:#333,stroke-width:2px,color:#333;
-    style C fill:#D1FFC1,stroke:#333,stroke-width:2px,color:#333;
-    style D fill:#FFCCEE,stroke:#333,stroke-width:2px,color:#333;
-    style E fill:#FFCCEE,stroke:#333,stroke-width:2px,color:#333;
-    style F fill:#FFFFCC,stroke:#333,stroke-width:2px,color:#333;
-    style G fill:#CCFFFF,stroke:#333,stroke-width:2px,color:#333;
+    
+    %% User/entry point
+    style A fill:#9d0208,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% API layer
+    style B fill:#dc2f02,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% Core logic
+    style C fill:#f48c06,stroke:#333,stroke-width:2px,color:#000000;
+    
+    %% Mixins - similar functionality
+    style D fill:#6a994e,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#386641,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% Objects
+    style F fill:#073b4c,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% Storage
+    style G fill:#540b0e,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 
 ## Conclusion
 
-The Symbol framework offers a compelling proposition for organizations seeking to enhance their software development capabilities through semantic precision, seamless integration, and unified knowledge representation. By embracing a Symbol-based approach, businesses can unlock new levels of agility, reduce operational costs, and foster a collaborative environment conducive to innovation.
+The Symbol framework offers a compelling proposition for organizations seeking to enhance their software development capabilities through semantic precision, seamless integration, and unified knowledge representation. By embracing a Symbol-based approach, a wide variety of organizations can unlock new levels of agility, reduce operational costs, and foster a collaborative environment conducive to innovation.
 
 ## Further Documentation
 
