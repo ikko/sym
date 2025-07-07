@@ -6,6 +6,7 @@ VENV_PATH := $(HOME)/.virtualenvs/symbol
 
 install:
 	uv venv $(VENV_PATH)
+	source $(HOME)/.virtualenvs/symbol/bin/activate
 	uv pip install -e .[dev]
 
 test:
