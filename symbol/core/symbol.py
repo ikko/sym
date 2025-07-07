@@ -13,6 +13,7 @@ import inspect
 import warnings
 import gc
 import copy
+from sys import getsizeof
 from typing import Any, Union, Iterator, Optional, Literal, Set, Type, TypeVar
 
 from .base_symbol import Symbol as BaseSymbol
@@ -65,6 +66,7 @@ class GraphTraversal:
 
 
 from ..core.lazy import SENTINEL
+from .lazy_symbol import LazySymbol
 
 class Symbol(BaseSymbol):
     def __new__(cls, name: str, origin: Optional[Any] = None):
@@ -95,16 +97,17 @@ class Symbol(BaseSymbol):
             self._context = DefDict()
         return self._context
 
-    def append(self, child: 'Symbol') -> 'Symbol':
-        # Ensure child is a Symbol instance
-        if not isinstance(child, Symbol):
+    def append(self, child: Union['Symbol', 'LazySymbol']) -> 'Symbol':
+        # Ensure child is a Symbol or LazySymbol instance
+        if not isinstance(child, (Symbol, LazySymbol)):
             child = Symbol.from_object(child)
 
-        if child not in self.children:
-            self.children.append(child)
-            self._length_cache = None
-        if self not in child.parents:
-            child.parents.append(self)
+        with self._lock:
+            if child not in self.children:
+                self.children.append(child)
+                self._length_cache = None
+            if self not in child.parents:
+                child.parents.append(self)
         return self
 
     def add(self, child: 'Symbol') -> 'Symbol':
@@ -121,24 +124,55 @@ class Symbol(BaseSymbol):
         if not isinstance(child, Symbol):
             child = Symbol.from_object(child)
 
-        if child in self.children:
-            self.children.remove(child)
-        if at is None:
-            at = self._write_cursor
-            self._write_cursor += 1.0
-        child._position = at
-        self.children.append(child)
-        child.parents.append(self)
-        self._length_cache = len(self.children)
+        with self._lock:
+            if child in self.children:
+                self.children.remove(child)
+            if at is None:
+                at = self._write_cursor
+                self._write_cursor += 1.0
+            child._position = at
+            self.children.append(child)
+            child.parents.append(self)
+            self._length_cache = len(self.children)
         return self
 
+    def reparent(self) -> None:
+        """Connects the children of the removed Symbol to its parents."""
+        with self._lock:
+            for parent in self.parents:
+                # Remove self from parent's children
+                if self in parent.children:
+                    parent.children.remove(self)
+                # Add self's children to parent's children
+                for child in self.children:
+                    if child not in parent.children:
+                        parent.children.append(child)
+                    # Update child's parents
+                    if self in child.parents:
+                        child.parents.remove(self)
+                    if parent not in child.parents:
+                        child.parents.append(parent)
+
+    def rebind_linear_sequence(self) -> None:
+        """Rebinds the _prev and _next pointers of adjacent symbols in the linear sequence."""
+        with self._lock:
+            if self._prev:
+                self._prev._next = self._next
+            if self._next:
+                self._next._prev = self._prev
+            self._prev = None
+            self._next = None
+
     def delete(self) -> None:
-        for p in self.parents:
-            if self in p.children:
-                p.children.remove(self)
-        for c in self.children:
-            if self in c.parents:
-                c.parents.remove(self)
+        self.reparent()
+        self.rebind_linear_sequence()
+        if self._index is not SENTINEL:
+            self.index.remove(self)
+
+        # Sever all relationships
+        for related_sym in list(self.related_to): # Iterate over a copy as list will be modified
+            self.unrelate(related_sym)
+
         self.parents.clear()
         self.children.clear()
         if self in self._numbered:
@@ -151,12 +185,16 @@ class Symbol(BaseSymbol):
                 pass # Removed 'del self' due to potential object corruption
             except Exception:
                 pass
+        gc.collect()
 
-    def pop(self) -> Optional['Symbol']:
-        if self.children:
-            self._length_cache = None
-            return self.children.pop()
-        return None
+    def pop(self) -> 'Symbol':
+        """Safely removes the symbol from its hierarchy, re-parenting its children.
+
+        Returns:
+            The popped symbol.
+        """
+        self.delete()
+        return self
 
     def popleft(self) -> Optional['Symbol']:
         if self.children:
@@ -197,6 +235,37 @@ class Symbol(BaseSymbol):
             for e in new:
                 if e not in existing:
                     existing.append(e)
+        return self
+
+    def relate(self, other: 'Symbol', how: str = 'related') -> 'Symbol':
+        """Establishes a bidirectional relationship with another Symbol."""
+        with self._lock:
+            if other not in self.related_to:
+                self.related_to.append(other)
+                self.related_how.append(how)
+            
+            # Establish inverse relationship
+            if self not in other.related_to:
+                other.related_to.append(self)
+                other.related_how.append(f"_inverse_{how}")
+        return self
+
+    def unrelate(self, other: 'Symbol', how: Optional[str] = None) -> 'Symbol':
+        """Removes a bidirectional relationship with another Symbol."""
+        with self._lock:
+            # Remove forward relationship
+            if other in self.related_to:
+                idx = self.related_to.index(other)
+                if how is None or self.related_how[idx] == how:
+                    self.related_to.pop(idx)
+                    self.related_how.pop(idx)
+
+            # Remove inverse relationship
+            if self in other.related_to:
+                idx = other.related_to.index(self)
+                if how is None or other.related_how[idx] == f"_inverse_{how}":
+                    other.related_to.pop(idx)
+                    other.related_how.pop(idx)
         return self
 
     @property
@@ -272,33 +341,35 @@ class Symbol(BaseSymbol):
         """Converts an object to a Symbol, acting as a central router."""
         if isinstance(obj, Symbol):
             return obj
+        if isinstance(obj, LazySymbol):
+            return obj._symbol
 
         # Conversion functions for different types
         def from_list(value: list) -> 'Symbol':
-            sym = cls('list', origin=copy.deepcopy(value))
+            sym = cls('list', origin=value)
             for item in value:
-                sym.append(Symbol.from_object(item))
+                sym.append(LazySymbol(item))
             return sym
 
         def from_dict(value: dict) -> 'Symbol':
-            sym = cls('dict', origin=copy.deepcopy(value))
+            sym = cls('dict', origin=value)
             for k, v in value.items():
-                key_sym = Symbol.from_object(k)
-                val_sym = Symbol.from_object(v)
+                key_sym = LazySymbol(k)
+                val_sym = LazySymbol(v)
                 sym.append(key_sym)
                 key_sym.append(val_sym)
             return sym
 
         def from_tuple(value: tuple) -> 'Symbol':
-            sym = cls('tuple', origin=copy.deepcopy(value))
+            sym = cls('tuple', origin=value)
             for item in value:
-                sym.append(Symbol.from_object(item))
+                sym.append(LazySymbol(item))
             return sym
 
         def from_set(value: set) -> 'Symbol':
-            sym = cls('set', origin=copy.deepcopy(value))
+            sym = cls('set', origin=value)
             for item in value:
-                sym.append(Symbol.from_object(item))
+                sym.append(LazySymbol(item))
             return sym
         
         type_map = {
@@ -438,6 +509,28 @@ class Symbol(BaseSymbol):
             return orjson.loads(self.name)
         except orjson.JSONDecodeError:
             raise TypeError(f"Cannot convert Symbol '{self.name}' to {target_type}")
+
+    def footprint(self, visited: Optional[Set['Symbol']] = None) -> int:
+        """Calculates the memory footprint of the symbol and its descendants in bytes."""
+        if visited is None:
+            visited = set()
+
+        if self in visited:
+            return 0
+
+        visited.add(self)
+
+        size = getsizeof(self)
+        for child in self.children:
+            size += child.footprint(visited)
+
+        # Add the size of the index and metadata
+        if self._index is not SENTINEL:
+            size += getsizeof(self._index)
+        if self._metadata is not SENTINEL:
+            size += getsizeof(self._metadata)
+
+        return size
 
 
 def to_sym(obj: Any) -> 'Symbol':

@@ -139,6 +139,37 @@ class SymbolIndex:
                 return node
             self.root = build_balanced(weights)
 
+    def remove(self, symbol: 'Symbol') -> None:
+        def _remove(node: Optional[IndexNode], sym: Symbol) -> Optional[IndexNode]:
+            if node is None:
+                return None
+
+            if sym == node.symbol:
+                # Node to be deleted found
+                del self._function_map[sym.name]
+
+                if node.left is None and node.right is None:
+                    return None  # No children
+                elif node.left is None:
+                    return node.right  # Only right child
+                elif node.right is None:
+                    return node.left  # Only left child
+                else:
+                    # Node has two children, find in-order successor
+                    successor = node.right
+                    while successor.left:
+                        successor = successor.left
+                    node.symbol = successor.symbol
+                    node.weight = successor.weight
+                    node.right = _remove(node.right, successor.symbol)
+            elif (self._function_map[sym.name].eval_weight() if sym.name in self._function_map else -float('inf')) < node.eval_weight():
+                node.left = _remove(node.left, sym)
+            else:
+                node.right = _remove(node.right, sym)
+            return node
+
+        self.root = _remove(self.root, symbol)
+
     def __getattr__(self, name: str):
         node = self._function_map.get(name)
         if node is None:

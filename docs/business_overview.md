@@ -15,8 +15,10 @@ The Symbol framework excels at representing intricate relationships in a concise
 <details>
 <summary>Click to view graph example</summary>
 
+- reference TODO:
+
 ```mermaid
-graph TD
+graph LR
     A[Financial Instrument] -- has type --> B(Stock)
     A -- has type --> C(Bond)
     B -- traded on --> D{Exchange}
@@ -46,7 +48,7 @@ The adoption of a Symbol-based Domain-Specific Language (DSL) can yield signific
 ## Developer/User-Facing Interface Diagram
 
 ```mermaid
-graph TD
+graph LR
     A[User/Developer] --> B(Symbol API)
     B --> C{Core Symbol Logic}
     C --> D[Built-in Mixins]
@@ -69,12 +71,12 @@ The Symbol framework offers a compelling proposition for organizations seeking t
 
 ## Further Documentation
 
-*   **README.md**: The main project overview. Ideal for new users and those seeking a high-level understanding of the Symbol framework's purpose and capabilities.
-*   **docs/guides/1_quick_guide.md**: A rapid introduction to getting started with Symbol. Recommended for developers eager to quickly set up and run their first Symbol application.
-*   **docs/guides/2_introduction.md**: Provides a more detailed introduction to the core concepts of Symbol. Suitable for users who have completed the quick guide and wish to deepen their understanding.
-*   **docs/guides/3_advanced_tutorial.md**: Explores advanced features and use cases of the Symbol framework. Aimed at experienced developers looking to leverage Symbol's full potential for complex projects.
-*   **docs/guides/4_api_documentation.md**: Comprehensive reference for all Symbol APIs. Essential for developers requiring detailed information on functions, classes, and methods.
-*   **docs/user_manual/index.md**: The central hub for the user manual, providing a structured overview of Symbol's functionalities from a user's perspective. Recommended for all users.
-*   **docs/cookbook/0_table_of_contents.md**: Table of contents for practical recipes and examples. Useful for developers seeking solutions to specific implementation challenges.
-*   **docs/development/architecture.md**: Delves into the architectural design of the Symbol framework. Targeted at contributors and architects interested in the internal workings and extensibility of the framework.
-*   **docs/development/glossary.md**: Defines key terms and concepts used within the Symbol project. Beneficial for all users, especially when encountering unfamiliar terminology.
+* **README.md**: The main project overview. Ideal for new users and those seeking a high-level understanding of the Symbol framework's purpose and capabilities.
+* **docs/guides/1_quick_guide.md**: A rapid introduction to getting started with Symbol. Recommended for developers eager to quickly set up and run their first Symbol application.
+* **docs/guides/2_introduction.md**: Provides a more detailed introduction to the core concepts of Symbol. Suitable for users who have completed the quick guide and wish to deepen their understanding.
+* **docs/guides/3_advanced_tutorial.md**: Explores advanced features and use cases of the Symbol framework. Aimed at experienced developers looking to leverage Symbol's full potential for complex projects.
+* **docs/guides/4_api_documentation.md**: Comprehensive reference for all Symbol APIs. Essential for developers requiring detailed information on functions, classes, and methods.
+* **docs/user_manual/index.md**: The central hub for the user manual, providing a structured overview of Symbol's functionalities from a user's perspective. Recommended for all users.
+* **docs/cookbook/0_table_of_contents.md**: Table of contents for practical recipes and examples. Useful for developers seeking solutions to specific implementation challenges.
+* **docs/development/architecture.md**: Delves into the architectural design of the Symbol framework. Targeted at contributors and architects interested in the internal workings and extensibility of the framework.
+* **docs/development/glossary.md**: Defines key terms and concepts used within the Symbol project. Beneficial for all users, especially when encountering unfamiliar terminology.

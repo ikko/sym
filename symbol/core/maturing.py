@@ -68,7 +68,7 @@ def deep_del(obj: Any, attr: str) -> None:
 
 MergeStrategy = Literal['overwrite', 'patch', 'copy', 'deepcopy', 'pipe', 'update', 'extend', 'smooth']
 
-def _apply_merge_strategy(current_value: Any, new_value: Any, strategy: MergeStrategy) -> Any:
+def _apply_merge_strategy(current_value: Any, new_value: Any, strategy: MergeStrategy, non_mapping_conflict_strategy: Literal['overwrite', 'keep_current', 'raise_error', 'add_sibling'] = 'add_sibling') -> Any:
     """Applies a merge strategy to combine current and new values."""
     if strategy == 'overwrite':
         return new_value
@@ -127,10 +127,18 @@ def _apply_merge_strategy(current_value: Any, new_value: Any, strategy: MergeStr
                         m[k] = type(m[k])() # Create new dict of same type for recursion
                         q.append((m[k], c[k], v))
                     elif k in m and not isinstance(m[k], Mapping) and not isinstance(v, Mapping):
-                        # If both are non-mappings, add as sibling (e.g., k_new)
-                        # This is a simplified sibling creation. A more robust one might involve unique naming.
-                        log.info(f"Smooth merge: Key '{k}' exists and is not a mapping. Adding as sibling.")
-                        m[f'{k}_new'] = v # Simple sibling creation
+                        if non_mapping_conflict_strategy == 'overwrite':
+                            m[k] = v
+                        elif non_mapping_conflict_strategy == 'keep_current':
+                            pass  # Keep the current value
+                        elif non_mapping_conflict_strategy == 'raise_error':
+                            raise ValueError(f"Conflict for key '{k}': Cannot merge non-mapping types with 'raise_error' strategy.")
+                        elif non_mapping_conflict_strategy == 'add_sibling':
+                            log.info(f"Smooth merge: Key '{k}' exists and is not a mapping. Adding as sibling.")
+                            m[f'{k}_new'] = v  # Simple sibling creation
+                        else:
+                            log.warning(f"Unknown non-mapping conflict strategy '{non_mapping_conflict_strategy}'. Overwriting instead.")
+                            m[k] = v
                     else:
                         # Otherwise, just add/overwrite
                         m[k] = v

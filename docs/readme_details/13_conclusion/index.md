@@ -10,8 +10,8 @@ The `Symbol` framework stands as a testament to the power of well-designed abstr
 ```mermaid
 graph TD
     A[Symbol Framework] --> B[High Performance];
-    B --> C[O(1) Instantiation];
-    B --> D[O(1) Linking];
+    B --> C[O#40;1#41; Instantiation];
+    B --> D[O#40;1#41; Linking];
     A --> E[Thread-Safe];
     E --> F[Internal Locks];
     E --> G[Consistent State];
