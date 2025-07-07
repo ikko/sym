@@ -2,9 +2,10 @@ SHELL := /bin/bash
 
 .PHONY: install test lint build clean
 
-VENV_PATH := /home/miki/.virtualenvs/symbol
+VENV_PATH := $(HOME)/.virtualenvs/symbol
 
 install:
+	uv venv $(VENV_PATH)
 	uv pip install -e .[dev]
 
 test:
