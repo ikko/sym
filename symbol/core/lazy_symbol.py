@@ -2,6 +2,8 @@
 from typing import Any
 
 class LazySymbol:
+    __slots__ = ('_obj', '_symbol')
+
     def __init__(self, obj: Any):
         self._obj = obj
         self._symbol = None

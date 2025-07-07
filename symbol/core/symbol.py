@@ -69,14 +69,19 @@ from ..core.lazy import SENTINEL
 from .lazy_symbol import LazySymbol
 
 class Symbol(BaseSymbol):
+    __slots__ = (
+        '_index',
+        '_metadata',
+        '_context',
+        '_elevated_attributes',
+    )
+
     def __new__(cls, name: str, origin: Optional[Any] = None):
         obj = super().__new__(cls, name, origin)
-        if not hasattr(obj, 'index'): # Initialize only if not already initialized by BaseSymbol
-            obj._index = SENTINEL
-            obj._metadata = SENTINEL
-            obj._context = SENTINEL
-        if ENABLE_ORIGIN:
-            obj.origin = origin
+        obj._index = SENTINEL
+        obj._metadata = SENTINEL
+        obj._context = SENTINEL
+        obj._elevated_attributes = {}
         return obj
 
     @property
@@ -96,6 +101,28 @@ class Symbol(BaseSymbol):
         if self._context is SENTINEL:
             self._context = DefDict()
         return self._context
+
+    def __getattr__(self, name: str) -> Any:
+        if name in self._elevated_attributes:
+            return self._elevated_attributes[name]
+        # Default behavior for __getattr__ if attribute is not found
+        raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        # If the attribute is in __slots__ (either in Symbol or BaseSymbol), set it directly
+        if name in self.__slots__ or name in self.__class__.__bases__[0].__slots__:
+            super().__setattr__(name, value)
+        else:
+            # Otherwise, store it in _elevated_attributes
+            self._elevated_attributes[name] = value
+
+    def __delattr__(self, name: str) -> None:
+        if name in self.__slots__ or name in self.__class__.__bases__[0].__slots__:
+            super().__delattr__(name)
+        elif name in self._elevated_attributes:
+            del self._elevated_attributes[name]
+        else:
+            super().__delattr__(name) # Raise AttributeError if not found
 
     def append(self, child: Union['Symbol', 'LazySymbol']) -> 'Symbol':
         # Ensure child is a Symbol or LazySymbol instance
@@ -175,9 +202,9 @@ class Symbol(BaseSymbol):
 
         self.parents.clear()
         self.children.clear()
-        if self in self._numbered:
-            self._numbered.remove(self)
         with self._lock:
+            if self._position in self._numbered:
+                self._numbered.remove(self._position)
             if self.name in self._pool:
                 del self._pool[self.name]
         if MEMORY_AWARE_DELETE:
@@ -439,20 +466,25 @@ class Symbol(BaseSymbol):
         keys_to_remove = []
 
         for key, value in list(self.metadata.items()): # Iterate over a copy to allow modification
-            if hasattr(self, key):
+            if hasattr(self, key) and key not in self.__slots__ and key not in self.__class__.__bases__[0].__slots__:
+                # This means it's an existing attribute not in slots, likely from a mixin or dynamic assignment
                 current_value = getattr(self, key)
-                # Check if it's an internal method/attribute
                 if key.startswith('__') or inspect.ismethod(current_value) or inspect.isfunction(current_value):
                     warnings.warn(f"Overwriting internal attribute/method '{key}' on Symbol {self.name}")
-
                 merged_value = _apply_merge_strategy(current_value, value, merge_strategy)
                 setattr(self, key, merged_value)
-                elevated_keys.add(key)
-                keys_to_remove.append(key)
+            elif key in self.__slots__ or key in self.__class__.__bases__[0].__slots__:
+                # Attribute is part of __slots__, directly set it
+                current_value = getattr(self, key)
+                if key.startswith('__') or inspect.ismethod(current_value) or inspect.isfunction(current_value):
+                    warnings.warn(f"Overwriting internal attribute/method '{key}' on Symbol {self.name}")
+                merged_value = _apply_merge_strategy(current_value, value, merge_strategy)
+                setattr(self, key, merged_value)
             else:
-                setattr(self, key, value)
-                elevated_keys.add(key)
-                keys_to_remove.append(key)
+                # Dynamically add to _elevated_attributes
+                self._elevated_attributes[key] = value
+            elevated_keys.add(key)
+            keys_to_remove.append(key)
 
         for key in keys_to_remove:
             del self.metadata[key]
@@ -471,10 +503,12 @@ class Symbol(BaseSymbol):
         applied_mixins = get_applied_mixins()
         for attr_name in list(applied_mixins.keys()): # Iterate over a copy
             if attr_name not in protected_attributes:
-                # Check if the attribute actually exists on this instance before attempting to delete
-                if hasattr(self, attr_name):
-                    if getattr(self, attr_name) is SENTINEL:
-                        deep_del(self, attr_name)
+                # Check if the attribute is in _elevated_attributes and remove it
+                if attr_name in self._elevated_attributes:
+                    del self._elevated_attributes[attr_name]
+                # If it's a slot attribute and was set to SENTINEL, deep_del it
+                elif hasattr(self, attr_name) and getattr(self, attr_name) is SENTINEL:
+                    deep_del(self, attr_name)
 
         gc.collect() # Explicitly call garbage collector after deletions
 

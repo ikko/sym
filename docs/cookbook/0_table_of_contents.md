@@ -14,5 +14,4 @@
 ### Recipe 2: [Scheduling Jobs](2_scheduling_jobs.md) with `symbol.schedule`
 
 ### Recipe 3: [Coming Soon]
-### Recipe 4: [Coming Soon]
 
