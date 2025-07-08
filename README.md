@@ -10,7 +10,7 @@ In today's rapidly evolving technological landscape, the ability to precisely de
 *   **Ensure Seamless Integration:** Facilitate effortless interoperability between disparate systems and data sources. Symbol's emphasis on canonical representation and well-defined relationships ensures that information can flow freely and accurately across organizational boundaries, breaking down data silos and fostering a unified view of critical assets.
 *   **Generalize and Unify Knowledge:** Transcend the limitations of rigid, application-specific data models. By enabling the creation of a flexible, extensible knowledge graph, Symbol allows for the generalization of concepts and their relationships, fostering a holistic understanding of complex domains. This unified knowledge base becomes a strategic asset, enabling advanced analytics, intelligent automation, and the development of novel solutions that leverage interconnected insights.
 
-## Illustrative Example: Compact Graph Representation
+## Example: Compact Graph Representation
 
 The Symbol framework excels at representing intricate relationships in a concise and human-readable format. Consider the following example, demonstrating a compact graph of interconnected concepts:
 

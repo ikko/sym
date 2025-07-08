@@ -2,9 +2,9 @@
 
 ## **A Framework for Symbolic Data Manipulation**
 
-_inspired by ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)_
-
 > `symbol.py` — A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction
+
+_Inspired by ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)._
 
 ## What is Symbol?
 
