@@ -1,4 +1,4 @@
-from symbol.core.symbol import Symbol, s
+from symbol import Symbol, s
 
 # Define the symbols
 Financial_Instrument = s.Financial_Instrument
@@ -10,11 +10,8 @@ Country = s.Country
 
 # Set node shapes
 Financial_Instrument.node_shape = "subroutine"
-Stock.node_shape = "round"
-Bond.node_shape = "round"
 Exchange.node_shape = "rhombus"
 Corporation.node_shape = "subroutine"
-Country.node_shape = "round"
 
 # Establish relationships
 Financial_Instrument.relate(Stock, how="has type")
