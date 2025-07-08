@@ -163,6 +163,90 @@ graph LR
     style G fill:#540b0e,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 
+<details>
+<summary>this is the result of Python code</summary>
+
+```python
+from symbol import Symbol, s
+
+# Define the architectural components as Symbols
+User_Developer = s.User_Developer
+Symbol_API = s.Symbol_API
+Core_Symbol_Logic = s.Core_Symbol_Logic
+Built_in_Mixins = s.Built_in_Mixins
+Custom_Mixins = s.Custom_Mixins
+Symbol_Objects = s.Symbol_Objects
+Data_Storage_Persistence = s.Data_Storage_Persistence
+
+# Establish relationships
+User_Developer.relate(Symbol_API, how="interacts with")
+Symbol_API.relate(Core_Symbol_Logic, how="uses")
+Core_Symbol_Logic.relate(Built_in_Mixins, how="integrates")
+Core_Symbol_Logic.relate(Custom_Mixins, how="integrates")
+Built_in_Mixins.relate(Symbol_Objects, how="extends")
+Custom_Mixins.relate(Symbol_Objects, how="extends")
+Symbol_Objects.relate(Data_Storage_Persistence, how="persists to")
+
+# Set node shapes
+User_Developer.node_shape = "square"
+Core_Symbol_Logic.node_shape = "rhombus"
+Built_in_Mixins.node_shape = "square"
+Custom_Mixins.node_shape = "square"
+Symbol_Objects.node_shape = "square"
+
+# Generate the Mermaid diagram source
+mermaid_source = User_Developer.to_mmd()
+
+# Print the Mermaid diagram source
+print(mermaid_source)
+```
+
+</details>
+
+
+<details>
+<summary>that leads to diagram representation</summary>
+
+```css
+graph LR
+    A[User/Developer] --> B(Symbol API)
+    B --> C{Core Symbol Logic}
+    C --> D[Built-in Mixins]
+    C --> E[Custom Mixins]
+    D -- extends --> F[Symbol Objects]
+    E -- extends --> F
+    F --> G[Data Storage/Persistence]
+```
+
+</details>
+
+
+<details>
+<summary>with colors added</summary>
+
+```css
+    %% User/entry point
+    style A fill:#9d0208,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% API layer
+    style B fill:#dc2f02,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% Core logic
+    style C fill:#f48c06,stroke:#333,stroke-width:2px,color:#000000;
+    
+    %% Mixins - similar functionality
+    style D fill:#6a994e,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style E fill:#386641,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% Objects
+    style F fill:#073b4c,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% Storage
+    style G fill:#540b0e,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
+
+</details>
+
 ## Conclusion
 
 The Symbol framework offers a compelling proposition for organizations seeking to enhance their software development capabilities through semantic precision, seamless integration, and unified knowledge representation. By embracing a Symbol-based approach, a wide variety of organizations can unlock new levels of agility, reduce operational costs, and foster a collaborative environment conducive to innovation.
