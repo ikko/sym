@@ -152,27 +152,48 @@ finally:
 ### Scheduler Workflow
 
 ```mermaid
+
 graph TD
-    A[Application Start] --> B{Scheduler(schedule_file=...)}
-    B --> C{add_job(func, args, schedule)}
+    A[Application Start] --> B{Scheduler#40;schedule_file=...#41;}
+    B --> C{add_job#40;func, args, schedule#41;}
     C --> D[ScheduledJob Created]
     D --> E[Job Added to Scheduler's Internal Map]
-    E --> F{scheduler.start()}
+    E --> F{scheduler.start#40;#41;}
     F --> G[Scheduler Loop Runs]
     G --> H{Check Job Schedules}
     H -- Job Due --> I[Execute Job Function]
     I --> J[Update Next Run Time]
     H -- No Job Due --> G
-    F --> K{scheduler.stop()}
+    F --> K{scheduler.stop#40;#41;}
     K --> L[Application End]
-    C --> M{remove_job(job_id)}
+    C --> M{remove_job#40;job_id#41;}
     M --> E
-    B --> N{save_schedule()}
+    B --> N{save_schedule#40;#41;}
     N --> O[Write Jobs to File]
-    B --> P{load_schedule()}
+    B --> P{load_schedule#40;#41;}
     P --> Q[Read Jobs from File]
     Q --> E
+
+    %% Style definitions - Warm, dark color scheme with fine gradients
+    classDef start fill:#8B4513,stroke:#663300,color:white        %% Dark sienna
+    classDef end_ fill:#A52A2A,stroke:#8B0000,color:white         %% Brown/dark red
+    classDef method fill:#B8860B,stroke:#996600,color:white       %% Dark goldenrod
+    classDef job fill:#9932CC,stroke:#7B2C9D,color:white          %% Dark orchid
+    classDef loop fill:#CD853F,stroke:#B8732F,color:white         %% Peru warm brown#41
+    classDef check fill:#DAA520,stroke:#B8860B,color:black        %% Goldenrod
+    classDef file fill:#8B4726,stroke:#6B3015,color:white         %% Saddle brown
+
+    %% Apply styles
+    class A start
+    class L end_
+    class B,C,F,K,M,N,P method
+    class D,E job
+    class G,I,J loop
+    class H check
+    class O,Q file
+
 ```
+
 
 ### `ScheduledJob` Structure
 
@@ -200,4 +221,8 @@ classDiagram
         +load_schedule()
     }
     Scheduler "1" -- "*" ScheduledJob : manages
+
+    style ScheduledJob fill:#6A1B9A,stroke:#4A148C,color:white
+    style Scheduler fill:#0D47A1,stroke:#0A3880,color:white
 ```
+
