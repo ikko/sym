@@ -4,7 +4,6 @@ version = "0.0.1"
 description = "A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction"
 dependencies = [
     "orjson>=3.10.0",
-    "graphviz>=0.20.0",
     "anyio>=4.4.0",
     "ruff>=0.4.0",
     "libcst>=1.2.0",
@@ -16,7 +15,6 @@ dependencies = [
     "pytz",
     "python-dateutil",
     "toml",
-    
 ]
 requires-python = ">=3.9"
 license = {text = "MIT"}
@@ -54,4 +52,10 @@ dev = [
     "pre-commit",
     "ruff",
     "sniffio",
+]
+visual = [
+    "graphviz>=0.20.0",
+]
+full = [
+    "symbol[visual]",
 ]

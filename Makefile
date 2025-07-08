@@ -11,7 +11,7 @@ install:
 	python -m pip install -e .[dev]
 
 test:
-	PYTHONPATH=. $(VENV_PATH)/bin/python -m pytest tests
+	PYTHONPATH=. $(VENV_PATH)/bin/python -m pytest
 
 lint:
 	ruff check .
