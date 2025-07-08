@@ -175,13 +175,13 @@ graph TD
     Q --> E
 
     %% Style definitions - Warm, dark color scheme with fine gradients
-    classDef start fill:#8B4513,stroke:#663300,color:white        %% Dark sienna
-    classDef end_ fill:#A52A2A,stroke:#8B0000,color:white         %% Brown/dark red
-    classDef method fill:#B8860B,stroke:#996600,color:white       %% Dark goldenrod
-    classDef job fill:#9932CC,stroke:#7B2C9D,color:white          %% Dark orchid
-    classDef loop fill:#CD853F,stroke:#B8732F,color:white         %% Peru warm brown#41
-    classDef check fill:#DAA520,stroke:#B8860B,color:black        %% Goldenrod
-    classDef file fill:#8B4726,stroke:#6B3015,color:white         %% Saddle brown
+    classDef start fill:#8B4513,stroke:#663300,color:white
+    classDef end_ fill:#A52A2A,stroke:#8B0000,color:white 
+    classDef method fill:#B8860B,stroke:#996600,color:black
+    classDef job fill:#9932CC,stroke:#7B2C9D,color:white
+    classDef loop fill:#CD853F,stroke:#B8732F,color:black
+    classDef check fill:#DAA520,stroke:#B8860B,color:black
+    classDef file fill:#8B4726,stroke:#6B3015,color:white
 
     %% Apply styles
     class A start
