@@ -28,13 +28,25 @@ Stock(Stock)
     Financial_Instrument -- has type --> Bond
     Bond -- issued by --> Corporation
     Corporation -- located in --> Country
+    
+    %% Financial instruments - warm reds
+    style Financial_Instrument fill:#e63946,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Stock fill:#e76f51,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Bond fill:#f4a261,stroke:#333,stroke-width:2px,color:#000000;
+    
+    %% Market entities - blues
+    style Exchange fill:#1d3557,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Corporation fill:#457b9d,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% Location - green
+    style Country fill:#2a9d8f,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 
 <details>
-<summary>Representation</summary>
+<summary>this is the result of Python code</summary>
 
 ```python
-from symbol.core.symbol import Symbol, s
+from symbol import Symbol, s
 
 # Define the symbols
 Financial_Instrument = s.Financial_Instrument
@@ -44,14 +56,6 @@ Exchange = s.Exchange
 Corporation = s.Corporation
 Country = s.Country
 
-# Set node shapes
-Financial_Instrument.node_shape = "subroutine"
-Stock.node_shape = "round"
-Bond.node_shape = "round"
-Exchange.node_shape = "rhombus"
-Corporation.node_shape = "subroutine"
-Country.node_shape = "round"
-
 # Establish relationships
 Financial_Instrument.relate(Stock, how="has type")
 Financial_Instrument.relate(Bond, how="has type")
@@ -59,6 +63,11 @@ Stock.relate(Exchange, how="traded on")
 Bond.relate(Corporation, how="issued by")
 Exchange.relate(Country, how="located in")
 Corporation.relate(Country, how="located in")
+
+# Set node shapes, `round` is default
+Financial_Instrument.node_shape = "subroutine"
+Exchange.node_shape = "rhombus"
+Corporation.node_shape = "subroutine"
 
 # Generate the Mermaid diagram source
 mermaid_source = Financial_Instrument.to_mmd()
@@ -68,6 +77,49 @@ print(mermaid_source)
 ```
 
 </details>
+
+
+<details>
+<summary>that leads to diagram representation</summary>
+
+```css
+graph LR
+Bond(Bond)
+Corporation[Corporation]
+Country(Country)
+Exchange{Exchange}
+Financial_Instrument[Financial_Instrument]
+Stock(Stock)
+    Financial_Instrument -- has type --> Stock
+    Stock -- traded on --> Exchange
+    Exchange -- located in --> Country
+    Financial_Instrument -- has type --> Bond
+    Bond -- issued by --> Corporation
+    Corporation -- located in --> Country 
+```
+
+</details>
+
+
+<details>
+<summary>with colors added</summary>
+
+```css
+    %% Financial instruments - warm reds
+    style Financial_Instrument fill:#e63946,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Stock fill:#e76f51,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Bond fill:#f4a261,stroke:#333,stroke-width:2px,color:#000000;
+    
+    %% Market entities - blues
+    style Exchange fill:#1d3557,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Corporation fill:#457b9d,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    
+    %% Location - green
+    style Country fill:#2a9d8f,stroke:#333,stroke-width:2px,color:#FFFFFF;
+```
+
+</details>
+
 
 ## Business Impact of a Symbol Domain-Specific Language (DSL)
 
