@@ -4,13 +4,13 @@ The `Symbol` framework introduces a sophisticated mixinability mechanism, enabli
 
 ## Dynamic Extension and Validation
 
-At its core, mixinability in `Symbol` is managed through the `register_mixin` function, which facilitates the attachment of new functionalities &(methods, properties, or even data attributes&) to the `Symbol` class. A critical aspect of this process is the rigorous validation performed by `symbol.core.mixin_validator`. This module employs static analysis, leveraging `LibCST`, to ensure that proposed mixins adhere to a predefined interface and do not introduce security vulnerabilities or architectural inconsistencies.
+At its core, mixinability in `Symbol` is managed through the `register_mixin` function, which facilitates the attachment of new functionalities (methods, properties, or even data attributes) to the `Symbol` class. A critical aspect of this process is the rigorous validation performed by `symbol.core.mixin_validator`. This module employs static analysis, leveraging `LibCST`, to ensure that proposed mixins adhere to a predefined interface and do not introduce security vulnerabilities or architectural inconsistencies.
 
 ### Validation Process
 The validation process encompasses several key checks:
 - **Signature Conformance**: Ensures that mixin functions correctly accept `self` as their first argument, maintaining consistency with instance methods.
 - **Asynchronous Consistency**: Verifies that asynchronous mixins are properly declared with `async` and that synchronous mixins are not mistakenly marked as asynchronous.
-- **Forbidden Operations**: Scans for potentially unsafe operations or imports &(e.g., direct file system access via `os` or `subprocess` modules&), mitigating risks in dynamic code injection.
+- **Forbidden Operations**: Scans for potentially unsafe operations or imports (e.g., direct file system access via `os` or `subprocess` modules), mitigating risks in dynamic code injection.
 
 This proactive validation ensures the robustness and integrity of the `Symbol` ecosystem, preventing the introduction of malformed or malicious code.
 
@@ -39,9 +39,9 @@ graph TD
 ```
 ## Freezing Mechanism
 
-To ensure stability and prevent unintended modifications in production environments, the `Symbol` framework provides a `freeze&(&)` mechanism. Once invoked, `freeze&(&)` prevents any further registration or modification of mixins, effectively locking down the `Symbol` class's behavior. This is particularly valuable in long-running applications or systems where dynamic changes could lead to unpredictable states.
+To ensure stability and prevent unintended modifications in production environments, the `Symbol` framework provides a `freeze()` mechanism. Once invoked, `freeze()` prevents any further registration or modification of mixins, effectively locking down the `Symbol` class's behavior. This is particularly valuable in long-running applications or systems where dynamic changes could lead to unpredictable states.
 
-## Illustrative Examples
+## Examples
 
 **High-Tech: Dynamic Feature Flagging in SaaS Platforms**
 ```python
@@ -90,7 +90,7 @@ graph TD
 ```
 ### Low-Tech Industry: Inventory Management System
 
-In an inventory management system, different types of products might have unique behaviors &(e.g., perishable items needing expiration date tracking, electronics needing warranty information&). Mixinability allows these behaviors to be attached dynamically.
+In an inventory management system, different types of products might have unique behaviors (e.g., perishable items needing expiration date tracking, electronics needing warranty information). Mixinability allows these behaviors to be attached dynamically.
 
 ```python
 from symbol import Symbol
@@ -144,3 +144,5 @@ graph TD
 Mixinability in the `Symbol` framework provides a powerful and secure mechanism for dynamic extensibility. By combining runtime flexibility with static validation and a freezing capability, it enables developers to build highly modular, adaptable, and robust systems across various domains, from complex high-tech applications to traditional enterprise solutions.
 
 For a visual representation of the mixin application flow, refer to the [Mixinability Flow Diagram](mixinability_flow.mmd).
+
+---

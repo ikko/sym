@@ -1,14 +1,14 @@
 
-* 
-### Cookbook 🧑‍🍳
-* [Table Of Contents](docs/cookbook/0_table_of_contents.md) (50 lines) 📜
-  The central table of contents for the Symbol Cookbook, offering practical recipes and examples for common implementation challenges. It serves as a structured entry point for developers seeking hands-on solutions.
 
 
-* [Eessence of_mixins.md](docs/cookbook/1_mixin_recipe/1_essence_of_mixins.md) (100 lines) 🧪
-  Explores the fundamental concept of mixins in the `symbol` framework, highlighting their role in extending `Symbol` object functionality without traditional inheritance. It emphasizes modularity, reusability, and dynamic extension.
+🧑‍🍳 [Cookbook's Table Of Contents](docs/cookbook/0_table_of_contents.md)
+: The central table of contents for the Symbol Cookbook, offering practical recipes and examples for common implementation challenges. It serves as a structured entry point for developers seeking hands-on solutions.
 
-  This document provides a foundational understanding of why mixins are adopted in `symbol` and how they contribute to a flexible, scalable, and maintainable symbolic framework.
+
+🧪 [Essence of Mixins](docs/cookbook/1_mixin_recipe/1_essence_of_mixins.md)
+: Explores the fundamental concept of mixins in the `symbol` framework, highlighting their role in extending `Symbol` object functionality without traditional inheritance. It emphasizes modularity, reusability, and dynamic extension.
+
+: This note provides a foundational understanding of why mixins are adopted in `symbol` and how they contribute to a flexible, scalable, and maintainable symbolic framework.
 
 * [1_mixin_recipe/2_anatomy_of_a_mixin.md](docs/cookbook/1_mixin_recipe/2_anatomy_of_a_mixin.md) (150 lines) 🧬
   Details the internal structure and expected protocols of a mixin within the `symbol` framework. It covers core components like initialization, methods, and properties, and emphasizes the use of `typing.Protocol` for type safety.
