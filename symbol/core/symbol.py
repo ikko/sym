@@ -238,19 +238,76 @@ class Symbol(BaseSymbol):
         return GraphTraversal(self, mode='tree').traverse()
 
     def to_mmd(self) -> str:
-        lines = ["graph TD"]
-        visited = set()
+        lines = ["graph LR"]
+        visited_nodes = set()
+        visited_edges = set()
 
-        def walk(sym):
-            if sym in visited:
+        def get_node_id(sym: 'Symbol') -> str:
+            return sym.name.replace(" ", "_")
+
+        def get_node_declaration(sym: 'Symbol') -> str:
+            node_id = get_node_id(sym)
+            if sym.node_shape == "round":
+                return f"{node_id}({sym.name})"
+            elif sym.node_shape == "stadium":
+                return f"{node_id}([{sym.name}])"
+            elif sym.node_shape == "subroutine":
+                return f"{node_id}[{sym.name}]"
+            elif sym.node_shape == "cylindrical":
+                return f"{node_id}[({sym.name})]"
+            elif sym.node_shape == "circle":
+                return f"{node_id}(({sym.name}))"
+            elif sym.node_shape == "asymmetric":
+                return f"{node_id}> {sym.name}]"
+            elif sym.node_shape == "rhombus":
+                return f"{node_id}{{{sym.name}}}"
+            elif sym.node_shape == "hexagon":
+                return f"{node_id}{{{{ {sym.name} }}}}"
+            elif sym.node_shape == "parallelogram":
+                return f"{node_id}[/{sym.name}/]"
+            elif sym.node_shape == "parallelogram_alt":
+                return f"{node_id}[\\{sym.name}\\]"
+            elif sym.node_shape == "trapezoid":
+                return f"{node_id}[/{sym.name}\\]"
+            elif sym.node_shape == "trapezoid_alt":
+                return f"{node_id}[\\{sym.name}/]"
+            elif sym.node_shape == "double_circle":
+                return f"{node_id}(({sym.name}))"
+            else:
+                return f"{node_id}[{sym.name}]"
+
+        def walk(sym: 'Symbol'):
+            if sym in visited_nodes:
                 return
-            visited.add(sym)
-            for c in sym.children:
-                lines.append(f"    {sym.name} --> {c.name}")
-                walk(c)
+            visited_nodes.add(sym)
+
+            for child in sym.children:
+                edge = (sym, child, "-->", "")
+                if edge not in visited_edges:
+                    lines.append(f"    {get_node_id(sym)} --> {get_node_id(child)}")
+                    visited_edges.add(edge)
+                walk(child)
+
+            for i, related_sym in enumerate(sym.related_to):
+                how = sym.related_how[i]
+                if not how.startswith("_inverse_"):
+                    edge = (sym, related_sym, "--", how)
+                    if edge not in visited_edges:
+                        lines.append(f"    {get_node_id(sym)} -- {how} --> {get_node_id(related_sym)}")
+                        visited_edges.add(edge)
+                    walk(related_sym)
 
         walk(self)
-        return "\n".join(lines)
+
+        node_declarations = set()
+        for sym in visited_nodes:
+            node_declarations.add(get_node_declaration(sym))
+
+        final_lines = ["graph LR"]
+        final_lines.extend(sorted(list(node_declarations)))
+        final_lines.extend(lines[1:])
+
+        return "\n".join(final_lines)
 
     def to_ascii(self) -> str:
         return GraphTraversal(self, mode='tree').to_ascii()

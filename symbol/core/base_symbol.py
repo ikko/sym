@@ -24,6 +24,7 @@ class Symbol:
         '_prev',
         '_length_cache',
         '__weakref__',
+        'node_shape',
     )
 
     _pool: WeakValueDictionary[str, 'Symbol'] = WeakValueDictionary()
@@ -50,6 +51,7 @@ class Symbol:
             obj._next = None
             obj._prev = None
             obj._length_cache = None
+            obj.node_shape = None # Initialize node_shape
             cls._write_cursor += 1.0
             cls._pool[name] = obj
             cls._numbered.root = cls._numbered.insert(cls._numbered.root, obj, obj._position) # Insert into AVLTree
