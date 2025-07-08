@@ -1,4 +1,4 @@
-# `«symbol»` Impact
+# `«symbol»` Affect
 
 ## Catalyzing Value and Unifying Knowledge
 
