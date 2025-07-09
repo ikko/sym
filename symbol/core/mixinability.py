@@ -43,7 +43,7 @@ import re
 
 def register_mixin(value: Any, name: str = None, target_class: type = None, safe: bool = False, expand: bool = True) -> bool:
     if target_class is None:
-        from ..core.base_symbol import Symbol
+        from ..core.base_symb import Symbol
         target_class = Symbol
     """Registers a mixin to be applied to the target class, with validation and error handling.
     Returns True if the mixin was successfully registered, False otherwise.
@@ -157,7 +157,7 @@ def get_applied_mixins() -> Dict[str, Any]:
     return _applied_mixins.copy()
 
 def apply_mixin_to_instance(instance: 'Symbol', mixin: Any):
-    """Applies a mixin to a single symbol instance for isolated operations like stat calculations."""
+    """Applies a mixin to a single symb instance for isolated operations like stat calculations."""
     if inspect.isclass(mixin):
         # Instantiate the mixin if it's a class
         mixin_instance = mixin()

@@ -5,8 +5,8 @@ import logging
 import os
 import anyio
 
-from symbol.core.schedule import Scheduler, ScheduledJob
-from symbol.core.base_symbol import Symbol
+from symb.core.schedule import Scheduler, ScheduledJob
+from symb.core.base_symb import Symbol
 
 # --- Helper functions for testing jobs ---
 
@@ -73,7 +73,7 @@ def test_scheduled_job_init_iso_string():
     job = ScheduledJob(sync_test_job, (), {}, iso_str)
     assert job.next_run == datetime.datetime.fromisoformat(iso_str)
 
-def test_scheduled_job_init_symbol():
+def test_scheduled_job_init_symb():
     sym = Symbol("2025-01-01T00:00:00")
     job = ScheduledJob(sync_test_job, (), {}, sym)
     assert job.next_run == datetime.datetime(2025, 1, 1, 0, 0, 0)

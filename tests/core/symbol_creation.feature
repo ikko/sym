@@ -2,19 +2,19 @@ Feature: Symbol Creation and Core Properties
 
   As a developer using the Symbol library
   I want to reliably create and manage Symbol instances
-  So that I can build consistent symbolic representations
+  So that I can build consistent symbic representations
 
   Scenario: Symbol creation and interning
-    Given a symbol name "test_symbol"
-    When a Symbol is created with "test_symbol"
+    Given a symb name "test_symb"
+    When a Symbol is created with "test_symb"
     Then an instance of Symbol is returned
-    And the symbol's name is "test_symbol"
-    When another Symbol is created with the same name "test_symbol"
+    And the symb's name is "test_symb"
+    When another Symbol is created with the same name "test_symb"
     Then the same Symbol instance is returned (interning)
     When a Symbol is created with a case-sensitive different name "Test_Symbol"
     Then a new Symbol instance is returned
-    And the new symbol's name is "Test_Symbol"
-    When Symbols are created with names like "123", "symbol-with_dashes", and "another symbol"
+    And the new symb's name is "Test_Symbol"
+    When Symbols are created with names like "123", "symb-with_dashes", and "another symb"
     Then they should retain their exact names
 
   Scenario: Symbol equality and hashing
@@ -64,10 +64,10 @@ Feature: Symbol Creation and Core Properties
 
   Scenario: SymbolNamespace functionality
     Given a SymbolNamespace instance
-    When a Symbol is accessed via attribute (e.g., `s.my_attribute_symbol`)
+    When a Symbol is accessed via attribute (e.g., `s.my_attribute_symb`)
     Then an instance of Symbol is returned
     And its name matches the attribute name
-    When a Symbol is accessed via item (e.g., `s["my_item_symbol"]`)
+    When a Symbol is accessed via item (e.g., `s["my_item_symb"]`)
     Then an instance of Symbol is returned
     And its name matches the item name
     When Symbols are accessed via both attribute and item with the same name

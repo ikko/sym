@@ -1,6 +1,6 @@
 import pytest
-from symbol.builtins.red_black_tree import RedBlackTree, RedBlackNode, RED, BLACK
-from symbol.core.base_symbol import Symbol
+from symb.builtins.red_black_tree import RedBlackTree, RedBlackNode, RED, BLACK
+from symb.core.base_symb import Symbol
 
 @pytest.fixture
 def empty_rb_tree():
@@ -66,9 +66,9 @@ def test_rb_tree_to_ascii(empty_rb_tree):
 def test_rb_tree_search(populated_rb_tree):
     tree, s1, s2, s3, s4, s5, s6, s7 = populated_rb_tree
 
-    assert tree.search(40.0).symbol is s4
-    assert tree.search(10.0).symbol is s1
-    assert tree.search(70.0).symbol is s7
+    assert tree.search(40.0).symb is s4
+    assert tree.search(10.0).symb is s1
+    assert tree.search(70.0).symb is s7
     assert tree.search(99.0) is None
 
 def test_rb_tree_remove_leaf_node(populated_rb_tree):
@@ -98,7 +98,7 @@ def test_rb_tree_remove_node_with_two_children(populated_rb_tree):
 def test_rb_tree_remove_root_node(populated_rb_tree):
     tree, s1, s2, s3, s4, s5, s6, s7 = populated_rb_tree
     tree.remove(40.0) # Remove s4 (root)
-    assert tree.root.symbol is not s4
+    assert tree.root.symb is not s4
     assert tree.search(40.0) is None
 
 def test_rb_tree_remove_non_existent_node(populated_rb_tree):

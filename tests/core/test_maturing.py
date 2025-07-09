@@ -1,7 +1,7 @@
 import pytest
 from collections import defaultdict
-from symbol.core.maturing import DefDict, deep_del, _apply_merge_strategy
-from symbol import Symbol
+from symb.core.maturing import DefDict, deep_del, _apply_merge_strategy
+from symb import Symbol
 import copy
 
 # Fixture for DefDict
@@ -75,7 +75,7 @@ def test_merge_strategy_patch(merge_data):
     assert Symbol("child2") in s1.children
     assert Symbol("child3") in s1.children
 
-def test_merge_strategy_patch_non_symbol(merge_data, caplog):
+def test_merge_strategy_patch_non_symb(merge_data, caplog):
     result = _apply_merge_strategy(merge_data["simple_value"], merge_data["new_simple_value"], 'patch')
     assert result == merge_data["new_simple_value"]
     assert "Patch strategy only applies to Symbol objects. Overwriting instead." in caplog.text

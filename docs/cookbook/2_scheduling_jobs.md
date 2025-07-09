@@ -1,10 +1,10 @@
-# Recipe 2: Scheduling Jobs with `symbol.schedule`
+# Recipe 2: Scheduling Jobs with `symb.schedule`
 
-This recipe demonstrates how to use the `symbol.schedule` module to schedule and manage jobs within your `symbol` applications. The `symbol.schedule` module provides a robust and flexible way to execute functions at specified times or intervals.
+This recipe demonstrates how to use the `symb.schedule` module to schedule and manage jobs within your `symb` applications. The `symb.schedule` module provides a robust and flexible way to execute functions at specified times or intervals.
 
-## 1. Understanding `symbol.schedule`
+## 1. Understanding `symb.schedule`
 
-The `symbol.schedule` module is built around the `Scheduler` class, which manages a collection of `ScheduledJob` instances. Each `ScheduledJob` encapsulates a function to be executed, its arguments, and a schedule (e.g., cron string or ISO 8601 timestamp).
+The `symb.schedule` module is built around the `Scheduler` class, which manages a collection of `ScheduledJob` instances. Each `ScheduledJob` encapsulates a function to be executed, its arguments, and a schedule (e.g., cron string or ISO 8601 timestamp).
 
 ### Key Components:
 
@@ -16,7 +16,7 @@ The `symbol.schedule` module is built around the `Scheduler` class, which manage
 Let's start with a simple example: scheduling a function to run every minute.
 
 ```python
-import symbol
+import symb
 import datetime
 import time
 
@@ -26,7 +26,7 @@ def my_scheduled_task(message: str):
 
 # 2. Create a Scheduler instance
 #    You can optionally provide a schedule_file to persist jobs
-scheduler = symbol.schedule.Scheduler()
+scheduler = symb.schedule.Scheduler()
 
 # 3. Add a job
 #    The schedule can be a cron string (e.g., "* * * * *" for every minute)
@@ -64,14 +64,14 @@ finally:
 You can inspect and manage the jobs currently in the scheduler.
 
 ```python
-import symbol
+import symb
 import datetime
 import time
 
 def another_task():
     print(f"[{datetime.datetime.now()}] Another task executed.")
 
-scheduler = symbol.schedule.Scheduler()
+scheduler = symb.schedule.Scheduler()
 
 job1_id = scheduler.add_job(another_task, schedule="*/5 * * * *") # Every 5 minutes
 job2_id = scheduler.add_job(lambda: print("One-time job!"), schedule=datetime.datetime.now() + datetime.timedelta(seconds=10))
@@ -105,7 +105,7 @@ finally:
 For long-running applications, you'll want to persist your scheduled jobs so they are not lost when the application restarts. The `Scheduler` can load and save schedules to a file.
 
 ```python
-import symbol
+import symb
 import datetime
 import os
 import time
@@ -121,7 +121,7 @@ if os.path.exists(SCHEDULE_FILE):
 
 # First run: Add a job and save the schedule
 print("--- First Run: Adding and Saving Job ---")
-scheduler1 = symbol.schedule.Scheduler(schedule_file=SCHEDULE_FILE)
+scheduler1 = symb.schedule.Scheduler(schedule_file=SCHEDULE_FILE)
 job_id_persistent = scheduler1.add_job(persistent_task, schedule="* * * * *")
 scheduler1.save_schedule()
 print(f"Job '{job_id_persistent}' added and schedule saved to '{SCHEDULE_FILE}'.")
@@ -129,7 +129,7 @@ scheduler1.stop() # Stop the first scheduler instance
 
 # Second run: Load the schedule and run
 print("\n--- Second Run: Loading and Running Job ---")
-scheduler2 = symbol.schedule.Scheduler(schedule_file=SCHEDULE_FILE)
+scheduler2 = symb.schedule.Scheduler(schedule_file=SCHEDULE_FILE)
 print("Loaded jobs:")
 for job_id, job in scheduler2.job_map.items():
     print(f"ID: {job_id}, Next Run: {job.next_run}, Schedule: {job.schedule}, Function: {job.func.__name__}")

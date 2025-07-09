@@ -1,10 +1,10 @@
-# `«symbol»` Tutorial
+# `«symb»` Tutorial
 
 ## Symbolic Modeling and Applications
 
 ### Abstract
 
-This advanced tutorial delves into the sophisticated capabilities of the `Symbol` library, showcasing its versatility in addressing complex modeling challenges across a wide spectrum of industries. We will explore advanced features such as custom mixin development, intricate graph manipulations, and strategic application of `Symbol` for domain-specific language (DSL) construction. Through diverse, real-world inspired examples, this guide aims to empower experienced developers and researchers to unlock the full potential of `Symbol` for highly specialized and performant symbolic systems.
+This advanced tutorial delves into the sophisticated capabilities of the `Symbol` library, showcasing its versatility in addressing complex modeling challenges across a wide spectrum of industries. We will explore advanced features such as custom mixin development, intricate graph manipulations, and strategic application of `Symbol` for domain-specific language (DSL) construction. Through diverse, real-world inspired examples, this guide aims to empower experienced developers and researchers to unlock the full potential of `Symbol` for highly specialized and performant symbic systems.
 
 ### 1. Deep Dive into Mixinability: Custom Behaviors and Protocols
 
@@ -16,9 +16,9 @@ Imagine modeling aircraft components and their maintenance schedules. We can cre
 
 ```python
 import datetime
-from symbol import Symbol
-from symbol.core.mixinability import register_mixin
-from symbol.core.protocols import SymbolProtocol
+from symb import Symbol
+from symb.core.mixinability import register_mixin
+from symb.core.protocols import SymbolProtocol
 
 class AircraftComponentMixin(SymbolProtocol):
     def __init__(self, *args, **kwargs):
@@ -68,7 +68,7 @@ Engine next inspection due: 2025-01-15 00:00:00
 Representing software modules and their dependencies is crucial for understanding system architecture. `Symbol` can model these relationships, and its traversal methods can identify critical paths or circular dependencies.
 
 ```python
-from symbol import s
+from symb import s
 
 # Example: Microservices Architecture
 auth_service = s.AuthService
@@ -114,7 +114,7 @@ graph TD
 Map a patient's journey through a healthcare system, from admission to discharge, including various medical procedures and consultations. Each step can be a `Symbol`, and their sequence forms a graph.
 
 ```python
-from symbol import s
+from symb import s
 
 # Example: Patient Journey
 admission = s.Admission
@@ -171,7 +171,7 @@ graph TD
 Define an assembly line using a `Symbol`-based DSL, where each `Symbol` represents a station, a robot, or a process step. This allows for a highly readable and verifiable configuration.
 
 ```python
-from symbol import s
+from symb import s
 
 # Example: Assembly Line DSL
 line_1 = s.AssemblyLine1
@@ -217,7 +217,7 @@ graph TD
 Model real estate properties, their features, and relationships (e.g., `has_bedroom`, `located_in`). `Symbol` can represent both entities and their attributes, creating a rich semantic network.
 
 ```python
-from symbol import s
+from symb import s
 
 # Example: Property Listing
 property_123 = s.Property_123MainSt
@@ -259,4 +259,4 @@ graph TD
 
 ### Conclusion
 
-This advanced tutorial has demonstrated `Symbol`'s capacity for sophisticated symbolic modeling. By mastering custom mixins, complex graph structures, and strategic DSL design, you can leverage `Symbol` to build highly expressive, maintainable, and performant systems across a multitude of domains. The flexibility and extensibility of `Symbol` make it an invaluable tool for tackling challenging problems in knowledge representation, system design, and data analysis. For detailed technical specifications, refer to the API Documentation.
+This advanced tutorial has demonstrated `Symbol`'s capacity for sophisticated symbic modeling. By mastering custom mixins, complex graph structures, and strategic DSL design, you can leverage `Symbol` to build highly expressive, maintainable, and performant systems across a multitude of domains. The flexibility and extensibility of `Symbol` make it an invaluable tool for tackling challenging problems in knowledge representation, system design, and data analysis. For detailed technical specifications, refer to the API Documentation.

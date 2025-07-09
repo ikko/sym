@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 import toml
-from symbol.config import Config
+from symb.config import Config
 
 def test_config_default_path(tmp_path):
     # Temporarily set XDG_CONFIG_HOME for testing default path on POSIX
@@ -9,7 +9,7 @@ def test_config_default_path(tmp_path):
     os.environ['XDG_CONFIG_HOME'] = str(tmp_path)
 
     config = Config(file_path=None) # Test with default path
-    expected_path = tmp_path / 'symbol' / 'config.toml'
+    expected_path = tmp_path / 'symb' / 'config.toml'
     assert config.file_path == expected_path
 
     # Restore original XDG_CONFIG_HOME

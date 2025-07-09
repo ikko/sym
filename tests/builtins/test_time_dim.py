@@ -1,8 +1,8 @@
 import pytest
 import datetime
-from symbol import Symbol
-from symbol.builtins.time_dim import SymbolTimeDimMixin, SymbolHeadTailView
-from symbol.builtins import apply_builtins
+from symb import Symbol
+from symb.builtins.time_dim import SymbolTimeDimMixin, SymbolHeadTailView
+from symb.builtins import apply_builtins
 
 
 
@@ -26,7 +26,7 @@ def test_parse_timestamp():
     assert dt3.date() == datetime.date.today()
     assert dt3.time() == datetime.time(0, 0, 0)
 
-def test_symbol_time_dim_properties():
+def test_symb_time_dim_properties():
     s_dt = Symbol("2023-04-22T14:45:30")
 
     assert s_dt.as_date == datetime.date(2023, 4, 22)
@@ -37,7 +37,7 @@ def test_symbol_time_dim_properties():
     assert s_dt.minute == 45
     assert s_dt.second == 30
 
-    # Test with a date-only symbol
+    # Test with a date-only symb
     s_date_only = Symbol("2023-05-01")
     assert s_date_only.as_date == datetime.date(2023, 5, 1)
     assert s_date_only.as_time == datetime.time(0, 0, 0)

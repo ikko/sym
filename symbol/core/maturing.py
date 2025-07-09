@@ -91,7 +91,7 @@ def _apply_merge_strategy(current_value: Any, new_value: Any, strategy: MergeStr
     elif strategy == 'patch':
         # This assumes current_value is a Symbol and new_value is a Symbol
         # We need to import Symbol here to avoid circular dependency if Symbol is not yet defined
-        from ..core.symbol import Symbol
+        from ..core.symb import Symbol
         if isinstance(current_value, Symbol) and isinstance(new_value, Symbol):
             return current_value.patch(new_value)
         else:

@@ -1,4 +1,4 @@
-## `symbol.core.batch_processing` Module
+## `symb.core.batch_processing` Module
 
 This module provides functions for processing batches of items asynchronously and synchronously, with support for parallel execution using threads or processes. 
 _
@@ -32,7 +32,7 @@ def process_batch(batch: Iterable[T], func: Callable[[T], U], new_process: bool 
 
 ---
 
-## `symbol.core.schedule` Module
+## `symb.core.schedule` Module
 
 This module provides the core scheduling logic for the Symbol project.
 

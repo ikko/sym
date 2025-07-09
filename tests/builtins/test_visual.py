@@ -1,14 +1,14 @@
 import pytest
 import anyio
-from symbol import Symbol
-from symbol.builtins.visual import SymbolRender
+from symb import Symbol
+from symb.builtins.visual import SymbolRender
 
 # Apply the mixin to Symbol for testing purposes
 # In a real application, this would be handled by apply_builtins
 Symbol.to_mmd = SymbolRender(Symbol("dummy")).to_mmd # Assign a dummy instance for method access
 
 @pytest.fixture
-def simple_symbol_tree():
+def simple_symb_tree():
     # A
     # |\
     # B C
@@ -26,8 +26,8 @@ def simple_symbol_tree():
     print(f"B children: {[c.name for c in b.children]}") # Debug print
     return a, b, c, d
 
-def test_to_mmd_simple_tree(simple_symbol_tree):
-    a, b, c, d = simple_symbol_tree
+def test_to_mmd_simple_tree(simple_symb_tree):
+    a, b, c, d = simple_symb_tree
     
     # When to_mmd is called on the root Symbol
     mermaid_output = SymbolRender(a).to_mmd(mode="tree")
@@ -75,8 +75,8 @@ def test_to_mmd_simple_graph():
 
 @pytest.mark.skip(reason="Graphviz 'dot' executable not found. Please install Graphviz and add it to your system's PATH.")
 @pytest.mark.anyio
-async def test_a_to_svg_simple_tree(simple_symbol_tree):
-    a, _, _, _ = simple_symbol_tree
+async def test_a_to_svg_simple_tree(simple_symb_tree):
+    a, _, _, _ = simple_symb_tree
     try:
         svg_output = await SymbolRender(a).a_to_svg(mode="tree")
         assert "<svg" in svg_output

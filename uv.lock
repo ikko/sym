@@ -942,7 +942,7 @@ wheels = [
 ]
 
 [[package]]
-name = "symbol"
+name = "symb"
 version = "0.0.2"
 source = { editable = "." }
 dependencies = [
@@ -999,7 +999,7 @@ requires-dist = [
     { name = "ruff", marker = "extra == 'dev'" },
     { name = "sniffio" },
     { name = "sniffio", marker = "extra == 'dev'" },
-    { name = "symbol", extras = ["visual"], marker = "extra == 'full'" },
+    { name = "symb", extras = ["visual"], marker = "extra == 'full'" },
     { name = "toml" },
     { name = "typer", specifier = ">=0.12.3" },
 ]

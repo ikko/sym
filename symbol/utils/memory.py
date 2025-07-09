@@ -2,8 +2,8 @@ import sys
 import inspect
 from typing import Dict, List, Any, Tuple
 
-from ..core.base_symbol import Symbol as BaseSymbol
-from ..core.symbol import Symbol
+from ..core.base_symb import Symbol as BaseSymbol
+from ..core.symb import Symbol
 
 def get_object_size(obj: Any) -> int:
     """Recursively calculates the size of an object in bytes."""
@@ -70,12 +70,12 @@ def get_public_methods_by_module(target_class: type) -> Dict[str, List[str]]:
 
     return dict(sorted(methods_by_module.items()))
 
-def analyze_symbol_memory_and_methods(symbol_instance: Symbol) -> Tuple[int, Dict[str, List[str]]]:
+def analyze_symb_memory_and_methods(symb_instance: Symbol) -> Tuple[int, Dict[str, List[str]]]:
     """
     Analyzes the memory footprint of a Symbol instance and lists its public methods by module.
     """
-    memory_size = get_object_size(symbol_instance)
-    public_methods = get_public_methods_by_module(symbol_instance.__class__)
+    memory_size = get_object_size(symb_instance)
+    public_methods = get_public_methods_by_module(symb_instance.__class__)
     return memory_size, public_methods
 
 def print_analysis_report(title: str, memory_size: int, public_methods: Dict[str, List[str]]):

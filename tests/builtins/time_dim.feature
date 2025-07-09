@@ -2,7 +2,7 @@ Feature: Symbol Time Dimension Functionality
 
   As a developer working with time-based data in Symbol
   I want to parse, access, and manipulate time_dim information
-  So that I can effectively manage temporal aspects of my symbolic systems
+  So that I can effectively manage temporal aspects of my symbic systems
 
   Scenario: Parsing timestamps from Symbol names
     Given a Symbol with a valid ISO format time_dim name (e.g., "2023-01-15T10:30:00")

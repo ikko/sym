@@ -1,10 +1,10 @@
 # 1.4 Per-Instance Indexing: Sophisticated Data Structuring
 
-The `Symbol` framework introduces the concept of **per-instance indexing**, where each `Symbol` object possesses its own private, weighted index of other symbols. This advanced feature enables the creation and efficient management of sophisticated, nested data structures, moving beyond simple parent-child relationships to allow for more complex, context-specific associations.
+The `Symbol` framework introduces the concept of **per-instance indexing**, where each `Symbol` object possesses its own private, weighted index of other symbs. This advanced feature enables the creation and efficient management of sophisticated, nested data structures, moving beyond simple parent-child relationships to allow for more complex, context-specific associations.
 
 ## The `SymbolIndex` Mechanism
 
-At the heart of per-instance indexing is the `SymbolIndex` class, located in `symbol/builtins/index.py`. Each `Symbol` instance is initialized with its own `SymbolIndex` object (as seen in `symbol/core/symbol.py` within the `__new__` method). This `SymbolIndex` acts as a localized, internal data store for the `Symbol`, allowing it to maintain a structured collection of references to other `Symbol` instances, potentially with associated weights or metadata.
+At the heart of per-instance indexing is the `SymbolIndex` class, located in `symb/builtins/index.py`. Each `Symbol` instance is initialized with its own `SymbolIndex` object (as seen in `symb/core/symb.py` within the `__new__` method). This `SymbolIndex` acts as a localized, internal data store for the `Symbol`, allowing it to maintain a structured collection of references to other `Symbol` instances, potentially with associated weights or metadata.
 
 ```mermaid
 graph TD
@@ -25,22 +25,22 @@ graph TD
 ```
 ## Key Features and Benefits
 
--   **Private Context**: Each `Symbol` can maintain its own unique view or organization of related symbols, independent of global relationships. This is crucial for modeling complex domains where relationships are highly contextual.
--   **Weighted Associations**: The ability to assign weights to indexed symbols allows for the representation of strength, relevance, or priority in relationships. This facilitates advanced algorithms for ranking, recommendation, or decision-making.
--   **Sophisticated Traversal and Querying**: With a dedicated index, a `Symbol` can perform highly optimized local traversals and queries on its directly associated symbols, without needing to traverse the entire global graph.
--   **Nested Data Structures**: This feature enables the construction of hierarchical or nested data structures where a `Symbol` can encapsulate a complex internal organization of other symbols.
+-   **Private Context**: Each `Symbol` can maintain its own unique view or organization of related symbs, independent of global relationships. This is crucial for modeling complex domains where relationships are highly contextual.
+-   **Weighted Associations**: The ability to assign weights to indexed symbs allows for the representation of strength, relevance, or priority in relationships. This facilitates advanced algorithms for ranking, recommendation, or decision-making.
+-   **Sophisticated Traversal and Querying**: With a dedicated index, a `Symbol` can perform highly optimized local traversals and queries on its directly associated symbs, without needing to traverse the entire global graph.
+-   **Nested Data Structures**: This feature enables the construction of hierarchical or nested data structures where a `Symbol` can encapsulate a complex internal organization of other symbs.
 
 ### Code Example: Product Configuration with Weighted Features
 
-Imagine a product configurator where a `Product` symbol needs to index its `Features` with associated `weights` (e.g., importance, cost impact).
+Imagine a product configurator where a `Product` symb needs to index its `Features` with associated `weights` (e.g., importance, cost impact).
 
 ```python
-from symbol import Symbol, s
-from symbol.builtins import apply_builtins
+from symb import Symbol, s
+from symb.builtins import apply_builtins
 
 apply_builtins()
 
-# Create product and feature symbols
+# Create product and feature symbs
 product_laptop = s.Laptop
 feature_ssd = s.SSD
 feature_ram = s.RAM
@@ -77,12 +77,12 @@ Laptop features by importance:
 
 **High-Tech: Recommendation Systems**
 ```python
-from symbol import s
-from symbol.builtins import apply_builtins
+from symb import s
+from symb.builtins import apply_builtins
 
 apply_builtins()
 
-# User and Product symbols
+# User and Product symbs
 user_alice = s.Alice
 product_book = s.Book_A
 product_movie = s.Movie_B
@@ -103,12 +103,12 @@ Alice's liked items: ['Movie_B', 'Book_A']
 
 **Low-Tech: Library Cataloging and Cross-Referencing**
 ```python
-from symbol import s
-from symbol.builtins import apply_builtins
+from symb import s
+from symb.builtins import apply_builtins
 
 apply_builtins()
 
-# Book and Keyword symbols
+# Book and Keyword symbs
 book_history = s.History_of_Time
 keyword_physics = s.Physics
 keyword_cosmology = s.Cosmology
@@ -129,4 +129,4 @@ Keywords for 'History of Time': ['Physics', 'Cosmology']
 
 ## Conclusion
 
-Per-instance indexing significantly enhances the expressive power of the `Symbol` framework. By providing each `Symbol` with its own localized, weighted index, it facilitates the modeling of intricate, contextual relationships and the construction of sophisticated, nested data structures. This capability is paramount for applications requiring fine-grained control over symbolic associations and efficient, localized data retrieval.
+Per-instance indexing significantly enhances the expressive power of the `Symbol` framework. By providing each `Symbol` with its own localized, weighted index, it facilitates the modeling of intricate, contextual relationships and the construction of sophisticated, nested data structures. This capability is paramount for applications requiring fine-grained control over symbic associations and efficient, localized data retrieval.

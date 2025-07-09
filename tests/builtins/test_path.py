@@ -1,6 +1,6 @@
 import pytest
-from symbol import Symbol
-from symbol.builtins.path import SymbolPathMixin
+from symb import Symbol
+from symb.builtins.path import SymbolPathMixin
 
 # Apply the mixin to Symbol for testing purposes
 # In a real application, this would be handled by apply_builtins
@@ -23,7 +23,7 @@ def simple_graph():
 
 @pytest.fixture
 def disconnected_graph():
-    # These symbols are not connected to each other, nor to simple_graph
+    # These symbs are not connected to each other, nor to simple_graph
     x = Symbol("X_disconnected")
     y = Symbol("Y_disconnected")
     z = Symbol("Z_disconnected")
@@ -67,26 +67,26 @@ def test_match_dfs(simple_graph):
     a, b, c, d = simple_graph
     # Predicate: name starts with 'B' or 'C'
     predicate = lambda sym: sym.name.startswith("B") or sym.name.startswith("C")
-    matched_symbols = list(a.match(predicate, traversal='dfs'))
+    matched_symbs = list(a.match(predicate, traversal='dfs'))
     # DFS order: A, B, C, D. Matches: B, C
-    assert matched_symbols == [b, c]
+    assert matched_symbs == [b, c]
 
 def test_match_bfs(simple_graph):
     a, b, c, d = simple_graph
     # Predicate: name starts with 'B' or 'D'
     predicate = lambda sym: sym.name.startswith("B") or sym.name.startswith("D")
-    matched_symbols = list(a.match(predicate, traversal='bfs'))
+    matched_symbs = list(a.match(predicate, traversal='bfs'))
     # BFS order: A, B, D, C. Matches: B, D
-    assert matched_symbols == [b, d]
+    assert matched_symbs == [b, d]
 
 def test_match_no_match(simple_graph):
     a, _, _, _ = simple_graph
     predicate = lambda sym: sym.name == "Z"
-    matched_symbols = list(a.match(predicate))
-    assert matched_symbols == []
+    matched_symbs = list(a.match(predicate))
+    assert matched_symbs == []
 
 def test_match_all_match(simple_graph):
     a, b, c, d = simple_graph
     predicate = lambda sym: True
-    matched_symbols = list(a.match(predicate, traversal='dfs'))
-    assert set(matched_symbols) == {a, b, c, d}
+    matched_symbs = list(a.match(predicate, traversal='dfs'))
+    assert set(matched_symbs) == {a, b, c, d}

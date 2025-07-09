@@ -1,17 +1,17 @@
 graph TB
     subgraph "Symbol Framework Architecture"
         A[User Application] --> B[Symbol Package];
-        B --> C[symbol.core];
-        B --> D[symbol.builtins];
+        B --> C[symb.core];
+        B --> D[symb.builtins];
     end
 
-    subgraph "Core Layer #40;symbol.core#41;"
+    subgraph "Core Layer #40;symb.core#41;"
         C --> C1[Base Symbol Definition];
         C --> C2[Core Symbol Functionality];
         C --> C3[Maturing & Mixinability];
     end
 
-    subgraph "Builtin Extensions Layer #40;symbol.builtins#41;"
+    subgraph "Builtin Extensions Layer #40;symb.builtins#41;"
         D --> D1[Collections Extensions];
         D --> D2[Datetime Extensions];
         D --> D3[Index Extensions];

@@ -6,18 +6,18 @@ tags: [DSL, Symbolic Computation, Graphs, Lazy Evaluation, Python]
 
 ## Overview
 
-`symbol.py` implements a **lazy, graph-oriented, immutable symbol system** designed as a foundational primitive for domain-specific languages (DSLs), graph transformations, and semantic metadata modeling.
+`symb.py` implements a **lazy, graph-oriented, immutable symb system** designed as a foundational primitive for domain-specific languages (DSLs), graph transformations, and semantic metadata modeling.
 
-It supports symbolic interning, ordered chaining (`que`), DAG tree modeling (`tree`), and polymorphic cross-linking (`relate`), with efficient caching and memory-awareness.
+It supports symbic interning, ordered chaining (`que`), DAG tree modeling (`tree`), and polymorphic cross-linking (`relate`), with efficient caching and memory-awareness.
 
 ## Motivation
 
-- Avoid string duplication in symbolic identities
+- Avoid string duplication in symbic identities
 - Enable semantic modeling via structural relationships
 - Design graph-based, introspectable DSLs
 - Support polymorphic relationship tagging (`related_how`)
 - Optimize evaluation lazily with O(1) reads and O(log n) inserts
-- Track symbolic origin (`.origin`) and memory state
+- Track symbic origin (`.origin`) and memory state
 
 ## Core Components
 
@@ -36,7 +36,7 @@ It supports symbolic interning, ordered chaining (`que`), DAG tree modeling (`tr
 ## Highlights
 
 ```python
-from symbol.core.symbol import SymbolNamespace
+from symb.core.symb import SymbolNamespace
 s = SymbolNamespace()
 
 s.page.append(s.header).append(s.footer)
@@ -63,12 +63,12 @@ graph TD
 ## Installation
 
 ```bash
-pip install symbol
+pip install symb
 ```
 <details>
 
 ```text
-Collecting symbol
+Collecting symb
 Installing collected packages
 ```
 </details>

@@ -2,7 +2,7 @@ Feature: Symbol Mixinability
 
   As a developer extending the Symbol class
   I want to dynamically add and manage functionality
-  So that I can create flexible and modular symbolic systems
+  So that I can create flexible and modular symbic systems
 
   Scenario: Freezing and unfreezing Symbol class state
     Given the Symbol class is initially not frozen

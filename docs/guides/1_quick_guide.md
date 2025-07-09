@@ -1,19 +1,19 @@
-# `«symbol»` Quick Guide
+# `«symb»` Quick Guide
 
 ## A Foundational Primitive for Symbolic Systems
 
 ### Abstract
 
-This document serves as a rapid introduction to `Symbol`, a Python library designed as a foundational primitive for constructing sophisticated symbolic systems. Leveraging principles of interning, graph theory, and dynamic mixin-based extensibility, `Symbol` facilitates the creation of highly modular, performant, and semantically rich data models. This guide is tailored for researchers and practitioners with a strong background in computer science, formal methods, or knowledge representation, aiming to provide a high-level understanding and immediate utility.
+This document serves as a rapid introduction to `Symbol`, a Python library designed as a foundational primitive for constructing sophisticated symbic systems. Leveraging principles of interning, graph theory, and dynamic mixin-based extensibility, `Symbol` facilitates the creation of highly modular, performant, and semantically rich data models. This guide is tailored for researchers and practitioners with a strong background in computer science, formal methods, or knowledge representation, aiming to provide a high-level understanding and immediate utility.
 
 ### 1. Core Concepts
 
 #### 1.1. Symbol Interning (Flyweight Pattern)
 
-At its core, `Symbol` implements a stringent interning mechanism. Every unique string name corresponds to precisely one `Symbol` instance. This ensures referential equality (`is`) for semantically equivalent entities, optimizing memory usage and enabling O(1) lookup for symbolic identities.
+At its core, `Symbol` implements a stringent interning mechanism. Every unique string name corresponds to precisely one `Symbol` instance. This ensures referential equality (`is`) for semantically equivalent entities, optimizing memory usage and enabling O(1) lookup for symbic identities.
 
 ```python
-from symbol import Symbol, s
+from symb import Symbol, s
 
 # Direct instantiation: Interning ensures uniqueness
 sym_a = Symbol("concept_A")
@@ -31,7 +31,7 @@ assert sym_c is sym_d # True: Same instance
 `Symbol` instances inherently function as nodes in a directed acyclic graph (DAG), or more generally, a directed graph. Relationships are established through explicit `append` or `add` operations, forming parent-child connections. This structure is fundamental for modeling hierarchical data, dependencies, and complex networks.
 
 ```python
-from symbol import s
+from symb import s
 # Building a simple hierarchy
 root_node = s.SystemRoot
 sub_system_1 = s.SubSystem1
@@ -50,7 +50,7 @@ assert root_node in sub_system_1.parents
 `Symbol`'s architecture supports dynamic runtime extension via mixins. This allows for the modular injection of domain-specific behaviors (e.g., time dimension parsing, pathfinding, indexing) without modifying the core `Symbol` class. This pattern promotes a highly composable design, enabling researchers to tailor `Symbol`'s capabilities precisely to their problem domain.
 
 ```python
-from symbol import Symbol
+from symb import Symbol
 
 # Time dimension mixin example
 event_start = Symbol("2023-10-26T10:00:00Z")
@@ -128,4 +128,4 @@ graph TD
 
 ### Conclusion
 
-`Symbol` provides a robust and flexible foundation for building complex symbolic systems. Its design principles promote clarity, efficiency, and extensibility, making it an ideal tool for academic exploration and practical application in areas requiring sophisticated knowledge representation and graph-based reasoning. For deeper engagement, consult the detailed tutorials and API documentation.
+`Symbol` provides a robust and flexible foundation for building complex symbic systems. Its design principles promote clarity, efficiency, and extensibility, making it an ideal tool for academic exploration and practical application in areas requiring sophisticated knowledge representation and graph-based reasoning. For deeper engagement, consult the detailed tutorials and API documentation.

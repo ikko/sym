@@ -48,12 +48,12 @@ class SymbolRender(SymbolVisualProtocol):
 
     def to_dot(self, mode: Literal["tree", "graph"] = "tree") -> str:
         if not _GRAPHVIZ_AVAILABLE:
-            raise ImportError("Graphviz is not installed. Please install it with `pip install 'symbol[visual]'`.")
+            raise ImportError("Graphviz is not installed. Please install it with `pip install 'symb[visual]'`.")
         return self._build_dot_source(mode)
 
     async def a_to_svg(self, mode: Literal["tree", "graph"] = "tree") -> str:
         if not _GRAPHVIZ_AVAILABLE:
-            raise ImportError("Graphviz is not installed. Please install it with `pip install 'symbol[visual]'`.")
+            raise ImportError("Graphviz is not installed. Please install it with `pip install 'symb[visual]'`.")
         dot = self._build_dot_source(mode)
         # Run in a thread pool to avoid blocking the event loop
         return await anyio.to_thread.run_sync(lambda: graphviz.Source(dot).pipe(format="svg").decode())
@@ -63,7 +63,7 @@ class SymbolRender(SymbolVisualProtocol):
 
     async def a_to_png(self, mode: Literal["tree", "graph"] = "tree") -> bytes:
         if not _GRAPHVIZ_AVAILABLE:
-            raise ImportError("Graphviz is not installed. Please install it with `pip install 'symbol[visual]'`.")
+            raise ImportError("Graphviz is not installed. Please install it with `pip install 'symb[visual]'`.")
         dot = self._build_dot_source(mode)
         # Run in a thread pool to avoid blocking the event loop
         return await anyio.to_thread.run_sync(lambda: graphviz.Source(dot).pipe(format="png"))

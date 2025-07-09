@@ -6,24 +6,24 @@ This document provides empirical validation of the Big O notations asserted for 
 
 **Assertion**: Symbol instantiation (creation or retrieval from the interning pool) is an O(1) operation.
 
-**Methodology**: We measure the time taken to instantiate a large number of unique and repeated symbols. The expectation is that the time per instantiation remains constant regardless of the total number of symbols already interned.
+**Methodology**: We measure the time taken to instantiate a large number of unique and repeated symbs. The expectation is that the time per instantiation remains constant regardless of the total number of symbs already interned.
 
 **Empirical Results**:
 
 ```python
 import time
-from symbol import Symbol, s
+from symb import Symbol, s
 
-def measure_symbol_instantiation(num_symbols):
+def measure_symb_instantiation(num_symbs):
     start_time = time.perf_counter_ns()
-    for i in range(num_symbols):
-        Symbol(f"test_symbol_{i}") # Unique symbols
+    for i in range(num_symbs):
+        Symbol(f"test_symb_{i}") # Unique symbs
     end_time = time.perf_counter_ns()
     time_unique = (end_time - start_time) / 1_000_000 # milliseconds
 
     start_time = time.perf_counter_ns()
-    for i in range(num_symbols):
-        Symbol("repeated_symbol") # Repeated symbol
+    for i in range(num_symbs):
+        Symbol("repeated_symb") # Repeated symb
     end_time = time.perf_counter_ns()
     time_repeated = (end_time - start_time) / 1_000_000 # milliseconds
 
@@ -31,7 +31,7 @@ def measure_symbol_instantiation(num_symbols):
 
 print("\n--- Symbol Instantiation Performance ---")
 for n in [1000, 10000, 100000]:
-    time_u, time_r = measure_symbol_instantiation(n)
+    time_u, time_r = measure_symb_instantiation(n)
     print(f"N={n}: Unique Symbols: {time_u:.4f} ms, Repeated Symbol: {time_r:.4f} ms")
 ```
 <details>
@@ -46,19 +46,19 @@ N=100000: Unique Symbols: 100.0000 ms, Repeated Symbol: 0.0000 ms
 ```
 </details>
 
-**Analysis**: The empirical results demonstrate that the time taken for both unique and repeated symbol instantiation remains remarkably consistent, validating the O(1) complexity. The slight variations are attributable to system noise and Python's internal optimizations.
+**Analysis**: The empirical results demonstrate that the time taken for both unique and repeated symb instantiation remains remarkably consistent, validating the O(1) complexity. The slight variations are attributable to system noise and Python's internal optimizations.
 
 ## O(1) Relationship Linking
 
-**Assertion**: Establishing relationships between symbols (e.g., via `append()`) is an O(1) operation.
+**Assertion**: Establishing relationships between symbs (e.g., via `append()`) is an O(1) operation.
 
-**Methodology**: We measure the time taken to append a new child to a symbol. This operation involves list appends, which are amortized O(1).
+**Methodology**: We measure the time taken to append a new child to a symb. This operation involves list appends, which are amortized O(1).
 
 **Empirical Results**:
 
 ```python
 import time
-from symbol import Symbol, s
+from symb import Symbol, s
 
 def measure_relationship_linking(num_links):
     root = s.root_node
@@ -102,8 +102,8 @@ N=100000: Time to link 100000 children: 0.0000 ms
 ```python
 import time
 import random
-from symbol import s
-from symbol.builtins.index import SymbolIndex
+from symb import s
+from symb.builtins.index import SymbolIndex
 
 def measure_index_performance(num_elements):
     idx = SymbolIndex(s.index_root)
@@ -154,13 +154,13 @@ This section identifies and analyzes operations that might exhibit higher time o
 
 ### `Symbol.tree()` and `Symbol.graph()` (Graph Traversal)
 
-**Complexity**: O(V + E), where V is the number of vertices (symbols) and E is the number of edges (relationships) reachable from the starting symbol.
+**Complexity**: O(V + E), where V is the number of vertices (symbs) and E is the number of edges (relationships) reachable from the starting symb.
 
 **Analysis**: These methods perform a full traversal of the reachable graph. In the worst case (a dense graph), every vertex and every edge must be visited. While efficient for their purpose, their performance is directly proportional to the size and density of the traversed subgraph.
 
 ```python
 import time
-from symbol import s, Symbol
+from symb import s, Symbol
 
 def build_dense_graph(num_nodes):
     nodes = [Symbol(f"node_{i}") for i in range(num_nodes)]
@@ -196,13 +196,13 @@ N=400: Time for traversal: 0.0000 ms
 
 ### `Symbol.patch()` (Recursive Deep Merge)
 
-**Complexity**: O(D * (V + E)), where D is the depth of recursion, and V and E are the number of vertices and edges in the merged subgraphs. In the worst case, it can approach O(N) where N is the total number of elements in both symbols and their subgraphs.
+**Complexity**: O(D * (V + E)), where D is the depth of recursion, and V and E are the number of vertices and edges in the merged subgraphs. In the worst case, it can approach O(N) where N is the total number of elements in both symbs and their subgraphs.
 
-**Analysis**: The `patch()` method performs a deep merge, which involves traversing the structure of both symbols and their children. The complexity depends on the depth and breadth of the structures being merged. For very deep or wide graphs, this operation can be computationally intensive.
+**Analysis**: The `patch()` method performs a deep merge, which involves traversing the structure of both symbs and their children. The complexity depends on the depth and breadth of the structures being merged. For very deep or wide graphs, this operation can be computationally intensive.
 
 ```python
 import time
-from symbol import s, Symbol
+from symb import s, Symbol
 
 def build_linear_graph(num_nodes, prefix):
     nodes = [Symbol(f"{prefix}_node_{i}") for i in range(num_nodes)]
@@ -245,7 +245,7 @@ N=400: Time for patch: 0.0000 ms
 
 ```python
 import time
-from symbol import s, Symbol
+from symb import s, Symbol
 
 def measure_visualization_performance(num_nodes):
     root = Symbol("viz_root")

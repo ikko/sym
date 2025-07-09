@@ -1,19 +1,19 @@
 import pytest
-from symbol import Symbol
-from symbol.builtins.collections import OrderedSymbolSet
+from symb import Symbol
+from symb.builtins.collections import OrderedSymbolSet
 
-def test_ordered_symbol_set_creation_and_add():
-    # Test creation with no initial symbols
+def test_ordered_symb_set_creation_and_add():
+    # Test creation with no initial symbs
     s_set = OrderedSymbolSet()
     assert len(s_set) == 0
 
-    # Test adding a single symbol
+    # Test adding a single symb
     sym1 = Symbol("sym1")
     s_set.add(sym1)
     assert len(s_set) == 1
     assert sym1 in s_set
 
-    # Test adding multiple symbols
+    # Test adding multiple symbs
     sym2 = Symbol("sym2")
     sym3 = Symbol("sym3")
     s_set.add(sym2)
@@ -22,11 +22,11 @@ def test_ordered_symbol_set_creation_and_add():
     assert sym2 in s_set
     assert sym3 in s_set
 
-    # Test adding an existing symbol (should not increase size)
+    # Test adding an existing symb (should not increase size)
     s_set.add(sym1)
     assert len(s_set) == 3
 
-    # Test creation with initial symbols
+    # Test creation with initial symbs
     sym4 = Symbol("sym4")
     sym5 = Symbol("sym5")
     s_set2 = OrderedSymbolSet([sym4, sym5])
@@ -34,7 +34,7 @@ def test_ordered_symbol_set_creation_and_add():
     assert sym4 in s_set2
     assert sym5 in s_set2
 
-def test_ordered_symbol_set_iteration_length_and_containment():
+def test_ordered_symb_set_iteration_length_and_containment():
     sym1 = Symbol("alpha")
     sym2 = Symbol("beta")
     sym3 = Symbol("gamma")

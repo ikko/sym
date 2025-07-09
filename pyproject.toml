@@ -1,5 +1,5 @@
 [project]
-name = "symbol"
+name = "symb"
 version = "0.0.2"
 description = "A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction"
 dependencies = [
@@ -20,17 +20,17 @@ requires-python = ">=3.9"
 license = {text = "MIT"}
 
 [project.scripts]
-symbol = "symbol.bin.scheduler:app"
+symb = "symb.bin.scheduler:app"
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-where = ["symbol"]
+where = ["symb"]
 
 [tool.setuptools.package-data]
-"symbol" = ["py.typed"]
+"symb" = ["py.typed"]
 
 [tool.ruff]
 line-length = 88
@@ -57,5 +57,5 @@ visual = [
     "graphviz>=0.20.0",
 ]
 full = [
-    "symbol[visual]",
+    "symb[visual]",
 ]

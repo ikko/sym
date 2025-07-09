@@ -1,5 +1,5 @@
      ```
-     «symbol»: A Principled Framework for Dynamic Symbolic Computation and Knowledge Graph
+     «symb»: A Principled Framework for Dynamic Symbolic Computation and Knowledge Graph
      Construction in Python
      
      Authors: [Miklós Béky/Symbolic Systems Lab Inc. Researh Team]
@@ -9,16 +9,16 @@
      Abstract
      
      The increasing complexity of    modern software systems and the vast, interconnected datasets
-     they manage  necessitate robust and flexible paradigms for symbolic computation and knowledge
-     representation.  This paper introduces «symbol», a novel Python framework designed to address
-     these  challenges  by providing a lightweight, graph-oriented, and highly extensible symbolic
-     system. At  its core,  «symbol» leverages a stringent interning mechanism (Flyweight pattern)
-     to ensure canonical identity and memory efficiency for symbolic entities. Its architecture is
+     they manage  necessitate robust and flexible paradigms for symbic computation and knowledge
+     representation.  This paper introduces «symb», a novel Python framework designed to address
+     these  challenges  by providing a lightweight, graph-oriented, and highly extensible symbic
+     system. At  its core,  «symb» leverages a stringent interning mechanism (Flyweight pattern)
+     to ensure canonical identity and memory efficiency for symbic entities. Its architecture is
      inherently    graph-centric,  facilitating the intuitive modeling of intricate relationships,
      while  a sophisticated mixin-based extensibility model allows for dynamic behavior injection.
-     We   detail «symbol»'s design principles, architectural layers, and key operations, including
+     We   detail «symb»'s design principles, architectural layers, and key operations, including
      memory-aware lifecycle  management and efficient traversal. Through illustrative case studies
-     drawn from the integrated circuit manufacturing domain, we demonstrate «symbol»'s efficacy in
+     drawn from the integrated circuit manufacturing domain, we demonstrate «symb»'s efficacy in
      applications        ranging  from hierarchical design management and process flow modeling to
      business  process reengineering  and strategic decision-making. We conclude by discussing the
      framework's  performance   characteristics,  theoretical implications, and avenues for future
@@ -41,25 +41,25 @@
      
      
      Symbolic computation,   a cornerstone of Artificial Intelligence and formal methods, offers a
-     powerful       alternative   by focusing on the manipulation of abstract symbols representing
-     concepts   and  their  relationships. While foundational symbolic systems like Lisp have long
+     powerful       alternative   by focusing on the manipulation of abstract symbs representing
+     concepts   and  their  relationships. While foundational symbic systems like Lisp have long
      demonstrated  the power of this approach, modern software development demands frameworks that
      integrate seamlessly with contemporary programming languages, offer robust extensibility, and
      address performance concerns for real-world applications.
      
      
-     This paper   presents «symbol», a Python framework engineered to meet these demands. «symbol»
+     This paper   presents «symb», a Python framework engineered to meet these demands. «symb»
      provides a  principled, lightweight, and highly adaptable foundation for constructing dynamic
-     knowledge     graphs and performing symbolic computation. By enforcing canonical identity for
-     symbolic  entities, facilitating intuitive graph construction,  and enabling dynamic behavior
-     injection       through a  sophisticated mixin architecture, «symbol» empowers developers and
+     knowledge     graphs and performing symbic computation. By enforcing canonical identity for
+     symbic  entities, facilitating intuitive graph construction,  and enabling dynamic behavior
+     injection       through a  sophisticated mixin architecture, «symb» empowers developers and
      researchers   to model,    analyze, and manage complex, evolving knowledge with unprecedented
      flexibility and efficiency.
      
      
      The      remainder  of this paper is structured as follows: Section 2 provides background and
      reviews     related      work. Section 3 details the design principles, architecture, and key
-     operations     of the «symbol» framework. Section 4 analyzes its performance characteristics.
+     operations     of the «symb» framework. Section 4 analyzes its performance characteristics.
      Section 5  presents practical applications and case studies from the IC manufacturing domain.
      Finally,      Section  6 discusses theoretical  implications   and future work, and Section 7
      concludes the paper.
@@ -67,15 +67,15 @@
      2 Background and Related Work
      
      
-     The   concept of a "symbol" as a fundamental unit of computation and knowledge representation
-     has deep roots   in computer science. Early symbolic programming languages, most notably Lisp
-     [1],       elevated symbols  to first-class citizens, enabling  powerful meta-programming and
-     declarative  knowledge  manipulation. In   Lisp,  symbols  are  unique  objects that can have
-     properties, values,  and functions associated with them. «symbol» draws inspiration from this
-     tradition,  particularly the notion  of interning  symbols to ensure uniqueness and efficient
-     comparison. However, it  extends this concept by natively integrating symbols into a directed
+     The   concept of a "symb" as a fundamental unit of computation and knowledge representation
+     has deep roots   in computer science. Early symbic programming languages, most notably Lisp
+     [1],       elevated symbs  to first-class citizens, enabling  powerful meta-programming and
+     declarative  knowledge  manipulation. In   Lisp,  symbs  are  unique  objects that can have
+     properties, values,  and functions associated with them. «symb» draws inspiration from this
+     tradition,  particularly the notion  of interning  symbs to ensure uniqueness and efficient
+     comparison. However, it  extends this concept by natively integrating symbs into a directed
      graph structure     with explicit parent-child relationships, a feature not as central to the
-     core Lisp symbol type.
+     core Lisp symb type.
      
      
      Beyond  programming  languages,    the field of Knowledge Representation (KR) has extensively
@@ -87,10 +87,10 @@
      
      
      In contrast to persistent graph  databases like Neo4j (which employs a Labeled Property Graph
-     model      [4])  or RDF  triple stores, «symbol» is designed primarily for in-memory symbolic
+     model      [4])  or RDF  triple stores, «symb» is designed primarily for in-memory symbic
      computation and  dynamic  model construction. While graph databases excel at storing massive,
      persistent  graphs and provide mature, declarative query languages like Cypher or SPARQL [5],
-     «symbol»      offers  greater agility for rapid prototyping, deep integration with imperative
+     «symb»      offers  greater agility for rapid prototyping, deep integration with imperative
      Python code,  and avoids the overhead of database serialization and network communication. It
      fills   a  niche  for applications where the knowledge graph is constructed, manipulated, and
      analyzed   as    an   integral part of a program's runtime logic, rather than as an external,
@@ -99,37 +99,37 @@
      
      Existing    Python data  structures, such as strings, dictionaries, and custom objects, offer
      various means  of data representation. However, they often fall short in providing a unified,
-     identity-preserving,     and    graph-native abstraction for symbolic data. «symbol»'s design
+     identity-preserving,     and    graph-native abstraction for symbic data. «symb»'s design
      contrasts    with traditional object-oriented inheritance hierarchies by favoring composition
      and dynamic     mixin injection, a pattern gaining traction in modern software design for its
      flexibility and for avoiding the rigidities of deep inheritance chains [3].
      
      
-     3 The «symbol» Framework: Design and Architecture
+     3 The «symb» Framework: Design and Architecture
      
-     The  «symbol» framework is architected around a set of core design principles that prioritize
+     The  «symb» framework is architected around a set of core design principles that prioritize
      efficiency,    consistency,    and adaptability. Its modular structure separates foundational
      elements from extensible functionalities, promoting a clean and maintainable codebase.
      
      
      3.1 Core Design Principles
      
-        * Interning (Flyweight Pattern): At its essence, «symbol» ensures that each unique string
+        * Interning (Flyweight Pattern): At its essence, «symb» ensures that each unique string
           name corresponds to precisely one Symbol object instance in memory. This is achieved by
           overriding the __new__ method to manage a global interning pool. This design choice, an
           application of the Flyweight pattern [3], offers significant advantages:
             * O(1) Identity Check: Symbol("concept") is Symbol("concept") always evaluates to True,
               enabling constant-time identity comparisons.
             * Memory Efficiency: Prevents redundant object creation, drastically reducing memory
-              footprint in applications with recurring symbolic representations.
+              footprint in applications with recurring symbic representations.
             * Canonical Representation: Guarantees that all references to a particular concept point
               to the exact same underlying entity, ensuring consistency across the system.
      
      
         * Graph-Centricity: Symbol objects are inherently designed as nodes in a directed graph.
           Relationships are established through explicit operations (add(), append(), relate_to()),
-          forming directed edges. Each Symbol maintains references to its children (symbols it points
-          to) and parents (symbols that point to it), facilitating bidirectional traversal. This
+          forming directed edges. Each Symbol maintains references to its children (symbs it points
+          to) and parents (symbs that point to it), facilitating bidirectional traversal. This
           graph-based approach naturally models complex systems, where the meaning of an entity is
           often derived from its connections to other entities.
      
@@ -142,7 +142,7 @@
           requirement for stability and performance in production environments.
      
      
-        * Mixin-based Extensibility: «symbol» employs a sophisticated mixin architecture, allowing
+        * Mixin-based Extensibility: «symb» employs a sophisticated mixin architecture, allowing
           for the dynamic injection of new methods and properties into Symbol objects at runtime.
           This enables the modular addition of domain-specific behaviors (e.g., time-dimension
           analysis, pathfinding, custom validation) without modifying the core Symbol class. This
@@ -151,14 +151,14 @@
      
      3.2 Architectural Layers
      
-     The «symbol» framework is structured into two primary layers:
+     The «symb» framework is structured into two primary layers:
      
-        * `symbol.core`: This layer constitutes the minimal, stable foundation of the framework. It
+        * `symb.core`: This layer constitutes the minimal, stable foundation of the framework. It
           defines the fundamental Symbol class, its interning logic, and core mechanisms for graph
           management and lifecycle control. Components in this layer are designed for high stability
           and minimal external dependencies.
-        * `symbol.builtins`: This layer comprises a collection of modular, optional extensions that
-          provide specialized functionalities. Each module within symbol.builtins addresses a
+        * `symb.builtins`: This layer comprises a collection of modular, optional extensions that
+          provide specialized functionalities. Each module within symb.builtins addresses a
           specific domain (e.g., time_dim for temporal analysis, index for per-instance indexing,
           path for graph traversal algorithms, visual for diagram generation). These built-ins are
           dynamically applied as mixins, ensuring that the core remains lean while offering rich,
@@ -196,16 +196,16 @@
             * to_sym(obj: Any): A global alias for Symbol.from_object().
         * `SymbolNamespace` (`s`): A convenient singleton instance that allows for concise Symbol
           creation via attribute access (e.g., s.MyConcept is equivalent to Symbol("MyConcept")).
-        * `SymbolIndex`: A per-instance index (part of symbol.builtins.index) that allows each Symbol
+        * `SymbolIndex`: A per-instance index (part of symb.builtins.index) that allows each Symbol
           to maintain a private, weighted, and searchable collection of other Symbol references, often
            backed by balanced tree structures for efficient operations.
-        * `ScheduledJob`, `Scheduler`: Components (part of symbol.core.schedule) for managing and
+        * `ScheduledJob`, `Scheduler`: Components (part of symb.core.schedule) for managing and
           executing tasks based on time-based triggers or cron expressions.
      
      
      4 Performance Characteristics
      
-     «symbol» is     designed  for efficiency,  particularly in scenarios involving dynamic graph
+     «symb» is     designed  for efficiency,  particularly in scenarios involving dynamic graph
      construction and traversal. Its performance characteristics are largely dictated by its core
      design principles:
      
@@ -215,30 +215,30 @@
           in amortized O(1) complexity per link. This ensures rapid graph construction even for large
           numbers of entities and relationships.
         * O(log n) for Indexed Operations: When Symbol instances are extended with the SymbolIndex
-          built-in, operations such as insertion and search within a sorted collection of symbols can
+          built-in, operations such as insertion and search within a sorted collection of symbs can
           achieve O(log n) time complexity. This is facilitated by the underlying balanced binary
-          search tree implementations (AVL or Red-Black trees) provided within symbol.builtins.
+          search tree implementations (AVL or Red-Black trees) provided within symb.builtins.
         * O(V+E) for Graph Traversals: Full graph traversals (tree(), graph()) inherently scale with
           the number of vertices (V) and edges (E) in the reachable subgraph. While this complexity is
-           unavoidable for comprehensive traversal, «symbol»'s lean design and efficient internal
+           unavoidable for comprehensive traversal, «symb»'s lean design and efficient internal
           representation minimize the constant factors, ensuring practical performance for moderately
           sized graphs.
         * Memory-Aware Management: Features like immute() and slim() actively manage the memory
           footprint of Symbol instances. By elevating frequently accessed metadata to direct
-          attributes and removing transient or unused mixins, «symbol» optimizes for cache locality
+          attributes and removing transient or unused mixins, «symb» optimizes for cache locality
           and reduces overall memory consumption, which is critical for in-memory graph processing.
      
      
      5 Applications and Case Studies
      
-     H.A.L.42 Inc., a hypothetical leading innovator in the IC industry, leverages «symbol» across its entire
+     H.A.L.42 Inc., a hypothetical leading innovator in the IC industry, leverages «symb» across its entire
      product lifecycle, demonstrating  the framework's versatility in modeling complex, evolving
      systems.
      
      5.1 IC Product Lifecycle Modeling
      
      
-     «symbol»  provides a unified language to represent and manage the IC product lifecycle from
+     «symb»  provides a unified language to represent and manage the IC product lifecycle from
      inception to customer support:
      
         * Idea & Concept: High-level ideas (e.g., Project_Orion AI Accelerator) and their core
@@ -268,36 +268,36 @@
      
      5.2 Business Process Reengineering (BPR)
      
-     «symbol»'s agility is paramount for BPR initiatives, which advocate for the radical redesign
+     «symb»'s agility is paramount for BPR initiatives, which advocate for the radical redesign
      of  core  business  processes to achieve dramatic improvements [6]. By representing business
      processes as dynamic graphs, H.A.L.42 Inc. can rapidly model and implement such changes:
      
         * Early Customer Feedback Integration: A new feedback loop from Customer Support to Design is
-          modeled by linking SupportTicket symbols directly to Project or specific Design_Block
-          symbols. This transforms a sequential process into a concurrent, iterative one,
+          modeled by linking SupportTicket symbs directly to Project or specific Design_Block
+          symbs. This transforms a sequential process into a concurrent, iterative one,
           significantly reducing iteration cycles.
-        * Concurrent Test & Packaging: By modeling Test_Case and Package_Type symbols as part of a
-          Concurrent_Process symbol, H.A.L.42 Inc. can optimize its manufacturing flow, allowing
+        * Concurrent Test & Packaging: By modeling Test_Case and Package_Type symbs as part of a
+          Concurrent_Process symb, H.A.L.42 Inc. can optimize its manufacturing flow, allowing
           certain non-critical tests and initial packaging steps to occur in parallel, improving
           time-to-market.
      
      
      5.3 Cross-Functional Collaboration
      
-     «symbol» acts as a shared knowledge graph, breaking down organizational silos:
+     «symb» acts as a shared knowledge graph, breaking down organizational silos:
      
         * Design Change Communication: When the Design team initiates a Design_Change_Notification
-          symbol linked to an affected CPU_Cluster, this symbol is then linked to the Fabrication and
-          Test teams. The Test team can then update its Test_Plan symbol, which is linked to specific
-          Test_Case symbols. This unified representation ensures all stakeholders are immediately
+          symb linked to an affected CPU_Cluster, this symb is then linked to the Fabrication and
+          Test teams. The Test team can then update its Test_Plan symb, which is linked to specific
+          Test_Case symbs. This unified representation ensures all stakeholders are immediately
           aware of changes and their implications, fostering real-time, coordinated responses.
      
      
      5.4 Strategic Decision Making
      
-     «symbol» integrates diverse data for holistic strategic analysis:
+     «symb» integrates diverse data for holistic strategic analysis:
      
-        * Strategic Project Prioritization: Project symbols are enriched with metadata such as
+        * Strategic Project Prioritization: Project symbs are enriched with metadata such as
           projected_market_share and R_and_D_investment. A custom weighting function, applied via
           SymbolIndex, prioritizes projects based on strategic importance, enabling data-driven
           resource allocation and risk management. This allows H.A.L.42 Inc. to identify and mitigate
@@ -306,15 +306,15 @@
      
      6 Discussion and Future Work
      
-     The   «symbol» framework  offers a compelling approach to symbolic computation and knowledge
+     The   «symb» framework  offers a compelling approach to symbic computation and knowledge
      graph  construction  in Python. Its core strengths lie in its principled design, emphasizing
      canonical identity, graph-centricity, and dynamic extensibility. This combination provides a
      flexible  and efficient substrate for modeling complex, evolving systems, as demonstrated by
      its application across the IC product lifecycle at H.A.L.42 Inc.
      
-     From a   theoretical  perspective, «symbol» contributes to  the ongoing discourse on dynamic
+     From a   theoretical  perspective, «symb» contributes to  the ongoing discourse on dynamic
      knowledge representation.   Its   ability to seamlessly integrate data with behavior through
-     mixins,     and to manage the lifecycle of symbolic entities from fluid conceptualization to
+     mixins,     and to manage the lifecycle of symbic entities from fluid conceptualization to
      immutable     stability, offers a practical  realization  of adaptive knowledge systems. The
      explicit tracking of  origin further enhances its utility for provenance and data lineage in
      complex pipelines.
@@ -322,44 +322,44 @@
      
      Future work will explore several promising avenues:
      
-        * Distributed `Symbol` Graphs: Investigate mechanisms for distributing «symbol» graphs across
+        * Distributed `Symbol` Graphs: Investigate mechanisms for distributing «symb» graphs across
           multiple nodes, enabling the processing of extremely large datasets that exceed
           single-machine memory limits. This could involve integration with distributed graph
           processing frameworks.
         * Advanced Query Languages: Develop a declarative query language specifically tailored for
-          «symbol» graphs, potentially inspired by SPARQL or Cypher, to facilitate more complex
-          pattern matching and reasoning over symbolic relationships.
+          «symb» graphs, potentially inspired by SPARQL or Cypher, to facilitate more complex
+          pattern matching and reasoning over symbic relationships.
         * Formal Verification Integration: Explore tighter integration with formal verification tools
-          to enable automated validation of «symbol»-modeled processes and designs, particularly for
+          to enable automated validation of «symb»-modeled processes and designs, particularly for
           critical systems in domains like semiconductor manufacturing.
-        * Persistent Storage Backends: While «symbol» is primarily an in-memory framework, developing
+        * Persistent Storage Backends: While «symb» is primarily an in-memory framework, developing
           optional persistent storage backends (e.g., to graph databases or object stores) could
           enhance its utility for long-term data archival and retrieval.
-        * Enhanced Concurrency: Further optimize «symbol»'s internal mechanisms for highly concurrent
+        * Enhanced Concurrency: Further optimize «symb»'s internal mechanisms for highly concurrent
           environments, potentially leveraging asynchronous programming paradigms more extensively or
           exploring lock-free data structures where applicable.
      
      
      7 Conclusion
      
-     In  this   paper,  we  introduced  «symbol», a  novel  Python  framework for dynamic symbolic
+     In  this   paper,  we  introduced  «symb», a  novel  Python  framework for dynamic symbic
      computation  and  knowledge  graph  construction.  We  elucidated its core design principles,
      including interning       for canonical identity, graph-centricity for intuitive relationship
      modeling,       and mixin-based extensibility for dynamic behavior injection. We demonstrated
-     «symbol»'s practical utility through comprehensive case studies within the integrated circuit
+     «symb»'s practical utility through comprehensive case studies within the integrated circuit
      manufacturing       domain, showcasing  its application in managing the IC product lifecycle,
      facilitating  business   process reengineering, fostering cross-functional collaboration, and
-     enabling strategic decision-making. «symbol» provides a flexible, efficient, and semantically
+     enabling strategic decision-making. «symb» provides a flexible, efficient, and semantically
      rich abstraction  that empowers engineers and researchers to tackle the increasing complexity
      of modern data and systems.  Its principled design and extensible architecture position it as
-     a valuable tool for advancing the state of the art in symbolic AI and knowledge management.
+     a valuable tool for advancing the state of the art in symbic AI and knowledge management.
      
      
      
      References
      
      
-     [1] McCarthy, J. (1960). Recursive functions of symbolic expressions and their computation
+     [1] McCarthy, J. (1960). Recursive functions of symbic expressions and their computation
      by machine, Part I. Communications of the ACM, 3(4), 184-195.
      [2] Sowa, J. F. (2000). Knowledge Representation: Logical, Philosophical, and Computational
      Foundations. Brooks/Cole Publishing Co.

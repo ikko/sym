@@ -1,7 +1,7 @@
 """
 This module defines the core Symbol class and its extended functionalities.
 
-It builds upon the foundational Symbol defined in base_symbol.py,
+It builds upon the foundational Symbol defined in base_symb.py,
 adding graph traversal, index, maturing, and serialization capabilities.
 """
 
@@ -19,7 +19,7 @@ import os
 import pkgutil
 import importlib
 
-from .base_symbol import Symbol as BaseSymbol
+from .base_symb import Symbol as BaseSymbol
 from ..builtins.collections import OrderedSymbolSet
 from ..builtins.index import SymbolIndex
 from ..core.maturing import DefDict, deep_del, _apply_merge_strategy
@@ -33,12 +33,12 @@ T = TypeVar("T")
 
 def _get_available_mixins():
     """
-    Discovers all available mixin classes in the symbol.builtins and symbol.core packages.
+    Discovers all available mixin classes in the symb.builtins and symb.core packages.
     """
     mixins = {}
     
-    import symbol.builtins
-    import symbol.core
+    import symb.builtins
+    import symb.core
 
     def find_mixins_in_path(path, package_name):
         for _, name, ispkg in pkgutil.iter_modules(path):
@@ -57,8 +57,8 @@ def _get_available_mixins():
             except Exception as e:
                 warnings.warn(f"Could not import module {module_name}: {e}")
 
-    find_mixins_in_path(symbol.builtins.__path__, 'symbol.builtins')
-    find_mixins_in_path(symbol.core.__path__, 'symbol.core')
+    find_mixins_in_path(symb.builtins.__path__, 'symb.builtins')
+    find_mixins_in_path(symb.core.__path__, 'symb.core')
     
     return mixins
 
@@ -73,12 +73,12 @@ class GraphTraversal:
     def traverse(self):
         stack = [self.root]
         while stack:
-            symbol = stack.pop()
-            if symbol in self.visited:
+            symb = stack.pop()
+            if symb in self.visited:
                 continue
-            self.visited.add(symbol)
-            self.result.append(symbol)
-            neighbors = symbol.children if self.mode == 'tree' else symbol.children
+            self.visited.add(symb)
+            self.result.append(symb)
+            neighbors = symb.children if self.mode == 'tree' else symb.children
             # Push children in reverse order to maintain original order when popped
             for child in reversed(neighbors):
                 stack.append(child)
@@ -87,22 +87,22 @@ class GraphTraversal:
     def to_ascii(self) -> str:
         lines = []
         visited_ascii = set()
-        stack = [(self.root, "")] # (symbol, indent)
+        stack = [(self.root, "")] # (symb, indent)
 
         while stack:
-            symbol, indent = stack.pop()
-            if symbol in visited_ascii:
+            symb, indent = stack.pop()
+            if symb in visited_ascii:
                 continue
-            visited_ascii.add(symbol)
-            lines.append(f"{indent}- {symbol.name}")
+            visited_ascii.add(symb)
+            lines.append(f"{indent}- {symb.name}")
             # Push children in reverse order to maintain original order when popped
-            for child in reversed(symbol.children):
+            for child in reversed(symb.children):
                 stack.append((child, indent + "  "))
         return "\n".join(lines)
 
 
 from ..core.lazy import SENTINEL
-from .lazy_symbol import LazySymbol
+from .lazy_symb import LazySymbol
 
 class Symbol(BaseSymbol):
     __slots__ = (
@@ -219,7 +219,7 @@ class Symbol(BaseSymbol):
                         child.parents.append(parent)
 
     def rebind_linear_sequence(self) -> None:
-        """Rebinds the _prev and _next pointers of adjacent symbols in the linear sequence."""
+        """Rebinds the _prev and _next pointers of adjacent symbs in the linear sequence."""
         with self._lock:
             if self._prev:
                 self._prev._next = self._next
@@ -252,10 +252,10 @@ class Symbol(BaseSymbol):
                 pass
 
     def pop(self) -> 'Symbol':
-        """Safely removes the symbol from its hierarchy, re-parenting its children.
+        """Safely removes the symb from its hierarchy, re-parenting its children.
 
         Returns:
-            The popped symbol.
+            The popped symb.
         """
         self.delete()
         return self
@@ -394,7 +394,7 @@ class Symbol(BaseSymbol):
             relationships_to_keep_self = []
             for i, related_sym in enumerate(self.related_to):
                 if related_sym == other:
-                    # This is the 'other' symbol we are trying to unrelate
+                    # This is the 'other' symb we are trying to unrelate
                     if how is None:
                         # If 'how' is None, remove all relationships with 'other'
                         continue
@@ -405,7 +405,7 @@ class Symbol(BaseSymbol):
                         # If 'how' is specified but doesn't match, keep this relationship
                         relationships_to_keep_self.append((related_sym, self.related_how[i]))
                 else:
-                    # Keep relationships with other symbols (not 'other')
+                    # Keep relationships with other symbs (not 'other')
                     relationships_to_keep_self.append((related_sym, self.related_how[i]))
 
             self.related_to = [r[0] for r in relationships_to_keep_self]
@@ -427,7 +427,7 @@ class Symbol(BaseSymbol):
                         # If 'how' is specified but doesn't match, keep this inverse relationship
                         relationships_to_keep_other.append((related_sym, other.related_how[i]))
                 else:
-                    # Keep relationships with other symbols (not 'self')
+                    # Keep relationships with other symbs (not 'self')
                     relationships_to_keep_other.append((related_sym, other.related_how[i]))
 
             other.related_to = [r[0] for r in relationships_to_keep_other]
@@ -486,9 +486,9 @@ class Symbol(BaseSymbol):
             if cls._auto_counter <= 0:
                 return None
             cls._auto_counter -= 1
-            # Search for the symbol at the decremented position
+            # Search for the symb at the decremented position
             node = cls._numbered.search(cls._auto_counter)
-            return node.symbol if node else None
+            return node.symb if node else None
 
     @classmethod
     def first(cls) -> Optional['Symbol']:
@@ -510,7 +510,7 @@ class Symbol(BaseSymbol):
         if isinstance(obj, Symbol):
             return obj
         if isinstance(obj, LazySymbol):
-            return obj._symbol
+            return obj._symb
 
         # Conversion functions for different types
         def from_list(value: list) -> 'Symbol':
@@ -571,15 +571,15 @@ class Symbol(BaseSymbol):
     @classmethod
     def each(cls, start: Union[float, 'Symbol', None] = None) -> Iterator['Symbol']:
         if start is None:
-            # Iterate through all symbols in order
+            # Iterate through all symbs in order
             for node in cls._numbered.inorder_traverse():
                 yield node.value
         elif isinstance(start, (int, float)):
-            # Find the symbol at or after the given position and iterate from there
+            # Find the symb at or after the given position and iterate from there
             for node in cls._numbered.inorder_traverse(start_key=start):
                 yield node.value
         elif isinstance(start, Symbol):
-            # Find the starting symbol and iterate from there
+            # Find the starting symb and iterate from there
             for node in cls._numbered.inorder_traverse(start_key=start._position):
                 yield node.value
         else:
@@ -699,17 +699,17 @@ class Symbol(BaseSymbol):
 
     @classmethod
     def ps(cls):
-        """Lists all loaded symbols with their name, footprint, and origin."""
+        """Lists all loaded symbs with their name, footprint, and origin."""
         total_footprint = 0
         output = ["{:<30} {:<15} {:<50}".format("Name", "Footprint (b)", "Origin")]
         output.append("-" * 95)
 
-        for name, symbol in sorted(cls._pool.items()):
-            footprint = symbol.footprint()
+        for name, symb in sorted(cls._pool.items()):
+            footprint = symb.footprint()
             total_footprint += footprint
-            origin = symbol.origin
+            origin = symb.origin
             if origin is None:
-                origin_str = f"{symbol.__class__.__module__}.{symbol.__class__.__name__}"
+                origin_str = f"{symb.__class__.__module__}.{symb.__class__.__name__}"
             else:
                 origin_str = str(origin)
             output.append("{:<30} {:<15} {:<50}".format(name, footprint, origin_str))
@@ -727,7 +727,7 @@ class Symbol(BaseSymbol):
             print(f"- {name}")
 
     def stat(self):
-        """Provides detailed statistics about the symbol and its mixins."""
+        """Provides detailed statistics about the symb and its mixins."""
         
         all_mixins = _get_available_mixins()
         output = [f"Statistics for Symbol: '{self.name}'"]
@@ -742,18 +742,18 @@ class Symbol(BaseSymbol):
         for name, mixin_cls in sorted(all_mixins.items()):
             is_slim_tag = False
             
-            # Create a temporary dummy symbol to measure mixin size
-            dummy_symbol = Symbol(f"dummy_for_{name}")
-            apply_mixin_to_instance(dummy_symbol, mixin_cls)
+            # Create a temporary dummy symb to measure mixin size
+            dummy_symb = Symbol(f"dummy_for_{name}")
+            apply_mixin_to_instance(dummy_symb, mixin_cls)
             
-            footprint = dummy_symbol.footprint()
+            footprint = dummy_symb.footprint()
             footprint_all_loaded += footprint
 
             # Check for non-sentinel values to determine slim tag
-            for attr_name in dir(dummy_symbol):
-                if not attr_name.startswith('__') and not callable(getattr(dummy_symbol, attr_name)):
+            for attr_name in dir(dummy_symb):
+                if not attr_name.startswith('__') and not callable(getattr(dummy_symb, attr_name)):
                     try:
-                        value = getattr(dummy_symbol, attr_name)
+                        value = getattr(dummy_symb, attr_name)
                         if value is not SENTINEL:
                             is_slim_tag = True
                             break
@@ -781,7 +781,7 @@ class Symbol(BaseSymbol):
         print("\n".join(output))
 
     def footprint(self) -> int:
-        """Calculates the memory footprint of the symbol and its descendants in bytes."""
+        """Calculates the memory footprint of the symb and its descendants in bytes."""
         
         memo = set()
         
@@ -803,7 +803,7 @@ class Symbol(BaseSymbol):
 
             # Special handling for Symbol children to avoid recounting
             if isinstance(obj, Symbol):
-                # The size of the symbol object itself is already counted.
+                # The size of the symb object itself is already counted.
                 # Now, add the sizes of its direct attributes and mixins.
                 if obj._index is not SENTINEL:
                     size += get_size(obj._index)

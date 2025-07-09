@@ -1,5 +1,5 @@
 
 import pytest
-from symbol import Symbol
+from symb import Symbol
 
 

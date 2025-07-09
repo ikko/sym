@@ -16,8 +16,8 @@ class SymbolTimeDimMixin:
             return datetime.datetime.combine(datetime.date.today(), datetime.time.min)
 
     @staticmethod
-    def _sorted_by_time(symbol_cls: type['Symbol']) -> list['Symbol']:
-        return sorted(symbol_cls._numbered, key=lambda s: SymbolTimeDimMixin._parse_timestamp(s))
+    def _sorted_by_time(symb_cls: type['Symbol']) -> list['Symbol']:
+        return sorted(symb_cls._numbered, key=lambda s: SymbolTimeDimMixin._parse_timestamp(s))
 
     @property
     def time_head(self) -> 'SymbolHeadTailView':

@@ -1,6 +1,6 @@
 import pytest
-from symbol import Symbol
-from symbol.core.mixinability import freeze, is_frozen, register_mixin, _reset_frozen_state_for_testing
+from symb import Symbol
+from symb.core.mixinability import freeze, is_frozen, register_mixin, _reset_frozen_state_for_testing
 
 @pytest.fixture(autouse=True)
 def reset_frozen_state():
@@ -30,10 +30,10 @@ def test_register_mixin_basic_application():
     assert success is True
 
     # Test that the mixin is applied to Symbol instances
-    s = Symbol("test_symbol_for_mixin")
+    s = Symbol("test_symb_for_mixin")
     assert hasattr(s, "my_new_method")
     assert callable(s.my_new_method)
-    assert s.my_new_method() == "Hello from test_symbol_for_mixin"
+    assert s.my_new_method() == "Hello from test_symb_for_mixin"
 
     # Test registering another mixin that overwrites an existing one
     def my_overwriting_mixin(self):

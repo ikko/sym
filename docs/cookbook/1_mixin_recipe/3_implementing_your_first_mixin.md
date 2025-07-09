@@ -1,6 +1,6 @@
 # 1.3 Implementing Your First Mixin: A Practical Example
 
-Let's walk through a practical example of creating a simple mixin for the `symbol` framework. This mixin will add a new capability to `Symbol` objects: the ability to count the total number of descendants (children, grandchildren, etc.) in their respective sub-graphs.
+Let's walk through a practical example of creating a simple mixin for the `symb` framework. This mixin will add a new capability to `Symbol` objects: the ability to count the total number of descendants (children, grandchildren, etc.) in their respective sub-graphs.
 
 ## Step 1: Define the Mixin Class
 
@@ -9,28 +9,28 @@ Create a new Python file (e.g., `my_counter_mixin.py`) and define your mixin cla
 ```python
 # my_counter_mixin.py
 
-from symbol.core.base_symbol import Symbol
+from symb.core.base_symb import Symbol
 from typing import Set
 
 class DescendantCounterMixin:
-    def __init__(self, symbol_instance: Symbol):
-        self.symbol = symbol_instance
+    def __init__(self, symb_instance: Symbol):
+        self.symb = symb_instance
 
     def count_descendants(self) -> int:
-        """Counts the total number of unique descendants for this symbol."""
-        seen_symbols: Set[Symbol] = set()
-        queue = list(self.symbol.children)
+        """Counts the total number of unique descendants for this symb."""
+        seen_symbs: Set[Symbol] = set()
+        queue = list(self.symb.children)
 
         while queue:
-            current_symbol = queue.pop(0)
-            if current_symbol not in seen_symbols:
-                seen_symbols.add(current_symbol)
-                for child in current_symbol.children:
+            current_symb = queue.pop(0)
+            if current_symb not in seen_symbs:
+                seen_symbs.add(current_symb)
+                for child in current_symb.children:
                     queue.append(child)
-        return len(seen_symbols)
+        return len(seen_symbs)
 
     async def a_count_descendants(self) -> int:
-        """Asynchronously counts the total number of unique descendants for this symbol."""
+        """Asynchronously counts the total number of unique descendants for this symb."""
         # For simplicity, this async version just calls the sync version
         # In a real-world scenario, this might involve async I/O or CPU-bound tasks
         # that are offloaded to a thread pool using anyio.to_thread.run_sync
@@ -40,23 +40,23 @@ class DescendantCounterMixin:
 
 **Explanation:**
 
-*   The `DescendantCounterMixin` class takes a `symbol_instance` in its `__init__`, storing a reference to the `Symbol` it's extending.
+*   The `DescendantCounterMixin` class takes a `symb_instance` in its `__init__`, storing a reference to the `Symbol` it's extending.
 *   `count_descendants` is a synchronous method that performs a breadth-first search to find all unique descendants.
 *   `a_count_descendants` is the asynchronous counterpart. For this simple example, it just calls the synchronous version. In a more complex scenario, you might use `anyio.to_thread.run_sync` to offload heavy computation to a thread pool, or perform actual asynchronous operations.
 
 ## Step 2: Apply the Mixin to a Symbol
 
-To use your mixin, you need to apply it to a `Symbol` instance. The `symbol` framework provides mechanisms for this, often through a dedicated `apply_mixin` function or by directly instantiating the mixin with the `Symbol`.
+To use your mixin, you need to apply it to a `Symbol` instance. The `symb` framework provides mechanisms for this, often through a dedicated `apply_mixin` function or by directly instantiating the mixin with the `Symbol`.
 
 For demonstration purposes, let's assume a direct application:
 
 ```python
 # main.py (or a test file)
 
-from symbol import Symbol
+from symb import Symbol
 from my_counter_mixin import DescendantCounterMixin
 
-# Create some symbols to form a graph
+# Create some symbs to form a graph
 a = Symbol("A")
 b = Symbol("B")
 c = Symbol("C")

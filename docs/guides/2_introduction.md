@@ -1,24 +1,24 @@
-# `«symbol»` Tutorial
+# `«symb»` Tutorial
 ## An Introduction to Symbolic Modeling
 
 ### Abstract
 
-This tutorial provides a comprehensive introduction to the `Symbol` library, guiding users through its fundamental concepts and practical applications. Through a series of progressively complex examples drawn from diverse industries, we will demonstrate how `Symbol` facilitates the creation of clear, maintainable, and extensible symbolic models. This document is designed for a broad audience, including software engineers, data scientists, and domain experts seeking to leverage symbolic representation in their projects.
+This tutorial provides a comprehensive introduction to the `Symbol` library, guiding users through its fundamental concepts and practical applications. Through a series of progressively complex examples drawn from diverse industries, we will demonstrate how `Symbol` facilitates the creation of clear, maintainable, and extensible symbic models. This document is designed for a broad audience, including software engineers, data scientists, and domain experts seeking to leverage symbic representation in their projects.
 
 ### 1. Getting Started: Setup and Basic Symbol Creation and Relationships
 
-`Symbol` is built around the concept of unique, interned symbolic entities. Every time you create a `Symbol` with a given name, you get back the exact same object. This ensures consistency and efficiency.
+`Symbol` is built around the concept of unique, interned symbic entities. Every time you create a `Symbol` with a given name, you get back the exact same object. This ensures consistency and efficiency.
 
-Simply install symbol with pip
+Simply install symb with pip
 ```bash
 # For generic everyday usage
-python -m pip install symbol
+python -m pip install symb
 
 # for some graphical enhancements
-python -m pip install symbol[visual]
+python -m pip install symb[visual]
 
 # for package or mixin development 
-python -m pip install symbol[dev]
+python -m pip install symb[dev]
 ```
 
 #### 1.1. Creating Symbols
@@ -26,7 +26,7 @@ python -m pip install symbol[dev]
 Symbols can be created directly or via the convenient `s` namespace.
 
 ```python
-from symbol import Symbol, s
+from symb import Symbol, s
 
 # Direct creation
 project_alpha = Symbol("ProjectAlpha")
@@ -61,8 +61,8 @@ Task Development: <Symbol: TaskDevelopment>
 Symbols can be linked to form directed graphs, representing relationships like parent-child, dependency, or containment. The `append()` method establishes a one-way link, automatically managing bidirectional references.
 
 ```python
-from symbol import Symbol, s
-from symbol.builtins import apply_builtins
+from symb import Symbol, s
+from symb.builtins import apply_builtins
 
 apply_builtins()
 
@@ -122,8 +122,8 @@ graph TD
 The `apply_builtins()` function integrates a set of standard mixins, providing common functionalities like time dimension handling, indexing, and pathfinding.
 
 ```python
-from symbol import Symbol
-from symbol.builtins import apply_builtins
+from symb import Symbol
+from symb.builtins import apply_builtins
 
 apply_builtins()
 
@@ -168,8 +168,8 @@ graph TD
 With the pathfinding mixin, you can easily find paths between connected Symbols, useful for dependency analysis or tracing flows.
 
 ```python
-from symbol import s
-from symbol.builtins import apply_builtins
+from symb import s
+from symb.builtins import apply_builtins
 
 apply_builtins()
 
@@ -224,7 +224,7 @@ graph LR
 The `SymbolIndex` allows you to create weighted, searchable indexes of Symbols, enabling efficient retrieval and rebalancing based on various strategies.
 
 ```python
-from symbol import s
+from symb import s
 
 # Example: Financial Portfolio Management (Asset and Wealth Management)
 # Indexing assets by risk score

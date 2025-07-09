@@ -1,6 +1,6 @@
 import pytest
 import anyio
-from symbol.core.schedule import Scheduler, ScheduledJob
+from symb.core.schedule import Scheduler, ScheduledJob
 import datetime
 import time
 import logging

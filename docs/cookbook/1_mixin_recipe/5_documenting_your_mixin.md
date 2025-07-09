@@ -1,6 +1,6 @@
 # 1.5 Documenting Your Mixin: Clarity and Usability
 
-Effective documentation is paramount for the usability and maintainability of your mixins. Clear and comprehensive documentation helps other developers (and your future self) understand what your mixin does, how to use it, and any specific considerations. This section outlines key aspects of documenting your `symbol` mixins.
+Effective documentation is paramount for the usability and maintainability of your mixins. Clear and comprehensive documentation helps other developers (and your future self) understand what your mixin does, how to use it, and any specific considerations. This section outlines key aspects of documenting your `symb` mixins.
 
 ## Why Document Mixins?
 
@@ -25,24 +25,24 @@ class DescendantCounterMixin:
     """A mixin for Symbol objects that provides methods to count their descendants.
 
     This mixin adds both synchronous and asynchronous methods to traverse
-    the symbol's graph and determine the total number of unique descendant symbols.
+    the symb's graph and determine the total number of unique descendant symbs.
     """
-    def __init__(self, symbol_instance: Symbol):
+    def __init__(self, symb_instance: Symbol):
         """Initializes the DescendantCounterMixin.
 
         Args:
-            symbol_instance: The Symbol instance to which this mixin is applied.
+            symb_instance: The Symbol instance to which this mixin is applied.
         """
-        self.symbol = symbol_instance
+        self.symb = symb_instance
 
     def count_descendants(self) -> int:
-        """Counts the total number of unique descendants for this symbol.
+        """Counts the total number of unique descendants for this symb.
 
-        Performs a breadth-first search starting from the symbol's children
-        to identify all unique symbols reachable within its sub-graph.
+        Performs a breadth-first search starting from the symb's children
+        to identify all unique symbs reachable within its sub-graph.
 
         Returns:
-            The total count of unique descendant symbols.
+            The total count of unique descendant symbs.
         """
         # ... implementation ...
 
@@ -54,7 +54,7 @@ class DescendantCounterMixin:
         it would leverage async I/O or offload CPU-bound tasks.
 
         Returns:
-            The total count of unique descendant symbols.
+            The total count of unique descendant symbs.
         """
         # ... implementation ...
 ```
@@ -78,8 +78,8 @@ For more complex mixins or collections of related mixins, consider creating a de
 *   Design considerations or architectural notes.
 *   Contribution guidelines.
 
-### 5. Integration with `symbol` Documentation
+### 5. Integration with `symb` Documentation
 
-Finally, ensure your mixin is referenced and explained within the main `symbol` project documentation (e.g., in the API reference, user manual, or cookbook). This provides a centralized location for users to discover and learn about available mixins.
+Finally, ensure your mixin is referenced and explained within the main `symb` project documentation (e.g., in the API reference, user manual, or cookbook). This provides a centralized location for users to discover and learn about available mixins.
 
-By consistently applying these documentation practices, you contribute to a more accessible, understandable, and robust `symbol` ecosystem.
+By consistently applying these documentation practices, you contribute to a more accessible, understandable, and robust `symb` ecosystem.

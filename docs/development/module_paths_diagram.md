@@ -1,38 +1,38 @@
 # Module Import Paths
 
-This diagram illustrates the most direct import paths to each accessible module in the `symbol` library. It provides a clear overview of the library's public API and how its various components can be accessed.
+This diagram illustrates the most direct import paths to each accessible module in the `symb` library. It provides a clear overview of the library's public API and how its various components can be accessed.
 
 ```mermaid
 graph TD
     subgraph "Public API"
-        A[symbol] --> B(symbol.s)
-        A --> C(symbol.Symbol)
-        A --> D(symbol.to_sym)
-        A --> E(symbol.SymbolNamespace)
+        A[symb] --> B(symb.s)
+        A --> C(symb.Symbol)
+        A --> D(symb.to_sym)
+        A --> E(symb.SymbolNamespace)
     end
 
     subgraph "Core Modules"
-        C --> F(symbol.core.base_symbol)
-        C --> G(symbol.core.symbol)
-        C --> I(symbol.core.maturing)
-        C --> J(symbol.core.mixinability)
-        C --> K(symbol.core.mixin_validator)
-        C --> L(symbol.core.protocols)
-        C --> M(symbol.core.symbolable)
-        C --> N(symbol.core.time_arithmetics)
-        C --> O(symbol.core.schedule)
-        C --> P(symbol.core.batch_processing)
+        C --> F(symb.core.base_symb)
+        C --> G(symb.core.symb)
+        C --> I(symb.core.maturing)
+        C --> J(symb.core.mixinability)
+        C --> K(symb.core.mixin_validator)
+        C --> L(symb.core.protocols)
+        C --> M(symb.core.symbable)
+        C --> N(symb.core.time_arithmetics)
+        C --> O(symb.core.schedule)
+        C --> P(symb.core.batch_processing)
     end
 
     subgraph "Builtin Extensions"
-        C --> Q(symbol.builtins.collections)
-        C --> R(symbol.builtins.time_dim)
-        C --> S(symbol.builtins.index)
-        C --> T(symbol.builtins.path)
-        C --> U(symbol.builtins.visual)
-        C --> V(symbol.builtins.red_black_tree)
-        C --> W(symbol.builtins.avl_tree)
-        C --> X(symbol.builtins.timeline)
+        C --> Q(symb.builtins.collections)
+        C --> R(symb.builtins.time_dim)
+        C --> S(symb.builtins.index)
+        C --> T(symb.builtins.path)
+        C --> U(symb.builtins.visual)
+        C --> V(symb.builtins.red_black_tree)
+        C --> W(symb.builtins.avl_tree)
+        C --> X(symb.builtins.timeline)
     end
 
     style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;

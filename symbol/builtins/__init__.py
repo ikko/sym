@@ -8,7 +8,7 @@ import logging
 log = logging.getLogger(__name__)
 
 def apply_builtins():
-    from ..core.base_symbol import Symbol
+    from ..core.base_symb import Symbol
     successful_mixins = 0
     total_mixins = 0
 

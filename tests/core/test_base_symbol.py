@@ -1,10 +1,10 @@
 import pytest
 import threading
 from weakref import WeakValueDictionary
-from symbol.core.base_symbol import Symbol, _to_symbol, AVLTree
+from symb.core.base_symb import Symbol, _to_symb, AVLTree
 
 @pytest.fixture(autouse=True)
-def setup_and_teardown_base_symbol():
+def setup_and_teardown_base_symb():
     # Store original class-level attributes
     original_pool = Symbol._pool
     original_numbered = Symbol._numbered
@@ -31,31 +31,31 @@ def setup_and_teardown_base_symbol():
     Symbol._write_cursor = original_write_cursor
     Symbol._lock = original_lock
 
-def test_symbol_creation_and_interning():
-    s1 = Symbol("test_symbol")
-    s2 = Symbol("test_symbol")
-    s3 = Symbol("another_symbol")
+def test_symb_creation_and_interning():
+    s1 = Symbol("test_symb")
+    s2 = Symbol("test_symb")
+    s3 = Symbol("another_symb")
 
     assert s1 is s2
     assert s1 is not s3
-    assert s1.name == "test_symbol"
-    assert s3.name == "another_symbol"
+    assert s1.name == "test_symb"
+    assert s3.name == "another_symb"
     assert s1.origin is None
     assert s3.origin is None
 
-def test_symbol_creation_with_origin():
+def test_symb_creation_with_origin():
     obj = {"data": 123}
     s = Symbol("test_origin", origin=obj)
     assert s.name == "test_origin"
     assert s.origin is obj
 
-def test_symbol_type_error_for_non_string_name():
+def test_symb_type_error_for_non_string_name():
     with pytest.raises(TypeError, match="Symbol name must be a string"):
         Symbol(123)
     with pytest.raises(TypeError, match="Symbol name must be a string"):
         Symbol(None)
 
-def test_symbol_position_assignment():
+def test_symb_position_assignment():
     s1 = Symbol("pos_test_1")
     s2 = Symbol("pos_test_2")
     s3 = Symbol("pos_test_3")
@@ -67,7 +67,7 @@ def test_symbol_position_assignment():
     # Verify write cursor advanced
     assert Symbol._write_cursor == 3.0
 
-def test_symbol_pool_and_numbered_insertion():
+def test_symb_pool_and_numbered_insertion():
     s1 = Symbol("pool_test_1")
     s2 = Symbol("pool_test_2")
 
@@ -82,12 +82,12 @@ def test_symbol_pool_and_numbered_insertion():
     assert inorder_traversal[0] is s1
     assert inorder_traversal[1] is s2
 
-def test_symbol_repr_and_str():
+def test_symb_repr_and_str():
     s = Symbol("repr_str_test")
     assert repr(s) == "Symbol('repr_str_test')"
     assert str(s) == "repr_str_test"
 
-def test_symbol_equality_and_hashing():
+def test_symb_equality_and_hashing():
     s1 = Symbol("eq_hash_test")
     s2 = Symbol("eq_hash_test")
     s3 = Symbol("another_eq_hash_test")
@@ -97,7 +97,7 @@ def test_symbol_equality_and_hashing():
     assert hash(s1) == hash(s2)
     assert hash(s1) != hash(s3)
 
-def test_symbol_less_than_comparison():
+def test_symb_less_than_comparison():
     s1 = Symbol("lt_test_1")
     s2 = Symbol("lt_test_2")
     s3 = Symbol("lt_test_3")
@@ -109,29 +109,29 @@ def test_symbol_less_than_comparison():
 
 
 
-def test_to_symbol_existing_symbol():
+def test_to_symb_existing_symb():
     s_orig = Symbol("existing")
-    s_converted = _to_symbol(s_orig)
+    s_converted = _to_symb(s_orig)
     assert s_converted is s_orig
 
-def test_to_symbol_from_string():
-    s_converted = _to_symbol("from_string")
+def test_to_symb_from_string():
+    s_converted = _to_symb("from_string")
     assert isinstance(s_converted, Symbol)
     assert s_converted.name == "from_string"
 
-def test_to_symbol_from_object_with_name_attribute():
+def test_to_symb_from_object_with_name_attribute():
     class HasName:
         def __init__(self, name):
             self.name = name
     obj = HasName("object_with_name")
-    s_converted = _to_symbol(obj)
+    s_converted = _to_symb(obj)
     assert isinstance(s_converted, Symbol)
     assert s_converted.name == "object_with_name"
 
-def test_to_symbol_type_error_for_unconvertible_type():
+def test_to_symb_type_error_for_unconvertible_type():
     with pytest.raises(TypeError, match="Cannot convert .* instance of .* to Symbol"):
-        _to_symbol(123)
+        _to_symb(123)
     with pytest.raises(TypeError, match="Cannot convert .* instance of .* to Symbol"):
-        _to_symbol([1, 2])
+        _to_symb([1, 2])
     with pytest.raises(TypeError, match="Cannot convert .* instance of .* to Symbol"):
-        _to_symbol(None)
+        _to_symb(None)

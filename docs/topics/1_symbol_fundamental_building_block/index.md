@@ -1,18 +1,18 @@
-# `«symbol»`
+# `«symb»`
 
-> - Imagine `symbol` like a pointer that does not point to anything. 
-> - Imagine `symbols` as a knowledge meta-network layer that represent semantic information about your entities and objects.
+> - Imagine `symb` like a pointer that does not point to anything. 
+> - Imagine `symbs` as a knowledge meta-network layer that represent semantic information about your entities and objects.
 
 # 1.1 Symbol: The Fundamental Building Block
 
-The `Symbol` object serves as the atomic unit within the framework, embodying a node in a dynamic, directed acyclic graph (DAG). Its design prioritizes uniqueness, efficient relationship management, and extensibility, making it a versatile primitive for diverse symbolic data manipulation tasks.
+The `Symbol` object serves as the atomic unit within the framework, embodying a node in a dynamic, directed acyclic graph (DAG). Its design prioritizes uniqueness, efficient relationship management, and extensibility, making it a versatile primitive for diverse symbic data manipulation tasks.
 
 ## Uniqueness and Interning
 
 Each `Symbol` instance is uniquely identified by its `name` attribute. This uniqueness is enforced through an interning mechanism, ensuring that `Symbol('A')` will always return the same object in memory as any subsequent call to `Symbol('A')`. This design choice offers significant advantages:
 
--   **Memory Efficiency**: Prevents redundant object creation, reducing memory footprint, especially in large graphs with many identical symbolic representations.
--   **Consistency**: Guarantees that operations on a symbol consistently refer to the same underlying entity, simplifying identity checks and graph integrity.
+-   **Memory Efficiency**: Prevents redundant object creation, reducing memory footprint, especially in large graphs with many identical symbic representations.
+-   **Consistency**: Guarantees that operations on a symb consistently refer to the same underlying entity, simplifying identity checks and graph integrity.
 -   **Performance**: Accelerates lookups and comparisons, as identity can often be checked by memory address rather than content comparison.
 
 ```mermaid
@@ -38,17 +38,17 @@ graph TD
 
 ## Complex Relationships and Graph Structure
 
-`Symbol` objects are designed to form complex relationships, acting as nodes in a directed acyclic graph (DAG). Each `Symbol` maintains references to its `children` (symbols it points to) and `parents` (symbols that point to it). This bidirectional linking facilitates efficient traversal and manipulation of the graph structure.
+`Symbol` objects are designed to form complex relationships, acting as nodes in a directed acyclic graph (DAG). Each `Symbol` maintains references to its `children` (symbs it points to) and `parents` (symbs that point to it). This bidirectional linking facilitates efficient traversal and manipulation of the graph structure.
 
 The framework provides intuitive methods for establishing and managing these relationships:
 
--   `symbol.add(child)`: Establishes a directed relationship from `symbol` to `child`. If the relationship already exists, it is idempotent.
--   `symbol.append(child)`: Similar to `add`, but ensures the child is added to the end of the children list if not already present.
--   `symbol.delete()`: Removes a symbol from the graph, severing its connections to parents and children.
+-   `symb.add(child)`: Establishes a directed relationship from `symb` to `child`. If the relationship already exists, it is idempotent.
+-   `symb.append(child)`: Similar to `add`, but ensures the child is added to the end of the children list if not already present.
+-   `symb.delete()`: Removes a symb from the graph, severing its connections to parents and children.
 
 ### Illustrative Example: Supply Chain Modeling
 
-Consider a supply chain where raw materials are transformed into finished goods. Each entity (e.g., "Supplier", "Manufacturer", "Product") can be represented as a `Symbol`. Relationships like "supplies", "manufactures", or "contains" can be modeled by connecting these symbols.
+Consider a supply chain where raw materials are transformed into finished goods. Each entity (e.g., "Supplier", "Manufacturer", "Product") can be represented as a `Symbol`. Relationships like "supplies", "manufactures", or "contains" can be modeled by connecting these symbs.
 
 ```mermaid
 graph TD
@@ -71,9 +71,9 @@ graph TD
 ### Code Example: Building a Simple Knowledge Graph
 
 ```python
-from symbol import Symbol, s
+from symb import Symbol, s
 
-# Create symbols for entities
+# Create symbs for entities
 person = Symbol('Person')
 organization = Symbol('Organization')
 event = Symbol('Event')
@@ -136,10 +136,10 @@ graph TD
 
 **High-Tech: Semantic Web and Knowledge Graphs**
 ```python
-from symbol import s, Symbol
-from symbol.core.mixinability import register_mixin
-from symbol.core.protocols import SymbolProtocol
-from symbol.builtins import apply_builtins
+from symb import s, Symbol
+from symb.core.mixinability import register_mixin
+from symb.core.protocols import SymbolProtocol
+from symb.builtins import apply_builtins
 
 class KnowledgeGraphMixin(SymbolProtocol):
     def has_title(self, title: Symbol):
@@ -180,10 +180,10 @@ Author of Paper A: Alice_Smith
 
 **Low-Tech: Inventory Management and Bill of Materials (BOM)**
 ```python
-from symbol import s, Symbol
-from symbol.core.mixinability import register_mixin
-from symbol.core.protocols import SymbolProtocol
-from symbol.builtins import apply_builtins
+from symb import s, Symbol
+from symb.core.mixinability import register_mixin
+from symb.core.protocols import SymbolProtocol
+from symb.builtins import apply_builtins
 
 class KnowledgeGraphMixin(SymbolProtocol):
     def has_title(self, title: Symbol):
