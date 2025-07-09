@@ -20,4 +20,4 @@ jobs:
           pip install uv
           make install
       - name: Publish package
-        run: python publish.py --username ${{ secrets.PYPI_USERNAME }} --password ${{ secrets.PYPI_PASSWORD }}
+        run: python publish.py --username ${{ vars.PYPI_USERNAME }} --password ${{ secrets.PYPI_PASSWORD }}
