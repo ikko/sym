@@ -126,9 +126,9 @@ def register_mixin(value: Any, name: str = None, target_class: type = None, safe
             if inspect.iscoroutinefunction(value):
                 sig = inspect.signature(value)
                 if 'new_process' not in sig.parameters:
-                    log.warning(f"Async mixin '{name}' should include 'new_process: bool = False' in its signature.")
+                    log.debug(f"Async mixin '{name}' should include 'new_process: bool = False' in its signature.")
                 if 'new_thread' not in sig.parameters:
-                    log.warning(f"Async mixin '{name}' should include 'new_thread: bool = True' in its signature.")
+                    log.debug(f"Async mixin '{name}' should include 'new_thread: bool = True' in its signature.")
 
         except Exception as e:
             error_msg = f"An unexpected error occurred during validation of mixin '{name}': {repr(e)}."
