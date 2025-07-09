@@ -1,6 +1,6 @@
 [project]
 name = "symbol"
-version = "0.0.1"
+version = "0.0.2"
 description = "A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction"
 dependencies = [
     "orjson>=3.10.0",
