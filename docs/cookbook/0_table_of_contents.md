@@ -1,4 +1,5 @@
-# «symbol» Cookbook: Recipes for Symbolic Mastery
+# `«symbol»` Cookbook
+**Recipes for Symbolic Mastery**
 
 ## Table of Contents
 

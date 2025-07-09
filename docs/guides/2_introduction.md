@@ -5,9 +5,21 @@
 
 This tutorial provides a comprehensive introduction to the `Symbol` library, guiding users through its fundamental concepts and practical applications. Through a series of progressively complex examples drawn from diverse industries, we will demonstrate how `Symbol` facilitates the creation of clear, maintainable, and extensible symbolic models. This document is designed for a broad audience, including software engineers, data scientists, and domain experts seeking to leverage symbolic representation in their projects.
 
-### 1. Getting Started: Basic Symbol Creation and Relationships
+### 1. Getting Started: Setup and Basic Symbol Creation and Relationships
 
 `Symbol` is built around the concept of unique, interned symbolic entities. Every time you create a `Symbol` with a given name, you get back the exact same object. This ensures consistency and efficiency.
+
+Simply install symbol with pip
+```bash
+# For generic everyday usage
+python -m pip install symbol
+
+# for some graphical enhancements
+python -m pip install symbol[visual]
+
+# for package or mixin development 
+python -m pip install symbol[dev]
+```
 
 #### 1.1. Creating Symbols
 
