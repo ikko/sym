@@ -11,8 +11,6 @@ from ..builtins.avl_tree import AVLTree
 
 T = TypeVar("T")
 
-from ..core.lazy import SENTINEL
-
 class Symbol:
     __slots__ = (
         'name',
@@ -50,10 +48,10 @@ class Symbol:
             obj.related_to = []
             obj.related_how = []
             obj._position = cls._write_cursor
-            obj._next = SENTINEL
-            obj._prev = SENTINEL
-            obj._length_cache = SENTINEL
-            obj.node_shape = SENTINEL # Initialize node_shape
+            obj._next = None
+            obj._prev = None
+            obj._length_cache = None
+            obj.node_shape = None # Initialize node_shape
             cls._write_cursor += 1.0
             cls._pool[name] = obj
             cls._numbered.root = cls._numbered.insert(cls._numbered.root, obj, obj._position) # Insert into AVLTree
