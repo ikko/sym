@@ -79,6 +79,8 @@ class Symbol(BaseSymbol):
 
     def __new__(cls, name: str, origin: Optional[Any] = None):
         obj = super().__new__(cls, name, origin)
+        if origin is None:
+            obj.origin = f"{cls.__module__}.{cls.__name__}"
         obj._index = SENTINEL
         obj._metadata = SENTINEL
         obj._context = SENTINEL
@@ -604,17 +606,28 @@ class Symbol(BaseSymbol):
         if protected_attributes is None:
             protected_attributes = set()
 
-        applied_mixins = get_applied_mixins()
-        for attr_name in list(applied_mixins.keys()): # Iterate over a copy
-            if attr_name not in protected_attributes:
-                # Check if the attribute is in _elevated_attributes and remove it
-                if attr_name in self._elevated_attributes:
-                    del self._elevated_attributes[attr_name]
-                # If it's a slot attribute and was set to SENTINEL, deep_del it
-                elif hasattr(self, attr_name) and getattr(self, attr_name) is SENTINEL:
-                    deep_del(self, attr_name)
+        # Combine attributes from __dict__ (if it exists) and __slots__
+        all_attributes = list(getattr(self, '__dict__', {}).keys()) \
+                       + list(self.__slots__) \
+                       + list(self.__class__.__bases__[0].__slots__)
 
-        gc.collect() # Explicitly call garbage collector after deletions
+        for attr_name in all_attributes:
+            if attr_name not in protected_attributes and not attr_name.startswith('__'):
+                try:
+                    value = getattr(self, attr_name)
+                    if value is SENTINEL:
+                        # Use deep_del for a safer deletion
+                        deep_del(self, attr_name)
+                except AttributeError:
+                    # Attribute might not be set, which is fine
+                    pass
+
+        # Clean up elevated attributes that are SENTINEL
+        for attr_name in list(self._elevated_attributes.keys()):
+            if self._elevated_attributes[attr_name] is SENTINEL and attr_name not in protected_attributes:
+                del self._elevated_attributes[attr_name]
+
+        gc.collect()  # Explicitly call garbage collector after deletions
 
     def immute(self, merge_strategy: Literal['overwrite', 'patch', 'copy', 'deepcopy', 'pipe', 'update', 'extend', 'smooth'] = 'smooth') -> None:
         """Orchestrates the maturing process: elevates metadata, slims down, and freezes the Symbol."""
@@ -649,27 +662,68 @@ class Symbol(BaseSymbol):
         except orjson.JSONDecodeError:
             raise TypeError(f"Cannot convert Symbol '{self.name}' to {target_type}")
 
-    def footprint(self, visited: Optional[Set['Symbol']] = None) -> int:
+    @classmethod
+    def ls(cls):
+        """Lists all loaded symbols with their name, footprint, and origin."""
+        total_footprint = 0
+        output = ["{:<30} {:<15} {:<50}".format("Name", "Footprint (b)", "Origin")]
+        output.append("-" * 95)
+
+        for name, symbol in sorted(cls._pool.items()):
+            footprint = symbol.footprint()
+            total_footprint += footprint
+            origin = symbol.origin
+            if origin is None:
+                origin_str = f"{symbol.__class__.__module__}.{symbol.__class__.__name__}"
+            else:
+                origin_str = str(origin)
+            output.append("{:<30} {:<15} {:<50}".format(name, footprint, origin_str))
+
+        output.append("-" * 95)
+        output.append("{:<30} {:<15}".format("Total", total_footprint))
+        print("\n".join(output))
+
+    def footprint(self) -> int:
         """Calculates the memory footprint of the symbol and its descendants in bytes."""
-        if visited is None:
-            visited = set()
+        
+        memo = set()
+        
+        def get_size(obj):
+            if id(obj) in memo:
+                return 0
+            memo.add(id(obj))
+        
+            size = getsizeof(obj)
+            if isinstance(obj, dict):
+                size += sum(get_size(k) + get_size(v) for k, v in obj.items())
+            elif isinstance(obj, (list, tuple, set, frozenset)):
+                size += sum(get_size(i) for i in obj)
+            elif hasattr(obj, '__dict__'):
+                size += get_size(obj.__dict__)
+            
+            if hasattr(obj, '__slots__'):
+                size += sum(get_size(getattr(obj, s)) for s in obj.__slots__ if hasattr(obj, s))
 
-        if self in visited:
-            return 0
+            # Special handling for Symbol children to avoid recounting
+            if isinstance(obj, Symbol):
+                # The size of the symbol object itself is already counted.
+                # Now, add the sizes of its direct attributes and mixins.
+                if obj._index is not SENTINEL:
+                    size += get_size(obj._index)
+                if obj._metadata is not SENTINEL:
+                    size += get_size(obj._metadata)
+                if obj._context is not SENTINEL:
+                    size += get_size(obj._context)
+                size += get_size(obj._elevated_attributes)
 
-        visited.add(self)
+                # Recursively calculate footprint of children, but avoid double counting
+                for child in obj.children:
+                    if id(child) not in memo:
+                        size += child.footprint()
 
-        size = getsizeof(self)
-        for child in self.children:
-            size += child.footprint(visited)
+            return size
 
-        # Add the size of the index and metadata
-        if self._index is not SENTINEL:
-            size += getsizeof(self._index)
-        if self._metadata is not SENTINEL:
-            size += getsizeof(self._metadata)
-
-        return size
+        return get_size(self)
 
 
 def to_sym(obj: Any) -> 'Symbol':

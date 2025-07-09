@@ -168,6 +168,9 @@ class AVLTree:
         _walk(node)
         return result
 
+    def __iter__(self):
+        return iter(self.traverse_inorder())
+
     def to_ascii(self) -> str:
         lines = []
 
