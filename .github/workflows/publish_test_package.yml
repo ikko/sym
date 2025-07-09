@@ -21,4 +21,4 @@ jobs:
           pip install uv
           make install
       - name: Publish test package
-        run: python publish.py --test --username ${{ secrets.PYPI_USERNAME }} --password ${{ secrets.PYPI_PASSWORD }}
+        run: python publish.py --test --username ${{ vars.PYPI_USERNAME }} --password ${{ secrets.PYPI_PASSWORD }}
