@@ -1,5 +1,7 @@
 # `«symbol»` Affects
 
+[![CI](https://github.com/ikko/symbol/actions/workflows/ci.yml/badge.svg)](https://github.com/ikko/symbol/actions/workflows/ci.yml)
+
 ## Catalyzing Value and Unifying Knowledge
 
 ### Empowering Innovation Through Semantic Precision and Seamless Integration
