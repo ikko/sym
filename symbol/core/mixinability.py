@@ -149,7 +149,7 @@ def register_mixin(value: Any, name: str = None, target_class: type = None, safe
     else:
         _applied_mixins[name] = None # Mark as new mixin, no original value to restore
         setattr(target_class, name, value)
-        log.info(f"Successfully applied mixin: {target_class.__name__}.{name}")
+        log.debug(f"Successfully applied mixin: {target_class.__name__}.{name}")
         return True
 
 def get_applied_mixins() -> Dict[str, Any]:

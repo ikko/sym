@@ -249,6 +249,10 @@ graph LR
 
 ### Further Reading
 
+_**Disclaimer:**_
+`«symbol»` _is under development. Some features may missing, not fully implemented or undocumented. Contributions are welcome: open a [pull request](https://github.com/ikko/symbol/compare)!_
+
+
 🚀 [Quick Guide](docs/guides/1_quick_guide.md) 
 : A brief, high-level introduction to the core concepts of the **Symbol Framework**, including interning, graph representation, and mixin-based extensibility. Ideal for quickly grasping the foundational principles.
 
@@ -260,7 +264,9 @@ graph LR
 : Delves into the sophisticated capabilities of the `Symbol` library, showcasing its versatility in addressing complex modeling challenges. It explores advanced features such as custom mixin development, intricate graph manipulations, and strategic application for DSL construction. This guide aims to empower experienced developers and researchers to unlock the full potential of `Symbol` for highly specialized and performant symbolic systems.
 
 🌐 [Framework](docs/README.md)
-: The **Symbol Framework** offers a versatile `Symbol` object that functions as a node in a directed acyclic graph with features including layered architecture for modularity, per-instance indexing for complex data structures, dynamic mixinability, memory-aware optimization, and built-in scheduling capabilities. The framework documentation presents API highlights covering construction, traversal, visualization, and lifecycle management methods, along with performance characteristics and extensibility options. This framework is primarily targeted at software engineers, data scientists, business analysts, architects, CTOs and domain experts who need to model complex relationships, build domain-specific languages, or create knowledge graphs with semantic precision while maintaining high performance and memory efficiency.
+: The **Symbol Framework** offers a versatile `Symbol` object that functions as a node in a directed acyclic graph with features including layered architecture for modularity, per-instance indexing for complex data structures, dynamic mixinability, memory-aware optimization, and built-in scheduling capabilities. The framework documentation presents API highlights covering construction, traversal, visualization, and lifecycle management methods, along with performance characteristics and extensibility options. 
+
+: This framework is primarily targeted at software engineers, data scientists, business analysts, architects, CTOs and domain experts who need to model complex and dynamic relationships, build domain-specific languages, or create knowledge graphs with semantic precision while maintaining high performance and memory efficiency.
 
 
 <details> 
