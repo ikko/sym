@@ -1,4 +1,5 @@
 # `«symbol»` Tutorial
+
 ## Symbolic Modeling and Applications
 
 ### Abstract
@@ -68,9 +69,6 @@ Representing software modules and their dependencies is crucial for understandin
 
 ```python
 from symbol import s
-from symbol.builtins import apply_builtins
-
-apply_builtins()
 
 # Example: Microservices Architecture
 auth_service = s.AuthService
@@ -82,9 +80,6 @@ auth_service.append(user_service) # Auth depends on User
 user_service.append(product_service) # User depends on Product
 product_service.append(payment_service) # Product depends on Payment
 payment_service.append(auth_service) # Payment depends on Auth (potential cycle!)
-
-# Using Symbol's graph traversal to detect cycles or critical paths
-# (This would involve more advanced graph algorithms, potentially custom mixins)
 
 # Visualize the microservices dependencies
 print(auth_service.to_mmd(mode="graph"))
