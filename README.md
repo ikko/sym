@@ -267,7 +267,7 @@ User_Developer[User_Developer]
 ### Further Reading
 
 _**Disclaimer:**_
-`«symbol»` _is under development. Some features may missing, not fully implemented or undocumented. Contributions are always welcome: fork and open a [pull request](https://github.com/ikko/symbol/compare)!_
+`«symbol»` _is under development. Some features may missing, not fully implemented or undocumented. Contributions are always welcomed: fork and open a [pull request](https://github.com/ikko/symbol/compare)!_
 
 
 🚀 [Quick Guide](docs/guides/1_quick_guide.md) 
