@@ -28,7 +28,7 @@ async def test_sync_job_scheduling(scheduler, caplog):
     results = []
     future_time = datetime.datetime.now() + datetime.timedelta(seconds=0.1)
     job = ScheduledJob(sync_test_job, (results,), {}, future_time)
-    scheduler.add_job(job)
+    await scheduler.add_job(job)
 
     await anyio.sleep(0.2)
 
@@ -48,7 +48,7 @@ async def test_recurring_async_job(scheduler, caplog):
     caplog.set_level(logging.DEBUG)
     results = []
     job = ScheduledJob(async_test_job, (results,), {}, "* * * * * *")
-    scheduler.add_job(job)
+    await scheduler.add_job(job)
 
     await anyio.sleep(2.5)
 
@@ -58,7 +58,7 @@ async def test_recurring_async_job(scheduler, caplog):
     while len(results) < 2 and time.time() - start_time < timeout:
         await anyio.sleep(0.01)
 
-    scheduler.remove_job(job.id)
+    await scheduler.remove_job(job.id)
 
     assert len(results) >= 2
     assert all(res == "async_job_executed" for res in results)

@@ -21,3 +21,12 @@
 - reason: Initial design loaded all submodules directly in `symbol/__init__.py`, leading to issues when certain modules depended on others that were not yet fully initialized or caused circular imports.
 - resolution: Implemented lazy loading for core components (`Symbol`, `s`, `GraphTraversal`) and builtins submodules in `symbol/__init__.py`. This defers the actual import until the component is first accessed, resolving import order issues and optimizing initial load times.
 - takeaway: For complex Python packages with interdependencies, lazy loading can be an effective strategy to manage import order, prevent circular dependencies, and optimize initial load times. This requires careful consideration of `__getattr__` and `__all__` in `__init__.py` files.
+
+### Asynchronous Scheduler Initialization
+- issue: `load_schedule` cannot be called directly from `Scheduler.__init__` after `_lock` was changed to `anyio.Lock` and `load_schedule` became an `async` method.
+- cause: `__init__` methods in Python are synchronous and cannot `await` asynchronous functions.
+- reason: The `Scheduler` needs to load its schedule from a file, but the file I/O and lock acquisition are now asynchronous operations.
+- approach: Remove the `load_schedule` call from `__init__`. Document that `load_schedule` must be explicitly called from an asynchronous context after `Scheduler` instantiation.
+- solution: Removed `self.load_schedule()` from `Scheduler.__init__`. Updated `load_schedule` to be an `async` method using `anyio.Lock` and `anyio.to_thread.run_sync` for file operations.
+- what we have learned: Asynchronous operations, including file I/O and lock management, cannot be directly performed within synchronous `__init__` methods. Design patterns must adapt to the asynchronous nature of the codebase.
+- conclusion: For classes with asynchronous initialization requirements, provide a separate asynchronous initialization method (e.g., `async def ainit(...)`) or require explicit asynchronous setup calls after synchronous instantiation.

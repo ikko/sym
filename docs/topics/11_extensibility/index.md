@@ -74,13 +74,13 @@ To define a standard for mixin functions, particularly those that might involve 
 from symbol import Symbol
 from symbol.core.mixinability import register_mixin
 from symbol.core.protocols import MixinFunction
-import asyncio
+import anyio
 
 # A mixin function conforming to MixinFunction protocol
 class AsyncDataFetcher(MixinFunction):
     async def __call__(self, url: str, new_process: bool = False, new_thread: bool = True) -> str:
         print(f"Fetching data from {url} in a new thread: {new_thread}, new process: {new_process}")
-        await asyncio.sleep(0.1) # Simulate async I/O
+        await anyio.sleep(0.1) # Simulate async I/O
         return f"Data from {url}"
 
 # Register the mixin
@@ -93,7 +93,7 @@ async def main():
     print(data)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    anyio.run(main())
 ```
 <details>
 <summary>Outcome</summary>

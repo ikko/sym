@@ -122,39 +122,42 @@ class Scheduler:
 
     def __init__(self, schedule_file: Optional[str] = None):
         self._schedule: list[ScheduledJob] = []
-        self._lock = threading.RLock()
+        self._lock = anyio.Lock()
         self._running = False
         self.job_map: dict[str, ScheduledJob] = {}
         self.schedule_file = schedule_file
         if self.schedule_file:
-            self.load_schedule()
+            # Load schedule asynchronously, but __init__ is sync. Need to handle this.
+            # For now, we'll assume load_schedule is called from an async context or wrapped.
+            pass # Will address load_schedule later
 
-    def add_job(self, job: ScheduledJob):
+    async def add_job(self, job: ScheduledJob):
         """Adds a job to the schedule."""
-        with self._lock:
+        async with self._lock:
             heapq.heappush(self._schedule, job)
             self.job_map[job.id] = job
             if self.schedule_file:
-                self.save_schedule()
+                await self.save_schedule()
 
-    def add_jobs(self, jobs: list[ScheduledJob]):
+    async def add_jobs(self, jobs: list[ScheduledJob]):
         """Adds multiple jobs to the schedule."""
-        with self._lock:
+        async with self._lock:
             for job in jobs:
                 heapq.heappush(self._schedule, job)
                 self.job_map[job.id] = job
             if self.schedule_file:
-                self.save_schedule()
+                await self.save_schedule()
 
-    def remove_job(self, job_id: str) -> Optional[ScheduledJob]:
+    async def remove_job(self, job_id: str) -> Optional[ScheduledJob]:
         """Removes a job from the schedule by its ID."""
-        with self._lock:
+        async with self._lock:
             job = self.job_map.pop(job_id, None)
             if job:
-                self._schedule.remove(job)
+                # Rebuild the heap without the removed job
+                self._schedule = [j for j in self.job_map.values()]
                 heapq.heapify(self._schedule)
                 if self.schedule_file:
-                    self.save_schedule()
+                    await self.save_schedule()
             return job
 
     async def _run(self):
@@ -164,7 +167,7 @@ class Scheduler:
             await anyio.sleep(0) # Yield control to the event loop
             time_to_sleep = 1 # Default sleep time
 
-            with self._lock:
+            async with self._lock:
                 if not self._schedule:
                     logging.debug("Schedule is empty. Sleeping for 1 second.")
                     time_to_sleep = 1
@@ -190,7 +193,7 @@ class Scheduler:
                         if isinstance(job_to_run.schedule, str) and croniter.is_valid(job_to_run.schedule):
                             job_to_run._calculate_next_run(base_time=now)
                             if job_to_run.next_run:
-                                self.add_job(job_to_run)
+                                await self.add_job(job_to_run)
                                 logging.debug(f"Job {job_to_run.id} rescheduled for: {job_to_run.next_run}")
                             else:
                                 logging.debug(f"Job {job_to_run.id} is a recurring job but has no future runs. Removing.")
@@ -223,23 +226,33 @@ class Scheduler:
             return
         self._running = False
 
-    def save_schedule(self):
+    async def save_schedule(self):
         """Saves the schedule to a file."""
         if not self.schedule_file:
             return
-        with self._lock:
-            with open(self.schedule_file, "wb") as f:
-                f.write(orjson.dumps([job.to_dict() for job in self.job_map.values()]))
+        async with self._lock:
+            # File I/O is blocking, so run in a thread
+            await anyio.to_thread.run_sync(self._write_schedule_to_file)
 
-    def load_schedule(self):
+    def _write_schedule_to_file(self):
+        """Synchronous helper to write the schedule to a file."""
+        with open(self.schedule_file, "wb") as f:
+            f.write(orjson.dumps([job.to_dict() for job in self.job_map.values()]))
+
+    async def load_schedule(self):
         """Loads the schedule from a file."""
         if not self.schedule_file:
             return
         try:
-            with open(self.schedule_file, "rb") as f:
-                jobs_data = orjson.loads(f.read())
+            async with self._lock:
+                jobs_data = await anyio.to_thread.run_sync(self._read_schedule_from_file)
                 for job_data in jobs_data:
                     job = ScheduledJob.from_dict(job_data)
-                    self.add_job(job)
+                    await self.add_job(job) # add_job is now async
         except FileNotFoundError:
             pass
+
+    def _read_schedule_from_file(self) -> list[dict]:
+        """Synchronous helper to read the schedule from a file."""
+        with open(self.schedule_file, "rb") as f:
+            return orjson.loads(f.read())
