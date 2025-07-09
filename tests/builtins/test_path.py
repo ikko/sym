@@ -1,5 +1,5 @@
 import pytest
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from symbol.builtins.path import SymbolPathMixin
 
 # Apply the mixin to Symbol for testing purposes

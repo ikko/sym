@@ -13,7 +13,7 @@ This document serves as a rapid introduction to `Symbol`, a Python library desig
 At its core, `Symbol` implements a stringent interning mechanism. Every unique string name corresponds to precisely one `Symbol` instance. This ensures referential equality (`is`) for semantically equivalent entities, optimizing memory usage and enabling O(1) lookup for symbolic identities.
 
 ```python
-from symbol.core.symbol import Symbol, s
+from symbol import Symbol, s
 
 # Direct instantiation: Interning ensures uniqueness
 sym_a = Symbol("concept_A")
@@ -50,7 +50,7 @@ assert root_node in sub_system_1.parents
 `Symbol`'s architecture supports dynamic runtime extension via mixins. This allows for the modular injection of domain-specific behaviors (e.g., time dimension parsing, pathfinding, indexing) without modifying the core `Symbol` class. This pattern promotes a highly composable design, enabling researchers to tailor `Symbol`'s capabilities precisely to their problem domain.
 
 ```python
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 
 # Time dimension mixin example
 event_start = Symbol("2023-10-26T10:00:00Z")

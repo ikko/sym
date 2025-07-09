@@ -1,6 +1,6 @@
 import pytest
 import datetime
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from symbol.builtins.time_dim import SymbolTimeDimMixin, SymbolHeadTailView
 from symbol.builtins import apply_builtins
 

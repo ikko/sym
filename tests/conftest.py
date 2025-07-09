@@ -1,7 +1,7 @@
 import sys
 import os
 import pytest
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from symbol.builtins import apply_builtins
 from symbol.builtins.avl_tree import AVLTree
 

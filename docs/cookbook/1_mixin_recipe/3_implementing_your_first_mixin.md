@@ -53,7 +53,7 @@ For demonstration purposes, let's assume a direct application:
 ```python
 # main.py (or a test file)
 
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from my_counter_mixin import DescendantCounterMixin
 
 # Create some symbols to form a graph

@@ -15,7 +15,7 @@ Imagine modeling aircraft components and their maintenance schedules. We can cre
 
 ```python
 import datetime
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from symbol.core.mixinability import register_mixin
 from symbol.core.protocols import SymbolProtocol
 

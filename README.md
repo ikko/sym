@@ -4,7 +4,7 @@
 
 ### Empowering Innovation Through Semantic Precision and Seamless Integration
 
-In today's rapidly evolving technological landscape, the ability to precisely define, manage, and integrate complex concepts is paramount for driving innovation and maintaining a competitive edge. The Symbol framework addresses this critical need by providing a principled approach to representing and manipulating knowledge within software systems. By offering a robust foundation for semantic modeling, Symbol empowers organizations to:
+In today's rapidly evolving technological landscape, the ability to precisely define, manage, and integrate complex concepts is paramount for driving innovation and maintaining a competitive edge. The Symbol Framework addresses this critical need by providing a principled approach to representing and manipulating knowledge within software systems. By offering a robust foundation for semantic modeling, Symbol empowers organizations to:
 
 *   **Accelerate Value Creation:** Streamline the development of sophisticated applications by providing a clear, unambiguous way to define and relate domain-specific concepts. This reduces development cycles, minimizes errors, and allows teams to focus on delivering core business logic rather than wrestling with data inconsistencies.
 *   **Ensure Seamless Integration:** Facilitate effortless interoperability between disparate systems and data sources. Symbol's emphasis on canonical representation and well-defined relationships ensures that information can flow freely and accurately across organizational boundaries, breaking down data silos and fostering a unified view of critical assets.
@@ -250,7 +250,7 @@ graph LR
 ### Further Reading
 
 _**Disclaimer:**_
-`«symbol»` _is under development. Some features may missing, not fully implemented or undocumented. Contributions are welcome: open a [pull request](https://github.com/ikko/symbol/compare)!_
+`«symbol»` _is under development. Some features may missing, not fully implemented or undocumented. Contributions are always welcome: fork and open a [pull request](https://github.com/ikko/symbol/compare)!_
 
 
 🚀 [Quick Guide](docs/guides/1_quick_guide.md) 
@@ -341,7 +341,7 @@ _**Disclaimer:**_
 <details>
 <summary> 📝 Paper </summary>
 
-🎓 [A_Principled_Framework](docs/paper/A_Principled_Framework.md)
+🎓 [A Principled Framework](docs/paper/A_Principled_Framework.md)
 : An academic paper draft introducing the `«symbol»` framework, detailing its design principles, architectural layers, and key operations. It includes case studies from the integrated circuit manufacturing domain. This document provides a theoretical foundation and empirical evidence for `«symbol»`'s efficacy in dynamic symbolic computation and knowledge graph construction, discussing performance and future research avenues.
 
 </details>
@@ -436,7 +436,7 @@ _**Disclaimer:**_
 
 ### Conclusion
 
-The Symbol Framework offers a compelling proposition for organizations seeking to enhance their software development capabilities through semantic precision, seamless integration, and unified knowledge representation. By embracing a Symbol-based approach, a wide variety of organizations can unlock new levels of agility, reduce operational costs, and foster a collaborative environment conducive to innovation.
+The **Symbol Framework** offers a compelling proposition for organizations seeking to enhance their software development capabilities through semantic precision, seamless integration, and unified knowledge representation. By embracing a Symbol-based approach, a wide variety of organizations can unlock new levels of agility, reduce operational costs, and foster a collaborative environment conducive to innovation.
 
 
 ---

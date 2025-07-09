@@ -1,6 +1,6 @@
 import pytest
 import anyio
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from symbol.builtins.visual import SymbolRender
 
 # Apply the mixin to Symbol for testing purposes

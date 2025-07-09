@@ -1,5 +1,5 @@
 import pytest
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from symbol.builtins.index import SymbolIndex
 
 @pytest.fixture

@@ -1,5 +1,5 @@
 import pytest
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from symbol.core.lazy_symbol import LazySymbol
 
 def test_lazy_symbol_evaluation():

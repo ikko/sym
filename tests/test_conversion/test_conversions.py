@@ -1,5 +1,5 @@
 import pytest
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 import copy
 from symbol.core.symbol import to_sym
 

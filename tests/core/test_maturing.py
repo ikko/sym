@@ -1,7 +1,7 @@
 import pytest
 from collections import defaultdict
 from symbol.core.maturing import DefDict, deep_del, _apply_merge_strategy
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 import copy
 
 # Fixture for DefDict

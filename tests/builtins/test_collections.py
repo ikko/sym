@@ -1,5 +1,5 @@
 import pytest
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from symbol.builtins.collections import OrderedSymbolSet
 
 def test_ordered_symbol_set_creation_and_add():

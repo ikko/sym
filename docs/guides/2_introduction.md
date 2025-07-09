@@ -14,7 +14,7 @@ This tutorial provides a comprehensive introduction to the `Symbol` library, gui
 Symbols can be created directly or via the convenient `s` namespace.
 
 ```python
-from symbol.core.symbol import Symbol, s
+from symbol import Symbol, s
 
 # Direct creation
 project_alpha = Symbol("ProjectAlpha")
@@ -49,7 +49,7 @@ Task Development: <Symbol: TaskDevelopment>
 Symbols can be linked to form directed graphs, representing relationships like parent-child, dependency, or containment. The `append()` method establishes a one-way link, automatically managing bidirectional references.
 
 ```python
-from symbol.core.symbol import Symbol, s
+from symbol import Symbol, s
 from symbol.builtins import apply_builtins
 
 apply_builtins()
@@ -110,7 +110,7 @@ graph TD
 The `apply_builtins()` function integrates a set of standard mixins, providing common functionalities like time dimension handling, indexing, and pathfinding.
 
 ```python
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from symbol.builtins import apply_builtins
 
 apply_builtins()

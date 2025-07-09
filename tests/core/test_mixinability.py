@@ -1,5 +1,5 @@
 import pytest
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from symbol.core.mixinability import freeze, is_frozen, register_mixin, _reset_frozen_state_for_testing
 
 @pytest.fixture(autouse=True)

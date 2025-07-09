@@ -18,7 +18,7 @@ Let's create a test file (e.g., `tests/test_descendant_counter_mixin.py`) for th
 
 import pytest
 import anyio
-from symbol.core.symbol import Symbol
+from symbol import Symbol
 from my_counter_mixin import DescendantCounterMixin # Assuming my_counter_mixin.py is in your PYTHONPATH
 
 @pytest.fixture
