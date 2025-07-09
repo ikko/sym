@@ -15,17 +15,52 @@ import gc
 import copy
 from sys import getsizeof
 from typing import Any, Union, Iterator, Optional, Literal, Set, Type, TypeVar
+import os
+import pkgutil
+import importlib
 
 from .base_symbol import Symbol as BaseSymbol
 from ..builtins.collections import OrderedSymbolSet
 from ..builtins.index import SymbolIndex
 from ..core.maturing import DefDict, deep_del, _apply_merge_strategy
-from ..core.mixinability import freeze, is_frozen, get_applied_mixins
+from ..core.mixinability import freeze, is_frozen, get_applied_mixins, apply_mixin_to_instance
 
 ENABLE_ORIGIN = True
 MEMORY_AWARE_DELETE = True
 
 T = TypeVar("T")
+
+
+def _get_available_mixins():
+    """
+    Discovers all available mixin classes in the symbol.builtins and symbol.core packages.
+    """
+    mixins = {}
+    
+    import symbol.builtins
+    import symbol.core
+
+    def find_mixins_in_path(path, package_name):
+        for _, name, ispkg in pkgutil.iter_modules(path):
+            if ispkg:
+                continue
+            
+            module_name = f"{package_name}.{name}"
+            try:
+                module = importlib.import_module(module_name)
+                for attr_name in dir(module):
+                    attr = getattr(module, attr_name)
+                    if inspect.isclass(attr) and attr.__module__ == module_name:
+                        # Heuristic to identify mixins: not a base class and not private
+                        if attr_name not in ['Symbol', 'BaseSymbol', 'LazySymbol', 'GraphTraversal'] and not attr_name.startswith('_'):
+                            mixins[attr_name] = attr
+            except Exception as e:
+                warnings.warn(f"Could not import module {module_name}: {e}")
+
+    find_mixins_in_path(symbol.builtins.__path__, 'symbol.builtins')
+    find_mixins_in_path(symbol.core.__path__, 'symbol.core')
+    
+    return mixins
 
 
 class GraphTraversal:
@@ -663,7 +698,7 @@ class Symbol(BaseSymbol):
             raise TypeError(f"Cannot convert Symbol '{self.name}' to {target_type}")
 
     @classmethod
-    def ls(cls):
+    def ps(cls):
         """Lists all loaded symbols with their name, footprint, and origin."""
         total_footprint = 0
         output = ["{:<30} {:<15} {:<50}".format("Name", "Footprint (b)", "Origin")]
@@ -681,6 +716,68 @@ class Symbol(BaseSymbol):
 
         output.append("-" * 95)
         output.append("{:<30} {:<15}".format("Total", total_footprint))
+        print("\n".join(output))
+
+    @classmethod
+    def ls(cls):
+        """Lists all available mixin modules."""
+        mixins = _get_available_mixins()
+        print("Available Mixins:")
+        for name in sorted(mixins.keys()):
+            print(f"- {name}")
+
+    def stat(self):
+        """Provides detailed statistics about the symbol and its mixins."""
+        
+        all_mixins = _get_available_mixins()
+        output = [f"Statistics for Symbol: '{self.name}'"]
+        output.append("\n--- Mixin Analysis ---")
+        output.append("{:<30} {:<15} {:<15}".format("Mixin Name", "Footprint (b)", "Slim Tag"))
+        output.append("-" * 60)
+
+        footprint_all_loaded = 0
+        footprint_after_slim = 0
+        slim_mixins = []
+
+        for name, mixin_cls in sorted(all_mixins.items()):
+            is_slim_tag = False
+            
+            # Create a temporary dummy symbol to measure mixin size
+            dummy_symbol = Symbol(f"dummy_for_{name}")
+            apply_mixin_to_instance(dummy_symbol, mixin_cls)
+            
+            footprint = dummy_symbol.footprint()
+            footprint_all_loaded += footprint
+
+            # Check for non-sentinel values to determine slim tag
+            for attr_name in dir(dummy_symbol):
+                if not attr_name.startswith('__') and not callable(getattr(dummy_symbol, attr_name)):
+                    try:
+                        value = getattr(dummy_symbol, attr_name)
+                        if value is not SENTINEL:
+                            is_slim_tag = True
+                            break
+                    except AttributeError:
+                        pass
+            
+            tag = "slim tag" if is_slim_tag else ""
+            if is_slim_tag:
+                footprint_after_slim += footprint
+            else:
+                slim_mixins.append(name)
+                
+            output.append("{:<30} {:<15} {:<15}".format(name, footprint, tag))
+
+        output.append("-" * 60)
+
+        # 2. Self stats
+        current_footprint = self.footprint()
+        output.append("\n--- Symbol Footprint ---")
+        output.append(f"Current Footprint: {current_footprint} bytes")
+        output.append(f"Footprint after .slim(): {footprint_after_slim} bytes")
+        output.append(f"  (Would remove: {', '.join(slim_mixins)})")
+        output.append(f"Footprint with all mixins loaded: {footprint_all_loaded} bytes")
+
         print("\n".join(output))
 
     def footprint(self) -> int:

@@ -156,6 +156,22 @@ def get_applied_mixins() -> Dict[str, Any]:
     """Returns a copy of the dictionary of applied mixins."""
     return _applied_mixins.copy()
 
+def apply_mixin_to_instance(instance: 'Symbol', mixin: Any):
+    """Applies a mixin to a single symbol instance for isolated operations like stat calculations."""
+    if inspect.isclass(mixin):
+        # Instantiate the mixin if it's a class
+        mixin_instance = mixin()
+        for attr_name in dir(mixin_instance):
+            if not attr_name.startswith('__'):
+                attr_value = getattr(mixin_instance, attr_name)
+                instance._elevated_attributes[attr_name] = attr_value
+    else:
+        # For functions or other callables, we can't easily apply them to an instance without registering them.
+        # For stat, we are interested in the footprint, so we can just add the mixin itself.
+        if hasattr(mixin, '__name__'):
+            instance._elevated_attributes[mixin.__name__] = mixin
+
+
 def _reset_frozen_state_for_testing() -> None:
     """Resets the frozen state for testing purposes. DO NOT USE IN PRODUCTION."""
     global _is_frozen
