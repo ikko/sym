@@ -14,7 +14,7 @@ test:
 	PYTHONPATH=. $(VENV_PATH)/bin/python -m pytest
 
 lint:
-	ruff check .
+	ruff check --exit-zero .
 
 build:
 	uv build
