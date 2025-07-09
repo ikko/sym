@@ -6,7 +6,7 @@
 
 ### Empowering Innovation Through Semantic Precision and Seamless Integration
 
-In today's rapidly evolving technological landscape, the ability to precisely define, manage, and integrate complex concepts is paramount for driving innovation and maintaining a competitive edge. The Symbol Framework addresses this critical need by providing a principled approach to representing and manipulating knowledge within software systems. By offering a robust foundation for semantic modeling, Symbol empowers organizations to:
+In today's rapidly evolving technological landscape, the ability to precisely define, manage, and integrate complex concepts is paramount for driving innovation and maintaining a competitive edge. The **Symbol Framework** addresses this critical need by providing a principled approach to representing and manipulating knowledge within software systems. By offering a robust foundation for semantic modeling, Symbol empowers organizations to:
 
 *   **Accelerate Value Creation:** Streamline the development of sophisticated applications by providing a clear, unambiguous way to define and relate domain-specific concepts. This reduces development cycles, minimizes errors, and allows teams to focus on delivering core business logic rather than wrestling with data inconsistencies.
 *   **Ensure Seamless Integration:** Facilitate effortless interoperability between disparate systems and data sources. Symbol's emphasis on canonical representation and well-defined relationships ensures that information can flow freely and accurately across organizational boundaries, breaking down data silos and fostering a unified view of critical assets.
@@ -14,7 +14,7 @@ In today's rapidly evolving technological landscape, the ability to precisely de
 
 ### Example: Compact Graph Representation
 
-The Symbol Framework excels at representing intricate relationships in a concise and human-readable format. Consider the following example, demonstrating a compact graph of interconnected concepts:
+The **Symbol Framework** excels at representing intricate relationships in a concise and human-readable format. Consider the following example, demonstrating a compact graph of interconnected concepts:
 
 ```mermaid
 graph LR
@@ -104,7 +104,7 @@ Stock(Stock)
 
 
 <details>
-<summary>with colors added</summary>
+<summary>with colors added (optional)</summary>
 
 ```css
     %% Financial instruments - warm reds
@@ -136,34 +136,42 @@ The adoption of a Symbol-based Domain-Specific Language (DSL) can yield signific
 ### Developer Friendly Interface
 
 ```mermaid
-graph LR
-    A[User/Developer] --> B(Symbol API)
-    B --> C{Core Symbol Logic}
-    C --> D[Built-in Mixins]
-    C --> E[Custom Mixins]
-    D -- extends --> F[Symbol Objects]
-    E -- extends --> F
-    F --> G[Data Storage/Persistence]
-    
+graph TB
+Built_in_Mixins[Built_in_Mixins]
+Core_Symbol_Logic{Core_Symbol_Logic}
+Custom_Mixins[Custom_Mixins]
+Data_Storage_Persistence[Data_Storage_Persistence]
+Symbol_API[Symbol_API]
+Symbol_Objects[Symbol_Objects]
+User_Developer[User_Developer]
+    User_Developer -- interacts with --> Symbol_API
+    Symbol_API -- uses --> Core_Symbol_Logic
+    Core_Symbol_Logic -- integrates --> Built_in_Mixins
+    Built_in_Mixins -- extends --> Symbol_Objects
+    Symbol_Objects -- persists to --> Data_Storage_Persistence
+    Core_Symbol_Logic -- integrates --> Custom_Mixins
+    Custom_Mixins -- extends --> Symbol_Objects
+
     %% User/entry point
-    style A fill:#9d0208,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style User_Developer fill:#9d0208,stroke:#333,stroke-width:2px,color:#FFFFFF;
     
     %% API layer
-    style B fill:#dc2f02,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Symbol_API fill:#dc2f02,stroke:#333,stroke-width:2px,color:#FFFFFF;
     
     %% Core logic
-    style C fill:#f48c06,stroke:#333,stroke-width:2px,color:#000000;
+    style Core_Symbol_Logic fill:#f48c06,stroke:#333,stroke-width:2px,color:#000000;
     
     %% Mixins - similar functionality
-    style D fill:#6a994e,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style E fill:#386641,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Built_in_Mixins fill:#6a994e,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Custom_Mixins fill:#386641,stroke:#333,stroke-width:2px,color:#FFFFFF;
     
     %% Objects
-    style F fill:#073b4c,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Symbol_Objects fill:#073b4c,stroke:#333,stroke-width:2px,color:#FFFFFF;
     
     %% Storage
-    style G fill:#540b0e,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Data_Storage_Persistence fill:#540b0e,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
+
 
 <details>
 <summary>this is the result of Python code</summary>
@@ -189,7 +197,7 @@ Built_in_Mixins.relate(Symbol_Objects, how="extends")
 Custom_Mixins.relate(Symbol_Objects, how="extends")
 Symbol_Objects.relate(Data_Storage_Persistence, how="persists to")
 
-# Set node shapes
+# Set node shapes, default is "round"
 User_Developer.node_shape = "square"
 Core_Symbol_Logic.node_shape = "rhombus"
 Built_in_Mixins.node_shape = "square"
@@ -210,41 +218,48 @@ print(mermaid_source)
 <summary>that leads to diagram representation</summary>
 
 ```css
-graph LR
-    A[User/Developer] --> B(Symbol API)
-    B --> C{Core Symbol Logic}
-    C --> D[Built-in Mixins]
-    C --> E[Custom Mixins]
-    D -- extends --> F[Symbol Objects]
-    E -- extends --> F
-    F --> G[Data Storage/Persistence]
+graph TB
+Built_in_Mixins[Built_in_Mixins]
+Core_Symbol_Logic{Core_Symbol_Logic}
+Custom_Mixins[Custom_Mixins]
+Data_Storage_Persistence[Data_Storage_Persistence]
+Symbol_API[Symbol_API]
+Symbol_Objects[Symbol_Objects]
+User_Developer[User_Developer]
+    User_Developer -- interacts with --> Symbol_API
+    Symbol_API -- uses --> Core_Symbol_Logic
+    Core_Symbol_Logic -- integrates --> Built_in_Mixins
+    Core_Symbol_Logic -- integrates --> Custom_Mixins
+    Built_in_Mixins -- extends --> Symbol_Objects
+    Custom_Mixins -- extends --> Symbol_Objects
+    Symbol_Objects -- persists to --> Data_Storage_Persistence
 ```
 
 </details>
 
 
 <details>
-<summary>with colors added</summary>
+<summary>with colors added (optional)</summary>
 
 ```css
     %% User/entry point
-    style A fill:#9d0208,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style User_Developer fill:#9d0208,stroke:#333,stroke-width:2px,color:#FFFFFF;
     
     %% API layer
-    style B fill:#dc2f02,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Symbol_API fill:#dc2f02,stroke:#333,stroke-width:2px,color:#FFFFFF;
     
     %% Core logic
-    style C fill:#f48c06,stroke:#333,stroke-width:2px,color:#000000;
+    style Core_Symbol_Logic fill:#f48c06,stroke:#333,stroke-width:2px,color:#000000;
     
     %% Mixins - similar functionality
-    style D fill:#6a994e,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style E fill:#386641,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Built_in_Mixins fill:#6a994e,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Custom_Mixins fill:#386641,stroke:#333,stroke-width:2px,color:#FFFFFF;
     
     %% Objects
-    style F fill:#073b4c,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Symbol_Objects fill:#073b4c,stroke:#333,stroke-width:2px,color:#FFFFFF;
     
     %% Storage
-    style G fill:#540b0e,stroke:#333,stroke-width:2px,color:#FFFFFF;
+    style Data_Storage_Persistence fill:#540b0e,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 
 </details>

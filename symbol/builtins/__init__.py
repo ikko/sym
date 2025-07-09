@@ -60,4 +60,4 @@ def apply_builtins():
         total_mixins += 1
         if register_mixin(getattr(SymbolRender, method_name), method_name): successful_mixins += 1
 
-    log.info(f"Mixin application complete. Successfully applied {successful_mixins} of {total_mixins} mixins.")
+    log.debug(f"Mixin application complete. Successfully applied {successful_mixins} of {total_mixins} mixins.")
