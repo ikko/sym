@@ -1,6 +1,6 @@
 [project]
 name = "symb"
-version = "0.0.4"
+version = "0.0.5"
 description = "A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction"
 dependencies = [
     "orjson>=3.10.0",
@@ -28,6 +28,17 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["symb"]
+
+[tool.uv]
+name = "symb"
+version = "0.0.5"
+description = "A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction"
+authors = ["Miklos Beky <miklos.beky@gmail.com>"]
+
+# You can specify the README file for the long description
+long_description = "file: README.md"  # Path to the README file
+long_description_content_type = "text/markdown"  # Can be "text/x-rst" for reST
+
 
 [tool.setuptools.package-data]
 "symb" = ["py.typed"]
