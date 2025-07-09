@@ -4,7 +4,7 @@ The `Symbol` framework is engineered for high performance, particularly in scena
 
 ## O(1) Symbol Instantiation (Intern Pool)
 
-Symbol instantiation is a constant-time operation, achieved through the implementation of an interning pool (a variation of the Flyweight design pattern). When a `Symbol` is requested via `Symbol(name)`, the framework first checks if a `Symbol` with that `name` already exists in a global pool. If it does, the existing instance is returned; otherwise, a new instance is created and added to the pool. This ensures that each unique symbolic name maps to a single, canonical `Symbol` object, leading to significant memory savings and guaranteeing object identity.
+Symbol instantiation is a constant-time operation, achieved through the implementation of an interning pool (a variation of the Flyweight design pattern). When a `Symbol` is requested via `Symbol(name)`, the framework first checks if a `Symbol` with that `name` already exists in a global pool. If it does, the existing instance is returned; otherwise, a new instance is created and added to the pool. This ensures that each unique symic name maps to a single, canonical `Symbol` object, leading to significant memory savings and guaranteeing object identity.
 
 ### Mechanism
 - **`Symbol._pool`**: A dictionary-like structure that stores `Symbol` instances, keyed by their `name`.
@@ -12,9 +12,9 @@ Symbol instantiation is a constant-time operation, achieved through the implemen
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 
-# Repeated instantiation of the same symbol name
+# Repeated instantiation of the same sym name
 s1 = Symbol('my_data_point')
 s2 = Symbol('my_data_point')
 s3 = Symbol('another_data_point')
@@ -27,7 +27,7 @@ import time
 
 start_time = time.perf_counter_ns()
 for _ in range(100000):
-    Symbol('test_symbol')
+    Symbol('test_sym')
 end_time = time.perf_counter_ns()
 print(f"Time for 100,000 Symbol instantiations: {(end_time - start_time) / 1_000_000:.2f} ms")
 ```
@@ -62,11 +62,11 @@ Establishing relationships between `Symbol` instances (e.g., via `append()`) is 
 
 ### Mechanism
 - **`Symbol.children` and `Symbol.parents`**: These are Python lists that store direct references to related `Symbol` objects.
-- **`append()` method**: Directly adds a `Symbol` to the `children` list of the current symbol and adds the current symbol to the `parents` list of the child symbol.
+- **`append()` method**: Directly adds a `Symbol` to the `children` list of the current sym and adds the current sym to the `parents` list of the child sym.
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 
 root = Symbol('Root')
 child_a = Symbol('ChildA')
@@ -114,11 +114,11 @@ While full graph traversals (e.g., `tree()`, `graph()`) are inherently dependent
 
 ### Mechanism
 - **Cached Lengths**: The `_length_cache` attribute on `Symbol` instances can store the length of `children` lists, avoiding repeated `len()` calls.
-- **Float-based Cursor Insertion (`_write_cursor`, `_position`)**: For sequential symbol generation (e.g., `Symbol.next()`), a float-based cursor (`_write_cursor`) allows for efficient insertion of new symbols into a conceptual ordered sequence without requiring re-indexing of existing elements. This is particularly useful for maintaining insertion order in a dynamic list of symbols.
+- **Float-based Cursor Insertion (`_write_cursor`, `_position`)**: For sequential sym generation (e.g., `Symbol.next()`), a float-based cursor (`_write_cursor`) allows for efficient insertion of new syms into a conceptual ordered sequence without requiring re-indexing of existing elements. This is particularly useful for maintaining insertion order in a dynamic list of syms.
 
 ### Code Example (Conceptual for Float-based Cursor)
 ```python
-from symbol import Symbol
+from sym import Symbol
 
 # Symbol.next() uses float-based cursor for efficient chaining
 sym0 = Symbol.next()
@@ -170,34 +170,34 @@ graph TD
 ```
 ## O(log n) Insert/Search when extended to use bisect-based insertion order
 
-While core relationship linking is O(1), the `Symbol` framework is designed to integrate with more advanced data structures for scenarios requiring ordered insertion and efficient searching within larger collections of symbols. Specifically, when extended with built-in modules like `symbol.builtins.index` (which can leverage `AVLTree` or `RedBlackTree`), operations like ordered insertion and searching within a sorted collection of symbols can achieve O(log n) time complexity.
+While core relationship linking is O(1), the `Symbol` framework is designed to integrate with more advanced data structures for scenarios requiring ordered insertion and efficient searching within larger collections of syms. Specifically, when extended with built-in modules like `sym.builtins.index` (which can leverage `AVLTree` or `RedBlackTree`), operations like ordered insertion and searching within a sorted collection of syms can achieve O(log n) time complexity.
 
 ### Mechanism
-- **`SymbolIndex`**: A specialized index (likely within `symbol.builtins.index`) that can maintain symbols in a sorted order.
-- **Balanced Binary Search Trees (e.g., AVL Tree, Red-Black Tree)**: These data structures (implemented in `symbol.builtins.avl_tree` and `symbol.builtins.red_black_tree`) provide logarithmic time complexity for insertion, deletion, and search operations by maintaining a balanced tree structure.
+- **`SymbolIndex`**: A specialized index (likely within `sym.builtins.index`) that can maintain syms in a sorted order.
+- **Balanced Binary Search Trees (e.g., AVL Tree, Red-Black Tree)**: These data structures (implemented in `sym.builtins.avl_tree` and `sym.builtins.red_black_tree`) provide logarithmic time complexity for insertion, deletion, and search operations by maintaining a balanced tree structure.
 
 ### Code Example (Conceptual with SymbolIndex)
 ```python
-from symbol import Symbol, s
-from symbol.builtins import apply_builtins
-from symbol.builtins.index import SymbolIndex
+from sym import Symbol, s
+from sym.builtins import apply_builtins
+from sym.builtins.index import SymbolIndex
 
 apply_builtins()
 
 # Create a Symbol and its associated index
-root_symbol = s.Root
+root_sym = s.Root
 
-root_symbol.index.insert(s.Zebra, 0.3)
-root_symbol.index.insert(s.Apple, 0.1)
-root_symbol.index.insert(s.Banana, 0.2)
+root_sym.index.insert(s.Zebra, 0.3)
+root_sym.index.insert(s.Apple, 0.1)
+root_sym.index.insert(s.Banana, 0.2)
 
-print(f"Symbols in index (sorted): {[s.name for s in root_symbol.index.traverse()]}")
+print(f"Symbols in index (sorted): {[s.name for s in root_sym.index.traverse()]}")
 
-# Search for a symbol in the index (O(log n))
+# Search for a sym in the index (O(log n))
 # The SymbolIndex.find method is not directly available,
-# so we'll simulate a search by checking if the symbol is in the traversed list.
-found_symbol = next((s for s in root_symbol.index.traverse() if s.name == 'Apple'), None)
-print(f"Found Apple: {found_symbol.name if found_symbol else 'Not Found'}")
+# so we'll simulate a search by checking if the sym is in the traversed list.
+found_sym = next((s for s in root_sym.index.traverse() if s.name == 'Apple'), None)
+print(f"Found Apple: {found_sym.name if found_sym else 'Not Found'}")
 ```
 <details>
 <summary>Outcome</summary>
@@ -226,6 +226,6 @@ graph TD
 ```
 ## Conclusion
 
-The `Symbol` framework's performance characteristics are a direct result of its thoughtful design, leveraging efficient data structures and algorithms. By employing interning for constant-time instantiation, utilizing native list operations for O(1) relationship linking, and providing hooks for logarithmic-time ordered operations through specialized indices, `Symbol` delivers a high-performance foundation for building and manipulating complex symbolic graphs. These optimizations are crucial for ensuring scalability and responsiveness in demanding applications.
+The `Symbol` framework's performance characteristics are a direct result of its thoughtful design, leveraging efficient data structures and algorithms. By employing interning for constant-time instantiation, utilizing native list operations for O(1) relationship linking, and providing hooks for logarithmic-time ordered operations through specialized indices, `Symbol` delivers a high-performance foundation for building and manipulating complex symic graphs. These optimizations are crucial for ensuring scalability and responsiveness in demanding applications.
 
 For a comprehensive overview of the Symbol's performance aspects, refer to the [Performance Overview Diagram](performance_overview.mmd).

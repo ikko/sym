@@ -1,6 +1,6 @@
 # Example Use: Practical Applications of the Symbol Framework
 
-The `Symbol` framework is designed to be versatile, providing a powerful foundation for a wide range of applications that benefit from graph-based data structures and symbolic manipulation. This section illustrates several practical use cases, demonstrating how `Symbol`'s core features can be leveraged to solve real-world problems.
+The `Symbol` framework is designed to be versatile, providing a powerful foundation for a wide range of applications that benefit from graph-based data structures and symic manipulation. This section illustrates several practical use cases, demonstrating how `Symbol`'s core features can be leveraged to solve real-world problems.
 
 ## Basic Symbol Creation and Relationships
 
@@ -8,7 +8,7 @@ This example demonstrates the fundamental operations of creating `Symbol` instan
 
 ### Code Example
 ```python
-from symbol import s, Symbol
+from sym import s, Symbol
 
 # --- Basic Symbol creation and relationships ---
 hello = Symbol('hello')
@@ -28,7 +28,7 @@ print(hello.tree())
 - `Symbol('hello')`: Creates a `Symbol` instance named 'hello'. Due to the interning mechanism, if 'hello' already exists, the existing instance is returned.
 - `s.world`: Utilizes the `SymbolNamespace` (`s`) for a more concise way to create a `Symbol` named 'world'. This is syntactic sugar for `Symbol('world')`.
 - `hello.add(world)`: Establishes a directed relationship from `hello` to `world`, making `world` a child of `hello`. If the relationship already exists, it's idempotent.
-- `print(hello.tree())`: Performs a depth-first traversal starting from `hello` and prints the names of all reachable symbols in a tree-like structure.
+- `print(hello.tree())`: Performs a depth-first traversal starting from `hello` and prints the names of all reachable syms in a tree-like structure.
 
 ### Diagram
 ```mermaid
@@ -44,10 +44,10 @@ This example illustrates how `Symbol` can model complex supply chain relationshi
 
 ### Code Example
 ```python
-from symbol import s, Symbol
-from symbol.core.mixinability import register_mixin
-from symbol.core.protocols import SymbolProtocol
-from symbol.builtins import apply_builtins
+from sym import s, Symbol
+from sym.core.mixinability import register_mixin
+from sym.core.protocols import SymbolProtocol
+from sym.builtins import apply_builtins
 
 class SupplyChainMixin(SymbolProtocol):
     def buys_from(self, supplier: Symbol):
@@ -66,8 +66,8 @@ s.Supplier_A.sources_from(s.Plantation_X)
 s.Supplier_B.sources_from(s.Plantation_Y)
 s.Plantation_Y.add(s.deforestation_event_2024_Q4)
 
-def has_deforestation(symbol):
-    return 'deforestation' in symbol.name
+def has_deforestation(sym):
+    return 'deforestation' in sym.name
 
 for path in s.Global_Goods_Inc.match(has_deforestation):
     print(f"Deforestation Link Found: {path.path_to(s.deforestation_event_2024_Q4)}")
@@ -83,8 +83,8 @@ Deforestation Link Found: ['<Symbol: Global_Goods_Inc>', '<Symbol: Palm_Oil_Proc
 ### Explanation
 - **Supply Chain Modeling**: Each entity (e.g., `Global_Goods_Inc`, `Palm_Oil_Processor`, `Plantation_X`) is represented as a `Symbol`. Relationships like `buys_from` and `sources_from` are established using custom methods (which would internally use `add()` or `relate_to()`).
 - **Event Representation**: `s.deforestation_event_2024_Q4` is a `Symbol` representing a specific event, linked to `Plantation_Y`.
-- **Graph Querying**: The `has_deforestation` function acts as a predicate to identify symbols related to deforestation. `s.Global_Goods_Inc.match(has_deforestation)` performs a graph traversal (likely a depth-first search or breadth-first search) to find all paths from `Global_Goods_Inc` to any symbol satisfying the predicate.
-- `path.path_to(s.deforestation_event_2024_Q4)`: Once a path is found, this method reconstructs the sequence of symbols from the starting point to the deforestation event, providing traceability.
+- **Graph Querying**: The `has_deforestation` function acts as a predicate to identify syms related to deforestation. `s.Global_Goods_Inc.match(has_deforestation)` performs a graph traversal (likely a depth-first search or breadth-first search) to find all paths from `Global_Goods_Inc` to any sym satisfying the predicate.
+- `path.path_to(s.deforestation_event_2024_Q4)`: Once a path is found, this method reconstructs the sequence of syms from the starting point to the deforestation event, providing traceability.
 
 ### Diagram
 ```mermaid
@@ -106,11 +106,11 @@ graph TD
 ```
 ## Timeline Example
 
-This example showcases the use of `symbol.builtins.timeline` to manage and analyze temporal data. It demonstrates how to create timelines, add time periods, and perform operations like finding overlaps between different timelines.
+This example showcases the use of `sym.builtins.timeline` to manage and analyze temporal data. It demonstrates how to create timelines, add time periods, and perform operations like finding overlaps between different timelines.
 
 ### Code Example
 ```python
-from symbol.builtins.timeline import Timeline
+from sym.builtins.timeline import Timeline
 import datetime
 
 timeline1 = Timeline()
@@ -160,7 +160,7 @@ This example demonstrates a simple batch processing utility, showcasing how `Sym
 
 ### Code Example
 ```python
-from symbol.core.batch_processing import process_batch
+from sym.core.batch_processing import process_batch
 
 def square(x): return x * x
 results = process_batch([1, 2, 3, 4], square)
@@ -175,7 +175,7 @@ Batch processing results: [1, 4, 9, 16]
 </details>
 
 ### Explanation
-- `process_batch()`: A utility function (likely part of `symbol.core.batch_processing`) that takes a list of inputs and a function, applying the function to each input in a batch. This highlights how `Symbol` can be part of a larger system, where its symbolic representations can be processed by external functions.
+- `process_batch()`: A utility function (likely part of `sym.core.batch_processing`) that takes a list of inputs and a function, applying the function to each input in a batch. This highlights how `Symbol` can be part of a larger system, where its symic representations can be processed by external functions.
 - `square()`: A simple function demonstrating the type of operation that can be applied in a batch.
 
 ### Diagram
@@ -192,11 +192,11 @@ graph LR
 ```
 ## Scheduler Example
 
-This example demonstrates the use of `symbol.core.schedule` to schedule and execute tasks at specified times. It showcases the `Scheduler` and `ScheduledJob` classes, allowing for the automation of functions based on time dimension objects.
+This example demonstrates the use of `sym.core.schedule` to schedule and execute tasks at specified times. It showcases the `Scheduler` and `ScheduledJob` classes, allowing for the automation of functions based on time dimension objects.
 
 ### Code Example
 ```python
-from symbol.core.schedule import Scheduler, ScheduledJob
+from sym.core.schedule import Scheduler, ScheduledJob
 import time
 import datetime
 
@@ -244,6 +244,6 @@ graph TD
 ```
 ## Conclusion
 
-These examples collectively demonstrate the versatility and power of the `Symbol` framework. From basic graph construction to complex supply chain analysis, temporal data management, batch processing, and task scheduling, `Symbol` provides a flexible and efficient foundation for building sophisticated applications. Its modular design and extensibility allow developers to tailor its capabilities to specific domain requirements, making it a valuable tool for a wide array of symbolic data manipulation tasks.
+These examples collectively demonstrate the versatility and power of the `Symbol` framework. From basic graph construction to complex supply chain analysis, temporal data management, batch processing, and task scheduling, `Symbol` provides a flexible and efficient foundation for building sophisticated applications. Its modular design and extensibility allow developers to tailor its capabilities to specific domain requirements, making it a valuable tool for a wide array of symic data manipulation tasks.
 
 ---

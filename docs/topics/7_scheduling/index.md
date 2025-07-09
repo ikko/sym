@@ -43,7 +43,7 @@ The scheduling system is built around two primary components:
 
 ### Microservice Orchestration
 ```python
-from symbol.core.schedule import Scheduler, ScheduledJob
+from sym.core.schedule import Scheduler, ScheduledJob
 import datetime, time
 
 def data_ingestion(): print(f"[{datetime.datetime.now()}] Data Ingestion.")
@@ -91,7 +91,7 @@ Automated Report Generation
 For businesses, automated report generation is a common requirement. The `Symbol` scheduler can reliably handle tasks like generating daily sales reports, weekly inventory summaries, or monthly financial statements.
 
 ```python
-from symbol.core.schedule import Scheduler, ScheduledJob
+from sym.core.schedule import Scheduler, ScheduledJob
 import datetime
 import time
 

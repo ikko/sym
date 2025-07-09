@@ -1,6 +1,6 @@
 # Memory-Aware Maturing: Optimizing Symbol Lifecycle
 
-The `Symbol` framework incorporates a sophisticated "maturing" process, orchestrated by the `immute()` method. This process is designed to optimize the memory footprint and performance of `Symbol` instances by transitioning them from a flexible, dynamically extensible state to a more rigid, optimized, and immutable form. This is particularly beneficial for long-lived symbols or those that have reached a stable state in their lifecycle, where further dynamic modifications are not anticipated.
+The `Symbol` framework incorporates a sophisticated "maturing" process, orchestrated by the `immute()` method. This process is designed to optimize the memory footprint and performance of `Symbol` instances by transitioning them from a flexible, dynamically extensible state to a more rigid, optimized, and immutable form. This is particularly beneficial for long-lived syms or those that have reached a stable state in their lifecycle, where further dynamic modifications are not anticipated.
 
 ## The Maturing Process: Elevate, Slim, and Freeze
 
@@ -60,8 +60,8 @@ The `immute()` method orchestrates three distinct phases:
 ### High-Tech Industry: Optimizing Large-Scale Knowledge Graphs
 
 ```python
-from symbol import Symbol, s
-from symbol.core.mixinability import register_mixin
+from sym import Symbol, s
+from sym.core.mixinability import register_mixin
 
 class KnowledgeEntity(Symbol):
     def __init__(self, name, initial_data=None):
@@ -119,7 +119,7 @@ graph TD
 ### Low-Tech Industry: Financial Transaction Processing
 
 ```python
-from symbol import Symbol, s
+from sym import Symbol, s
 
 class FinancialTransaction(Symbol):
     def __init__(self, transaction_id, amount, currency, status="pending", details=None):

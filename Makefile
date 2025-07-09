@@ -2,11 +2,11 @@ SHELL := /bin/bash
 
 .PHONY: install test lint build clean
 
-VENV_PATH := $(HOME)/.virtualenvs/symbol
+VENV_PATH := $(HOME)/.virtualenvs/sym
 
 install:
 	uv venv $(VENV_PATH)
-	source $(HOME)/.virtualenvs/symbol/bin/activate
+	source $(HOME)/.virtualenvs/sym/bin/activate
 	python -m ensurepip
 	python -m pip install -e .[dev]
 

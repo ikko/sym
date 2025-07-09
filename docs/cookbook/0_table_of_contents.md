@@ -1,4 +1,4 @@
-# `«symbol»` Cookbook
+# `«sym»` Cookbook
 **Recipes for Symbolic Mastery**
 
 ## Table of Contents
@@ -12,7 +12,7 @@
 - [1.5 Documenting Your Mixin: Clarity and Usability](1_mixin_recipe/5_documenting_your_mixin.md)
 - [1.6 Publishing Your Mixin: From Third-Party to Standard Library](1_mixin_recipe/6_publishing_your_mixin.md)
 
-### Recipe 2: [Scheduling Jobs](2_scheduling_jobs.md) with `symbol.schedule`
+### Recipe 2: [Scheduling Jobs](2_scheduling_jobs.md) with `sym.schedule`
 
 ### Recipe 3: [Coming Soon]
 

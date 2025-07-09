@@ -2,23 +2,23 @@
 
 The project is organized into two main packages:
 
--   `symbol.core`: Contains the essential `Symbol` class and graph traversal logic.
--   `symbol.builtins`: Provides optional, high-level extensions for collections, date/time operations, index, pathfinding, and visualization.
+-   `sym.core`: Contains the essential `Symbol` class and graph traversal logic.
+-   `sym.builtins`: Provides optional, high-level extensions for collections, date/time operations, index, pathfinding, and visualization.
 
 ```mermaid
 graph LR
-    A[User Application] --> B(symbol)
-    B --> C{symbol.core}
-    B --> D{symbol.builtins}
-    C --> E[symbol.core.symbol]
-    C --> F[symbol.core.graph]
-    C --> G[symbol.core.schedule]
-    D --> H[symbol.builtins.time_dim]
-    D --> I[symbol.builtins.collections]
-    D --> J[symbol.builtins.index]
-    D --> K[symbol.builtins.path]
-    D --> L[symbol.builtins.visual]
-    D --> M[symbol.builtins.timeline]
+    A[User Application] --> B(sym)
+    B --> C{sym.core}
+    B --> D{sym.builtins}
+    C --> E[sym.core.sym]
+    C --> F[sym.core.graph]
+    C --> G[sym.core.schedule]
+    D --> H[sym.builtins.time_dim]
+    D --> I[sym.builtins.collections]
+    D --> J[sym.builtins.index]
+    D --> K[sym.builtins.path]
+    D --> L[sym.builtins.visual]
+    D --> M[sym.builtins.timeline]
     
     style A fill:#007BFF,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style B fill:#228B22,stroke:#333,stroke-width:2px,color:#FFFFFF;
@@ -40,32 +40,32 @@ graph LR
 ```mermaid
 graph LR
     subgraph "Symbol Package"
-        A[symbol] --> B(symbol.core)
-        A --> C(symbol.builtins)
+        A[sym] --> B(sym.core)
+        A --> C(sym.builtins)
     end
     style A fill:#228B22,stroke:#333,stroke-width:2px,color:#FFFFFF;
 
     subgraph "Core Modules"
-        B --> B1[symbol.core.symbol]
-        B --> B3[symbol.core.maturing]
-        B --> B4[symbol.core.mixinability]
-        B --> B5[symbol.core.mixin_validator]
-        B --> B6[symbol.core.protocols]
-        B --> B7[symbol.core.symbolable]
-        B --> B8[symbol.core.time_arithmetics]
-        B --> B9[symbol.core.schedule]
+        B --> B1[sym.core.sym]
+        B --> B3[sym.core.maturing]
+        B --> B4[sym.core.mixinability]
+        B --> B5[sym.core.mixin_validator]
+        B --> B6[sym.core.protocols]
+        B --> B7[sym.core.symable]
+        B --> B8[sym.core.time_arithmetics]
+        B --> B9[sym.core.schedule]
     end
     style B fill:#FF8C00,stroke:#333,stroke-width:2px,color:#000000;
 
     subgraph "Builtin Extensions"
-        C --> C1[symbol.builtins.collections]
-        C --> C2[symbol.builtins.time_dim]
-        C --> C3[symbol.builtins.index]
-        C --> C4[symbol.builtins.path]
-        C --> C5[symbol.builtins.visual]
-        C --> C6[symbol.builtins.red_black_tree]
-        C --> C7[symbol.builtins.avl_tree]
-        C --> C8[symbol.builtins.timeline]
+        C --> C1[sym.builtins.collections]
+        C --> C2[sym.builtins.time_dim]
+        C --> C3[sym.builtins.index]
+        C --> C4[sym.builtins.path]
+        C --> C5[sym.builtins.visual]
+        C --> C6[sym.builtins.red_black_tree]
+        C --> C7[sym.builtins.avl_tree]
+        C --> C8[sym.builtins.timeline]
     end
     style C fill:#800080,stroke:#333,stroke-width:2px,color:#FFFFFF;
 

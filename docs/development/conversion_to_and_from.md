@@ -17,7 +17,7 @@ The following standard Python types are supported for bidirectional conversion:
 
 -   **`int`**
     ```python
-    from symbol import Symbol, to_sym
+    from sym import Symbol, to_sym
 
     # Using from_int
     s_int = Symbol.from_int(123)
@@ -30,7 +30,7 @@ The following standard Python types are supported for bidirectional conversion:
 
 -   **`float`**
     ```python
-    from symbol import Symbol, to_sym
+    from sym import Symbol, to_sym
 
     # Using from_float
     s_float = Symbol.from_float(123.45)
@@ -43,7 +43,7 @@ The following standard Python types are supported for bidirectional conversion:
 
 -   **`str`**
     ```python
-    from symbol import Symbol, to_sym
+    from sym import Symbol, to_sym
 
     # Using from_str
     s_str = Symbol.from_str("hello")
@@ -56,7 +56,7 @@ The following standard Python types are supported for bidirectional conversion:
 
 -   **`bool`**
     ```python
-    from symbol import Symbol, to_sym
+    from sym import Symbol, to_sym
 
     # Using from_bool
     s_bool = Symbol.from_bool(True)
@@ -69,7 +69,7 @@ The following standard Python types are supported for bidirectional conversion:
 
 -   **`None`**
     ```python
-    from symbol import Symbol, to_sym
+    from sym import Symbol, to_sym
 
     # Using from_none
     s_none = Symbol.from_none(None)
@@ -84,7 +84,7 @@ The following standard Python types are supported for bidirectional conversion:
 
 -   **`list`**
     ```python
-    from symbol import Symbol, to_sym
+    from sym import Symbol, to_sym
 
     my_list = [1, "two", True]
     s_list = Symbol.from_list(my_list)
@@ -98,7 +98,7 @@ The following standard Python types are supported for bidirectional conversion:
 
 -   **`dict`**
     ```python
-    from symbol import Symbol, to_sym
+    from sym import Symbol, to_sym
 
     my_dict = {"a": 1, "b": "two"}
     s_dict = Symbol.from_dict(my_dict)
@@ -112,7 +112,7 @@ The following standard Python types are supported for bidirectional conversion:
 
 -   **`tuple`**
     ```python
-    from symbol import Symbol, to_sym
+    from sym import Symbol, to_sym
 
     my_tuple = (1, "two", True)
     s_tuple = Symbol.from_tuple(my_tuple)
@@ -126,7 +126,7 @@ The following standard Python types are supported for bidirectional conversion:
 
 -   **`set`**
     ```python
-    from symbol import Symbol, to_sym
+    from sym import Symbol, to_sym
 
     my_set = {"one_val", "two_val", "true_val"}
     s_set = Symbol.from_set(my_set)
@@ -143,7 +143,7 @@ The following standard Python types are supported for bidirectional conversion:
 The `to_sym()` function and `Symbol.from_<type>` methods handle nested data structures recursively, ensuring that all elements are converted into `Symbol` instances and their `origin` attributes are correctly preserved.
 
 ```python
-from symbol import Symbol, to_sym
+from sym import Symbol, to_sym
 
 nested_data = {"a": [1, {"b": True}], "c": (None,)}
 s = to_sym(nested_data)

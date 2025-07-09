@@ -11,9 +11,9 @@ To ensure that any callable object can be consistently used within the `Symbol` 
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 from typing import Protocol, Any, Union, Awaitable
-from symbol.core.mixinability import register_mixin
+from sym.core.mixinability import register_mixin
 
 # Define a custom Symbolable class
 class MyCustomAction(Protocol):
@@ -32,12 +32,12 @@ class CalculateSumMixin:
 register_mixin(LogActionMixin, expand=True)
 register_mixin(CalculateSumMixin, expand=True)
 
-log_symbol = Symbol('Logger')
-calc_symbol = Symbol('Calculator')
+log_sym = Symbol('Logger')
+calc_sym = Symbol('Calculator')
 
 # Using the integrated Symbolable objects
-log_symbol.log_message("Application started.")
-result = calc_symbol.calculate_sum(10, 20)
+log_sym.log_message("Application started.")
+result = calc_sym.calculate_sum(10, 20)
 print(f"Calculation result: {result}")
 ```
 <details>
@@ -71,9 +71,9 @@ To define a standard for mixin functions, particularly those that might involve 
 
 ### Code Example
 ```python
-from symbol import Symbol
-from symbol.core.mixinability import register_mixin
-from symbol.core.protocols import MixinFunction
+from sym import Symbol
+from sym.core.mixinability import register_mixin
+from sym.core.protocols import MixinFunction
 import asyncio
 
 # A mixin function conforming to MixinFunction protocol
@@ -88,8 +88,8 @@ register_mixin(AsyncDataFetcher, expand=True)
 
 # Use the mixin
 async def main():
-    web_symbol = Symbol('WebResource')
-    data = await web_symbol.fetch_data("https://example.com")
+    web_sym = Symbol('WebResource')
+    data = await web_sym.fetch_data("https://example.com")
     print(data)
 
 if __name__ == "__main__":
@@ -130,9 +130,9 @@ To dynamically change the logical interpretation or behavior of a `Symbol` insta
 
 ### Code Example
 ```python
-from symbol import Symbol
-from symbol.core.mixinability import register_mixin
-from symbol.builtins import apply_builtins
+from sym import Symbol
+from sym.core.mixinability import register_mixin
+from sym.builtins import apply_builtins
 
 # Define mixins for different logical structures
 class DatabaseRecordMixin:
@@ -155,7 +155,7 @@ register_mixin(NetworkEndpointMixin, expand=True)
 
 apply_builtins()
 
-# Create a symbol and apply behaviors dynamically
+# Create a sym and apply behaviors dynamically
 db_entity = Symbol('UserAccount')
 db_entity.save()
 db_entity.load()
@@ -192,16 +192,16 @@ graph TD
 ```
 ## Compatible with Enum Reflection and External DSL Inputs
 
-The `Symbol` framework's extensibility extends to its compatibility with external data sources and declarative formats. It can seamlessly integrate with Python's `enum` types through reflection, allowing enumeration members to be directly converted into `Symbol` instances. Furthermore, its flexible design enables the ingestion and interpretation of external Domain-Specific Language (DSL) inputs, facilitating the definition of complex symbolic structures and relationships using declarative syntax.
+The `Symbol` framework's extensibility extends to its compatibility with external data sources and declarative formats. It can seamlessly integrate with Python's `enum` types through reflection, allowing enumeration members to be directly converted into `Symbol` instances. Furthermore, its flexible design enables the ingestion and interpretation of external Domain-Specific Language (DSL) inputs, facilitating the definition of complex symic structures and relationships using declarative syntax.
 
 ### Purpose and Usage
 To easily convert `enum` members into `Symbol` instances and to allow external DSLs to define `Symbol` structures, enhancing interoperability and declarative modeling.
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 import enum
-from symbol.builtins import apply_builtins
+from sym.builtins import apply_builtins
 
 apply_builtins()
 
@@ -212,28 +212,28 @@ class TrafficLight(enum.Enum):
     GREEN = 3
 
 # Convert enum members to Symbols
-traffic_symbols = Symbol.from_enum(TrafficLight)
-for sym in traffic_symbols:
+traffic_syms = Symbol.from_enum(TrafficLight)
+for sym in traffic_syms:
     print(f"Enum Symbol: {sym.name}")
 
 def parse_dsl(dsl_string: str):
-    symbols = {}
+    syms = {}
     for line in dsl_string.split(','):
         parts = line.strip().split('->')
         if len(parts) == 2:
             source_name = parts[0].strip()
             target_name = parts[1].strip()
-            source_sym = symbols.get(source_name, Symbol(source_name))
-            target_sym = symbols.get(target_name, Symbol(target_name))
+            source_sym = syms.get(source_name, Symbol(source_name))
+            target_sym = syms.get(target_name, Symbol(target_name))
             source_sym.append(target_sym)
-            symbols[source_name] = source_sym
-            symbols[target_name] = target_sym
-    return symbols
+            syms[source_name] = source_sym
+            syms[target_name] = target_sym
+    return syms
 
 dsl_input = "user -> post, post -> comment, user -> like"
-parsed_symbols = parse_dsl(dsl_input)
+parsed_syms = parse_dsl(dsl_input)
 
-user_sym = parsed_symbols['user']
+user_sym = parsed_syms['user']
 print("\nDSL-defined graph:")
 for sym in user_sym.tree():
     print(sym.name)
@@ -273,7 +273,7 @@ graph TD
 ```
 ## Conclusion
 
-The `Symbol` framework's commitment to extensibility empowers developers to build highly adaptable and interoperable systems. By providing clear protocols for callable integration, formal interfaces for mixins, and seamless compatibility with external data formats, `Symbol` facilitates the creation of flexible, domain-specific solutions that can evolve with changing requirements. This design philosophy ensures that `Symbol` remains a versatile tool for a wide range of symbolic data manipulation tasks.
+The `Symbol` framework's commitment to extensibility empowers developers to build highly adaptable and interoperable systems. By providing clear protocols for callable integration, formal interfaces for mixins, and seamless compatibility with external data formats, `Symbol` facilitates the creation of flexible, domain-specific solutions that can evolve with changing requirements. This design philosophy ensures that `Symbol` remains a versatile tool for a wide range of symic data manipulation tasks.
 
 For a comprehensive overview of the Symbol's extensibility, refer to the [Extensibility Overview Diagram](extensibility_overview.mmd).
 

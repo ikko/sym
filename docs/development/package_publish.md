@@ -1,6 +1,6 @@
 # Package Publication Guide
 
-This document provides detailed instructions on how to build and publish the `symbol` package to PyPI (Python Package Index) using `uv` and `twine`.
+This document provides detailed instructions on how to build and publish the `sym` package to PyPI (Python Package Index) using `uv` and `twine`.
 
 ## Prerequisites
 
@@ -13,14 +13,14 @@ Before you begin, ensure you have the following installed:
 
 ## Publication Steps
 
-Follow these steps to build and publish the `symbol` package:
+Follow these steps to build and publish the `sym` package:
 
 ### 1. Clean Build Artifacts
 
 Before building, it's good practice to clean up any old build artifacts. This ensures a fresh build.
 
 ```bash
-rm -rf build/ dist/ symbol.egg-info/
+rm -rf build/ dist/ sym.egg-info/
 ```
 
 Alternatively, the `publish.py` script handles this automatically.
@@ -65,8 +65,8 @@ Replace `<your_pypi_api_token>` with your actual API token from PyPI.
 
 After successful publication, you can verify your package on:
 
-*   **TestPyPI**: `https://test.pypi.org/project/symbol/<version>`
-*   **PyPI**: `https://pypi.org/project/symbol/<version>`
+*   **TestPyPI**: `https://test.pypi.org/project/sym/<version>`
+*   **PyPI**: `https://pypi.org/project/sym/<version>`
 
 Replace `<version>` with the actual version number of your package (e.g., `0.0.1`).
 

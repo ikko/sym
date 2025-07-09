@@ -16,7 +16,7 @@ def run_command(command, cwd=None):
 def clean_build_artifacts():
     """Removes existing build and dist directories."""
     print("Cleaning build artifacts...")
-    for directory in ["build", "dist", "symbol.egg-info"]:
+    for directory in ["build", "dist", "sym.egg-info"]:
         if os.path.exists(directory):
             shutil.rmtree(directory)
             print(f"Removed {directory}/")
@@ -46,7 +46,7 @@ def publish_package(repository_url, username, password):
     run_command(command)
 
 def main():
-    parser = argparse.ArgumentParser(description="Build and publish the symbol package.")
+    parser = argparse.ArgumentParser(description="Build and publish the sym package.")
     parser.add_argument(
         "--test",
         action="store_true",

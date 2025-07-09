@@ -69,20 +69,20 @@ class Symbol:
     def __hash__(self) -> int:
         return hash(self.name)
 
-    # Basic comparison for numbered symbols, more complex logic in symbol.py
+    # Basic comparison for numbered syms, more complex logic in sym.py
     def __lt__(self, other):
-        # Check if both symbols are in the numbered tree by searching for their positions
+        # Check if both syms are in the numbered tree by searching for their positions
         if isinstance(other, Symbol) and \
            self._numbered.search(self._position) is not None and \
            other._numbered.search(other._position) is not None:
             return self._position < other._position
-        raise TypeError("Unordered comparison not supported for non-numbered symbols")
+        raise TypeError("Unordered comparison not supported for non-numbered syms")
 
-    # Basic JSON serialization, more complex logic in symbol.py
+    # Basic JSON serialization, more complex logic in sym.py
     def __orjson__(self):
         return self.name
 
-def _to_symbol(x: Any) -> 'Symbol':
+def _to_sym(x: Any) -> 'Symbol':
     """Converts an object to a Symbol instance."""
     if isinstance(x, Symbol):
         return x

@@ -1,5 +1,5 @@
 import pytest
-from symbol import Symbol
+from sym import Symbol
 
 def test_footprint():
     # Create a simple hierarchy

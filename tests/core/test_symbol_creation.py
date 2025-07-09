@@ -1,14 +1,14 @@
 import pytest
-from symbol.core.symbol import Symbol, s
+from sym.core.sym import Symbol, s
 
-def test_symbol_creation_and_interning():
+def test_sym_creation_and_interning():
     # Test basic Symbol creation
-    s1 = Symbol("test_symbol")
+    s1 = Symbol("test_sym")
     assert isinstance(s1, Symbol)
-    assert s1.name == "test_symbol"
+    assert s1.name == "test_sym"
 
     # Test interning: creating a Symbol with the same name should return the same instance
-    s2 = Symbol("test_symbol")
+    s2 = Symbol("test_sym")
     assert s1 is s2
 
     # Test case sensitivity
@@ -19,12 +19,12 @@ def test_symbol_creation_and_interning():
     # Test Symbol with different types of names (e.g., numbers, special characters)
     s4 = Symbol("123")
     assert s4.name == "123"
-    s5 = Symbol("symbol-with_dashes")
-    assert s5.name == "symbol-with_dashes"
-    s6 = Symbol("another symbol")
-    assert s6.name == "another symbol"
+    s5 = Symbol("sym-with_dashes")
+    assert s5.name == "sym-with_dashes"
+    s6 = Symbol("another sym")
+    assert s6.name == "another sym"
 
-def test_symbol_equality_and_hashing():
+def test_sym_equality_and_hashing():
     s1 = Symbol("apple")
     s2 = Symbol("apple")
     s3 = Symbol("banana")
@@ -41,12 +41,12 @@ def test_symbol_equality_and_hashing():
     assert s1 != "apple"
     assert s1 != 123
 
-def test_symbol_string_representation():
+def test_sym_string_representation():
     s = Symbol("test_repr")
     assert str(s) == "test_repr"
     assert repr(s) == "Symbol('test_repr')"
 
-def test_symbol_basic_graph_operations():
+def test_sym_basic_graph_operations():
     parent = Symbol("parent")
     child1 = Symbol("child1")
     child2 = Symbol("child2")
@@ -88,7 +88,7 @@ def test_symbol_basic_graph_operations():
     assert set(child2.parents) == {parent}
     assert set(grandchild.parents) == {parent}
 
-    # Test adding a child that is already a parent of another symbol
+    # Test adding a child that is already a parent of another sym
     another_parent = Symbol("another_parent")
     another_child = Symbol("another_child")
     another_parent.append(another_child)
@@ -98,26 +98,26 @@ def test_symbol_basic_graph_operations():
     assert len(child1.children) == 1
     assert len(another_parent.parents) == 1 # child1 is the only parent
 
-def test_symbol_namespace():
+def test_sym_namespace():
     # Test creation via attribute access
-    sym_attr = s.my_attribute_symbol
+    sym_attr = s.my_attribute_sym
     assert isinstance(sym_attr, Symbol)
-    assert sym_attr.name == "my_attribute_symbol"
+    assert sym_attr.name == "my_attribute_sym"
 
     # Test creation via item access
-    sym_item = s["my_item_symbol"]
+    sym_item = s["my_item_sym"]
     assert isinstance(sym_item, Symbol)
-    assert sym_item.name == "my_item_symbol"
+    assert sym_item.name == "my_item_sym"
 
     # Test interning through namespace
-    sym_attr_2 = s.my_attribute_symbol
+    sym_attr_2 = s.my_attribute_sym
     assert sym_attr is sym_attr_2
 
-    sym_item_2 = s["my_item_symbol"]
+    sym_item_2 = s["my_item_sym"]
     assert sym_item is sym_item_2
 
     # Test that SymbolNamespace is read-only
     with pytest.raises(TypeError):
-        s.new_symbol = "value"
+        s.new_sym = "value"
     with pytest.raises(TypeError):
-        s["another_new_symbol"] = "value"
+        s["another_new_sym"] = "value"

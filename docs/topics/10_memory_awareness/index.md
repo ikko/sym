@@ -4,22 +4,22 @@ The `Symbol` framework is meticulously designed with memory efficiency as a core
 
 ## GC-aware Deletion
 
-`Symbol` integrates with Python's garbage collection (GC) mechanisms to ensure that resources are released promptly when no longer needed. The `delete()` method, when invoked on a `Symbol` instance, not only severs its explicit connections (parents, children) but also considers the broader GC context. The `MEMORY_AWARE_DELETE` flag, when enabled, further enhances this by attempting to proactively manage memory associated with the deleted symbol, although Python's GC ultimately handles the deallocation.
+`Symbol` integrates with Python's garbage collection (GC) mechanisms to ensure that resources are released promptly when no longer needed. The `delete()` method, when invoked on a `Symbol` instance, not only severs its explicit connections (parents, children) but also considers the broader GC context. The `MEMORY_AWARE_DELETE` flag, when enabled, further enhances this by attempting to proactively manage memory associated with the deleted sym, although Python's GC ultimately handles the deallocation.
 
 ### Mechanism
-- **`Symbol.delete()`**: Clears references to and from the symbol (children, parents, internal pools).
-- **`MEMORY_AWARE_DELETE`**: A configuration flag that, when `True`, enables additional memory management considerations during deletion, such as attempting to remove the symbol from internal pools.
+- **`Symbol.delete()`**: Clears references to and from the sym (children, parents, internal pools).
+- **`MEMORY_AWARE_DELETE`**: A configuration flag that, when `True`, enables additional memory management considerations during deletion, such as attempting to remove the sym from internal pools.
 - **`gc.collect()`**: Explicit calls to the garbage collector are made in certain operations (e.g., `slim()`) to encourage immediate cleanup of unreferenced objects.
 
 ### Code Example
 ```python
 import gc
-from symbol import Symbol
+from sym import Symbol
 
 # Enable memory-aware deletion (if not already enabled in config.py)
 # Symbol.MEMORY_AWARE_DELETE = True # This would typically be set in a config file
 
-# Create some symbols and relationships
+# Create some syms and relationships
 root = Symbol('Root')
 child1 = Symbol('Child1')
 child2 = Symbol('Child2')
@@ -71,7 +71,7 @@ The `Symbol` class includes a `context` attribute, implemented as a `DefDict` (a
 ### Code Example
 ```python
 import gc
-from symbol import Symbol
+from sym import Symbol
 
 s = s.MyContextSymbol
 
@@ -110,7 +110,7 @@ graph LR
 ```
 ## Conclusion
 
-Memory awareness is a fundamental aspect of the `Symbol` framework's design, ensuring its suitability for high-performance and long-running applications. Through GC-aware deletion, proactive management of dynamic attributes like `context`, and the strategic use of utilities like `deep_del`, `Symbol` minimizes its memory footprint and contributes to overall system stability. This commitment to efficient resource management allows developers to build complex symbolic systems without undue concern for memory-related performance bottlenecks.
+Memory awareness is a fundamental aspect of the `Symbol` framework's design, ensuring its suitability for high-performance and long-running applications. Through GC-aware deletion, proactive management of dynamic attributes like `context`, and the strategic use of utilities like `deep_del`, `Symbol` minimizes its memory footprint and contributes to overall system stability. This commitment to efficient resource management allows developers to build complex symic systems without undue concern for memory-related performance bottlenecks.
 
 For a comprehensive overview of the Symbol's memory awareness, refer to the [Memory Awareness Overview Diagram](memory_awareness_overview.mmd).
 

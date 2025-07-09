@@ -7,15 +7,15 @@ from __future__ import annotations
 from typing import Optional, Union, Callable, Any
 
 class AVLNode:
-    def __init__(self, symbol: 'Symbol', weight: Union[float, Callable[[Any], float]]):
-        self.symbol = symbol
+    def __init__(self, sym: 'Symbol', weight: Union[float, Callable[[Any], float]]):
+        self.sym = sym
         self.weight = weight
         self.height = 1
         self.left: Optional['AVLNode'] = None
         self.right: Optional['AVLNode'] = None
 
     def eval_weight(self, *args, **kwargs) -> float:
-        return self.weight(self.symbol) if callable(self.weight) else self.weight
+        return self.weight(self.sym) if callable(self.weight) else self.weight
 
 
 class AVLTree:
@@ -79,23 +79,23 @@ class AVLTree:
 
         return node
 
-    def insert(self, node: Optional[AVLNode], symbol: 'Symbol', weight: Union[float, Callable]) -> AVLNode:
+    def insert(self, node: Optional[AVLNode], sym: 'Symbol', weight: Union[float, Callable]) -> AVLNode:
         if not node:
-            return AVLNode(symbol, weight)
+            return AVLNode(sym, weight)
 
-        if (weight(symbol) if callable(weight) else weight) < node.eval_weight():
-            node.left = self.insert(node.left, symbol, weight)
+        if (weight(sym) if callable(weight) else weight) < node.eval_weight():
+            node.left = self.insert(node.left, sym, weight)
         else:
-            node.right = self.insert(node.right, symbol, weight)
+            node.right = self.insert(node.right, sym, weight)
 
         return self._rebalance(node)
 
     def search(self, weight: float) -> Optional['Symbol']:
-        """Searches for a symbol with the given weight."""
+        """Searches for a sym with the given weight."""
         node = self.root
         while node:
             if weight == node.eval_weight():
-                return node.symbol
+                return node.sym
             elif weight < node.eval_weight():
                 node = node.left
             else:
@@ -127,7 +127,7 @@ class AVLTree:
             # Case 2: Node with two children
             # Get the in-order successor (smallest in the right subtree)
             temp = self._min_value_node(node.right)
-            node.symbol = temp.symbol
+            node.sym = temp.sym
             node.weight = temp.weight
             node.right = self._remove(node.right, temp.weight)
 
@@ -162,7 +162,7 @@ class AVLTree:
             if not n:
                 return
             _walk(n.left)
-            result.append(n.symbol)
+            result.append(n.sym)
             _walk(n.right)
 
         _walk(node)
@@ -178,7 +178,7 @@ class AVLTree:
             if node is None:
                 return
             _walk_ascii(node.right, indent + "  ")
-            lines.append(f"{indent}- {node.symbol.name} (W:{node.eval_weight():.2f}, H:{node.height})")
+            lines.append(f"{indent}- {node.sym.name} (W:{node.eval_weight():.2f}, H:{node.height})")
             _walk_ascii(node.left, indent + "  ")
 
         _walk_ascii(self.root)

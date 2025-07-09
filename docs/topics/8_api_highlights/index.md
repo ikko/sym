@@ -1,21 +1,21 @@
 # API Highlights: Core Functionality of the Symbol Framework
 
-The `Symbol` framework provides a concise yet powerful API for manipulating symbolic data. This section details the key methods and properties that form the backbone of its functionality, offering insights into their design principles and practical applications.
+The `Symbol` framework provides a concise yet powerful API for manipulating symic data. This section details the key methods and properties that form the backbone of its functionality, offering insights into their design principles and practical applications.
 
 ## `Symbol(name: str)`: Globally Interned, Idempotent Constructor
 
-The `Symbol` constructor serves as the fundamental entry point for creating symbolic entities within the framework. Its design adheres to the **Flyweight pattern**, ensuring that for any given `name` string, only a single `Symbol` object instance exists in memory. This global interning mechanism guarantees object identity and optimizes memory utilization, particularly in scenarios involving a large number of recurring symbolic representations. The constructor is idempotent, meaning repeated calls with the same `name` will consistently return the identical `Symbol` instance, thereby maintaining referential integrity across the system.
+The `Symbol` constructor serves as the fundamental entry point for creating symic entities within the framework. Its design adheres to the **Flyweight pattern**, ensuring that for any given `name` string, only a single `Symbol` object instance exists in memory. This global interning mechanism guarantees object identity and optimizes memory utilization, particularly in scenarios involving a large number of recurring symic representations. The constructor is idempotent, meaning repeated calls with the same `name` will consistently return the identical `Symbol` instance, thereby maintaining referential integrity across the system.
 
 ### Purpose and Usage
-This method is used to create or retrieve a unique `Symbol` instance based on its string `name`. It's the primary way to introduce new symbolic entities into the graph.
+This method is used to create or retrieve a unique `Symbol` instance based on its string `name`. It's the primary way to introduce new symic entities into the graph.
 
 ### Code Example
 ```python
-from symbol import Symbol, s
+from sym import Symbol, s
 
-s1 = s.my_unique_symbol
-s2 = s.my_unique_symbol
-s3 = s.another_symbol
+s1 = s.my_unique_sym
+s2 = s.my_unique_sym
+s3 = s.another_sym
 
 print(f"s1 is s2: {s1 is s2}")
 print(f"s1 is s3: {s1 is s3}")
@@ -25,7 +25,7 @@ import time
 
 start_time = time.perf_counter_ns()
 for _ in range(100000):
-    Symbol('test_symbol')
+    Symbol('test_sym')
 end_time = time.perf_counter_ns()
 print(f"Time for 100,000 Symbol instantiations: {(end_time - start_time) / 1_000_000:.2f} ms")
 ```
@@ -58,21 +58,21 @@ graph TD
 ```
 ## `Symbol.next()`: Creates and Chains Auto-Numbered Symbols
 
-The `Symbol.next()` class method provides a convenient mechanism for generating a sequence of automatically numbered `Symbol` instances. This functionality is particularly useful for creating transient or placeholder symbols, or for scenarios where unique identifiers are required without the need for explicit naming. The method also implicitly establishes a linked-list-like chain between consecutively generated symbols, facilitating sequential traversal.
+The `Symbol.next()` class method provides a convenient mechanism for generating a sequence of automatically numbered `Symbol` instances. This functionality is particularly useful for creating transient or placeholder syms, or for scenarios where unique identifiers are required without the need for explicit naming. The method also implicitly establishes a linked-list-like chain between consecutively generated syms, facilitating sequential traversal.
 
 ### Purpose and Usage
-To generate a new `Symbol` with an auto-incrementing name (e.g., `sym_0`, `sym_1`, `sym_2`, ...). It's ideal for quick prototyping or when the specific name of a symbol is not semantically important.
+To generate a new `Symbol` with an auto-incrementing name (e.g., `sym_0`, `sym_1`, `sym_2`, ...). It's ideal for quick prototyping or when the specific name of a sym is not semantically important.
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 
-# Generate auto-numbered symbols
+# Generate auto-numbered syms
 sym0 = Symbol.next()
 sym1 = Symbol.next()
 sym2 = Symbol.next()
 
-print(f"Generated symbols: {sym0.name}, {sym1.name}, {sym2.name}")
+print(f"Generated syms: {sym0.name}, {sym1.name}, {sym2.name}")
 print(f"sym0 next is sym1: {sym0._next is sym1}")
 print(f"sym1 prev is sym0: {sym1._prev is sym0}")
 ```
@@ -80,7 +80,7 @@ print(f"sym1 prev is sym0: {sym1._prev is sym0}")
 <summary>Outcome</summary>
 
 ```text
-Generated symbols: sym_0, sym_1, sym_2
+Generated syms: sym_0, sym_1, sym_2
 sym0 next is sym1: True
 sym1 prev is sym0: True
 ```
@@ -102,16 +102,16 @@ graph TD
     style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## `symbol.append(child)` / `symbol.relate_to(other, how)`: Link Construction
+## `sym.append(child)` / `sym.relate_to(other, how)`: Link Construction
 
-The `Symbol` framework provides intuitive methods for establishing relationships between symbolic entities, forming the edges of the underlying directed acyclic graph (DAG). `append(child)` creates a direct parent-child relationship, while `relate_to(other, how)` offers a more semantically rich way to define arbitrary connections, allowing for the specification of the nature of the relationship.
+The `Symbol` framework provides intuitive methods for establishing relationships between symic entities, forming the edges of the underlying directed acyclic graph (DAG). `append(child)` creates a direct parent-child relationship, while `relate_to(other, how)` offers a more semantically rich way to define arbitrary connections, allowing for the specification of the nature of the relationship.
 
 ### Purpose and Usage
 These methods are used to build the graph structure by defining directed relationships between `Symbol` instances. `append` is for simple hierarchical relationships, while `relate_to` allows for custom relationship types.
 
 ### Code Example
 ```python
-from symbol import s
+from sym import s
 
 parent = s.Parent
 child1 = s.Child1
@@ -153,16 +153,16 @@ graph TD
     style Y fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style Z fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
 ```
-## `symbol.tree()` / `.que()` / `.relate()`: Lazy Traversal
+## `sym.tree()` / `.que()` / `.relate()`: Lazy Traversal
 
-The `Symbol` framework provides a suite of methods for traversing the underlying graph structure, designed with efficiency and flexibility in mind. `tree()` performs a depth-first traversal, `que()` (likely `queue` or `deque` based) performs a breadth-first traversal, and `relate()` (not explicitly shown in `symbol.py` but implied by `related_to` attribute) would allow traversal based on custom relationships. The "lazy" aspect implies that these traversals might not materialize the entire graph in memory at once, but rather yield elements as they are visited, which is crucial for large graphs.
+The `Symbol` framework provides a suite of methods for traversing the underlying graph structure, designed with efficiency and flexibility in mind. `tree()` performs a depth-first traversal, `que()` (likely `queue` or `deque` based) performs a breadth-first traversal, and `relate()` (not explicitly shown in `sym.py` but implied by `related_to` attribute) would allow traversal based on custom relationships. The "lazy" aspect implies that these traversals might not materialize the entire graph in memory at once, but rather yield elements as they are visited, which is crucial for large graphs.
 
 ### Purpose and Usage
 These methods are used to navigate the graph of `Symbol` instances. `tree()` is suitable for hierarchical views, `que()` for level-by-level processing, and `relate()` for exploring specific types of connections.
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 from collections import deque
 
 # Build a sample graph
@@ -183,7 +183,7 @@ for sym in root.tree():
     print(sym.name)
 
 # Queue traversal (Breadth-First) - assuming 'que' is implemented as BFS
-# Note: 'que' is not directly implemented in the provided symbol.py,
+# Note: 'que' is not directly implemented in the provided sym.py,
 # but a BFS traversal can be built using the children attribute.
 # For demonstration, we'll simulate a BFS.
 print("\nQueue Traversal (Simulated BFS):")
@@ -235,23 +235,23 @@ graph TD
     style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## `symbol.patch(other)`: Recursive, Structural Deep Merge
+## `sym.patch(other)`: Recursive, Structural Deep Merge
 
-The `patch()` method provides a powerful mechanism for merging the structural and relational aspects of two `Symbol` instances. Unlike a simple overwrite, `patch()` performs a recursive, structural deep merge, intelligently combining the children, parents, and related entities of the `other` symbol into the current symbol. This operation is crucial for scenarios involving data synchronization, version control, or the aggregation of information from disparate sources within a graph.
+The `patch()` method provides a powerful mechanism for merging the structural and relational aspects of two `Symbol` instances. Unlike a simple overwrite, `patch()` performs a recursive, structural deep merge, intelligently combining the children, parents, and related entities of the `other` sym into the current sym. This operation is crucial for scenarios involving data synchronization, version control, or the aggregation of information from disparate sources within a graph.
 
 ### Purpose and Usage
 To combine the graph structure of another `Symbol` into the current `Symbol` without losing existing relationships. It's particularly useful for updating a `Symbol` with new information or merging branches in a graph.
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 
-# Create base symbol
+# Create base sym
 base = Symbol('Base')
 base.append(Symbol('CommonChild'))
 base.append(Symbol('BaseSpecificChild'))
 
-# Create another symbol with overlapping and new children
+# Create another sym with overlapping and new children
 update = Symbol('Update')
 update.append(Symbol('CommonChild')) # Overlapping child
 update.append(Symbol('UpdateSpecificChild'))
@@ -259,7 +259,7 @@ update.append(Symbol('UpdateSpecificChild'))
 print("Before patch:")
 print(f"Base children: {[c.name for c in base.children]}")
 
-# Patch the base symbol with the update symbol
+# Patch the base sym with the update sym
 base.patch(update)
 
 print("\nAfter patch:")
@@ -295,7 +295,7 @@ graph TD
     style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## `symbol.to_mmd()`: Outputs Tree Graph in Mermaid Diagram Syntax
+## `sym.to_mmd()`: Outputs Tree Graph in Mermaid Diagram Syntax
 
 The `to_mmd()` method provides a direct utility for visualizing the hierarchical structure of a `Symbol` and its descendants in the widely adopted Mermaid diagram syntax. This capability is invaluable for documentation, debugging, and communicating complex graph structures in a human-readable and easily renderable format. It transforms the internal graph representation into a textual description that can be rendered by Mermaid-compatible tools.
 
@@ -304,7 +304,7 @@ To generate a Mermaid graph definition string representing the `Symbol`'s tree s
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 
 # Build a sample graph
 root = Symbol('Project')
@@ -352,16 +352,16 @@ graph TD
     style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## `symbol.to_ascii()`: Outputs ASCII Representation of Graphs
+## `sym.to_ascii()`: Outputs ASCII Representation of Graphs
 
-Complementing `to_mmd()`, the `to_ascii()` method offers an alternative, text-based visualization of the `Symbol`'s graph structure. This is particularly useful for environments where graphical rendering is not available or desired, such as command-line interfaces, log files, or simple text-based reports. It provides a quick and accessible way to inspect the relationships between symbols.
+Complementing `to_mmd()`, the `to_ascii()` method offers an alternative, text-based visualization of the `Symbol`'s graph structure. This is particularly useful for environments where graphical rendering is not available or desired, such as command-line interfaces, log files, or simple text-based reports. It provides a quick and accessible way to inspect the relationships between syms.
 
 ### Purpose and Usage
 To get a simple, text-based visual representation of the `Symbol`'s tree structure. Useful for quick debugging or console output.
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 
 # Build a sample graph
 root = Symbol('Root')
@@ -408,16 +408,16 @@ graph TD
     style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## `symbol.delete()`: Removes Node and Its Inverse References
+## `sym.delete()`: Removes Node and Its Inverse References
 
-The `delete()` method provides a mechanism for safely removing a `Symbol` instance from the graph. This operation is not merely a simple object deletion; it intelligently severs all incoming and outgoing relationships associated with the symbol. This includes removing the symbol from its parents' children lists and from its children's parents lists, ensuring graph consistency and preventing dangling references.
+The `delete()` method provides a mechanism for safely removing a `Symbol` instance from the graph. This operation is not merely a simple object deletion; it intelligently severs all incoming and outgoing relationships associated with the sym. This includes removing the sym from its parents' children lists and from its children's parents lists, ensuring graph consistency and preventing dangling references.
 
 ### Purpose and Usage
-To completely remove a `Symbol` and all its connections from the graph. This is a critical operation for managing the lifecycle of symbolic entities and maintaining graph integrity.
+To completely remove a `Symbol` and all its connections from the graph. This is a critical operation for managing the lifecycle of symic entities and maintaining graph integrity.
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 
 # Build a sample graph
 parent = Symbol('Parent')
@@ -430,7 +430,7 @@ child.append(grandchild)
 print(f"Before delete: Parent children: {[c.name for c in parent.children]}")
 print(f"Before delete: Child parents: {[p.name for p in child.parents]}")
 
-# Delete the child symbol
+# Delete the child sym
 child.delete()
 
 print(f"After delete: Parent children: {[c.name for c in parent.children]}")
@@ -467,7 +467,7 @@ graph TD
     style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## `symbol.elevate()`: Promotes Metadata to Instance Attributes/Methods
+## `sym.elevate()`: Promotes Metadata to Instance Attributes/Methods
 
 The `elevate()` method is a key component of the `Symbol` framework's memory-aware maturing process. It facilitates the transformation of dynamic metadata, initially stored in the `Symbol`'s `metadata` `DefDict`, into static, first-class instance attributes or methods. This promotion enhances performance by enabling direct attribute access, which is generally faster than dictionary lookups, and contributes to a more predictable object structure.
 
@@ -476,9 +476,9 @@ To convert dynamic metadata associated with a `Symbol` into direct attributes or
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 
-# Create a symbol with metadata
+# Create a sym with metadata
 s = Symbol('MySymbol')
 s.metadata['version'] = '1.0'
 s.metadata['status'] = 'active'
@@ -527,7 +527,7 @@ graph TD
     style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## `symbol.slim()`: Removes Unused Dynamically Applied Mixins
+## `sym.slim()`: Removes Unused Dynamically Applied Mixins
 
 The `slim()` method is another integral part of the `Symbol` framework's memory optimization strategy. Its primary function is to remove dynamically applied mixins or attributes that are no longer actively used or have been superseded by elevated metadata. This process helps in reducing the memory footprint of `Symbol` instances by cleaning up transient or redundant components, ensuring that the object retains only necessary attributes.
 
@@ -536,10 +536,10 @@ To clean up a `Symbol` instance by removing dynamically added attributes or mixi
 
 ### Code Example
 ```python
-from symbol import Symbol
-from symbol.core.mixinability import register_mixin
+from sym import Symbol
+from sym.core.mixinability import register_mixin
 
-# Create a symbol
+# Create a sym
 s = Symbol('MySlimSymbol')
 
 # Register and apply a mixin
@@ -550,7 +550,7 @@ register_mixin(temporary_mixin_method, name='temp_method', target_class=Symbol)
 print(f"Before slim: Has 'temp_method'? {hasattr(s, 'temp_method')}")
 print(f"Temporary method call: {s.temp_method()}")
 
-# Slim the symbol
+# Slim the sym
 s.slim()
 
 print(f"After slim: Has 'temp_method'? {hasattr(s, 'temp_method')}")
@@ -579,7 +579,7 @@ graph TD
     style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## `symbol.immute()`: Orchestrates Maturing Process (Elevate, Slim, Freeze)
+## `sym.immute()`: Orchestrates Maturing Process (Elevate, Slim, Freeze)
 
 The `immute()` method serves as the orchestrator for the entire memory-aware maturing process. It encapsulates the sequential execution of `elevate()`, `slim()`, and `freeze()`, providing a single, atomic operation to transition a `Symbol` instance into its optimized, immutable state. This method is designed to be called when a `Symbol` has reached a stable point in its lifecycle, ensuring that its structure and behavior are finalized for performance and predictability.
 
@@ -588,10 +588,10 @@ To perform a complete memory optimization and finalization of a `Symbol` instanc
 
 ### Code Example
 ```python
-from symbol import Symbol
-from symbol.core.mixinability import register_mixin, is_frozen
+from sym import Symbol
+from sym.core.mixinability import register_mixin, is_frozen
 
-# Create a symbol with initial dynamic state
+# Create a sym with initial dynamic state
 s = Symbol('FinalSymbol')
 s.metadata['config_param'] = 'value_A'
 
@@ -604,7 +604,7 @@ print(f"Before immute: Metadata: {s.metadata}")
 print(f"Before immute: Has 'dyn_behavior'? {hasattr(s, 'dyn_behavior')}")
 print(f"Before immute: Is Symbol class frozen? {is_frozen()}")
 
-# Immuting the symbol
+# Immuting the sym
 s.immute()
 
 print(f"After immute: Metadata: {s.metadata}")
@@ -642,18 +642,18 @@ graph TD
     style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## `symbol.ref`: Alias for `symbol.origin` to Track Source Provenance
+## `sym.ref`: Alias for `sym.origin` to Track Source Provenance
 
-The `ref` property serves as a convenient alias for `symbol.origin`, providing a standardized way to track the provenance or original source of a `Symbol` instance. This is particularly valuable in data lineage, auditing, or debugging scenarios where understanding the origin of a symbolic entity is crucial. By explicitly linking a `Symbol` to its source, the framework enhances traceability and data governance.
+The `ref` property serves as a convenient alias for `sym.origin`, providing a standardized way to track the provenance or original source of a `Symbol` instance. This is particularly valuable in data lineage, auditing, or debugging scenarios where understanding the origin of a symic entity is crucial. By explicitly linking a `Symbol` to its source, the framework enhances traceability and data governance.
 
 ### Purpose and Usage
 To store and retrieve a reference to the original source or data from which the `Symbol` was created. This helps in tracking data lineage.
 
 ### Code Example
 ```python
-from symbol import Symbol
+from sym import Symbol
 
-# Create symbols with origin
+# Create syms with origin
 data_row = {'id': 123, 'value': 'abc'}
 s1 = Symbol('data_entry_123', origin=data_row)
 
@@ -664,7 +664,7 @@ print(f"Symbol s1 name: {s1.name}, origin (ref): {s1.ref}")
 print(f"Symbol s2 name: {s2.name}, origin (ref): {s2.ref}")
 
 # You can also set the ref property
-s3 = Symbol('new_symbol')
+s3 = Symbol('new_sym')
 s3.ref = {'source': 'user_input', 'timestamp': '2025-07-04'}
 print(f"Symbol s3 name: {s3.name}, origin (ref): {s3.ref}")
 ```
@@ -674,7 +674,7 @@ print(f"Symbol s3 name: {s3.name}, origin (ref): {s3.ref}")
 ```text
 Symbol s1 name: data_entry_123, origin (ref): {'id': 123, 'value': 'abc'}
 Symbol s2 name: config_setting_A, origin (ref): /path/to/source_file.txt
-Symbol s3 name: new_symbol, origin (ref): {'source': 'user_input', 'timestamp': '2025-07-04'}
+Symbol s3 name: new_sym, origin (ref): {'source': 'user_input', 'timestamp': '2025-07-04'}
 ```
 </details>
 
@@ -683,7 +683,7 @@ Symbol s3 name: new_symbol, origin (ref): {'source': 'user_input', 'timestamp': 
 graph TD
     A[Data Source] --> B[Symbol Creation];
     B -- "Sets origin" --> C[Symbol Instance];
-    C -- "Accessed via" --> D[symbol.ref];
+    C -- "Accessed via" --> D[sym.ref];
     D --> E[Provenance Tracking];
 
     style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
@@ -701,7 +701,7 @@ To add a `ScheduledJob` to the scheduler's queue for future execution. This is h
 
 ### Code Example
 ```python
-from symbol.core.schedule import Scheduler, ScheduledJob
+from sym.core.schedule import Scheduler, ScheduledJob
 import datetime
 import time
 

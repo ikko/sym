@@ -1,6 +1,6 @@
 import pytest
-from symbol.builtins.avl_tree import AVLTree, AVLNode
-from symbol.core.base_symbol import Symbol
+from sym.builtins.avl_tree import AVLTree, AVLNode
+from sym.core.base_sym import Symbol
 
 @pytest.fixture
 def empty_avl_tree():
@@ -28,13 +28,13 @@ def test_avl_tree_insert_and_traverse_inorder(empty_avl_tree):
     s3 = Symbol("Node3")
 
     tree.root = tree.insert(tree.root, s1, 10.0)
-    assert tree.root.symbol is s1
+    assert tree.root.sym is s1
     assert tree.root.eval_weight() == 10.0
 
     tree.root = tree.insert(tree.root, s2, 20.0)
     tree.root = tree.insert(tree.root, s3, 5.0)
 
-    # In-order traversal should return symbols sorted by weight
+    # In-order traversal should return syms sorted by weight
     inorder = tree.traverse_inorder()
     assert inorder == [s3, s1, s2]
 
@@ -62,9 +62,9 @@ def test_avl_tree_rebalancing():
     tree.root = tree.insert(tree.root, s_c, 30.0) # Left rotation at A
 
     # After inserting 10, 20, 30, the tree should be balanced with 20 as root
-    assert tree.root.symbol is s_b
-    assert tree.root.left.symbol is s_a
-    assert tree.root.right.symbol is s_c
+    assert tree.root.sym is s_b
+    assert tree.root.left.sym is s_a
+    assert tree.root.right.sym is s_c
 
     tree.root = tree.insert(tree.root, s_d, 5.0)
     tree.root = tree.insert(tree.root, s_e, 2.0) # Right rotation at D

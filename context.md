@@ -13,17 +13,17 @@ Operating system is: linux
 │   ├───methods.md
 │   ├───GLOSSARY.md
 │   ├───TODO.md
-└───symbol/
+└───sym/
     ├───__init__.py
     ├───core/
     │   ├───__init__.py
-    │   ├───symbol.py
+    │   ├───sym.py
     │   ├───graph.py
     │   ├───maturing.py
     │   ├───mixinability.py
     │   ├───mixin_validator.py
     │   ├───protocols.py
-    │   ├───symbolable.py
+    │   ├───symable.py
     │   └───time_arithmetics.py
     └───builtins/
         ├───__init__.py

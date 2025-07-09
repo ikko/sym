@@ -5,14 +5,14 @@ ensuring efficient search, insertion, and deletion operations.
 """
 from typing import Any, Callable, Optional, Union
 
-from ..core.base_symbol import Symbol
+from ..core.base_sym import Symbol
 
 RED = True
 BLACK = False
 
 class RedBlackNode:
-    def __init__(self, symbol: 'Symbol', weight: Union[float, Callable[[Any], float]], color=RED):
-        self.symbol = symbol
+    def __init__(self, sym: 'Symbol', weight: Union[float, Callable[[Any], float]], color=RED):
+        self.sym = sym
         self.weight = weight
         self.color = color
         self.left: Optional['RedBlackNode'] = None
@@ -20,15 +20,15 @@ class RedBlackNode:
         self.parent: Optional['RedBlackNode'] = None
 
     def eval_weight(self, *args, **kwargs) -> float:
-        return self.weight(self.symbol) if callable(self.weight) else self.weight
+        return self.weight(self.sym) if callable(self.weight) else self.weight
 
 
 class RedBlackTree:
     def __init__(self):
         self.root: Optional[RedBlackNode] = None
 
-    def insert(self, symbol: 'Symbol', weight: Union[float, Callable]):
-        node = RedBlackNode(symbol, weight)
+    def insert(self, sym: 'Symbol', weight: Union[float, Callable]):
+        node = RedBlackNode(sym, weight)
         self._bst_insert(node)
         self._fix_insert(node)
 
@@ -244,7 +244,7 @@ class RedBlackTree:
             if not n:
                 return
             _walk(n.left)
-            result.append(n.symbol)
+            result.append(n.sym)
             _walk(n.right)
 
         _walk(node)
@@ -257,7 +257,7 @@ class RedBlackTree:
             if node is None:
                 return
             _walk_ascii(node.right, indent + "  ")
-            lines.append(f"{indent}- {node.symbol.name} ({'R' if node.color else 'B'})")
+            lines.append(f"{indent}- {node.sym.name} ({'R' if node.color else 'B'})")
             _walk_ascii(node.left, indent + "  ")
 
         _walk_ascii(self.root)

@@ -22,7 +22,7 @@ class Config:
             config_dir = Path(os.environ.get('XDG_CONFIG_HOME', Path.home() / '.config'))
         else:  # Windows
             config_dir = Path(os.environ.get('APPDATA', Path.home() / 'AppData' / 'Roaming'))
-        return config_dir / 'symbol' / 'config.toml'
+        return config_dir / 'sym' / 'config.toml'
 
     def load(self) -> None:
         """Loads configuration from the TOML file."""

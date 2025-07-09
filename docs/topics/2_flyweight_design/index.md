@@ -4,7 +4,7 @@ NThe `Symbol` framework leverages the **Flyweight design pattern** to ensure the
 
 ## Core Principle: Shared Intrinsic State
 
-In the context of `Symbol`, the intrinsic state—the `name` of the symbol—is shared. When a request is made to create a `Symbol` with a specific name (e.g., `Symbol('apple')`), the system first checks if a `Symbol` with that name already exists in a central pool. If it does, the existing instance is returned; otherwise, a new instance is created and added to the pool.
+In the context of `Symbol`, the intrinsic state—the `name` of the sym—is shared. When a request is made to create a `Symbol` with a specific name (e.g., `Symbol('apple')`), the system first checks if a `Symbol` with that name already exists in a central pool. If it does, the existing instance is returned; otherwise, a new instance is created and added to the pool.
 
 ```mermaid
 graph TD
@@ -26,14 +26,14 @@ graph TD
 ```
 ## Advantages of Flyweight in Symbol
 
--   **Memory Efficiency**: By ensuring that only one instance of a `Symbol` exists for each unique name, the framework drastically reduces memory consumption, especially in applications dealing with vast numbers of symbolic representations (e.g., large knowledge graphs, extensive ontologies).
--   **Consistency and Identity**: The Flyweight pattern guarantees referential equality for symbols with the same name. This means `Symbol('A') is Symbol('A')` will always evaluate to `True`, simplifying identity checks and ensuring that all references to a particular concept point to the exact same object.
+-   **Memory Efficiency**: By ensuring that only one instance of a `Symbol` exists for each unique name, the framework drastically reduces memory consumption, especially in applications dealing with vast numbers of symic representations (e.g., large knowledge graphs, extensive ontologies).
+-   **Consistency and Identity**: The Flyweight pattern guarantees referential equality for syms with the same name. This means `Symbol('A') is Symbol('A')` will always evaluate to `True`, simplifying identity checks and ensuring that all references to a particular concept point to the exact same object.
 -   **Performance**: Reduced object creation overhead and direct memory address comparisons contribute to faster operations, particularly in graph traversal and relationship management.
 
 ### Code Example: Demonstrating Flyweight Behavior
 
 ```python
-from symbol import Symbol
+from sym import Symbol
 
 sym1 = Symbol('product_id_123')
 sym2 = Symbol('product_id_123')
@@ -64,7 +64,7 @@ Are sym1 and sym3 the same object? False
 
 **High-Tech: Compiler Design and Abstract Syntax Trees (ASTs)**
 ```python
-from symbol import s
+from sym import s
 
 # Simulate AST nodes for literals
 literal_zero_1 = s.Literal_0
@@ -86,7 +86,7 @@ Variable X (1) is Variable X (2): True
 
 **Low-Tech: Document Processing and Word Processors**
 ```python
-from symbol import s
+from sym import s
 
 # Simulate a document with repeated words
 document_words = [s.The, s.quick, s.brown, s.fox, s.jumps, s.over, s.the, s.lazy, s.dog, s.The]
@@ -106,4 +106,4 @@ First 'The' is same as third 'The': True
 
 ## Conclusion
 
-The integration of the Flyweight design pattern into the `Symbol` framework is a deliberate architectural choice that underpins its efficiency and robustness. It enables the creation of highly scalable symbolic data structures by optimizing memory usage and ensuring consistent object identity, which are critical factors in complex data manipulation and graph-based applications.
+The integration of the Flyweight design pattern into the `Symbol` framework is a deliberate architectural choice that underpins its efficiency and robustness. It enables the creation of highly scalable symic data structures by optimizing memory usage and ensuring consistent object identity, which are critical factors in complex data manipulation and graph-based applications.
