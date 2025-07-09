@@ -257,9 +257,9 @@ graph LR
 
 
 🎓 [Tutorial](docs/guides/3_tutorial.md) 
-:  Delves into the sophisticated capabilities of the `Symbol` library, showcasing its versatility in addressing complex modeling challenges. It explores advanced features such as custom mixin development, intricate graph manipulations, and strategic application for DSL construction. This guide aims to empower experienced developers and researchers to unlock the full potential of `Symbol` for highly specialized and performant symbolic systems.
+: Delves into the sophisticated capabilities of the `Symbol` library, showcasing its versatility in addressing complex modeling challenges. It explores advanced features such as custom mixin development, intricate graph manipulations, and strategic application for DSL construction. This guide aims to empower experienced developers and researchers to unlock the full potential of `Symbol` for highly specialized and performant symbolic systems.
 
-🔄 [Framework](docs/README.md)
+🌐 [Framework](docs/README.md)
 : The **Symbol Framework** offers a versatile `Symbol` object that functions as a node in a directed acyclic graph with features including layered architecture for modularity, per-instance indexing for complex data structures, dynamic mixinability, memory-aware optimization, and built-in scheduling capabilities. The framework documentation presents API highlights covering construction, traversal, visualization, and lifecycle management methods, along with performance characteristics and extensibility options. This framework is primarily targeted at software engineers, data scientists, business analysts, architects, CTOs and domain experts who need to model complex relationships, build domain-specific languages, or create knowledge graphs with semantic precision while maintaining high performance and memory efficiency.
 
 
