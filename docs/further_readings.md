@@ -1,4 +1,6 @@
-### 🧑‍🍳 Cookbook
+
+<details> 
+<summary> 🧑‍🍳 Cookbook </summary>
 
 📜 [Cookbook's Table Of Contents](docs/cookbook/0_table_of_contents.md)
 : The central table of contents for the Symbol Cookbook, offering practical recipes and examples for common implementation challenges. It serves as a structured entry point for developers seeking hands-on solutions.
@@ -24,9 +26,11 @@
 ⏰ [scheduling_jobs](docs/cookbook/2_scheduling_jobs.md)
 : Demonstrates how to use the `symbol.schedule` module to schedule and manage jobs within `symbol` applications. It covers basic usage, job management, and persisting schedules. This recipe provides practical examples and diagrams for automating tasks and orchestrating workflows, making it a valuable resource for integrating scheduling capabilities.
 
----
+</details>
 
-### ⚙️ Development
+
+<details>
+<summary> ⚙️ Development </summary>
 
 🏗 [Architecture](docs/development/architecture.md)️
 : Provides a detailed overview of the `symbol` library's architecture, including its core components and layered structure. It explains how the framework separates concerns to promote modularity and extensibility. This document is essential for contributors and architects interested in the internal workings, dependencies, and design principles that guide the development of the `symbol` framework.
@@ -61,16 +65,20 @@
 🏛 [Structure_overview](docs/development/structure_overview.md)️
 : Outlines the project's organizational structure, dividing it into `symbol.core` (essential components) and `symbol.builtins` (optional, high-level extensions). It includes Mermaid diagrams for visual clarity. This document helps developers understand the modular design and the separation of concerns within the `symbol` library, facilitating navigation and contribution.
 
----
+</details>
 
-### 📝 Paper
+
+<details>
+<summary> 📝 Paper </summary>
 
 🎓 [A_Principled_Framework](docs/paper/A_Principled_Framework.md)
 : An academic paper introducing the `«symbol»` framework, detailing its design principles, architectural layers, and key operations. It includes case studies from the integrated circuit manufacturing domain. This document provides a theoretical foundation and empirical evidence for `«symbol»`'s efficacy in dynamic symbolic computation and knowledge graph construction, discussing performance and future research avenues.
 
----
+</details>
 
-### 💡 Topics
+
+<details>
+<summary> 💡 Topics </summary>
 
 🧱 [the fundamental building block](docs/topics/1_symbol_fundamental_building_block/index.md)
 : Explores the `Symbol` object as the atomic unit of the framework, detailing its uniqueness through interning and its role as a node in a dynamic, directed acyclic graph. It covers efficient relationship management and extensibility. This document provides a foundational understanding of how `Symbol` instances form the basis for complex data structures and symbolic manipulation tasks, with examples in supply chain modeling and knowledge graphs.
@@ -153,3 +161,4 @@
 ✅ [conclusion](docs/topics/13_conclusion/index.md)
 : Summarizes the `Symbol` framework as a high-performance, semantically rich, and thread-safe symbol abstraction. It highlights its role as a robust foundation for building DSLs, runtime graphs, and knowledge trees. This document emphasizes the core design principles of structural clarity, cache efficiency, and symbolic extensibility, positioning `Symbol` as a valuable tool for modern software engineering challenges.
 
+</details>
