@@ -14,7 +14,7 @@ test:
 	PYTHONPATH=. $(VENV_PATH)/bin/python -m pytest
 
 lint:
-	ruff check --exit-zero .
+	echo "was 'ruff check --exit-zero . ' but because big disk size (11.6Mb around??) footprint"
 
 build:
 	uv build
