@@ -1,4 +1,4 @@
-# `«symb»` Affects
+# [`«symb»`](https://github.com/ikko/symb) affects
 
 ## Catalyzing Value and Unifying Knowledge
 
@@ -267,7 +267,7 @@ User_Developer[User_Developer]
 ### Further Reading
 
 _**Disclaimer:**_
-`«symb»` _is under development. Some features may missing, not fully implemented or undocumented. Contributions are always welcomed: fork and open a [pull request](https://github.com/ikko/symb/compare)!_
+`«symb»` _is under development. Some features may missing, not fully implemented or undocumented. Contributions are always welcome: fork and open a [pull request](https://github.com/ikko/symb/compare)!_
 
 
 🚀 [Quick Guide](docs/guides/1_quick_guide.md) 

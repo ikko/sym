@@ -1,4 +1,17 @@
+# [`«symb»`](https://github.com/ikko/symb) cookbook
+
+**Recipes for Symbolic Mastery**
+
+_Recipe 1: How to Create a Mixin?_
+
+---
+
 # 1.6 Publishing Your Mixin: From Third-Party to Standard Library
+
+
+> ⚠ _This module is under development and incomplete. Features may differ from what's written here. Should you use it, test comprehensively._
+ 
+
 
 Once you've developed, tested, and documented your `symb` mixin, the next step is to make it available to others. This section outlines the process of publishing your mixin, from sharing it as a third-party package to potentially integrating it into the `symb` standard library.
 

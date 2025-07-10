@@ -1,3 +1,10 @@
+# [`«symb»`](https://github.com/ikko/symb) cookbook
+**Recipes for Symbolic Mastery**
+
+_Recipe 1: How to Create a Mixin?_
+
+---
+
 # 1.2 Anatomy of a Mixin: Structure and Protocols
 
 Understanding the internal structure and expected protocols of a mixin is crucial for developing robust and well-integrated extensions within the `symb` framework. A mixin, at its core, is a Python class designed to be composed with `Symbol` objects, providing additional behaviors or attributes.

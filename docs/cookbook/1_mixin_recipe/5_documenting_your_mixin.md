@@ -1,3 +1,11 @@
+# [`«symb»`](https://github.com/ikko/symb) cookbook
+
+**Recipes for Symbolic Mastery**
+
+_Recipe 1: How to Create a Mixin?_
+
+---
+
 # 1.5 Documenting Your Mixin: Clarity and Usability
 
 Effective documentation is paramount for the usability and maintainability of your mixins. Clear and comprehensive documentation helps other developers (and your future self) understand what your mixin does, how to use it, and any specific considerations. This section outlines key aspects of documenting your `symb` mixins.

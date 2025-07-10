@@ -1,4 +1,5 @@
-# `«symb»` Cookbook
+# [`«symb»`](https://github.com/ikko/symb) cookbook
+
 **Recipes for Symbolic Mastery**
 
 ## Table of Contents

@@ -1,3 +1,10 @@
+# [`«symb»`](https://github.com/ikko/symb) cookbook
+**Recipes for Symbolic Mastery**
+
+_Recipe 1: How to Create a Mixin?_
+
+---
+
 # 1.1 The Essence of Mixins: Extending Symbol's Capabilities
 
 Mixins in the `symb` framework provide a powerful and flexible mechanism for extending the functionality of `Symbol` objects without resorting to traditional inheritance hierarchies. Unlike classical inheritance, where a subclass inherits both interface and implementation from a single parent, mixins allow for the composition of behaviors from multiple, independent sources. This approach promotes a more modular and maintainable codebase, as functionalities can be developed and tested in isolation before being "mixed in" to `Symbol` instances.

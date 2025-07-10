@@ -1,3 +1,11 @@
+# [`«symb»`](https://github.com/ikko/symb) cookbook
+
+**Recipes for Symbolic Mastery**
+
+---
+
+> ⚠ _This module is under development and incomplete. Features may differ from what's written here. Should you use it, test comprehensively, especially before using `async batch` features_
+ 
 # Recipe 2: Scheduling Jobs with `symb.schedule`
 
 This recipe demonstrates how to use the `symb.schedule` module to schedule and manage jobs within your `symb` applications. The `symb.schedule` module provides a robust and flexible way to execute functions at specified times or intervals.

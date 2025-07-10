@@ -17,7 +17,7 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
-          pip install uv
+          pip install uv twine
           make install
       - name: Publish package
         run: python publish.py --username ${{ vars.PYPI_USERNAME }} --password ${{ secrets.PYPI_PASSWORD }}

@@ -1,8 +1,12 @@
 ## `symb.core.batch_processing` Module
 
+
+> ⚠ _This module is under development and incomplete. Features may differ from what's written here. Should you use it, test comprehensively, especially before using `async batch` features_
+ 
+
 This module provides functions for processing batches of items asynchronously and synchronously, with support for parallel execution using threads or processes. 
-_
-> ⚠ _This module is incomplete. Test it comprehensively, especially before using `async batch` features_
+
+
 
 ### Function: `a_process_batch`
 ```python

@@ -1,3 +1,10 @@
+# [`«symb»`](https://github.com/ikko/symb) cookbook
+**Recipes for Symbolic Mastery**
+
+_Recipe 1: How to Create a Mixin?_
+
+---
+
 # 1.3 Implementing Your First Mixin: A Practical Example
 
 Let's walk through a practical example of creating a simple mixin for the `symb` framework. This mixin will add a new capability to `Symbol` objects: the ability to count the total number of descendants (children, grandchildren, etc.) in their respective sub-graphs.

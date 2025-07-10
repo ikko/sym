@@ -1,3 +1,11 @@
+# [`«symb»`](https://github.com/ikko/symb) cookbook
+
+**Recipes for Symbolic Mastery**
+
+_Recipe 1: How to Create a Mixin?_
+
+---
+
 # 1.4 Testing Your Mixin: Ensuring Robustness
 
 Thoroughly testing your mixins is crucial to ensure their correctness, reliability, and proper integration within the `symb` framework. This section outlines best practices for testing mixins, covering both synchronous and asynchronous functionalities.

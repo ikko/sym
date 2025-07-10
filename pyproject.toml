@@ -17,28 +17,18 @@ dependencies = [
     "toml",
 ]
 requires-python = ">=3.9"
-license = {text = "MIT"}
+license = "MIT"
+readme="README.md"
 
 [project.scripts]
 symb = "symb.bin.scheduler:app"
 
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["symb"]
-
-[tool.uv]
-name = "symb"
-version = "0.0.5"
-description = "A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction"
-authors = ["Miklos Beky <miklos.beky@gmail.com>"]
-
-# You can specify the README file for the long description
-long_description = "file: README.md"  # Path to the README file
-long_description_content_type = "text/markdown"  # Can be "text/x-rst" for reST
-
 
 [tool.setuptools.package-data]
 "symb" = ["py.typed"]
@@ -50,9 +40,6 @@ line-length = 88
 testpaths = [
     "tests",
 ]
-
-[tool.setuptools]
-py-modules = []
 
 [project.optional-dependencies]
 dev = [

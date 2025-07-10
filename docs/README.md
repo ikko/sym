@@ -1,10 +1,10 @@
-# `«symb»` Information
+# [`«symb»`](https://github.com/ikko/symb) info
 
 ## **A Framework for Symbolic Data Manipulation**
 
 > `symb.py` — A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction
 
-_Inspired by ruby's [symb](https://ruby-doc.org/core-2.5.3/Symbol.html)._
+_Inspired by Ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)._
 
 ## What is Symbol?
 

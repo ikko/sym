@@ -13,7 +13,7 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies and run tests
         run: |
-          pip install uv
+          pip install uv twine
           make install
           make tests
       - name: Run linter
