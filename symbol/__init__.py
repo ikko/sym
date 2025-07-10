@@ -18,6 +18,17 @@ apply_builtins()
 
 # Expose builtin modules at the top level (lazy loaded)
 def __getattr__(name):
+    """
+    what: Provides lazy loading for submodules and aliases.
+    why: To prevent circular imports and optimize initial load times.
+    how: Dynamically imports modules or returns aliases on attribute access.
+    when: When an attribute not directly defined in `__init__.py` is accessed.
+    by (caller(s)): Python's attribute lookup mechanism.
+    how often: Frequently.
+    how much: Minimal.
+    what is it like: A dynamic import resolver.
+    how, what, why and when to improve: N/A.
+    """
     if name == "schedule":
         return core.schedule
     elif name == "time_dim":
@@ -53,6 +64,17 @@ def __getattr__(name):
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 def __dir__():
+    """
+    what: Provides a list of available attributes for tab completion.
+    why: To improve developer experience with interactive shells.
+    how: Returns a sorted list of global keys and dynamically exposed names.
+    when: When tab completion is requested in an interactive environment.
+    by (caller(s)): Python's `dir()` function, interactive shells.
+    how often: Infrequently.
+    how much: Minimal.
+    what is it like: A dynamic directory listing.
+    how, what, why and when to improve: N/A.
+    """
     return sorted(list(globals().keys()) + [
         "schedule", "time_dim", "collections", "index", "path", "timeline", "visual",
         "add_time", "subtract_time", "a_process_batch", "process_batch",

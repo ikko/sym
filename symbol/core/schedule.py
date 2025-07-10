@@ -32,6 +32,17 @@ class ScheduledJob:
         new_thread: bool = True,
         id: Optional[str] = None,
     ):
+        """
+        what: Initializes a ScheduledJob instance.
+        why: To encapsulate job details and scheduling parameters.
+        how: Stores function, arguments, schedule, and calculates next run time.
+        when: When a new job is created for the scheduler.
+        by (caller(s)): Scheduler.add_job, Scheduler.from_dict.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Creating a task entry.
+        how, what, why and when to improve: N/A.
+        """
         self.id = id or str(uuid.uuid4())
         self.func = func
         self.args = args
@@ -44,7 +55,17 @@ class ScheduledJob:
         logging.debug(f"ScheduledJob {self.id} initialized. Next run: {self.next_run}")
 
     def _calculate_next_run(self, base_time: Optional[datetime.datetime] = None):
-        """Calculates the next run time for the job."""
+        """
+        what: Calculates the next run time for the job.
+        why: To determine when the job should be executed next.
+        how: Parses schedule string (cron/ISO 8601) or datetime objects.
+        when: Upon job initialization and after recurring job execution.
+        by (caller(s)): ScheduledJob.__init__, Scheduler._run.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Setting a future alarm.
+        how, what, why and when to improve: Handle more complex scheduling patterns.
+        """
         now = base_time or datetime.datetime.now()
         logging.debug(f"Calculating next run for job {self.id} at base_time {now}")
 
@@ -81,6 +102,17 @@ class ScheduledJob:
         
 
     def __lt__(self, other: "ScheduledJob") -> bool:
+        """
+        what: Compares two ScheduledJob instances.
+        why: To enable sorting in the heapq (priority queue).
+        how: Compares based on their `next_run` times.
+        when: When jobs are added to or managed in the scheduler's heap.
+        by (caller(s)): heapq operations.
+        how often: Frequently.
+        how much: Minimal.
+        what is it like: Prioritizing tasks by deadline.
+        how, what, why and when to improve: N/A.
+        """
         if self.next_run is None:
             return False
         if other.next_run is None:
@@ -88,7 +120,17 @@ class ScheduledJob:
         return self.next_run < other.next_run
 
     def to_dict(self) -> dict:
-        """Serializes the job to a dictionary."""
+        """
+        what: Serializes the job to a dictionary.
+        why: To persist job data for saving and loading.
+        how: Extracts job attributes into a dictionary.
+        when: When saving the scheduler's state.
+        by (caller(s)): Scheduler.save_schedule.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Packaging job details.
+        how, what, why and when to improve: Handle more complex function serialization.
+        """
         return {
             "id": self.id,
             "func": f"{self.func.__module__}.{self.func.__name__}",
@@ -101,7 +143,17 @@ class ScheduledJob:
 
     @classmethod
     def from_dict(cls, data: dict) -> "ScheduledJob":
-        """Deserializes a job from a dictionary."""
+        """
+        what: Deserializes a job from a dictionary.
+        why: To reconstruct job instances from persisted data.
+        how: Reconstructs function from module and name, creates ScheduledJob.
+        when: When loading the scheduler's state.
+        by (caller(s)): Scheduler.load_schedule.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Unpacking job details.
+        how, what, why and when to improve: Handle more complex function deserialization.
+        """
         func_str = data["func"]
         module_name, func_name = func_str.rsplit('.', 1)
         module = __import__(module_name, fromlist=[func_name])
@@ -121,6 +173,17 @@ class Scheduler:
     """Manages the schedule of jobs."""
 
     def __init__(self, schedule_file: Optional[str] = None):
+        """
+        what: Initializes the Scheduler.
+        why: To set up the job management system.
+        how: Initializes internal data structures and loads schedule if file provided.
+        when: Upon Scheduler instantiation.
+        by (caller(s)): External code.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Setting up a control center.
+        how, what, why and when to improve: N/A.
+        """
         self._schedule: list[ScheduledJob] = []
         self._lock = anyio.Lock()
         self._running = False
@@ -132,7 +195,17 @@ class Scheduler:
             pass # Will address load_schedule later
 
     async def add_job(self, job: ScheduledJob):
-        """Adds a job to the schedule."""
+        """
+        what: Adds a job to the schedule.
+        why: To register a job for future execution.
+        how: Pushes job onto a min-heap, adds to job map, saves schedule.
+        when: When a new job needs to be scheduled.
+        by (caller(s)): Scheduler.add_jobs, ScheduledJob._calculate_next_run, external code.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Adding a task to a to-do list.
+        how, what, why and when to improve: Optimize for high-frequency additions.
+        """
         async with self._lock:
             heapq.heappush(self._schedule, job)
             self.job_map[job.id] = job
@@ -140,7 +213,17 @@ class Scheduler:
                 await self.save_schedule()
 
     async def add_jobs(self, jobs: list[ScheduledJob]):
-        """Adds multiple jobs to the schedule."""
+        """
+        what: Adds multiple jobs to the schedule.
+        why: To efficiently register a batch of jobs.
+        how: Iterates through jobs, calls `add_job` for each.
+        when: When multiple jobs need to be scheduled.
+        by (caller(s)): External code.
+        how often: Infrequently.
+        how much: Depends on number of jobs.
+        what is it like: Adding multiple tasks to a list.
+        how, what, why and when to improve: Optimize for very large batches.
+        """
         async with self._lock:
             for job in jobs:
                 heapq.heappush(self._schedule, job)
@@ -149,7 +232,17 @@ class Scheduler:
                 await self.save_schedule()
 
     async def remove_job(self, job_id: str) -> Optional[ScheduledJob]:
-        """Removes a job from the schedule by its ID."""
+        """
+        what: Removes a job from the schedule.
+        why: To cancel or unregister a job.
+        how: Removes from job map, rebuilds heap, saves schedule.
+        when: When a job needs to be removed.
+        by (caller(s)): External code.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Deleting a task from a list.
+        how, what, why and when to improve: Optimize for high-frequency removals.
+        """
         async with self._lock:
             job = self.job_map.pop(job_id, None)
             if job:
@@ -161,7 +254,17 @@ class Scheduler:
             return job
 
     async def _run(self):
-        """The main loop of the scheduler."""
+        """
+        what: The main execution loop of the scheduler.
+        why: To continuously check and execute scheduled jobs.
+        how: Loops, sleeps until next job, executes job, reschedules recurring jobs.
+        when: When the scheduler is started.
+        by (caller(s)): Scheduler.start.
+        how often: Continuously while scheduler is running.
+        how much: Minimal when idle, depends on job execution.
+        what is it like: A clock ticking and triggering events.
+        how, what, why and when to improve: More precise sleep, better error handling.
+        """
         logging.debug("Scheduler _run started.")
         while self._running:
             await anyio.sleep(0) # Yield control to the event loop
@@ -214,20 +317,50 @@ class Scheduler:
             
 
     async def start(self, task_group: anyio.abc.TaskGroup):
-        """Starts the scheduler."""
+        """
+        what: Starts the scheduler.
+        why: To begin monitoring and executing scheduled jobs.
+        how: Sets running flag, starts `_run` in a task group.
+        when: When the scheduler needs to be activated.
+        by (caller(s)): External code.
+        how often: Once per scheduler instance.
+        how much: Minimal.
+        what is it like: Turning on a machine.
+        how, what, why and when to improve: N/A.
+        """
         if self._running:
             return
         self._running = True
         task_group.start_soon(self._run)
 
     async def stop(self):
-        """Stops the scheduler."""
+        """
+        what: Stops the scheduler.
+        why: To halt job monitoring and execution.
+        how: Sets running flag to False.
+        when: When the scheduler needs to be deactivated.
+        by (caller(s)): External code.
+        how often: Once per scheduler instance.
+        how much: Minimal.
+        what is it like: Turning off a machine.
+        how, what, why and when to improve: Ensure graceful shutdown of active jobs.
+        """
         if not self._running:
             return
         self._running = False
 
     async def save_schedule(self):
-        """Saves the schedule to a file."""
+        """
+        what: Saves the schedule to a file.
+        why: To persist the current state of scheduled jobs.
+        how: Serializes job data to JSON, writes to file in a thread.
+        when: After modifications to the schedule.
+        by (caller(s)): add_job, add_jobs, remove_job.
+        how often: Infrequently.
+        how much: Depends on number of jobs.
+        what is it like: Saving a configuration.
+        how, what, why and when to improve: Optimize for large schedules.
+        """
         if not self.schedule_file:
             return
         async with self._lock:
@@ -235,12 +368,32 @@ class Scheduler:
             await anyio.to_thread.run_sync(self._write_schedule_to_file)
 
     def _write_schedule_to_file(self):
-        """Synchronous helper to write the schedule to a file."""
+        """
+        what: Synchronous helper to write schedule to file.
+        why: To perform blocking file I/O outside the event loop.
+        how: Opens file, serializes job map to JSON, writes bytes.
+        when: Called by `save_schedule` in a separate thread.
+        by (caller(s)): save_schedule.
+        how often: Infrequently.
+        how much: Depends on schedule size.
+        what is it like: Writing data to disk.
+        how, what, why and when to improve: N/A.
+        """
         with open(self.schedule_file, "wb") as f:
             f.write(orjson.dumps([job.to_dict() for job in self.job_map.values()]))
 
     async def load_schedule(self):
-        """Loads the schedule from a file."""
+        """
+        what: Loads the schedule from a file.
+        why: To restore previously saved job configurations.
+        how: Reads JSON from file in a thread, deserializes, adds jobs.
+        when: Upon scheduler initialization or explicit load request.
+        by (caller(s)): Scheduler.__init__ (indirectly), external code.
+        how often: Infrequently.
+        how much: Depends on schedule size.
+        what is it like: Loading a configuration.
+        how, what, why and when to improve: Optimize for large schedules.
+        """
         if not self.schedule_file:
             return
         try:
@@ -253,6 +406,16 @@ class Scheduler:
             pass
 
     def _read_schedule_from_file(self) -> list[dict]:
-        """Synchronous helper to read the schedule from a file."""
+        """
+        what: Synchronous helper to read schedule from file.
+        why: To perform blocking file I/O outside the event loop.
+        how: Opens file, reads bytes, deserializes JSON.
+        when: Called by `load_schedule` in a separate thread.
+        by (caller(s)): load_schedule.
+        how often: Infrequently.
+        how much: Depends on schedule size.
+        what is it like: Reading data from disk.
+        how, what, why and when to improve: N/A.
+        """
         with open(self.schedule_file, "rb") as f:
             return orjson.loads(f.read())

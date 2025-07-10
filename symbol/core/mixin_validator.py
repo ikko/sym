@@ -16,18 +16,62 @@ log = logging.getLogger(__name__)
 
 class MixinValidationResult:
     def __init__(self, is_valid: bool, errors: Optional[List[str]] = None, warnings: Optional[List[str]] = None):
+        """
+        what: Initializes a MixinValidationResult instance.
+        why: To store the outcome of mixin validation.
+        how: Sets validity status, errors, and warnings.
+        when: After validating a mixin callable.
+        by (caller(s)): validate_mixin_callable.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Creating a report card.
+        how, what, why and when to improve: N/A.
+        """
         self.is_valid = is_valid
         self.errors = errors if errors is not None else []
         self.warnings = warnings if warnings is not None else []
 
     def __bool__(self) -> bool:
+        """
+        what: Allows direct boolean evaluation of the result.
+        why: To easily check if validation was successful.
+        how: Returns the `is_valid` attribute.
+        when: When checking validation status in conditional statements.
+        by (caller(s)): Conditional statements.
+        how often: Frequently.
+        how much: Minimal.
+        what is it like: Checking a true/false flag.
+        how, what, why and when to improve: N/A.
+        """
         return self.is_valid
 
     def __repr__(self) -> str:
+        """
+        what: Returns a developer-friendly string representation.
+        why: For debugging and logging.
+        how: Formats status, error, and warning counts.
+        when: When the result object is printed or logged.
+        by (caller(s)): Debugging tools, logging system.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: A summary of validation.
+        how, what, why and when to improve: Include more details if needed.
+        """
         status = "Valid" if self.is_valid else "Invalid"
         return f"<MixinValidationResult: {status}, Errors: {len(self.errors)}, Warnings: {len(self.warnings)}>"
 
     def to_dict(self) -> Dict[str, Any]:
+        """
+        what: Converts the validation result to a dictionary.
+        why: For serialization or structured data access.
+        how: Returns a dictionary containing `is_valid`, `errors`, and `warnings`.
+        when: When the validation result needs to be serialized or passed as data.
+        by (caller(s)): External code.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Exporting a report.
+        how, what, why and when to improve: N/A.
+        """
         return {
             "is_valid": self.is_valid,
             "errors": self.errors,
@@ -36,7 +80,17 @@ class MixinValidationResult:
 
 
 def validate_mixin_callable(func: Callable[..., Any]) -> MixinValidationResult:
-    """Validates a mixin callable for adherence to the Symbol's mixin interface."""
+    """
+    what: Validates a mixin callable.
+    why: To ensure mixins adhere to the Symbol's interface and safety guidelines.
+    how: Uses static analysis (LibCST) to check signature, async markers, and imports.
+    when: During mixin registration.
+    by (caller(s)): mixinability.register_mixin.
+    how often: Infrequently.
+    how much: Moderate, involves source code parsing.
+    what is it like: A code linter for mixins.
+    how, what, why and when to improve: More sophisticated static analysis rules.
+    """
     errors = []
     validation_warnings = []
 

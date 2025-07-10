@@ -12,6 +12,17 @@ BLACK = False
 
 class RedBlackNode:
     def __init__(self, symbol: 'Symbol', weight: Union[float, Callable[[Any], float]], color=RED):
+        """
+        what: Initializes a Red-Black tree node.
+        why: To store a Symbol and its weight within the tree structure.
+        how: Sets symbol, weight, color, and child/parent pointers.
+        when: When a new node is inserted into the Red-Black tree.
+        by (caller(s)): RedBlackTree.insert.
+        how often: Frequently.
+        how much: Minimal.
+        what is it like: Creating an entry in a self-balancing list.
+        how, what, why and when to improve: N/A.
+        """
         self.symbol = symbol
         self.weight = weight
         self.color = color
@@ -20,19 +31,63 @@ class RedBlackNode:
         self.parent: Optional['RedBlackNode'] = None
 
     def eval_weight(self, *args, **kwargs) -> float:
+        """
+        what: Evaluates the node's weight.
+        why: To get a numerical value for comparison in the Red-Black tree.
+        how: Calls the weight if callable, otherwise returns it directly.
+        when: During tree operations (insert, search, remove).
+        by (caller(s)): RedBlackTree methods.
+        how often: Frequently.
+        how much: Minimal.
+        what is it like: Getting a sort key.
+        how, what, why and when to improve: N/A.
+        """
         return self.weight(self.symbol) if callable(self.weight) else self.weight
 
 
 class RedBlackTree:
     def __init__(self):
+        """
+        what: Initializes an empty Red-Black tree.
+        why: To create a self-balancing binary search tree for Symbols.
+        how: Sets the root node to None.
+        when: When a new RedBlackTree is instantiated.
+        by (caller(s)): SymbolIndex.__init__.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Creating an empty sorted collection.
+        how, what, why and when to improve: N/A.
+        """
         self.root: Optional[RedBlackNode] = None
 
     def insert(self, symbol: 'Symbol', weight: Union[float, Callable]):
+        """
+        what: Inserts a Symbol into the Red-Black tree.
+        why: To add a new Symbol while maintaining tree balance.
+        how: Performs BST insertion, then fixes Red-Black properties.
+        when: When a new Symbol is created and added to the index.
+        by (caller(s)): Symbol.__new__.
+        how often: Frequently.
+        how much: Depends on tree depth.
+        what is it like: Adding an item to a sorted collection.
+        how, what, why and when to improve: Optimize for very large trees.
+        """
         node = RedBlackNode(symbol, weight)
         self._bst_insert(node)
         self._fix_insert(node)
 
     def _bst_insert(self, z: RedBlackNode):
+        """
+        what: Performs a standard Binary Search Tree insertion.
+        why: Helper for Red-Black tree insertion.
+        how: Traverses the tree to find insertion point, links new node.
+        when: During Red-Black tree insertion.
+        by (caller(s)): RedBlackTree.insert.
+        how often: Frequently.
+        how much: Depends on tree depth.
+        what is it like: Basic tree node placement.
+        how, what, why and when to improve: N/A.
+        """
         y = None
         x = self.root
         while x:
@@ -50,6 +105,17 @@ class RedBlackTree:
             y.right = z
 
     def _fix_insert(self, z: RedBlackNode):
+        """
+        what: Restores Red-Black tree properties after insertion.
+        why: To maintain the self-balancing nature of the tree.
+        how: Performs rotations and color changes based on Red-Black rules.
+        when: After a new node is inserted.
+        by (caller(s)): RedBlackTree.insert.
+        how often: Frequently.
+        how much: Depends on tree depth and imbalance.
+        what is it like: Rebalancing a complex structure.
+        how, what, why and when to improve: N/A.
+        """
         while z != self.root and z.parent and z.parent.color == RED:
             if z.parent == z.parent.parent.left:
                 y = z.parent.parent.right # Uncle
@@ -91,6 +157,17 @@ class RedBlackTree:
         self.root.color = BLACK
 
     def _left_rotate(self, x: RedBlackNode):
+        """
+        what: Performs a left rotation on the Red-Black tree.
+        why: To rebalance the tree and maintain Red-Black properties.
+        how: Adjusts node pointers and parent references.
+        when: During insertion or deletion fix-up.
+        by (caller(s)): _fix_insert, _fix_delete.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Shifting a branch in a tree.
+        how, what, why and when to improve: N/A.
+        """
         y = x.right
         x.right = y.left
         if y.left:
@@ -106,6 +183,17 @@ class RedBlackTree:
         x.parent = y
 
     def _right_rotate(self, x: RedBlackNode):
+        """
+        what: Performs a right rotation on the Red-Black tree.
+        why: To rebalance the tree and maintain Red-Black properties.
+        how: Adjusts node pointers and parent references.
+        when: During insertion or deletion fix-up.
+        by (caller(s)): _fix_insert, _fix_delete.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Shifting a branch in a tree.
+        how, what, why and when to improve: N/A.
+        """
         y = x.left
         x.left = y.right
         if y.right:
@@ -121,6 +209,17 @@ class RedBlackTree:
         x.parent = y
 
     def search(self, weight: float) -> Optional[RedBlackNode]:
+        """
+        what: Searches for a node with the given weight.
+        why: To retrieve a node based on its weight.
+        how: Traverses the tree, comparing weights.
+        when: When a node needs to be found by its weight.
+        by (caller(s)): RedBlackTree.remove.
+        how often: Frequently.
+        how much: Depends on tree depth.
+        what is it like: Finding an item in a sorted list.
+        how, what, why and when to improve: Optimize for very large trees.
+        """
         node = self.root
         while node:
             if weight == node.eval_weight():
@@ -132,6 +231,17 @@ class RedBlackTree:
         return None
 
     def search(self, weight: float) -> Optional[RedBlackNode]:
+        """
+        what: Searches for a node with the given weight.
+        why: To retrieve a node based on its weight.
+        how: Traverses the tree, comparing weights.
+        when: When a node needs to be found by its weight.
+        by (caller(s)): RedBlackTree.remove.
+        how often: Frequently.
+        how much: Depends on tree depth.
+        what is it like: Finding an item in a sorted list.
+        how, what, why and when to improve: Optimize for very large trees.
+        """
         node = self.root
         while node:
             if weight == node.eval_weight():
@@ -143,6 +253,17 @@ class RedBlackTree:
         return None
 
     def remove(self, weight: float):
+        """
+        what: Removes a node with the given weight.
+        why: To delete a Symbol from the Red-Black tree.
+        how: Finds node, performs deletion, then fixes Red-Black properties.
+        when: When a Symbol is deleted from the index.
+        by (caller(s)): Symbol.delete.
+        how often: Infrequently.
+        how much: Depends on tree depth.
+        what is it like: Deleting an item from a sorted collection.
+        how, what, why and when to improve: Optimize for very large trees.
+        """
         z = self.search(weight)
         if not z:
             return
@@ -173,6 +294,17 @@ class RedBlackTree:
             if x: self._fix_delete(x)
 
     def _transplant(self, u: RedBlackNode, v: Optional[RedBlackNode]):
+        """
+        what: Replaces one subtree with another.
+        why: Helper for Red-Black tree deletion.
+        how: Adjusts parent and child pointers to bypass a node.
+        when: During node removal in deletion process.
+        by (caller(s)): RedBlackTree.remove.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Swapping out a tree branch.
+        how, what, why and when to improve: N/A.
+        """
         if not u.parent:
             self.root = v
         elif u == u.parent.left:
@@ -183,11 +315,33 @@ class RedBlackTree:
             v.parent = u.parent
 
     def _min_node(self, node: RedBlackNode) -> RedBlackNode:
+        """
+        what: Finds the node with the minimum value in a subtree.
+        why: Helper for Red-Black tree deletion.
+        how: Traverses left children until no more left child.
+        when: During deletion of nodes with two children.
+        by (caller(s)): RedBlackTree.remove.
+        how often: Infrequently.
+        how much: Depends on subtree depth.
+        what is it like: Finding the smallest element in a branch.
+        how, what, why and when to improve: N/A.
+        """
         while node.left:
             node = node.left
         return node
 
     def _fix_delete(self, x: RedBlackNode):
+        """
+        what: Restores Red-Black tree properties after deletion.
+        why: To maintain the self-balancing nature of the tree.
+        how: Performs rotations and color changes based on Red-Black rules.
+        when: After a node is deleted.
+        by (caller(s)): RedBlackTree.remove.
+        how often: Infrequently.
+        how much: Depends on tree depth and imbalance.
+        what is it like: Rebalancing a complex structure.
+        how, what, why and when to improve: N/A.
+        """
         while x != self.root and x.color == BLACK:
             if x == x.parent.left:
                 w = x.parent.right
@@ -236,6 +390,17 @@ class RedBlackTree:
         x.color = BLACK
 
     def traverse_inorder(self, node: Optional[RedBlackNode] = None) -> list['Symbol']:
+        """
+        what: Traverses the Red-Black tree in-order.
+        why: To retrieve Symbols in sorted order.
+        how: Recursively visits left, current, then right nodes.
+        when: When sorted iteration of Symbols is needed.
+        by (caller(s)): External code.
+        how often: Infrequently.
+        how much: Depends on tree size.
+        what is it like: Reading a sorted list.
+        how, what, why and when to improve: Optimize for very large trees.
+        """
         if node is None:
             node = self.root
         result = []
@@ -251,6 +416,17 @@ class RedBlackTree:
         return result
 
     def to_ascii(self) -> str:
+        """
+        what: Generates an ASCII art representation of the Red-Black tree.
+        why: For debugging and visualization of the tree structure.
+        how: Recursively walks the tree, formatting nodes with indentation.
+        when: When visualizing the Red-Black tree.
+        by (caller(s)): External debugging tools.
+        how often: Infrequently.
+        how much: Depends on tree size.
+        what is it like: Drawing a text-based tree diagram.
+        how, what, why and when to improve: Improve formatting for large trees.
+        """
         lines = []
 
         def _walk_ascii(node: Optional[RedBlackNode], indent: str = ""):

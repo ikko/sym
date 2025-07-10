@@ -6,8 +6,9 @@ with support for freezing the class to prevent further modifications.
 from collections import defaultdict
 import gc
 import logging
-from typing import Callable, Any, Dict, get_origin, get_args, Union, Awaitable
+from typing import Callable, Any, Dict, get_origin, get_args, Union, Awaitable, Type
 import inspect
+import ast
 
 from .mixin_validator import validate_mixin_callable, MixinValidationResult
 from .protocols import MixinFunction
@@ -26,7 +27,17 @@ log = logging.getLogger(__name__)
 # --- Core Mixinability Functions ---
 
 def freeze() -> None:
-    """Freezes the Symbol class, preventing any further runtime modifications."""
+    """
+    what: Freezes the Symbol class.
+    why: To prevent further runtime modifications.
+    how: Sets a global flag `_is_frozen` to True.
+    when: When the Symbol class state needs to be immutable.
+    by (caller(s)): Symbol.immute.
+    how often: Once per application lifecycle.
+    how much: Minimal.
+    what is it like: Locking down a system.
+    how, what, why and when to improve: N/A.
+    """
     global _is_frozen
     if _is_frozen:
         log.warning("Mixinability is already frozen. No action taken.")
@@ -36,23 +47,49 @@ def freeze() -> None:
     log.info("Symbol class has been frozen. No further modifications are allowed.")
 
 def is_frozen() -> bool:
-    """Returns True if the Symbol class is currently frozen.""" 
+    """
+    what: Checks if the Symbol class is frozen.
+    why: To determine if modifications are allowed.
+    how: Reads the global `_is_frozen` flag.
+    when: Before attempting to modify Symbol class state.
+    by (caller(s)): elevate, slim, immute, clear_context, register_mixin.
+    how often: Frequently.
+    how much: Minimal.
+    what is it like: Checking a lock status.
+    how, what, why and when to improve: N/A.
+    """ 
     return _is_frozen
 
 import re
 
 def register_mixin(value: Any, name: str = None, target_class: type = None, safe: bool = False, expand: bool = True) -> bool:
+    """
+    what: Registers a mixin for dynamic application.
+    why: To extend Symbol class functionality at runtime.
+    how: Validates, infers name, handles expansion, applies mixin.
+    when: During application setup or dynamic feature loading.
+    by (caller(s)): apply_builtins.
+    how often: Infrequently.
+    how much: Moderate, depends on mixin complexity.
+    what is it like: Plugging in a new module.
+    how, what, why and when to improve: Improve error handling, add more validation.
+    """
     if target_class is None:
         from ..core.base_symbol import Symbol
         target_class = Symbol
-    """Registers a mixin to be applied to the target class, with validation and error handling.
-    Returns True if the mixin was successfully registered, False otherwise.
-    """
-    if _is_frozen:
-        log.error(f"Failed to register mixin '{name}': Symbol class is frozen.")
-        return False
 
     def _to_snake_case(s: str) -> str:
+        """
+        what: Converts a string to snake_case.
+        why: To standardize mixin names.
+        how: Uses regular expressions for conversion.
+        when: During mixin registration.
+        by (caller(s)): register_mixin.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Formatting text.
+        how, what, why and when to improve: N/A.
+        """
         s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', s)
         return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
@@ -61,7 +98,7 @@ def register_mixin(value: Any, name: str = None, target_class: type = None, safe
         try:
             # WARNING: Using eval() can be dangerous if the input string is not trusted.
             # Ensure that 'value' strings come from trusted sources.
-            value = eval(value)
+            value = ast.literal_eval(value)
         except Exception as e:
             log.error(f"Failed to evaluate mixin value string '{value}': {repr(e)}.")
             return False
@@ -153,11 +190,31 @@ def register_mixin(value: Any, name: str = None, target_class: type = None, safe
         return True
 
 def get_applied_mixins() -> Dict[str, Any]:
-    """Returns a copy of the dictionary of applied mixins."""
+    """
+    what: Retrieves currently applied mixins.
+    why: To inspect the Symbol class's extended capabilities.
+    how: Returns a copy of the internal `_applied_mixins` dictionary.
+    when: When auditing or debugging mixin application.
+    by (caller(s)): Symbol.stat, Symbol.ls.
+    how often: Infrequently.
+    how much: Minimal.
+    what is it like: Listing installed plugins.
+    how, what, why and when to improve: N/A.
+    """
     return _applied_mixins.copy()
 
 def apply_mixin_to_instance(instance: 'Symbol', mixin: Any):
-    """Applies a mixin to a single symbol instance for isolated operations like stat calculations."""
+    """
+    what: Applies a mixin to a specific Symbol instance.
+    why: For isolated operations without global class modification.
+    how: Elevates mixin attributes to the instance's `_elevated_attributes`.
+    when: When temporary or instance-specific mixin behavior is needed.
+    by (caller(s)): Symbol.stat, _get_mixin_metrics.
+    how often: Infrequently.
+    how much: Minimal.
+    what is it like: Adding a temporary ability.
+    how, what, why and when to improve: N/A.
+    """
     if inspect.isclass(mixin):
         # Instantiate the mixin if it's a class
         mixin_instance = mixin()
@@ -172,8 +229,73 @@ def apply_mixin_to_instance(instance: 'Symbol', mixin: Any):
             instance._elevated_attributes[mixin.__name__] = mixin
 
 
+from .protocols import MixinHealthState
+
+def _get_mixin_metrics(mixin_cls: Any, Symbol_cls: Type['Symbol']) -> dict:
+    """
+    what: Calculates metrics for a given mixin.
+    why: To provide detailed information about mixin performance and state.
+    how: Creates a dummy Symbol, applies mixin, measures footprint, checks init time.
+    when: When `Symbol.stat()` or `Symbol.ls()` is called.
+    by (caller(s)): Symbol.stat, Symbol.ls.
+    how often: Infrequently.
+    how much: Moderate, involves dummy Symbol creation.
+    what is it like: Running a diagnostic on a component.
+    how, what, why and when to improve: Refine footprint calculation, implement health checks.
+    """
+    metrics = {}
+    metrics['name'] = mixin_cls.__name__ if inspect.isclass(mixin_cls) else mixin_cls.__class__.__name__
+
+    # Create a temporary dummy symbol to measure mixin size
+    dummy_symbol = Symbol_cls(f"dummy_for_{metrics['name']}")
+    apply_mixin_to_instance(dummy_symbol, mixin_cls)
+
+    # Calculate footprint
+    # This is a simplified approach. A more accurate footprint would involve
+    # recursively calculating the size of all attributes added by the mixin.
+    # For now, we'll consider the size of the elevated attributes dictionary.
+    metrics['footprint'] = dummy_symbol.footprint() - Symbol_cls("dummy").footprint() # Approximate footprint
+
+    # Determine slim_tag
+    is_slim_tag = False
+    for attr_name in dir(dummy_symbol):
+        if not attr_name.startswith('__') and not callable(getattr(dummy_symbol, attr_name)):
+            try:
+                value = getattr(dummy_symbol, attr_name)
+                if value is not SENTINEL:
+                    is_slim_tag = True
+                    break
+            except AttributeError:
+                pass
+    metrics['slim_tag'] = is_slim_tag
+
+    # Uptime
+    mixin_instance = mixin_cls() if inspect.isclass(mixin_cls) else mixin_cls
+    if hasattr(mixin_instance, '_init_time') and mixin_instance._init_time:
+        metrics['uptime'] = datetime.datetime.now() - mixin_instance._init_time
+    else:
+        metrics['uptime'] = datetime.timedelta(0)
+
+    # Health State (placeholder for now, will refine later)
+    metrics['state'] = MixinHealthState.UNKNOWN.value # Placeholder
+
+    # Healthy
+    metrics['healthy'] = (metrics['state'] == MixinHealthState.HEALTHY.value)
+
+    return metrics
+
 def _reset_frozen_state_for_testing() -> None:
-    """Resets the frozen state for testing purposes. DO NOT USE IN PRODUCTION."""
+    """
+    what: Resets the Symbol class frozen state.
+    why: For testing scenarios requiring mutable state.
+    how: Sets the global `_is_frozen` flag to False.
+    when: Exclusively in test environments.
+    by (caller(s)): Test fixtures.
+    how often: Only during testing.
+    how much: Minimal.
+    what is it like: Unlocking a test environment.
+    how, what, why and when to improve: N/A.
+    """
     global _is_frozen
     _is_frozen = False
     log.warning("Symbol class frozen state has been reset for testing. DO NOT USE IN PRODUCTION.")

@@ -8,6 +8,17 @@ import logging
 log = logging.getLogger(__name__)
 
 def apply_builtins():
+    """
+    what: Applies built-in mixins to the Symbol class.
+    why: To extend Symbol with common functionalities like pathfinding, time dimensions, and visualization.
+    how: Registers mixins using `register_mixin` for various methods.
+    when: During application startup to enable core Symbol features.
+    by (caller(s)): Main application entry point.
+    how often: Once per application lifecycle.
+    how much: Moderate, involves multiple mixin registrations.
+    what is it like: Installing core plugins.
+    how, what, why and when to improve: Optimize mixin registration process.
+    """
     from ..core.base_symbol import Symbol
     successful_mixins = 0
     total_mixins = 0

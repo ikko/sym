@@ -6,7 +6,17 @@ from ..core.base_symbol import Symbol as BaseSymbol
 from ..core.symbol import Symbol
 
 def get_object_size(obj: Any) -> int:
-    """Recursively calculates the size of an object in bytes."""
+    """
+    what: Recursively calculates the size of an object.
+    why: To determine the memory footprint of complex Python objects.
+    how: Uses BFS traversal, `sys.getsizeof`, and tracks visited objects.
+    when: When memory usage analysis is needed.
+    by (caller(s)): analyze_symbol_memory_and_methods.
+    how often: Infrequently.
+    how much: Depends on object graph complexity.
+    what is it like: Measuring an object's total size.
+    how, what, why and when to improve: Handle more complex object types, optimize performance.
+    """
     marked = {id(obj)}
     total_size = 0
 
@@ -39,8 +49,15 @@ def get_object_size(obj: Any) -> int:
 
 def get_public_methods_by_module(target_class: type) -> Dict[str, List[str]]:
     """
-    Lists public methods of a class, grouped by their module of origin.
-    Considers methods directly on the class and those from its MRO.
+    what: Lists public methods of a class by module.
+    why: To understand the origin of methods in a class.
+    how: Iterates through `dir()`, inspects methods, gets module name.
+    when: When analyzing class structure or debugging method origins.
+    by (caller(s)): analyze_symbol_memory_and_methods.
+    how often: Infrequently.
+    how much: Depends on class complexity.
+    what is it like: Mapping a class's capabilities.
+    how, what, why and when to improve: Handle more method types, optimize for large classes.
     """
     methods_by_module: Dict[str, List[str]] = defaultdict(list)
     
@@ -72,14 +89,32 @@ def get_public_methods_by_module(target_class: type) -> Dict[str, List[str]]:
 
 def analyze_symbol_memory_and_methods(symbol_instance: Symbol) -> Tuple[int, Dict[str, List[str]]]:
     """
-    Analyzes the memory footprint of a Symbol instance and lists its public methods by module.
+    what: Analyzes Symbol memory and lists public methods.
+    why: To provide a comprehensive overview of a Symbol's runtime characteristics.
+    how: Calls `get_object_size` and `get_public_methods_by_module`.
+    when: When detailed Symbol analysis is needed.
+    by (caller(s)): External analysis scripts.
+    how often: Infrequently.
+    how much: Depends on Symbol complexity.
+    what is it like: Generating a diagnostic report.
+    how, what, why and when to improve: Add more metrics, integrate with profiling tools.
     """
     memory_size = get_object_size(symbol_instance)
     public_methods = get_public_methods_by_module(symbol_instance.__class__)
     return memory_size, public_methods
 
 def print_analysis_report(title: str, memory_size: int, public_methods: Dict[str, List[str]]):
-    """Prints a formatted analysis report."""
+    """
+    what: Prints a formatted analysis report.
+    why: To display memory and method analysis results clearly.
+    how: Formats and prints memory size and grouped public methods.
+    when: After analyzing a Symbol's memory and methods.
+    by (caller(s)): External analysis scripts.
+    how often: Infrequently.
+    how much: Minimal.
+    what is it like: Presenting a summary.
+    how, what, why and when to improve: More customizable formatting, export to file.
+    """
     print(f"--- {title} ---")
     print(f"Memory Footprint: {memory_size} bytes")
     print("Public Methods (grouped by module):")

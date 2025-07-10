@@ -17,16 +17,16 @@ U = TypeVar('U')
 
 async def a_process_batch(batch: Iterable[T], func: Callable[[T], Union[U, Awaitable[U]]], 
                           new_process: bool = False, new_thread: bool = True) -> List[U]:
-    """Asynchronously processes a batch of items using the given function.
-
-    Args:
-        batch: An iterable of items to process.
-        func: An async or sync function to apply to each item.
-        new_process: If True, run each item's processing in a new process.
-        new_thread: If True, run each item's processing in a new thread (ignored if new_process is True).
-
-    Returns:
-        A list of results from processing each item.
+    """
+    what: Asynchronously processes a batch of items.
+    why: To apply a function to multiple items concurrently.
+    how: Uses AnyIO task groups and thread/process pools.
+    when: When processing a batch of items in an async context.
+    by (caller(s)): External async code.
+    how often: Frequently.
+    how much: Depends on batch size and function complexity.
+    what is it like: Parallel map operation.
+    how, what, why and when to improve: Implement full new_process support.
     """
     tasks = []
     async with anyio.create_task_group() as tg:
@@ -50,16 +50,16 @@ async def a_process_batch(batch: Iterable[T], func: Callable[[T], Union[U, Await
 
 def process_batch(batch: Iterable[T], func: Callable[[T], U], 
                   new_process: bool = False, new_thread: bool = True) -> List[U]:
-    """Synchronously processes a batch of items using the given function.
-
-    Args:
-        batch: An iterable of items to process.
-        func: A sync function to apply to each item.
-        new_process: If True, run each item's processing in a new process.
-        new_thread: If True, run each item's processing in a new thread (ignored if new_process is True).
-
-    Returns:
-        A list of results from processing each item.
+    """
+    what: Synchronously processes a batch of items.
+    why: To apply a function to multiple items in a synchronous context.
+    how: Uses AnyIO to run functions in threads/processes or directly.
+    when: When processing a batch of items in a sync context.
+    by (caller(s)): External sync code.
+    how often: Frequently.
+    how much: Depends on batch size and function complexity.
+    what is it like: Synchronous map operation.
+    how, what, why and when to improve: Implement full new_process support.
     """
     # For synchronous version, we can directly iterate or use anyio.run for thread/process pools
     if new_process:

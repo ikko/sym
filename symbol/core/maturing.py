@@ -32,12 +32,45 @@ V = TypeVar('V')
 class DefDict(defaultdict):
     """A defaultdict of defaultdicts, representing `defaultdict(defaultdict())`."""
     def __init__(self, default_factory: Callable[[], V] = lambda: defaultdict(dict), **kwargs):
+        """
+        what: Initializes a DefDict instance.
+        why: To create a defaultdict of defaultdicts.
+        how: Calls super().__init__ with a default factory for nested dictionaries.
+        when: When a new DefDict is instantiated.
+        by (caller(s)): Symbol.metadata, Symbol.context.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Creating a nested dictionary.
+        how, what, why and when to improve: N/A.
+        """
         super().__init__(default_factory, **kwargs)
 
     def __repr__(self):
+        """
+        what: Returns a developer-friendly string representation.
+        why: For debugging and introspection.
+        how: Formats the DefDict's content.
+        when: When DefDict is printed in a debugger or console.
+        by (caller(s)): Python's `repr()` function.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: A technical label for a nested dictionary.
+        how, what, why and when to improve: Include more internal state for complex debugging.
+        """
         return f"DefDict({super().__repr__()})"
 
     def __missing__(self, key):
+        """
+        what: Handles missing keys in the DefDict.
+        why: To automatically create nested dictionaries on demand.
+        how: Creates a new default value using `default_factory` and assigns it.
+        when: When a key is accessed that does not exist.
+        by (caller(s)): Python's dictionary lookup mechanism.
+        how often: Frequently.
+        how much: Minimal.
+        what is it like: Auto-creating a path in a nested structure.
+        how, what, why and when to improve: N/A.
+        """
         # This ensures that if a key is accessed and not found, a new defaultdict(dict) is created
         # and then returned, allowing for nested assignment like d['a']['b'] = 1
         value = self.default_factory()
@@ -45,7 +78,17 @@ class DefDict(defaultdict):
         return value
 
     def __delitem__(self, key):
-        """Deletes an item and attempts to deep_del its value for memory awareness."""
+        """
+        what: Deletes an item from the DefDict.
+        why: To remove an entry and potentially free up memory.
+        how: Deletes the item, logs the action, and relies on GC for value.
+        when: When an item is removed from the DefDict.
+        by (caller(s)): Symbol.clear_context.
+        how often: Infrequently.
+        how much: Minimal.
+        what is it like: Removing an entry from a nested dictionary.
+        how, what, why and when to improve: More explicit memory management.
+        """
         if key in self:
             value_to_delete = self[key]
             super().__delitem__(key)
@@ -58,7 +101,17 @@ class DefDict(defaultdict):
             raise KeyError(f"Key '{key}' not found in DefDict.")
 
 def deep_del(obj: Any, attr: str) -> None:
-    """Recursively deletes an attribute and its contents if no other references exist."""
+    """
+    what: Recursively deletes an attribute and its contents.
+    why: To explicitly manage memory and reduce object references.
+    how: Deletes the attribute, logs, and relies on GC for value cleanup.
+    when: During Symbol slimming or context clearing.
+    by (caller(s)): Symbol.slim, DefDict.__delitem__.
+    how often: Infrequently.
+    how much: Minimal.
+    what is it like: Pruning a branch from a tree.
+    how, what, why and when to improve: More robust reference tracking.
+    """
     if not hasattr(obj, attr):
         log.warning(f"Attempted to deep_del non-existent attribute '{attr}' from {obj}")
         return
@@ -81,7 +134,17 @@ def deep_del(obj: Any, attr: str) -> None:
 MergeStrategy = Literal['overwrite', 'patch', 'copy', 'deepcopy', 'pipe', 'update', 'extend', 'smooth']
 
 def _apply_merge_strategy(current_value: Any, new_value: Any, strategy: MergeStrategy, non_mapping_conflict_strategy: Literal['overwrite', 'keep_current', 'raise_error', 'add_sibling'] = 'add_sibling') -> Any:
-    """Applies a merge strategy to combine current and new values."""
+    """
+    what: Applies a merge strategy to combine values.
+    why: To define how new data integrates with existing data.
+    how: Implements various strategies: overwrite, copy, deepcopy, patch, pipe, update, extend, smooth.
+    when: During Symbol elevation or other data merging operations.
+    by (caller(s)): Symbol.elevate.
+    how often: Infrequently.
+    how much: Depends on data complexity and strategy.
+    what is it like: Combining datasets with different rules.
+    how, what, why and when to improve: Add more merge strategies, optimize performance.
+    """
     if strategy == 'overwrite':
         return new_value
     elif strategy == 'copy':
