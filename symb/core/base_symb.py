@@ -8,6 +8,7 @@ from typing import (Optional, Any, TypeVar)
 from weakref import WeakValueDictionary
 
 from ..builtins.avl_tree import AVLTree
+from .relations import Relations
 
 T = TypeVar("T")
 
@@ -45,8 +46,7 @@ class Symbol:
             obj.origin = origin
             obj.parents = []
             obj.children = []
-            obj.related_to = []
-            obj.related_how = []
+            
             obj._position = cls._write_cursor
             obj._next = None
             obj._prev = None

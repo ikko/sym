@@ -102,12 +102,12 @@ graph TD
     style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
-## `symb.append(child)` / `symb.relate_to(other, how)`: Link Construction
+## `symb.append(child)` and Dynamic Relations: Link Construction
 
-The `Symbol` framework provides intuitive methods for establishing relationships between symbic entities, forming the edges of the underlying directed acyclic graph (DAG). `append(child)` creates a direct parent-child relationship, while `relate_to(other, how)` offers a more semantically rich way to define arbitrary connections, allowing for the specification of the nature of the relationship.
+The `Symbol` framework provides intuitive methods for establishing relationships between symbic entities, forming the edges of the underlying directed acyclic graph (DAG). `append(child)` creates a direct parent-child relationship. For more semantically rich and arbitrary connections, the framework now supports dynamic relation creation via attribute access, allowing for a highly expressive and readable way to define the nature of the relationship.
 
 ### Purpose and Usage
-These methods are used to build the graph structure by defining directed relationships between `Symbol` instances. `append` is for simple hierarchical relationships, while `relate_to` allows for custom relationship types.
+These methods are used to build the graph structure by defining directed relationships between `Symbol` instances. `append` is for simple hierarchical relationships. Dynamic relations allow for custom relationship types using a natural, dot-notation syntax, where the attribute name becomes the 'how' of the relation.
 
 ### Code Example
 ```python
@@ -120,7 +120,7 @@ related_entity = s.RelatedEntity
 
 parent.append(child1)
 parent.append(child2)
-parent.relate_to(related_entity, how='depends_on')
+parent.depends_on(related_entity) # New dynamic relation syntax
 
 print(f"Parent children: {[c.name for c in parent.children]}")
 print(f"Child1 parents: {[p.name for p in child1.parents]}")
@@ -141,9 +141,9 @@ graph TD
     B --> C[Child Symbol];
     A -- "parent-child" --> C;
 
-    X[Source Symbol] --> Y{relate_to#40;Other, 'how'#41;};
+    X[Source Symbol] --> Y{dynamic_relation#40;Other Symbol#41;};
     Y --> Z[Other Symbol];
-    X -- "how" --> Z;
+    X -- "dynamic_relation" --> Z;
 
     style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
     style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
@@ -153,12 +153,12 @@ graph TD
     style Y fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style Z fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
 ```
-## `symb.tree()` / `.que()` / `.relate()`: Lazy Traversal
+## `symb.tree()` / `.que()`: Lazy Traversal
 
-The `Symbol` framework provides a suite of methods for traversing the underlying graph structure, designed with efficiency and flexibility in mind. `tree()` performs a depth-first traversal, `que()` (likely `queue` or `deque` based) performs a breadth-first traversal, and `relate()` (not explicitly shown in `symb.py` but implied by `related_to` attribute) would allow traversal based on custom relationships. The "lazy" aspect implies that these traversals might not materialize the entire graph in memory at once, but rather yield elements as they are visited, which is crucial for large graphs.
+The `Symbol` framework provides a suite of methods for traversing the underlying graph structure, designed with efficiency and flexibility in mind. `tree()` performs a depth-first traversal, `que()` (likely `queue` or `deque` based) performs a breadth-first traversal. The "lazy" aspect implies that these traversals might not materialize the entire graph in memory at once, but rather yield elements as they are visited, which is crucial for large graphs.
 
 ### Purpose and Usage
-These methods are used to navigate the graph of `Symbol` instances. `tree()` is suitable for hierarchical views, `que()` for level-by-level processing, and `relate()` for exploring specific types of connections.
+These methods are used to navigate the graph of `Symbol` instances. `tree()` is suitable for hierarchical views, `que()` for level-by-level processing.
 
 ### Code Example
 ```python
@@ -223,16 +223,13 @@ graph TD
     A[Root Symbol] --> B{Traversal Method};
     B -- "tree()" --> C[Depth-First Traversal];
     B -- "que()" --> D[Breadth-First Traversal];
-    B -- "relate()" --> E[Custom Relationship Traversal];
     C --> F[Yields Symbols];
     D --> F;
-    E --> F;
 
     style A fill:#FFD700,stroke:#333,stroke-width:2px,color:#000000;
     style B fill:#1E90FF,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style C fill:#32CD32,stroke:#333,stroke-width:2px,color:#000000;
     style D fill:#FF4500,stroke:#333,stroke-width:2px,color:#FFFFFF;
-    style E fill:#8A2BE2,stroke:#333,stroke-width:2px,color:#FFFFFF;
     style F fill:#FF1493,stroke:#333,stroke-width:2px,color:#FFFFFF;
 ```
 ## `symb.patch(other)`: Recursive, Structural Deep Merge

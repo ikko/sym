@@ -40,7 +40,7 @@ from symb.core.symb import SymbolNamespace
 s = SymbolNamespace()
 
 s.page.append(s.header).append(s.footer)
-s.backend.relate_to(s.database, how=s.uses)
+s.backend.uses(s.database)
 
 print(s.page.to_mmd())        # Mermaid.js format
 ```

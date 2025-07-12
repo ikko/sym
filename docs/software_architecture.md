@@ -1,39 +1,55 @@
 ```mermaid
 graph TD
-    subgraph "Core Symbol Definition"
-        A[base_symb.py] --> B(Symbol Class - Base);
-        B -- defines --> C{__slots__};
-        C -- includes --> D[related_to: list];
-        C -- includes --> E[related_how: list];
+    subgraph Core Infrastructure
+        A[Symbol Creation & Management] --> B{Symbol Class};
+        B --> C[BaseSymbol];
+        B --> D[SymbolNamespace];
+        C --> E[WeakValueDictionary for Pooling];
+        C --> F[AVLTree for Numbered Symbols];
     end
 
-    subgraph "Extended Symbol Functionality"
-        F[symb.py] --> G(Symbol Class - Extended);
-        G -- inherits from --> B;
-        G -- implements --> H(relate/unrelate methods);
-        H -- manipulates --> D;
-        H -- manipulates --> E;
-        G -- implements --> I(to_mmd method);
-        I -- reads --> D;
-        I -- reads --> E;
+    subgraph Relational System (Current)
+        B --> G[relate/unrelate methods];
+        G --> H{related_to & related_how lists};
     end
 
-    subgraph "Built-in Data Structures"
-        J[builtins/*] -- used by --> F;
+    subgraph Relational System (Proposed)
+        B --> I[Dynamic __getattr__];
+        I --> J{Relations Class (dict-like)};
+        J --> K[Relation objects];
     end
 
-    subgraph "Utilities"
-        K[utils/*] -- used by --> F;
+    subgraph Advanced Features
+        B --> L[Graph Traversal];
+        B --> M[Lazy Loading & Maturing];
+        B --> N[Mixinability];
+        B --> O[Serialization (orjson)];
     end
 
-    subgraph "Testing"
-        L[tests/*] -- tests --> F;
-        L -- tests --> A;
+    subgraph Built-in Mixins
+        P[Builtin Mixins] --> N;
+    end
+
+    subgraph User Interaction
+        D --> Q[User Code];
+        Q --> B;
     end
 
     style A fill:#f9f,stroke:#333,stroke-width:2px
-    style F fill:#f9f,stroke:#333,stroke-width:2px
-    style J fill:#ccf,stroke:#333,stroke-width:2px
-    style K fill:#ccf,stroke:#333,stroke-width:2px
+    style B fill:#ccf,stroke:#333,stroke-width:2px
+    style C fill:#ccf,stroke:#333,stroke-width:2px
+    style D fill:#f9f,stroke:#333,stroke-width:2px
+    style E fill:#9cf,stroke:#333,stroke-width:2px
+    style F fill:#9cf,stroke:#333,stroke-width:2px
+    style G fill:#f99,stroke:#333,stroke-width:2px
+    style H fill:#f99,stroke:#333,stroke-width:2px
+    style I fill:#9f9,stroke:#333,stroke-width:2px
+    style J fill:#9f9,stroke:#333,stroke-width:2px
+    style K fill:#9f9,stroke:#333,stroke-width:2px
     style L fill:#cfc,stroke:#333,stroke-width:2px
+    style M fill:#cfc,stroke:#333,stroke-width:2px
+    style N fill:#cfc,stroke:#333,stroke-width:2px
+    style O fill:#cfc,stroke:#333,stroke-width:2px
+    style P fill:#cfc,stroke:#333,stroke-width:2px
+    style Q fill:#fc9,stroke:#333,stroke-width:2px
 ```

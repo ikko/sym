@@ -59,12 +59,12 @@ Corporation = s.Corporation
 Country = s.Country
 
 # Establish relationships
-Financial_Instrument.relate(Stock, how="has type")
-Financial_Instrument.relate(Bond, how="has type")
-Stock.relate(Exchange, how="traded on")
-Bond.relate(Corporation, how="issued by")
-Exchange.relate(Country, how="located in")
-Corporation.relate(Country, how="located in")
+Financial_Instrument.has_type(Stock)
+Financial_Instrument.has_type(Bond)
+Stock.traded_on(Exchange)
+Bond.issued_by(Corporation)
+Exchange.located_in(Country)
+Corporation.located_in(Country)
 
 # Set node shapes, `round` is default
 Financial_Instrument.node_shape = "subroutine"
@@ -189,13 +189,13 @@ Symbol_Objects = s.Symbol_Objects
 Data_Storage_Persistence = s.Data_Storage_Persistence
 
 # Establish relationships
-User_Developer.relate(Symbol_API, how="interacts with")
-Symbol_API.relate(Core_Symbol_Logic, how="uses")
-Core_Symbol_Logic.relate(Built_in_Mixins, how="integrates")
-Core_Symbol_Logic.relate(Custom_Mixins, how="integrates")
-Built_in_Mixins.relate(Symbol_Objects, how="extends")
-Custom_Mixins.relate(Symbol_Objects, how="extends")
-Symbol_Objects.relate(Data_Storage_Persistence, how="persists to")
+User_Developer.interacts_with(Symbol_API)
+Symbol_API.uses(Core_Symbol_Logic)
+Core_Symbol_Logic.integrates(Built_in_Mixins)
+Core_Symbol_Logic.integrates(Custom_Mixins)
+Built_in_Mixins.extends(Symbol_Objects)
+Custom_Mixins.extends(Symbol_Objects)
+Symbol_Objects.persists_to(Data_Storage_Persistence)
 
 # Set node shapes, default is "round"
 User_Developer.node_shape = "square"

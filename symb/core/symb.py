@@ -103,6 +103,7 @@ class GraphTraversal:
 
 from ..core.lazy import SENTINEL
 from .lazy_symb import LazySymbol
+from .relations import Relations
 
 class Symbol(BaseSymbol):
     __slots__ = (
@@ -120,6 +121,7 @@ class Symbol(BaseSymbol):
         obj._metadata = SENTINEL
         obj._context = SENTINEL
         obj._elevated_attributes = {}
+        obj.relations = Relations(obj)
         return obj
 
     @property
@@ -143,8 +145,12 @@ class Symbol(BaseSymbol):
     def __getattr__(self, name: str) -> Any:
         if name in self._elevated_attributes:
             return self._elevated_attributes[name]
-        # Default behavior for __getattr__ if attribute is not found
-        raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
+        try:
+            # Try to get the attribute from the base class (which checks __slots__)
+            return super().__getattr__(name)
+        except AttributeError:
+            # If not found in base class or _elevated_attributes, delegate to relations
+            return getattr(self.relations, name)
 
     def __setattr__(self, name: str, value: Any) -> None:
         # If the attribute is in __slots__ (either in Symbol or BaseSymbol), set it directly
@@ -325,14 +331,14 @@ class Symbol(BaseSymbol):
                     visited_edges.add(edge)
                 walk(child)
 
-            for i, related_sym in enumerate(sym.related_to):
-                how = sym.related_how[i]
+            for how, related_syms in sym.relations.items():
                 if not how.startswith("_inverse_"):
-                    edge = (sym, related_sym, "--", how)
-                    if edge not in visited_edges:
-                        lines.append(f"    {get_node_id(sym)} -- {how} --> {get_node_id(related_sym)}")
-                        visited_edges.add(edge)
-                    walk(related_sym)
+                    for related_sym in related_syms:
+                        edge = (sym, related_sym, "--", how)
+                        if edge not in visited_edges:
+                            lines.append(f"    {get_node_id(sym)} -- {how} --> {get_node_id(related_sym)}")
+                            visited_edges.add(edge)
+                        walk(related_sym)
 
         walk(self)
 
@@ -352,87 +358,52 @@ class Symbol(BaseSymbol):
     def patch(self, other: 'Symbol') -> 'Symbol':
         if other.origin and not self.origin:
             self.origin = other.origin
-        for attr in ("children", "parents", "related_to"):
+        for attr in ("children", "parents"):
             existing = getattr(self, attr)
             new = getattr(other, attr)
             for e in new:
                 if e not in existing:
                     existing.append(e)
+        # Patch relations
+        for how, related_symbols in other.relations.items():
+            for related_sym in related_symbols:
+                self.relate(related_sym, how=how)
         return self
 
     def relate(self, other: 'Symbol', how: str = 'related') -> 'Symbol':
         """Establishes a bidirectional relationship with another Symbol."""
         with self._lock:
-            # Check if this specific relationship already exists
-            relationship_exists = False
-            for i, existing_other in enumerate(self.related_to):
-                if existing_other == other and self.related_how[i] == how:
-                    relationship_exists = True
-                    break
+            # Add forward relationship
+            self.relations.add(how, other)
 
-            if not relationship_exists:
-                self.related_to.append(other)
-                self.related_how.append(how)
-            
             # Establish inverse relationship
             inverse_how = f"_inverse_{how}"
-            inverse_relationship_exists = False
-            for i, existing_self in enumerate(other.related_to):
-                if existing_self == self and other.related_how[i] == inverse_how:
-                    inverse_relationship_exists = True
-                    break
-
-            if not inverse_relationship_exists:
-                other.related_to.append(self)
-                other.related_how.append(inverse_how)
+            other.relations.add(inverse_how, self)
         return self
 
     def unrelate(self, other: 'Symbol', how: Optional[str] = None) -> 'Symbol':
         """Removes a bidirectional relationship with another Symbol."""
         with self._lock:
             # Remove forward relationship
-            relationships_to_keep_self = []
-            for i, related_sym in enumerate(self.related_to):
-                if related_sym == other:
-                    # This is the 'other' symb we are trying to unrelate
-                    if how is None:
-                        # If 'how' is None, remove all relationships with 'other'
-                        continue
-                    elif self.related_how[i] == how:
-                        # If 'how' is specified and matches, remove this specific relationship
-                        continue
-                    else:
-                        # If 'how' is specified but doesn't match, keep this relationship
-                        relationships_to_keep_self.append((related_sym, self.related_how[i]))
-                else:
-                    # Keep relationships with other symbs (not 'other')
-                    relationships_to_keep_self.append((related_sym, self.related_how[i]))
-
-            self.related_to = [r[0] for r in relationships_to_keep_self]
-            self.related_how = [r[1] for r in relationships_to_keep_self]
+            if how is None:
+                # Remove all relationships with 'other'
+                hows_to_remove = [h for h, syms in self.relations.items() if other in syms]
+                for h in hows_to_remove:
+                    self.relations.remove(h, other)
+            else:
+                self.relations.remove(how, other)
 
             # Remove inverse relationship
-            relationships_to_keep_other = []
-            for i, related_sym in enumerate(other.related_to):
-                if related_sym == self:
-                    # This is 'self' in the context of 'other's relationships
-                    expected_inverse_how = f"_inverse_{how}" if how is not None else None
-                    if how is None:
-                        # If 'how' is None, remove all inverse relationships with 'self'
-                        continue
-                    elif other.related_how[i] == expected_inverse_how:
-                        # If 'how' is specified and matches, remove this specific inverse relationship
-                        continue
-                    else:
-                        # If 'how' is specified but doesn't match, keep this inverse relationship
-                        relationships_to_keep_other.append((related_sym, other.related_how[i]))
-                else:
-                    # Keep relationships with other symbs (not 'self')
-                    relationships_to_keep_other.append((related_sym, other.related_how[i]))
-
-            other.related_to = [r[0] for r in relationships_to_keep_other]
-            other.related_how = [r[1] for r in relationships_to_keep_other]
+            if how is None:
+                hows_to_remove_inverse = [h for h, syms in other.relations.items() if self in syms and h.startswith('_inverse_')]
+                for h in hows_to_remove_inverse:
+                    other.relations.remove(h, self)
+            else:
+                inverse_how = f"_inverse_{how}"
+                other.relations.remove(inverse_how, self)
         return self
+
+    
 
     @property
     def ref(self) -> Optional[Any]:

@@ -7,6 +7,9 @@ from weakref import WeakValueDictionary
 import threading
 import datetime
 
+class NonConvertibleObject:
+    pass
+
 # Re-use the setup_and_teardown fixture from test_base_symb.py
 # This ensures a clean state for Symbol class-level attributes before each test
 @pytest.fixture(autouse=True)
@@ -90,9 +93,8 @@ def test_symb_elevated_attributes_delete():
     sym.temp_attr = "to_delete"
     assert sym.temp_attr == "to_delete"
     del sym.temp_attr
-    with pytest.raises(AttributeError):
-        _ = sym.temp_attr
     assert "temp_attr" not in sym._elevated_attributes
+    assert callable(sym.temp_attr)
 
 def test_symb_elevated_attributes_delete_non_existent():
     sym = Symbol("test_elevated_attrs_delete_non_existent")
@@ -151,21 +153,19 @@ def test_symb_relate_unrelate():
     s2 = Symbol("s2_relate")
 
     s1.relate(s2, how="friend")
-    assert s2 in s1.related_to
-    assert "friend" in s1.related_how
-    assert s1 in s2.related_to
-    assert "_inverse_friend" in s2.related_how
+    assert s2 in s1.relations.get("friend")
+    assert s1 in s2.relations.get("_inverse_friend")
 
     s1.unrelate(s2)
-    assert s2 not in s1.related_to
-    assert s1 not in s2.related_to
+    assert s2 not in s1.relations.get("friend")
+    assert s1 not in s2.relations.get("_inverse_friend")
 
 def test_symb_relate_with_specific_how():
     s1 = Symbol("s1_how")
     s2 = Symbol("s2_how")
     s1.relate(s2, how="parent_of")
-    assert s1.related_how[s1.related_to.index(s2)] == "parent_of"
-    assert s2.related_how[s2.related_to.index(s1)] == "_inverse_parent_of"
+    assert s2 in s1.relations.get("parent_of")
+    assert s1 in s2.relations.get("_inverse_parent_of")
 
 def test_symb_unrelate_with_specific_how():
     s1 = Symbol("s1_unrelate_how")
@@ -174,13 +174,110 @@ def test_symb_unrelate_with_specific_how():
     s1.relate(s2, how="likes") # Add another relationship
 
     s1.unrelate(s2, how="knows")
-    assert s2 in s1.related_to
-    assert "likes" in s1.related_how
-    assert "knows" not in s1.related_how
+    assert s2 not in s1.relations.get("knows")
+    assert s2 in s1.relations.get("likes")
 
     # Ensure inverse is also removed correctly
-    assert s1 in s2.related_to
-    assert "_inverse_likes" in s2.related_how
-    assert "_inverse_knows" not in s2.related_how
+    assert s1 not in s2.relations.get("_inverse_knows")
+    assert s1 in s2.relations.get("_inverse_likes")
 
+def test_dynamic_relation_single_arg():
+    s_person = s.person
+    s_car = s.car
+    s_person.drives(s_car)
+    assert s_car in s_person.relations.get("drives")
+    assert s_person in s_car.relations.get("_inverse_drives")
 
+def test_dynamic_relation_multiple_args():
+    s_person = s.person
+    s_drums = s.drums
+    s_guitar = s.guitar
+    s_person.interested_in(s_drums, s_guitar)
+    assert s_drums in s_person.relations.get("interested_in")
+    assert s_guitar in s_person.relations.get("interested_in")
+    assert s_person in s_drums.relations.get("_inverse_interested_in")
+    assert s_person in s_guitar.relations.get("_inverse_interested_in")
+
+def test_dynamic_relation_kwargs_single_value():
+    s_person = s.person
+    s_war_zones = s.war_zones
+    s_person.avoids(war_zones=s_war_zones)
+    assert s_war_zones in s_person.relations.get("war_zones")
+    assert s_person in s_war_zones.relations.get("_inverse_war_zones")
+
+def test_dynamic_relation_kwargs_list_value():
+    s_musical_track = s.musical_track
+    s_musician_joe = s.musician_joe
+    s_song_writer_jane = s.song_writer_jane
+    s_musical_track.authored_by(authors=[s_musician_joe, s_song_writer_jane])
+    assert s_musician_joe in s_musical_track.relations.get("authors")
+    assert s_song_writer_jane in s_musical_track.relations.get("authors")
+    assert s_musical_track in s_musician_joe.relations.get("_inverse_authors")
+    assert s_musical_track in s_song_writer_jane.relations.get("_inverse_authors")
+
+def test_dynamic_relation_mixed_args_kwargs():
+    s_person = s.person
+    s_drums = s.drums
+    s_guitar = s.guitar
+    s_singing = s.singing
+    s_dancing = s.dancing
+    s_war_zones = s.war_zones
+
+    s_person.interested_in(s_drums, s_guitar, likes=[s_singing, s_dancing], avoids=s_war_zones)
+
+    assert s_drums in s_person.relations.get("interested_in")
+    assert s_guitar in s_person.relations.get("interested_in")
+    assert s_singing in s_person.relations.get("likes")
+    assert s_dancing in s_person.relations.get("likes")
+    assert s_war_zones in s_person.relations.get("avoids")
+
+    assert s_person in s_drums.relations.get("_inverse_interested_in")
+    assert s_person in s_guitar.relations.get("_inverse_interested_in")
+    assert s_person in s_singing.relations.get("_inverse_likes")
+    assert s_person in s_dancing.relations.get("_inverse_likes")
+    assert s_person in s_war_zones.relations.get("_inverse_avoids")
+
+def test_dynamic_relation_chained_calls():
+    s_person = s.person
+    s_drums = s.drums
+    s_guitar = s.guitar
+    s_singing = s.singing
+    s_dancing = s.dancing
+    s_war_zones = s.war_zones
+
+    s_person.interested_in(s_drums, s_guitar).likes(s_singing, s_dancing).avoids(s_war_zones)
+
+    assert s_drums in s_person.relations.get("interested_in")
+    assert s_guitar in s_person.relations.get("interested_in")
+    assert s_singing in s_person.relations.get("likes")
+    assert s_dancing in s_person.relations.get("likes")
+    assert s_war_zones in s_person.relations.get("avoids")
+
+    assert s_person in s_drums.relations.get("_inverse_interested_in")
+    assert s_person in s_guitar.relations.get("_inverse_interested_in")
+    assert s_person in s_singing.relations.get("_inverse_likes")
+    assert s_person in s_dancing.relations.get("_inverse_likes")
+    assert s_person in s_war_zones.relations.get("_inverse_avoids")
+
+def test_dynamic_relation_no_args_raises_error():
+    s_person = s.person
+    with pytest.raises(TypeError):
+        s_person.some_relation()
+
+def test_dynamic_relation_non_symb_args_raises_error():
+    s_person = s.person
+    non_convertible = NonConvertibleObject()
+    with pytest.raises(TypeError):
+        s_person.some_relation(non_convertible)
+
+def test_dynamic_relation_kwargs_non_symb_value_raises_error():
+    s_person = s.person
+    non_convertible = NonConvertibleObject()
+    with pytest.raises(TypeError):
+        s_person.some_relation(item=non_convertible)
+
+def test_dynamic_relation_kwargs_list_non_symb_value_raises_error():
+    s_person = s.person
+    non_convertible = NonConvertibleObject()
+    with pytest.raises(TypeError):
+        s_person.some_relation(items=[non_convertible])
