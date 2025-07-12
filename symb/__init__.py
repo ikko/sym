@@ -1,13 +1,11 @@
 
-from .core.symb import Symbol, s
-from .core.graph_traversal import GraphTraversal
+from core.symbol import Symbol
+from core.symb import s
+from core.graph_traversal import GraphTraversal
 
-from .builtin import apply_builtins
-# Import necessary modules for apply_builtins and other top-level exports
-from .core.mixinability import freeze, is_frozen
-from .core.time_arithmetics import add_time_objects, subtract_time_objects
-from .core.batch_processing import a_process_batch, process_batch
-from .config import Config
+from builtin import apply_builtins
+from core.time_arithmetics import add_time_objects, subtract_time_objects
+from core.batch_processing import a_process_batch, process_batch
 from . import builtin, core
 
 # Apply the mixins first to ensure the Symbol class is fully featured

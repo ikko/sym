@@ -43,8 +43,8 @@ import re
 
 def register_mixin(value: Any, name: str = None, target_class: type = None, safe: bool = False, expand: bool = True) -> bool:
     if target_class is None:
-        from core.base_symb import Symbol
-        target_class = Symbol
+        from core.base_symb import BaseSymbol
+        target_class = BaseSymbol
     """Registers a mixin to be applied to the target class, with validation and error handling.
     Returns True if the mixin was successfully registered, False otherwise.
     """

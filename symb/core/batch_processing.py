@@ -3,12 +3,10 @@
 It offers a flexible and efficient way to apply a function to a collection of items,
 with support for parallel execution using threads or processes.
 """
-from typing import Iterable, Callable, Any, List, TypeVar, Union, Awaitable
+from typing import Iterable, Callable, List, TypeVar, Union, Awaitable
 import anyio
 import logging
 import inspect
-
-from core.symb import Symbol
 
 log = logging.getLogger(__name__)
 
