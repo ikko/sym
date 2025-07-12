@@ -1,6 +1,6 @@
 [project]
 name = "symb"
-version = "0.0.6"
+version = "0.0.7-beta-1"
 description = "A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction"
 dependencies = [
     "orjson>=3.10.0",
@@ -15,9 +15,21 @@ dependencies = [
     "python-dateutil",
     "toml",
 ]
-requires-python = ">=3.6"
-license = "MIT"
-readme="README.md"
+requires-python = ">=3.8"
+readme="docs/pypi_org/README.md"
+
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+# New fields for homepage, source repository, and author
+homepage = "https://github.com/ikko/symb"
+source = "https://github.com/ikko/symb"
+author = "Miklos Beky <miklos.beky@gmail.com>"
+
 
 [project.scripts]
 symb = "symb.bin.scheduler:app"

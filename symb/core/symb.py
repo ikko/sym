@@ -688,6 +688,21 @@ class Symbol(BaseSymbol):
         
         return root_symbols[0]
 
+    def to_ascii(self) -> str:
+        """
+        what: Generates an ASCII art representation of the Symbol.
+        why: To visualize the Symbol's structure in text.
+        how: Delegates to `GraphTraversal.to_ascii`.
+        when: When a text-based visualization is requested.
+        by (caller(s)): External tools, debugging.
+        how often: Infrequently.
+        how much: Depends on graph size.
+        what is it like: Drawing a text-based diagram.
+        how, what, why and when to improve: N/A.
+        """
+        return GraphTraversal(self).to_ascii()
+
+
     @classmethod
     def from_ascii(cls, ascii_string: str) -> 'Symbol':
         """
@@ -801,8 +816,6 @@ class Symbol(BaseSymbol):
                 inverse_how = f"_inverse_{how}"
                 other.relations.remove(inverse_how, self)
         return self
-
-    
 
     @property
     def ref(self) -> Optional[Any]:
