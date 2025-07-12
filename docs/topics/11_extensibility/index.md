@@ -129,10 +129,12 @@ While not explicitly defined as a separate class in the provided code, the conce
 To dynamically change the logical interpretation or behavior of a `Symbol` instance by applying specific mixins. This enables a single `Symbol` to represent different types of entities based on context.
 
 ### Code Example
+
 ```python
 from symb import Symbol
 from symb.core.mixinability import register_mixin
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
+
 
 # Define mixins for different logical structures
 class DatabaseRecordMixin:
@@ -142,12 +144,14 @@ class DatabaseRecordMixin:
     def load(self):
         print(f"Loading {self.name} from database.")
 
+
 class NetworkEndpointMixin:
     def send_request(self, data):
         print(f"Sending request from {self.name} with data: {data}")
 
     def receive_response(self):
         print(f"Receiving response for {self.name}.")
+
 
 # Register mixins
 register_mixin(DatabaseRecordMixin, expand=True)
@@ -198,12 +202,14 @@ The `Symbol` framework's extensibility extends to its compatibility with externa
 To easily convert `enum` members into `Symbol` instances and to allow external DSLs to define `Symbol` structures, enhancing interoperability and declarative modeling.
 
 ### Code Example
+
 ```python
 from symb import Symbol
 import enum
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
 
 apply_builtins()
+
 
 # Enum Reflection
 class TrafficLight(enum.Enum):
@@ -211,10 +217,12 @@ class TrafficLight(enum.Enum):
     YELLOW = 2
     GREEN = 3
 
+
 # Convert enum members to Symbols
 traffic_symbs = Symbol.from_enum(TrafficLight)
 for sym in traffic_symbs:
     print(f"Enum Symbol: {sym.name}")
+
 
 def parse_dsl(dsl_string: str):
     symbs = {}
@@ -229,6 +237,7 @@ def parse_dsl(dsl_string: str):
             symbs[source_name] = source_sym
             symbs[target_name] = target_sym
     return symbs
+
 
 dsl_input = "user -> post, post -> comment, user -> like"
 parsed_symbs = parse_dsl(dsl_input)

@@ -1,5 +1,5 @@
 import pytest
-from symb.builtins.avl_tree import AVLTree, AVLNode
+from symb.builtin.avl_tree import AVLTree, AVLNode
 from symb.core.base_symb import Symbol
 
 @pytest.fixture

@@ -1,8 +1,8 @@
 import pytest
 import datetime
 from symb import Symbol
-from symb.builtins.time_dim import SymbolTimeDimMixin, SymbolHeadTailView
-from symb.builtins import apply_builtins
+from symb.builtin.time_dim import SymbolTimeDimMixin, SymbolHeadTailView
+from symb.builtin import apply_builtins
 
 
 

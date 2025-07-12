@@ -32,7 +32,7 @@ graph TD
         B --> B11[symb.core.batch_processing]
     end
 
-    subgraph "Builtin Extensions Layer (symb.builtins)"
+    subgraph "Builtin Extensions Layer (symb.builtin)"
         C --> C1[symb.builtins.collections]
         C --> C2[symb.builtins.time_dim]
         C --> C3[symb.builtins.index]

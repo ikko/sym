@@ -1,6 +1,6 @@
 import pytest
 from symb import Symbol
-from symb.builtins.path import SymbolPathMixin
+from symb.builtin.path import SymbolPathMixin
 
 # Apply the mixin to Symbol for testing purposes
 # In a real application, this would be handled by apply_builtins

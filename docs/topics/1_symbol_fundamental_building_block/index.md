@@ -135,11 +135,13 @@ graph TD
 ### Industry Applications
 
 **High-Tech: Semantic Web and Knowledge Graphs**
+
 ```python
 from symb import s, Symbol
 from symb.core.mixinability import register_mixin
 from symb.core.protocols import SymbolProtocol
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
+
 
 class KnowledgeGraphMixin(SymbolProtocol):
     def has_title(self, title: Symbol):
@@ -156,6 +158,7 @@ class KnowledgeGraphMixin(SymbolProtocol):
 
     def contains(self, component: Symbol):
         self.add(component)
+
 
 register_mixin(KnowledgeGraphMixin, expand=True)
 apply_builtins()
@@ -179,11 +182,13 @@ Author of Paper A: Alice_Smith
 </details>
 
 **Low-Tech: Inventory Management and Bill of Materials (BOM)**
+
 ```python
 from symb import s, Symbol
 from symb.core.mixinability import register_mixin
 from symb.core.protocols import SymbolProtocol
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
+
 
 class KnowledgeGraphMixin(SymbolProtocol):
     def has_title(self, title: Symbol):
@@ -200,6 +205,7 @@ class KnowledgeGraphMixin(SymbolProtocol):
 
     def contains(self, component: Symbol):
         self.add(component)
+
 
 register_mixin(KnowledgeGraphMixin, expand=True)
 apply_builtins()

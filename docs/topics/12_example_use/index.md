@@ -43,11 +43,13 @@ graph TD
 This example illustrates how `Symbol` can model complex supply chain relationships and track specific events, such as deforestation. It demonstrates the ability to build a graph representing entities and their connections, and then query this graph to identify paths that lead to undesirable events.
 
 ### Code Example
+
 ```python
 from symb import s, Symbol
 from symb.core.mixinability import register_mixin
 from symb.core.protocols import SymbolProtocol
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
+
 
 class SupplyChainMixin(SymbolProtocol):
     def buys_from(self, supplier: Symbol):
@@ -55,6 +57,7 @@ class SupplyChainMixin(SymbolProtocol):
 
     def sources_from(self, source: Symbol):
         self.add(source)
+
 
 register_mixin(SupplyChainMixin, expand=True)
 apply_builtins()
@@ -66,8 +69,10 @@ s.Supplier_A.sources_from(s.Plantation_X)
 s.Supplier_B.sources_from(s.Plantation_Y)
 s.Plantation_Y.add(s.deforestation_event_2024_Q4)
 
+
 def has_deforestation(symb):
     return 'deforestation' in symb.name
+
 
 for path in s.Global_Goods_Inc.match(has_deforestation):
     print(f"Deforestation Link Found: {path.path_to(s.deforestation_event_2024_Q4)}")
@@ -109,8 +114,9 @@ graph TD
 This example showcases the use of `symb.builtins.timeline` to manage and analyze temporal data. It demonstrates how to create timelines, add time periods, and perform operations like finding overlaps between different timelines.
 
 ### Code Example
+
 ```python
-from symb.builtins.timeline import Timeline
+from symb.builtin.timeline import Timeline
 import datetime
 
 timeline1 = Timeline()

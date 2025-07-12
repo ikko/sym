@@ -36,13 +36,15 @@ It supports symbic interning, ordered chaining (`que`), DAG tree modeling (`tree
 ## Highlights
 
 ```python
-from symb.core.symb import SymbolNamespace
+
+from symb.core.symbol_namespace import SymbolNamespace
+
 s = SymbolNamespace()
 
 s.page.append(s.header).append(s.footer)
 s.backend.uses(s.database)
 
-print(s.page.to_mmd())        # Mermaid.js format
+print(s.page.to_mmd())  # Mermaid.js format
 ```
 <details>
 <summary>Outcome</summary>

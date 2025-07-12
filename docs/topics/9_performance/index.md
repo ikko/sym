@@ -177,10 +177,11 @@ While core relationship linking is O(1), the `Symbol` framework is designed to i
 - **Balanced Binary Search Trees (e.g., AVL Tree, Red-Black Tree)**: These data structures (implemented in `symb.builtins.avl_tree` and `symb.builtins.red_black_tree`) provide logarithmic time complexity for insertion, deletion, and search operations by maintaining a balanced tree structure.
 
 ### Code Example (Conceptual with SymbolIndex)
+
 ```python
 from symb import Symbol, s
-from symb.builtins import apply_builtins
-from symb.builtins.index import SymbolIndex
+from symb.builtin import apply_builtins
+from symb.builtin.index import SymbolIndex
 
 apply_builtins()
 

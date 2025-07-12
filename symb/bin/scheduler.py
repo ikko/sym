@@ -7,7 +7,7 @@ import typer
 import importlib
 from typing import Optional
 
-from ..core.schedule import Scheduler, ScheduledJob
+from core.schedule import Scheduler, ScheduledJob
 
 app = typer.Typer()
 

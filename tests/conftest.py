@@ -2,8 +2,8 @@ import sys
 import os
 import pytest
 from symb import Symbol
-from symb.builtins import apply_builtins
-from symb.builtins.avl_tree import AVLTree
+from symb.builtin import apply_builtins
+from symb.builtin.avl_tree import AVLTree
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app')))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))

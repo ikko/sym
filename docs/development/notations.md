@@ -103,7 +103,8 @@ N=100000: Time to link 100000 children: 0.0000 ms
 import time
 import random
 from symb import s
-from symb.builtins.index import SymbolIndex
+from symb.builtin.index import SymbolIndex
+
 
 def measure_index_performance(num_elements):
     idx = SymbolIndex(s.index_root)
@@ -113,7 +114,7 @@ def measure_index_performance(num_elements):
     # Measure insertion
     insert_start_time = time.perf_counter_ns()
     for element in elements:
-        idx.insert(element, 0.0) # Added a dummy weight for insertion
+        idx.insert(element, 0.0)  # Added a dummy weight for insertion
     insert_end_time = time.perf_counter_ns()
     insert_time = (insert_end_time - insert_start_time) / 1_000_000
 
@@ -128,6 +129,7 @@ def measure_index_performance(num_elements):
     search_time = (search_end_time - search_start_time) / 1_000_000
 
     return insert_time, search_time
+
 
 print("\n--- SymbolIndex Performance (O(log n)) ---")
 for n in [1000, 10000, 100000]:

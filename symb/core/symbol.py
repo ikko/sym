@@ -5,7 +5,7 @@ import warnings
 from typing import Any, Literal, Optional, TypeVar, Union
 import yaml
 
-from builtins.index import SymbolIndex
+from builtin.index import SymbolIndex
 from core.lazy import SENTINEL
 from core.lazy_symb import LazySymbol
 from core.maturing import DefDict
@@ -20,7 +20,7 @@ T = TypeVar("T")
 
 def _get_available_mixins():
     """
-    Discovers all available mixin classes in the symb.builtins and symb.core packages.
+    Discovers all available mixin classes in the symb.builtin and symb.core packages.
     """
     mixins = {}
 
@@ -43,7 +43,7 @@ def _get_available_mixins():
             except Exception as e:
                 warnings.warn(f"Could not import module {module_name}: {repr(e)}")
 
-    find_mixins_in_path(symb.builtins.__path__, 'symb.builtins')
+    find_mixins_in_path(symb.builtin.__path__, 'symb.builtin')
     find_mixins_in_path(symb.core.__path__, 'symb.core')
 
     return mixins

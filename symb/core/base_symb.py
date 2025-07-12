@@ -7,7 +7,7 @@ import threading
 from typing import (Optional, Any, TypeVar)
 from weakref import WeakValueDictionary
 
-from ..builtins.avl_tree import AVLTree
+from builtin.avl_tree import AVLTree
 
 
 T = TypeVar("T")

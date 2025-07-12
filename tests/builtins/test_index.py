@@ -1,6 +1,6 @@
 import pytest
 from symb import Symbol
-from symb.builtins.index import SymbolIndex
+from symb.builtin.index import SymbolIndex
 
 @pytest.fixture
 def owner_symb():

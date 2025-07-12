@@ -2,13 +2,13 @@
 from .core.symb import Symbol, s
 from .core.graph_traversal import GraphTraversal
 
-from .builtins import apply_builtins
+from .builtin import apply_builtins
 # Import necessary modules for apply_builtins and other top-level exports
 from .core.mixinability import freeze, is_frozen
 from .core.time_arithmetics import add_time_objects, subtract_time_objects
 from .core.batch_processing import a_process_batch, process_batch
 from .config import Config
-from . import builtins, core
+from . import builtin, core
 
 # Apply the mixins first to ensure the Symbol class is fully featured
 # This call should ideally happen once at application startup, not on every import
@@ -22,17 +22,17 @@ def __getattr__(name):
     if name == "schedule":
         return core.schedule
     elif name == "time_dim":
-        return builtins.time_dim
+        return builtin.time_dim
     elif name == "collections":
-        return builtins.collections
+        return builtin.collections
     elif name == "index":
-        return builtins.index
+        return builtin.index
     elif name == "path":
-        return builtins.path
+        return builtin.path
     elif name == "timeline":
-        return builtins.timeline
+        return builtin.timeline
     elif name == "visual":
-        return builtins.visual
+        return builtin.visual
     elif name == "add_time":
         return add_time_objects
     elif name == "subtract_time":
@@ -42,15 +42,15 @@ def __getattr__(name):
     elif name == "process_batch":
         return process_batch
     elif name == "td":
-        return builtins.time_dim
+        return builtin.time_dim
     elif name == "coll":
-        return builtins.collections
+        return builtin.collections
     elif name == "idx":
-        return builtins.index
+        return builtin.index
     elif name == "vis":
-        return builtins.visual
+        return builtin.visual
     elif name == "tl":
-        return builtins.timeline
+        return builtin.timeline
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 def __dir__():

@@ -1,5 +1,5 @@
 import pytest
-from symb.builtins.red_black_tree import RedBlackTree, RedBlackNode, RED, BLACK
+from symb.builtin.red_black_tree import RedBlackTree, RedBlackNode, RED, BLACK
 from symb.core.base_symb import Symbol
 
 @pytest.fixture

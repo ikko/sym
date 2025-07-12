@@ -64,7 +64,7 @@ Symbols can be linked to form directed graphs, representing relationships like p
 ```python
 from symb import s
 from symb.core.symbol import Symbol
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
 
 apply_builtins()
 
@@ -126,7 +126,7 @@ The `apply_builtins()` function integrates a set of standard mixins, providing c
 ```python
 
 from symb.core.symbol import Symbol
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
 
 apply_builtins()
 
@@ -172,7 +172,7 @@ With the pathfinding mixin, you can easily find paths between connected Symbols,
 
 ```python
 from symb import s
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
 
 apply_builtins()
 

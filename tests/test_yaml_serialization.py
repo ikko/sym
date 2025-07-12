@@ -1,6 +1,6 @@
 import pytest
 from symb import Symbol
-from symb.builtins.visual import SymbolRender # For to_mmd, if needed for debugging
+from symb.builtin.visual import SymbolRender # For to_mmd, if needed for debugging
 import yaml
 
 # Assign the methods to Symbol for testing purposes

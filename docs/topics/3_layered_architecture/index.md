@@ -79,7 +79,7 @@ from symb import s
 s.AuthService.provides(s.UserAuthentication)
 s.DataStorageService.provides(s.DataPersistence)
 
-# Specialized services (builtins)
+# Specialized services (builtin)
 s.PaymentProcessingService.uses(s.AuthService)
 s.RecommendationEngine.uses(s.DataStorageService)
 
@@ -100,7 +100,7 @@ from symb import s
 # Core components
 s.BasicFrame.connects_with(s.StandardConnector)
 
-# Add-on modules (builtins)
+# Add-on modules (builtin)
 s.ShelfModule.attaches_to(s.BasicFrame)
 s.DrawerModule.attaches_to(s.BasicFrame)
 

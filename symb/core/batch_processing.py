@@ -8,7 +8,7 @@ import anyio
 import logging
 import inspect
 
-from ..core.symb import Symbol
+from core.symb import Symbol
 
 log = logging.getLogger(__name__)
 

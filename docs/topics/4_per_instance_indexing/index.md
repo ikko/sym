@@ -36,7 +36,7 @@ Imagine a product configurator where a `Product` symb needs to index its `Featur
 
 ```python
 from symb import Symbol, s
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
 
 apply_builtins()
 
@@ -50,9 +50,9 @@ feature_gpu = s.GPU
 # product_laptop.index = SymbolIndex(product_laptop) # Conceptual, already done
 
 # Insert features into the product's private index with weights
-product_laptop.index.insert(feature_ssd, weight=0.8) # High importance
-product_laptop.index.insert(feature_ram, weight=0.6) # Medium importance
-product_laptop.index.insert(feature_gpu, weight=0.9) # Very high importance
+product_laptop.index.insert(feature_ssd, weight=0.8)  # High importance
+product_laptop.index.insert(feature_ram, weight=0.6)  # Medium importance
+product_laptop.index.insert(feature_gpu, weight=0.9)  # Very high importance
 
 # Traverse the product's index (e.g., by weight)
 print("Laptop features by importance:")
@@ -76,9 +76,10 @@ Laptop features by importance:
 ### Industry Applications
 
 **High-Tech: Recommendation Systems**
+
 ```python
 from symb import s
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
 
 apply_builtins()
 
@@ -102,9 +103,10 @@ Alice's liked items: ['Movie_B', 'Book_A']
 </details>
 
 **Low-Tech: Library Cataloging and Cross-Referencing**
+
 ```python
 from symb import s
-from symb.builtins import apply_builtins
+from symb.builtin import apply_builtins
 
 apply_builtins()
 

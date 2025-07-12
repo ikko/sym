@@ -1,6 +1,6 @@
 import pytest
 from symb import Symbol
-from symb.builtins.collections import OrderedSymbolSet
+from symb.builtin.collections import OrderedSymbolSet
 
 def test_ordered_symb_set_creation_and_add():
     # Test creation with no initial symbs
