@@ -14,6 +14,8 @@ from sys import getsizeof
 from typing import Any, Union, Iterator, Optional, Literal, Set, Type, TypeVar
 import pkgutil
 import importlib
+import yaml
+import toml
 
 from .base_symb import Symbol as BaseSymbol
 from ..builtins.collections import OrderedSymbolSet
@@ -74,10 +76,24 @@ class GraphTraversal:
                 continue
             self.visited.add(symb)
             self.result.append(symb)
-            neighbors = symb.children if self.mode == 'tree' else symb.children
-            # Push children in reverse order to maintain original order when popped
-            for child in reversed(neighbors):
-                stack.append(child)
+
+            if self.mode == 'tree':
+                # Only traverse children for tree mode
+                for child in reversed(symb.children):
+                    stack.append(child)
+            elif self.mode == 'graph':
+                # Traverse children and all related symbols for graph mode
+                # Collect all neighbors (children + related)
+                all_neighbors = list(symb.children)
+                for how, related_syms in symb.relations.items():
+                    if not how.startswith('_inverse_'): # Avoid inverse relations for traversal
+                        all_neighbors.extend(related_syms)
+                
+                # Sort neighbors for consistent traversal order (important for testing)
+                all_neighbors.sort(key=lambda s: s.name)
+
+                for neighbor in reversed(all_neighbors):
+                    stack.append(neighbor)
         return self.result
 
     def to_ascii(self) -> str:
@@ -350,6 +366,221 @@ class Symbol(BaseSymbol):
 
     def to_ascii(self) -> str:
         return GraphTraversal(self, mode='tree').to_ascii()
+
+    def to_yaml(self) -> str:
+        """
+        Serializes the Symbol graph to a YAML string.
+        """
+        nodes_data = []
+        # Collect all symbols from the pool
+        all_symbols = list(Symbol._pool.values())
+        
+        # Sort symbols by name for consistent output
+        all_symbols.sort(key=lambda s: s.name)
+
+        for sym in all_symbols:
+            node_info = {
+                "name": sym.name,
+                "children": sorted([child.name for child in sym.children]), # Sort children for consistent output
+                "relations": {how: sorted([related_sym.name for related_sym in related_syms])
+                              for how, related_syms in sym.relations.items() if not how.startswith('_inverse_')}
+            }
+            nodes_data.append(node_info)
+
+        return yaml.dump(nodes_data, sort_keys=False, default_flow_style=False)
+
+    @classmethod
+    def from_yaml(cls, yaml_string: str) -> 'Symbol':
+        """
+        Reconstructs a Symbol graph from a YAML string.
+        """
+        loaded_data = yaml.safe_load(yaml_string)
+        
+        # First pass: Create all Symbol instances
+        symbols = {} # type: ignore
+        for node_data in loaded_data:
+            name = node_data["name"]
+            symbols[name] = cls(name)
+        
+        # Second pass: Establish children and relations
+        for node_data in loaded_data:
+            name = node_data["name"]
+            current_sym = symbols[name]
+
+            for child_name in node_data.get("children", []):
+                child_sym = symbols.get(child_name)
+                if child_sym:
+                    current_sym.append(child_sym)
+            
+            for how, related_names in node_data.get("relations", {}).items():
+                for related_name in related_names:
+                    related_sym = symbols.get(related_name)
+                    if related_sym:
+                        current_sym.relate(related_sym, how=how)
+        
+        # Determine root symbols (those with no parents among the parsed symbols)
+        all_symbols = set(symbols.values())
+        child_symbols = set()
+        for sym in all_symbols:
+            for child in sym.children:
+                if child in all_symbols:
+                    child_symbols.add(child)
+            for how, related_syms in sym.relations.items():
+                if not how.startswith('_inverse_'):
+                    for related_sym in related_syms:
+                        if related_sym in all_symbols:
+                            child_symbols.add(related_sym)
+
+        root_symbols = [sym for sym in all_symbols if sym not in child_symbols]
+
+        if not root_symbols:
+            if all_symbols:
+                return next(iter(all_symbols))
+            else:
+                raise ValueError("No symbols found in the YAML string.")
+        
+        return root_symbols[0]
+
+    def to_json(self) -> str:
+        """
+        Serializes the Symbol graph to a JSON string using orjson.
+        """
+        nodes_data = []
+        all_symbols = list(Symbol._pool.values())
+        all_symbols.sort(key=lambda s: s.name)
+
+        for sym in all_symbols:
+            node_info = {
+                "name": sym.name,
+                "children": sorted([child.name for child in sym.children]),
+                "relations": {how: sorted([related_sym.name for related_sym in related_syms])
+                              for how, related_syms in sym.relations.items() if not how.startswith('_inverse_')}
+            }
+            nodes_data.append(node_info)
+
+        return orjson.dumps(nodes_data, option=orjson.OPT_INDENT_2).decode("utf-8")
+
+    @classmethod
+    def from_json(cls, json_string: str) -> 'Symbol':
+        """
+        Reconstructs a Symbol graph from a JSON string using orjson.
+        """
+        loaded_data = orjson.loads(json_string)
+        
+        symbols = {} # type: ignore
+        for node_data in loaded_data:
+            name = node_data["name"]
+            symbols[name] = cls(name)
+        
+        for node_data in loaded_data:
+            name = node_data["name"]
+            current_sym = symbols[name]
+
+            for child_name in node_data.get("children", []):
+                child_sym = symbols.get(child_name)
+                if child_sym:
+                    current_sym.append(child_sym)
+            
+            for how, related_names in node_data.get("relations", {}).items():
+                for related_name in related_names:
+                    related_sym = symbols.get(related_name)
+                    if related_sym:
+                        current_sym.relate(related_sym, how=how)
+        
+        all_symbols = set(symbols.values())
+        child_symbols = set()
+        for sym in all_symbols:
+            for child in sym.children:
+                if child in all_symbols:
+                    child_symbols.add(child)
+            for how, related_syms in sym.relations.items():
+                if not how.startswith('_inverse_'):
+                    for related_sym in related_syms:
+                        if related_sym in all_symbols:
+                            child_symbols.add(related_sym)
+
+        root_symbols = [sym for sym in all_symbols if sym not in child_symbols]
+
+        if not root_symbols:
+            if all_symbols:
+                return next(iter(all_symbols))
+            else:
+                raise ValueError("No symbols found in the JSON string.")
+        
+        return root_symbols[0]
+
+    def to_toml(self) -> str:
+        """
+        Serializes the Symbol graph to a TOML string.
+        """
+        nodes_data = []
+        all_symbols = list(Symbol._pool.values())
+        all_symbols.sort(key=lambda s: s.name)
+
+        for sym in all_symbols:
+            node_info = {
+                "name": sym.name,
+                "children": sorted([child.name for child in sym.children]),
+                "relations": {how: sorted([related_sym.name for related_sym in related_syms])
+                              for how, related_syms in sym.relations.items() if not how.startswith('_inverse_')}
+            }
+            nodes_data.append(node_info)
+
+        # TOML does not directly support lists of tables without a key
+        # So, we wrap it in a dictionary with a top-level key
+        return toml.dumps({"symbols": nodes_data})
+
+    @classmethod
+    def from_toml(cls, toml_string: str) -> 'Symbol':
+        """
+        Reconstructs a Symbol graph from a TOML string.
+        """
+        loaded_data = toml.loads(toml_string)
+        nodes_data = loaded_data.get("symbols", [])
+        
+        # First pass: Create all Symbol instances
+        symbols = {} # type: ignore
+        for node_data in nodes_data:
+            name = node_data["name"]
+            symbols[name] = cls(name)
+        
+        # Second pass: Establish children and relations
+        for node_data in nodes_data:
+            name = node_data["name"]
+            current_sym = symbols[name]
+
+            for child_name in node_data.get("children", []):
+                child_sym = symbols.get(child_name)
+                if child_sym:
+                    current_sym.append(child_sym)
+            
+            for how, related_names in node_data.get("relations", {}).items():
+                for related_name in related_names:
+                    related_sym = symbols.get(related_name)
+                    if related_sym:
+                        current_sym.relate(related_sym, how=how)
+        
+        all_symbols = set(symbols.values())
+        child_symbols = set()
+        for sym in all_symbols:
+            for child in sym.children:
+                if child in all_symbols:
+                    child_symbols.add(child)
+            for how, related_syms in sym.relations.items():
+                if not how.startswith('_inverse_'):
+                    for related_sym in related_syms:
+                        if related_sym in all_symbols:
+                            child_symbols.add(related_sym)
+
+        root_symbols = [sym for sym in all_symbols if sym not in child_symbols]
+
+        if not root_symbols:
+            if all_symbols:
+                return next(iter(all_symbols))
+            else:
+                raise ValueError("No symbols found in the TOML string.")
+        
+        return root_symbols[0]
 
     def patch(self, other: 'Symbol') -> 'Symbol':
         if other.origin and not self.origin:
