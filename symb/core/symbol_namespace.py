@@ -13,7 +13,8 @@ from core.mixinability import freeze, is_frozen
 from core.symbol import Symbol
 from core.lazy_symb import LazySymbol
 from core.mixinability import apply_mixin_to_instance
-from core.symbol import _get_available_mixins, T
+from core.symbol import _get_available_mixins
+from core.type_var_t import T
 
 
 class SymbolNamespace:

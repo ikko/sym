@@ -1,52 +1,24 @@
-import importlib
+import datetime
 import inspect
-import pkgutil
 import warnings
-from typing import Any, Literal, Optional, TypeVar, Union
+from typing import Any, Literal, Optional, Set, Type, Union
+
+import orjson
+import toml
 import yaml
 
 from builtin.index import SymbolIndex
 from core.lazy import SENTINEL
 from core.lazy_symb import LazySymbol
-from core.maturing import DefDict
+from core.maturing import _apply_merge_strategy, deep_del, DefDict
 
 from .base_symb import BaseSymbol
+from .mixinability import apply_mixin_to_instance, freeze, is_frozen
 from .relations import Relations
 from .graph_traversal import GraphTraversal
+from .type_var_t import T
 
 MEMORY_AWARE_DELETE = True
-T = TypeVar("T")
-
-
-def _get_available_mixins():
-    """
-    Discovers all available mixin classes in the symb.builtin and symb.core packages.
-    """
-    mixins = {}
-
-    import symb.core
-
-    def find_mixins_in_path(path, package_name):
-        for _, name, ispkg in pkgutil.iter_modules(path):
-            if ispkg:
-                continue
-
-            module_name = f"{package_name}.{name}"
-            try:
-                module = importlib.import_module(module_name)
-                for attr_name in dir(module):
-                    attr = getattr(module, attr_name)
-                    if inspect.isclass(attr) and attr.__module__ == module_name:
-                        # Heuristic to identify mixins: not a base class and not private
-                        if attr_name not in ['Symbol', 'BaseSymbol', 'LazySymbol', 'GraphTraversal'] and not attr_name.startswith('_'):
-                            mixins[attr_name] = attr
-            except Exception as e:
-                warnings.warn(f"Could not import module {module_name}: {repr(e)}")
-
-    find_mixins_in_path(symb.builtin.__path__, 'symb.builtin')
-    find_mixins_in_path(symb.core.__path__, 'symb.core')
-
-    return mixins
 
 
 class Symbol(BaseSymbol):
@@ -871,7 +843,8 @@ class Symbol(BaseSymbol):
             if self._elevated_attributes[attr_name] is SENTINEL and attr_name not in protected_attributes:
                 del self._elevated_attributes[attr_name]
 
-        gc.collect()  # Explicitly call garbage collector after deletions
+        # # this is not the solution, we must delete directly with deep_del
+        # gc.collect()  # Explicitly call garbage collector after deletions
 
     def immute(self, merge_strategy: Literal['overwrite', 'patch', 'copy', 'deepcopy', 'pipe', 'update', 'extend', 'smooth'] = 'smooth') -> None:
         """Orchestrates the maturing process: elevates metadata, slims down, and freezes the Symbol."""
