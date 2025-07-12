@@ -1,5 +1,7 @@
 import pytest
-from core.symb import Symbol, s
+from core.symb import Symbol
+from symb import s
+
 
 def test_symb_creation_and_interning():
     # Test basic Symbol creation

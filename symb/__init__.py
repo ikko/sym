@@ -1,6 +1,6 @@
 
 from core.symbol import Symbol
-from core.symb import s
+from core.symbol_namespace import s
 from core.graph_traversal import GraphTraversal
 
 from builtin import apply_builtins

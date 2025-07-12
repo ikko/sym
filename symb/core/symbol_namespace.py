@@ -470,3 +470,6 @@ class SymbolNamespace:
             return size
 
         return get_size(self)
+
+
+s = SymbolNamespace()

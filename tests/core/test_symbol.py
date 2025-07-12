@@ -1,7 +1,7 @@
 import pytest
-from core.symb import Symbol, s, to_sym
-from symb import GraphTraversal
-from core.base_symb import Symbol as BaseSymbol
+from core.symbol import Symbol
+from core.symbol_namespace import s
+from core.base_symb import BaseSymbol
 from core.lazy import SENTINEL
 from builtin.avl_tree import AVLTree
 from weakref import WeakValueDictionary

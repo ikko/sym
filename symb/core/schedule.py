@@ -16,7 +16,7 @@ import logging
 import orjson
 from croniter import croniter
 
-from core.base_symb import Symbol
+from core.base_symb import BaseSymbol
 
 
 class ScheduledJob:

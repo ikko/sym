@@ -13,7 +13,8 @@ This document serves as a rapid introduction to `Symbol`, a Python library desig
 At its core, `Symbol` implements a stringent interning mechanism. Every unique string name corresponds to precisely one `Symbol` instance. This ensures referential equality (`is`) for semantically equivalent entities, optimizing memory usage and enabling O(1) lookup for symbic identities.
 
 ```python
-from symb import s
+
+from core.symbol_namespace import s
 from symb.core.symbol import Symbol
 
 # Direct instantiation: Interning ensures uniqueness
@@ -32,7 +33,9 @@ assert sym_c is sym_d  # True: Same instance
 `Symbol` instances inherently function as nodes in a directed acyclic graph (DAG), or more generally, a directed graph. Relationships are established through explicit `append` or `add` operations, forming parent-child connections. This structure is fundamental for modeling hierarchical data, dependencies, and complex networks.
 
 ```python
-from symb import s
+
+from core.symbol_namespace import s
+
 # Building a simple hierarchy
 root_node = s.SystemRoot
 sub_system_1 = s.SubSystem1

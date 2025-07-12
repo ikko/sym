@@ -1,6 +1,6 @@
 import pytest
 from builtin.red_black_tree import RedBlackTree, RedBlackNode, RED, BLACK
-from core.base_symb import Symbol
+from core.base_symb import BaseSymbol as Symbol
 
 @pytest.fixture
 def empty_rb_tree():

@@ -26,7 +26,8 @@ python -m pip install symb[dev]
 Symbols can be created directly or via the convenient `s` namespace.
 
 ```python
-from symb import s
+
+from core.symbol_namespace import s
 from symb.core.symbol import Symbol
 
 # Direct creation
@@ -62,7 +63,8 @@ Task Development: <Symbol: TaskDevelopment>
 Symbols can be linked to form directed graphs, representing relationships like parent-child, dependency, or containment. The `append()` method establishes a one-way link, automatically managing bidirectional references.
 
 ```python
-from symb import s
+
+from core.symbol_namespace import s
 from symb.core.symbol import Symbol
 from symb.builtin import apply_builtins
 
@@ -171,7 +173,8 @@ graph TD
 With the pathfinding mixin, you can easily find paths between connected Symbols, useful for dependency analysis or tracing flows.
 
 ```python
-from symb import s
+
+from core.symbol_namespace import s
 from symb.builtin import apply_builtins
 
 apply_builtins()
@@ -227,7 +230,8 @@ graph LR
 The `SymbolIndex` allows you to create weighted, searchable indexes of Symbols, enabling efficient retrieval and rebalancing based on various strategies.
 
 ```python
-from symb import s
+
+from core.symbol_namespace import s
 
 # Example: Financial Portfolio Management (Asset and Wealth Management)
 # Indexing assets by risk score
@@ -235,9 +239,9 @@ from symb import s
 portfolio = s.MyInvestmentPortfolio
 
 # Insert assets with their risk scores (weights)
-portfolio.index.insert(s.StockA, 0.7) # High risk
+portfolio.index.insert(s.StockA, 0.7)  # High risk
 portfolio.index.insert(s.BondB, 0.2)  # Low risk
-portfolio.index.insert(s.MutualFundC, 0.5) # Medium risk
+portfolio.index.insert(s.MutualFundC, 0.5)  # Medium risk
 
 # Traverse in-order (by weight)
 print(f"Assets by risk (in-order): {[str(sym) for sym in portfolio.index.traverse()]}")

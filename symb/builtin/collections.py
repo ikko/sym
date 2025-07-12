@@ -4,8 +4,6 @@ It includes an OrderedSymbolSet, which is a set of Symbols that maintains insert
 """
 import threading
 
-from core.base_symb import Symbol
-
 
 class OrderedSymbolSet:
     def __init__(self, items=None):

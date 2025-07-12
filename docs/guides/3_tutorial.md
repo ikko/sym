@@ -70,7 +70,8 @@ Engine next inspection due: 2025-01-15 00:00:00
 Representing software modules and their dependencies is crucial for understanding system architecture. `Symbol` can model these relationships, and its traversal methods can identify critical paths or circular dependencies.
 
 ```python
-from symb import s
+
+from core.symbol_namespace import s
 
 # Example: Microservices Architecture
 auth_service = s.AuthService
@@ -78,10 +79,10 @@ user_service = s.UserService
 product_service = s.ProductService
 payment_service = s.PaymentService
 
-auth_service.append(user_service) # Auth depends on User
-user_service.append(product_service) # User depends on Product
-product_service.append(payment_service) # Product depends on Payment
-payment_service.append(auth_service) # Payment depends on Auth (potential cycle!)
+auth_service.append(user_service)  # Auth depends on User
+user_service.append(product_service)  # User depends on Product
+product_service.append(payment_service)  # Product depends on Payment
+payment_service.append(auth_service)  # Payment depends on Auth (potential cycle!)
 
 # Visualize the microservices dependencies
 print(auth_service.to_mmd(mode="graph"))
@@ -116,7 +117,8 @@ graph TD
 Map a patient's journey through a healthcare system, from admission to discharge, including various medical procedures and consultations. Each step can be a `Symbol`, and their sequence forms a graph.
 
 ```python
-from symb import s
+
+from core.symbol_namespace import s
 
 # Example: Patient Journey
 admission = s.Admission
@@ -173,7 +175,8 @@ graph TD
 Define an assembly line using a `Symbol`-based DSL, where each `Symbol` represents a station, a robot, or a process step. This allows for a highly readable and verifiable configuration.
 
 ```python
-from symb import s
+
+from core.symbol_namespace import s
 
 # Example: Assembly Line DSL
 line_1 = s.AssemblyLine1
@@ -219,7 +222,8 @@ graph TD
 Model real estate properties, their features, and relationships (e.g., `has_bedroom`, `located_in`). `Symbol` can represent both entities and their attributes, creating a rich semantic network.
 
 ```python
-from symb import s
+
+from core.symbol_namespace import s
 
 # Example: Property Listing
 property_123 = s.Property_123MainSt
