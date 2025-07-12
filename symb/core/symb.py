@@ -8,10 +8,10 @@ from .symbol_namespace import SymbolNamespace
 
 ENABLE_ORIGIN = True
 
-from .symbol import Symbol
 
 def to_sym(obj: Any) -> 'Symbol':
     """Converts an object to a Symbol."""
+    from .symbol import Symbol
     return Symbol.from_object(obj)
 
 

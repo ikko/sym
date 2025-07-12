@@ -1,7 +1,7 @@
 import datetime
 import inspect
 import warnings
-from typing import Any, Literal, Optional, Set, Type, Union
+from typing import Any, Iterator, Literal, Optional, Set, Type, Union
 
 import orjson
 import toml

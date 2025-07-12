@@ -1,7 +1,5 @@
 from typing import Literal
 
-from symb import Symbol
-
 
 class GraphTraversal:
     def __init__(self, root: 'Symbol',

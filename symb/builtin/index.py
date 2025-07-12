@@ -5,7 +5,6 @@ and provides methods for rebalancing the index using different strategies.
 """
 from typing import Any, Union, Optional, Callable, Literal
 
-from core.symbol import Symbol
 from .avl_tree import AVLTree
 # from .red_black_tree import RedBlackTree
 
@@ -41,8 +40,8 @@ class SymbolIndex:
         else:
             raise NotImplementedError(f"Rebalancing strategy '{strategy}' not implemented for SymbolIndex.")
 
-    def remove(self, symb: 'Symbol') -> None:
-        self.tree.remove(symb._position)
+    def remove(self, sym: 'Symbol') -> None:
+        self.tree.remove(sym._position)
 
     def ascii(self):
         return self.tree.to_ascii()
