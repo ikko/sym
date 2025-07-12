@@ -76,7 +76,7 @@ def main():
         publish_package(repository_url, args.username, args.password)
         print("\nPackage published successfully!")
     except Exception as e:
-        print(f"\nFailed to publish package: {e}")
+        print(f"\nFailed to publish package: {repr(e)}")
         exit(1)
 
 if __name__ == "__main__":

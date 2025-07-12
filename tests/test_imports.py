@@ -26,7 +26,9 @@ def test_direct_imports_skip_time_dim():
         assert 'symb.builtins.time_dim' not in sys.modules
 
     except ImportError as e:
-        pytest.fail(f"Direct import failed unexpectedly: {e}")
+        import logging
+        logging.error(f"Direct import failed unexpectedly: {repr(e)}, line 28", exc_info=True)
+        pytest.fail(f"Direct import failed unexpectedly: {repr(e)}")
 
 def test_direct_imports_skip_core_and_builtins():
     # Temporarily remove core and builtins from sys.modules to ensure fresh imports
@@ -79,4 +81,6 @@ def test_direct_imports_skip_core_and_builtins():
         # assert 'symb.builtins.timeline' in sys.modules
 
     except ImportError as e:
-        pytest.fail(f"Direct import failed unexpectedly: {e}")
+        import logging
+        logging.error(f"Direct import failed unexpectedly: {repr(e)}, line 81", exc_info=True)
+        pytest.fail(f"Direct import failed unexpectedly: {repr(e)}")

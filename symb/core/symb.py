@@ -6,16 +6,12 @@ adding graph traversal, index, maturing, and serialization capabilities.
 """
 
 import datetime
-import enum
 import orjson
-import threading
 import inspect
 import warnings
 import gc
-import copy
 from sys import getsizeof
 from typing import Any, Union, Iterator, Optional, Literal, Set, Type, TypeVar
-import os
 import pkgutil
 import importlib
 
@@ -55,7 +51,7 @@ def _get_available_mixins():
                         if attr_name not in ['Symbol', 'BaseSymbol', 'LazySymbol', 'GraphTraversal'] and not attr_name.startswith('_'):
                             mixins[attr_name] = attr
             except Exception as e:
-                warnings.warn(f"Could not import module {module_name}: {e}")
+                warnings.warn(f"Could not import module {module_name}: {repr(e)}")
 
     find_mixins_in_path(symb.builtins.__path__, 'symb.builtins')
     find_mixins_in_path(symb.core.__path__, 'symb.core')
@@ -531,8 +527,10 @@ class Symbol(BaseSymbol):
             try:
                 name = orjson.dumps(obj).decode()
                 return cls(name, origin=obj)
-            except (TypeError, orjson.JSONEncodeError):
-                raise TypeError(f"Cannot convert {obj_type} to Symbol")
+            except (TypeError, orjson.JSONEncodeError) as e:
+                import logging
+                logging.error(f"Cannot convert {obj_type} to Symbol: {repr(e)}", exc_info=True)
+                raise TypeError(f"Cannot convert {obj_type} to Symbol: {repr(e)}")
 
     @classmethod
     def seek(cls, pos: float) -> Optional['Symbol']:

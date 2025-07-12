@@ -85,7 +85,7 @@ async def test_a_to_svg_simple_tree(simple_symb_tree):
         assert "C" in svg_output
         assert "D" in svg_output
     except ImportError as e:
-        pytest.skip(f"Graphviz not installed: {e}")
+        pytest.skip(f"Graphviz not installed: {repr(e)}")
 
 
 
