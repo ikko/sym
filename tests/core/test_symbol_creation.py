@@ -1,5 +1,5 @@
 import pytest
-from core.symb import Symbol
+from core.symbol import Symbol 
 from symb import s
 
 

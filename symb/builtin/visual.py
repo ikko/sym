@@ -97,7 +97,7 @@ class SymbolRender(SymbolVisualProtocol):
 
     @classmethod
     def from_mmd(cls, mmd_string: str) -> 'Symbol':
-        from core.symb import Symbol # Import here to avoid circular dependency
+        from core.symbol import Symbol  # Import here to avoid circular dependency
 
         lines = mmd_string.strip().split('\n')
         if not lines:

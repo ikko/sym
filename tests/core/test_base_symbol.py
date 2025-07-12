@@ -1,7 +1,7 @@
 import pytest
 import threading
 from weakref import WeakValueDictionary
-from core.base_symb import Symbol, _to_symb, AVLTree
+from core.base_symb import BaseSymbol as Symbol, _to_symb, AVLTree
 
 @pytest.fixture(autouse=True)
 def setup_and_teardown_base_symb():

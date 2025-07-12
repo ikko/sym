@@ -7,7 +7,6 @@ import anyio
 import datetime
 import heapq
 import threading
-import time
 import uuid
 from typing import Callable, Any, Optional, Union
 import inspect
@@ -15,8 +14,6 @@ import logging
 
 import orjson
 from croniter import croniter
-
-from core.base_symb import BaseSymbol
 
 
 class ScheduledJob:
@@ -27,7 +24,7 @@ class ScheduledJob:
         func: Callable[..., Any],
         args: tuple,
         kwargs: dict,
-        schedule: Union[str, datetime.datetime, datetime.date, datetime.time, Symbol],
+        schedule: Union[str, datetime.datetime, datetime.date, datetime.time, "Symbol"],
         new_process: bool = False,
         new_thread: bool = True,
         id: Optional[str] = None,

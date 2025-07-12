@@ -1,6 +1,6 @@
 import pytest
 from builtin.avl_tree import AVLTree, AVLNode
-from core.base_symb import Symbol
+from core.base_symb import BaseSymbol as Symbol
 
 @pytest.fixture
 def empty_avl_tree():
