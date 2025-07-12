@@ -1,71 +1,64 @@
-# Implementation Plan: Serialization and Deserialization
+# Implementation Plan: Enhanced .to_ascii and New .from_ascii for Symbol Graph Serialization
 
-This plan outlines the implementation of `from_mmd`, `to_yaml`, `from_yaml`, `to_json`, `from_json`, `to_toml`, and `from_toml` methods for the `Symbol` class, along with their respective testing strategies.
+## 1. Introduction
+This document outlines the plan to enhance the existing `.to_ascii` method within the `Symbol` class for more comprehensive graph export, and to implement a new `.from_ascii` class method for reconstructing `Symbol` graphs from their ASCII representation. The focus is on providing flexible traversal options for export and robust parsing for import, adhering to the "happy path" for initial implementation.
 
-## 1. `from_mmd` Implementation
+## 2. Current State Analysis of `.to_ascii`
+The current `Symbol.to_ascii()` method delegates to `GraphTraversal.to_ascii()`, which performs a depth-first traversal of the `children` hierarchy only. It does not account for general `relations` or offer configurable traversal strategies (e.g., breadth-first, different family traversal orders).
 
-- **Location:** `symb/core/symb.py` (as a classmethod `Symbol.from_mmd`)
-- **Approach:**
-    - Use the 'mermaid-parser' python package to parse the Mermaid diagram string.
-    - Identify nodes and their names.
-    - Identify relationships (edges) and their types (`how`).
-    - Create `Symbol` instances for each unique node.
-    - Establish relationships between `Symbol` instances based on the parsed edges.
-    - Handle different node shapes (though `to_mmd` currently only exports default shape, `from_mmd` should be robust).
-    - Return the root `Symbol` of the reconstructed graph.
-- **Challenges:** Parsing Mermaid can be complex. Focus on the core `graph LR` and `graph TD` syntax with simple node and edge definitions. Edge cases like subgraphs, styling, and complex node definitions will be out of scope for initial implementation.
+## 3. Proposed Enhancements to `.to_ascii`
 
-## 2. `symb_fixture` for Testing
+### 3.1. New Parameters for `GraphTraversal.to_ascii`
+To provide flexibility, the `GraphTraversal.to_ascii` method will be extended with the following parameters, each with sensible default values:
 
-- **Location:** `tests/conftest.py`
-- **Approach:**
-    - Create a `pytest` fixture that generates a `Symbol` graph with at least 30 interconnected nodes, all with meaningful names from the field of bio informatics (analyze this for expressions and their meaning, save the result of the analysis to docs/bio.md .
-    - Ensure a variety of relationships (parent-child, custom `how` relations) are present, use the bioinfo field to chose expressions from.
-    - This fixture will be used across all serialization/deserialization tests.
+*   `traverse_mode: Literal["dfs", "bfs"] = "dfs"`: Determines the general graph traversal order (Depth-First Search or Breadth-First Search).
+*   `family_mode: Literal["children_first", "parents_first"] = "children_first"`: Specifies the traversal order within the parent-child hierarchy.
+*   `graph_mode: Literal["dfs", "bfs"] = "dfs"`: Specifies the traversal order for general relations.
 
-## 3. `to_yaml` / `from_yaml` Implementation
+### 3.2. Enhanced Content Export
+The ASCII output will be augmented to include:
+*   **Family Hierarchy:** Continue to represent the parent-child relationships with indentation.
+*   **General Relations:** Clearly indicate relationships defined via `sym.relate(other, how='...')`. This might involve a separate section for relations or inline notation, depending on readability.
+*   **Nested Elements:** The traversal logic will ensure that all connected symbols are included, preventing infinite loops by tracking visited nodes. The export will stop traversing a path when it encounters an already exported symbol.
 
-- **Location:** `symb/core/symb.py`
-- **Approach:**
-    - **`to_yaml`:**
-        - Traverse the `Symbol` graph.
-        - Convert `Symbol` objects and their relationships into a Python dictionary/list structure suitable for YAML serialization.
-        - Use `PyYAML` to dump the structure to a YAML string.
-        - Ensure sequences are always exported in the expanded form (`- item1\n- item2`).
-    - **`from_yaml`:**
-        - Use `PyYAML` to load the YAML string into a Python dictionary/list structure.
-        - Reconstruct the `Symbol` graph from this structure.
-        - Handle both expanded and compact sequence formats during import.
+### 3.3. Implementation Details
+*   Modify `GraphTraversal.__init__` to accept the new `traverse_mode`, `family_mode`, and `graph_mode` parameters.
+*   Refactor `GraphTraversal.traverse` (or create new internal methods) to implement DFS and BFS logic, considering both family and general graph relations.
+*   Update `GraphTraversal.to_ascii` to utilize the chosen traversal modes and to format the output to include relation information.
+*   Update `Symbol.to_ascii` to accept and pass these new parameters to `GraphTraversal.to_ascii`.
 
-## 4. `to_json` / `from_json` Implementation
+## 4. New Implementation: `.from_ascii`
 
-- **Location:** `symb/core/symb.py`
-- **Approach:**
-    - **`to_json`:**
-        - Leverage `orjson` for efficient serialization.
-        - Convert `Symbol` objects and their relationships into a JSON-compatible dictionary/list structure.
-    - **`from_json`:**
-        - Use `orjson` to load the JSON string.
-        - Reconstruct the `Symbol` graph.
+### 4.1. Class Method Signature
+A new class method `Symbol.from_ascii(ascii_string: str) -> 'Symbol'` will be implemented. This method will reconstruct a `Symbol` graph from its ASCII string representation.
 
-## 5. `to_toml` / `from_toml` Implementation
+### 4.2. Parsing Logic
+The parsing process will involve:
+*   **Line-by-Line Processing:** Iterate through the ASCII string line by line.
+*   **Symbol Identification:** Extract symbol names and determine their hierarchical level (indentation).
+*   **Relationship Reconstruction:** Based on the parsed structure, re-establish parent-child relationships and general relations using `Symbol.append()` and `Symbol.relate()`.
+*   **Visited Tracking:** Maintain a mapping of symbol names to `Symbol` instances to handle references and avoid creating duplicate symbols.
 
-- **Location:** `symb/core/symb.py`
-- **Approach:**
-    - **`to_toml`:**
-        - Convert `Symbol` objects and relationships into a TOML-compatible structure.
-        - Use the `toml` library to dump to a TOML string.
-    - **`from_toml`:**
-        - Use the `toml` library to load the TOML string.
-        - Reconstruct the `Symbol` graph.
+### 4.3. Happy Path Focus
+The initial implementation will focus solely on the "happy path," assuming a well-formed ASCII input generated by the enhanced `.to_ascii` method. Error handling for malformed input will be considered in future iterations.
 
-## 6. Testing Strategy (for all serialization methods)
+## 5. Testing Strategy
 
-- **Round-trip test:**
-    1.  Generate a `Symbol` graph using `symb_fixture`.
-    2.  Serialize the graph to a string (e.g., `temp_test.mmd`, `temp_test.yaml`).
-    3.  Restart Python session (conceptually, for isolation).
-    4.  Deserialize the string back into a new `Symbol` graph.
-    5.  Compare the original graph and the reconstructed graph for structural and relational equality.
-    6.  Compare the original serialized string with a re-serialized string from the reconstructed graph for byte-identical content.
-- **Focus:** Happy path testing only. Edge cases (malformed input, complex structures not explicitly handled by `to_mmd`'s current output) are out of scope.
+### 5.1. Unit Tests for `.to_ascii`
+*   Create test cases to verify the output of `.to_ascii` for various graph structures (simple trees, graphs with relations, cycles).
+*   Test different combinations of `traverse_mode`, `family_mode`, and `graph_mode`.
+*   Ensure correct indentation and representation of relations.
+
+### 5.2. Unit Tests for `.from_ascii`
+*   Create test cases to verify that `.from_ascii` correctly reconstructs `Symbol` graphs from valid ASCII strings.
+*   Test with ASCII strings representing different graph complexities.
+
+### 5.3. Roundtrip Tests
+*   Implement tests that perform a roundtrip: `symbol_graph -> to_ascii() -> from_ascii() -> reconstructed_symbol_graph`.
+*   Verify that the `reconstructed_symbol_graph` is structurally and relationally equivalent to the original `symbol_graph`.
+
+## 6. Deliverables
+*   Modified `symb/core/symb.py` with enhanced `GraphTraversal.to_ascii` and new `Symbol.from_ascii`.
+*   Updated test files (e.g., `tests/core/test_symbol.py`) with new test cases.
+*   This `docs/plan.md` document.
+*   `docs/todo.md` for tracking progress.

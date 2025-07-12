@@ -26,7 +26,8 @@ python -m pip install symb[dev]
 Symbols can be created directly or via the convenient `s` namespace.
 
 ```python
-from symb import Symbol, s
+from symb import s
+from symb.core.symbol import Symbol
 
 # Direct creation
 project_alpha = Symbol("ProjectAlpha")
@@ -61,7 +62,8 @@ Task Development: <Symbol: TaskDevelopment>
 Symbols can be linked to form directed graphs, representing relationships like parent-child, dependency, or containment. The `append()` method establishes a one-way link, automatically managing bidirectional references.
 
 ```python
-from symb import Symbol, s
+from symb import s
+from symb.core.symbol import Symbol
 from symb.builtins import apply_builtins
 
 apply_builtins()
@@ -122,7 +124,8 @@ graph TD
 The `apply_builtins()` function integrates a set of standard mixins, providing common functionalities like time dimension handling, indexing, and pathfinding.
 
 ```python
-from symb import Symbol
+
+from symb.core.symbol import Symbol
 from symb.builtins import apply_builtins
 
 apply_builtins()

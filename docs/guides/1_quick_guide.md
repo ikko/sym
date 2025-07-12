@@ -13,17 +13,18 @@ This document serves as a rapid introduction to `Symbol`, a Python library desig
 At its core, `Symbol` implements a stringent interning mechanism. Every unique string name corresponds to precisely one `Symbol` instance. This ensures referential equality (`is`) for semantically equivalent entities, optimizing memory usage and enabling O(1) lookup for symbic identities.
 
 ```python
-from symb import Symbol, s
+from symb import s
+from symb.core.symbol import Symbol
 
 # Direct instantiation: Interning ensures uniqueness
 sym_a = Symbol("concept_A")
 sym_b = Symbol("concept_A")
-assert sym_a is sym_b # True: Same instance
+assert sym_a is sym_b  # True: Same instance
 
 # Namespace access: Convenient interning
 sym_c = s.concept_C
 sym_d = s.concept_C
-assert sym_c is sym_d # True: Same instance
+assert sym_c is sym_d  # True: Same instance
 ```
 
 #### 1.2. Graph-based Representation
@@ -50,7 +51,8 @@ assert root_node in sub_system_1.parents
 `Symbol`'s architecture supports dynamic runtime extension via mixins. This allows for the modular injection of domain-specific behaviors (e.g., time dimension parsing, pathfinding, indexing) without modifying the core `Symbol` class. This pattern promotes a highly composable design, enabling researchers to tailor `Symbol`'s capabilities precisely to their problem domain.
 
 ```python
-from symb import Symbol
+
+from symb.core.symbol import Symbol
 
 # Time dimension mixin example
 event_start = Symbol("2023-10-26T10:00:00Z")
@@ -58,7 +60,7 @@ event_end = Symbol("2023-10-26T11:30:00Z")
 
 assert event_start.as_datetime.hour == 10
 assert event_end.as_datetime.minute == 30
-assert (event_end.as_datetime - event_start.as_datetime).total_seconds() == 5400.0 # 1 hour 30 minutes
+assert (event_end.as_datetime - event_start.as_datetime).total_seconds() == 5400.0  # 1 hour 30 minutes
 ```
 
 #### 1.4. Lazy Evaluation & Performance Characteristics

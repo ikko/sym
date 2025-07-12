@@ -283,3 +283,184 @@ def test_dynamic_relation_kwargs_list_non_symb_value_raises_error():
     non_convertible = NonConvertibleObject()
     with pytest.raises(TypeError):
         s_person.some_relation(items=[non_convertible])
+
+def test_to_ascii_default_tree_traversal():
+    # Create a simple tree structure
+    root = Symbol("Root")
+    child1 = Symbol("Child1")
+    child2 = Symbol("Child2")
+    grandchild1 = Symbol("Grandchild1")
+
+    root.append(child1)
+    root.append(child2)
+    child1.append(grandchild1)
+
+    expected_output = """
+- Root
+  - Child1
+    - Grandchild1
+  - Child2
+""".strip()
+    
+    assert root.to_ascii() == expected_output
+
+def test_to_ascii_dfs_children_first():
+    root = Symbol("A")
+    b = Symbol("B")
+    c = Symbol("C")
+    d = Symbol("D")
+    e = Symbol("E")
+
+    root.append(b)
+    root.append(c)
+    b.append(d)
+    c.append(e)
+
+    # Expected DFS (children first) output
+    expected_output = """
+- A
+  - B
+    - D
+  - C
+    - E
+""".strip()
+    assert root.to_ascii(traverse_mode="dfs", family_mode="children_first") == expected_output
+
+def test_to_ascii_bfs_children_first():
+    root = Symbol("A")
+    b = Symbol("B")
+    c = Symbol("C")
+    d = Symbol("D")
+    e = Symbol("E")
+
+    root.append(b)
+    root.append(c)
+    b.append(d)
+    c.append(e)
+
+    # Expected BFS (children first) output
+    expected_output = """
+- A
+  - B
+  - C
+    - D
+    - E
+""".strip()
+    assert root.to_ascii(traverse_mode="bfs", family_mode="children_first") == expected_output
+
+def test_to_ascii_with_relations():
+    s1 = Symbol("S1")
+    s2 = Symbol("S2")
+    s3 = Symbol("S3")
+    s4 = Symbol("S4")
+
+    s1.append(s2)
+    s1.relate(s3, how="knows")
+    s2.relate(s4, how="has_child")
+
+    expected_output = """
+- S1
+  - S2
+    - S4
+
+--- Relations ---
+S1 --knows--> S3
+S2 --has_child--> S4
+""".strip()
+    assert s1.to_ascii() == expected_output
+
+def test_from_ascii_simple_tree():
+    ascii_input = """
+- Root
+  - Child1
+    - Grandchild1
+  - Child2
+""".strip()
+    
+    reconstructed_root = Symbol.from_ascii(ascii_input)
+
+    assert reconstructed_root.name == "Root"
+    assert len(reconstructed_root.children) == 2
+    assert reconstructed_root.children[0].name == "Child1"
+    assert reconstructed_root.children[1].name == "Child2"
+    assert len(reconstructed_root.children[0].children) == 1
+    assert reconstructed_root.children[0].children[0].name == "Grandchild1"
+
+def test_from_ascii_with_relations():
+    ascii_input = """
+- S1
+  - S2
+    - S4
+
+--- Relations ---
+S1 --knows--> S3
+S2 --has_child--> S4
+""".strip()
+
+    reconstructed_s1 = Symbol.from_ascii(ascii_input)
+
+    assert reconstructed_s1.name == "S1"
+    assert len(reconstructed_s1.children) == 1
+    reconstructed_s2 = reconstructed_s1.children[0]
+    assert reconstructed_s2.name == "S2"
+    assert len(reconstructed_s2.children) == 1
+    reconstructed_s4 = reconstructed_s2.children[0]
+    assert reconstructed_s4.name == "S4"
+
+    # Check relations
+    reconstructed_s3 = Symbol._pool.get("S3") # Relations are global, so retrieve from pool
+    assert reconstructed_s3 is not None
+    assert reconstructed_s3 in reconstructed_s1.relations.get("knows")
+    assert reconstructed_s1 in reconstructed_s3.relations.get("_inverse_knows")
+
+    assert reconstructed_s4 in reconstructed_s2.relations.get("has_child")
+    assert reconstructed_s2 in reconstructed_s4.relations.get("_inverse_has_child")
+
+def test_roundtrip_simple_tree():
+    root = Symbol("Root")
+    child1 = Symbol("Child1")
+    child2 = Symbol("Child2")
+    grandchild1 = Symbol("Grandchild1")
+
+    root.append(child1)
+    root.append(child2)
+    child1.append(grandchild1)
+
+    ascii_output = root.to_ascii()
+    reconstructed_root = Symbol.from_ascii(ascii_output)
+
+    assert reconstructed_root.name == root.name
+    assert len(reconstructed_root.children) == len(root.children)
+    assert reconstructed_root.children[0].name == root.children[0].name
+    assert reconstructed_root.children[1].name == root.children[1].name
+    assert reconstructed_root.children[0].children[0].name == root.children[0].children[0].name
+
+def test_roundtrip_with_relations():
+    s1 = Symbol("S1")
+    s2 = Symbol("S2")
+    s3 = Symbol("S3")
+    s4 = Symbol("S4")
+
+    s1.append(s2)
+    s1.relate(s3, how="knows")
+    s2.relate(s4, how="has_child")
+
+    ascii_output = s1.to_ascii()
+    reconstructed_s1 = Symbol.from_ascii(ascii_output)
+
+    assert reconstructed_s1.name == s1.name
+    assert len(reconstructed_s1.children) == len(s1.children)
+    reconstructed_s2 = reconstructed_s1.children[0]
+    assert reconstructed_s2.name == s2.name
+    assert len(reconstructed_s2.children) == len(s2.children)
+    reconstructed_s4 = reconstructed_s2.children[0]
+    assert reconstructed_s4.name == s4.name
+
+    # Check relations
+    reconstructed_s3 = Symbol._pool.get("S3")
+    assert reconstructed_s3 is not None
+    assert reconstructed_s3 in reconstructed_s1.relations.get("knows")
+    assert reconstructed_s1 in reconstructed_s3.relations.get("_inverse_knows")
+
+    assert reconstructed_s4 in reconstructed_s2.relations.get("has_child")
+    assert reconstructed_s2 in reconstructed_s4.relations.get("_inverse_has_child")

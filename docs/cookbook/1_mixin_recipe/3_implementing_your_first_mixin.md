@@ -60,7 +60,7 @@ For demonstration purposes, let's assume a direct application:
 ```python
 # main.py (or a test file)
 
-from symb import Symbol
+from symb.core.symbol import Symbol
 from my_counter_mixin import DescendantCounterMixin
 
 # Create some symbs to form a graph
@@ -74,7 +74,7 @@ a.append(b)
 a.append(c)
 b.append(d)
 c.append(e)
-c.append(d) # D is also a descendant of C
+c.append(d)  # D is also a descendant of C
 
 # Apply the mixin to Symbol A
 a_with_counter = DescendantCounterMixin(a)
@@ -82,12 +82,15 @@ a_with_counter = DescendantCounterMixin(a)
 # Now you can call the mixin methods through the mixin instance
 print(f"Symbol A has {a_with_counter.count_descendants()} descendants.")
 
+
 # For asynchronous methods, use await
 async def main():
     print(f"Symbol A has {await a_with_counter.a_count_descendants()} descendants (async).")
 
+
 if __name__ == "__main__":
     import anyio
+
     anyio.run(main)
 ```
 
