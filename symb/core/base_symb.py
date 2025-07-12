@@ -4,7 +4,7 @@ It serves as a base for the more extensive Symbol functionality defined elsewher
 specifically designed to prevent circular import dependencies.
 """
 import threading
-from typing import Optional, Union, Callable, Any, TypeVar
+from typing import (Optional, Any, TypeVar)
 from weakref import WeakValueDictionary
 
 from ..builtins.avl_tree import AVLTree

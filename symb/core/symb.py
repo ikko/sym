@@ -274,7 +274,7 @@ class Symbol(BaseSymbol):
     def tree(self):
         return GraphTraversal(self, mode='tree').traverse()
 
-    def to_mmd(self) -> str:
+    def to_mmd(self, mode: str = "tree") -> str:
         lines = ["graph LR"]
         visited_nodes = set()
         visited_edges = set()
