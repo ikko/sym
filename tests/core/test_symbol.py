@@ -1,9 +1,9 @@
 import pytest
-from symb.core.symb import Symbol, s, to_sym
+from core.symb import Symbol, s, to_sym
 from symb import GraphTraversal
-from symb.core.base_symb import Symbol as BaseSymbol
-from symb.core.lazy import SENTINEL
-from symb.builtin.avl_tree import AVLTree
+from core.base_symb import Symbol as BaseSymbol
+from core.lazy import SENTINEL
+from builtin.avl_tree import AVLTree
 from weakref import WeakValueDictionary
 import threading
 import datetime
@@ -110,7 +110,7 @@ def test_symb_append_child():
     assert parent in child.parents
 
 def test_symb_append_lazy_symb_child():
-    from symb.core.lazy_symb import LazySymbol
+    from core.lazy_symb import LazySymbol
     parent = Symbol("parent_lazy")
     lazy_child = LazySymbol("lazy_child_name")
     parent.append(lazy_child)

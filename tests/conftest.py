@@ -2,12 +2,10 @@ import sys
 import os
 import pytest
 from symb import Symbol
-from symb.builtin import apply_builtins
-from symb.builtin.avl_tree import AVLTree
+from builtin import apply_builtins
+from builtin.avl_tree import AVLTree
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app')))
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'symb')))
 
 @pytest.fixture(scope='session', autouse=True)
 def apply_builtins_for_session():

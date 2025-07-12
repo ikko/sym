@@ -1,6 +1,6 @@
 import pytest
 from symb import Symbol
-from symb.core.symbol_namespace import SymbolNamespace
+from core.symbol_namespace import SymbolNamespace
 
 
 def test_symb_creation_and_interning():

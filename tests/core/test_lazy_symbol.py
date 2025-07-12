@@ -1,6 +1,6 @@
 import pytest
 from symb import Symbol
-from symb.core.lazy_symb import LazySymbol
+from core.lazy_symb import LazySymbol
 
 def test_lazy_symb_evaluation():
     # Create a list that will be converted to a Symbol with LazySymbol children

@@ -1,7 +1,7 @@
 import pytest
 from symb import Symbol
 import copy
-from symb.core.symb import to_sym
+from core.symb import to_sym
 
 def test_from_int():
     s = Symbol.from_object(123)

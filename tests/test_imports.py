@@ -12,15 +12,15 @@ def test_direct_imports_skip_time_dim():
 
     # These imports should succeed without pulling in time_dim directly
     try:
-        from symb.core import symb
-        from symb.core import schedule
-        from symb.core import protocols
-        from symb.core import time_arithmetics
-        from symb.builtin import collections
-        from symb.builtin import index
-        from symb.builtin import path
-        from symb.builtin import visual
-        from symb.builtin import timeline
+        from core import symb
+        from core import schedule
+        from core import protocols
+        from core import time_arithmetics
+        from builtin import collections
+        from builtin import index
+        from builtin import path
+        from builtin import visual
+        from builtin import timeline
 
         # Assert that time_dim was NOT imported directly by these modules
         assert 'symb.builtin.time_dim' not in sys.modules

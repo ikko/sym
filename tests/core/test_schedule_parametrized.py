@@ -2,7 +2,7 @@ import pytest
 import anyio
 import datetime
 import time
-from symb.core.schedule import Scheduler, ScheduledJob
+from core.schedule import Scheduler, ScheduledJob
 
 # --- Test Functions ---
 

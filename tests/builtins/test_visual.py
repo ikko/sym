@@ -1,7 +1,7 @@
 import pytest
 import anyio
 from symb import Symbol
-from symb.builtin.visual import SymbolRender
+from builtin.visual import SymbolRender
 
 # Apply the mixin to Symbol for testing purposes
 # In a real application, this would be handled by apply_builtins

@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 import toml
-from symb.config import Config
+from config import Config
 
 def test_config_default_path(tmp_path):
     # Temporarily set XDG_CONFIG_HOME for testing default path on POSIX

@@ -1,6 +1,6 @@
 import pytest
 from symb import Symbol
-from symb.core.mixinability import freeze, is_frozen, register_mixin, _reset_frozen_state_for_testing
+from core.mixinability import freeze, is_frozen, register_mixin, _reset_frozen_state_for_testing
 
 @pytest.fixture(autouse=True)
 def reset_frozen_state():

@@ -9,10 +9,11 @@ import orjson
 from core.lazy import SENTINEL
 from core.maturing import _apply_merge_strategy, deep_del
 
-from symb import freeze, is_frozen, Symbol
-from symb.core.lazy_symb import LazySymbol
-from symb.core.mixinability import apply_mixin_to_instance
-from symb.core.symbol import _get_available_mixins, T
+from core.mixinability import freeze, is_frozen
+from core.symbol import Symbol
+from core.lazy_symb import LazySymbol
+from core.mixinability import apply_mixin_to_instance
+from core.symbol import _get_available_mixins, T
 
 
 class SymbolNamespace:

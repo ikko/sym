@@ -1,6 +1,6 @@
 import pytest
 from collections import defaultdict
-from symb.core.maturing import DefDict, deep_del, _apply_merge_strategy
+from core.maturing import DefDict, deep_del, _apply_merge_strategy
 from symb import Symbol
 import copy
 

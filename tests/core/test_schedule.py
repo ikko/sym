@@ -5,8 +5,8 @@ import logging
 import os
 import anyio
 
-from symb.core.schedule import Scheduler, ScheduledJob
-from symb.core.base_symb import Symbol
+from core.schedule import Scheduler, ScheduledJob
+from core.base_symb import Symbol
 
 # --- Helper functions for testing jobs ---
 
