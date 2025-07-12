@@ -6,7 +6,7 @@ and for matching Symbols based on a predicate.
 from __future__ import annotations
 from typing import Callable, Iterator, List
 
-from ..core.protocols import SymbolPathProtocol
+from core.protocols import SymbolPathProtocol
 
 class SymbolPathMixin(SymbolPathProtocol):
     def path_to(self, target: 'Symbol') -> list['Symbol']:

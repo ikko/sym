@@ -5,7 +5,7 @@ ensuring efficient search, insertion, and deletion operations.
 """
 from typing import Any, Callable, Optional, Union
 
-from ..core.base_symb import Symbol
+from core.base_symb import Symbol
 
 RED = True
 BLACK = False

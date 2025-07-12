@@ -5,7 +5,7 @@ and provides methods for rebalancing the index using different strategies.
 """
 from typing import Any, Union, Optional, Callable, Literal
 
-from core.base_symb import Symbol
+from core.symbol import Symbol
 from .avl_tree import AVLTree
 # from .red_black_tree import RedBlackTree
 

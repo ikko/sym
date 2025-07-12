@@ -1,4 +1,4 @@
-from ..core.mixinability import register_mixin
+from core.mixinability import register_mixin
 from .path import SymbolPathMixin
 from .time_dim import SymbolTimeDimMixin
 from .visual import SymbolRender

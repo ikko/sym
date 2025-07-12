@@ -3,9 +3,8 @@
 It allows for rendering Symbol graphs to various formats, such as DOT, SVG, PNG, and Mermaid.
 """
 from __future__ import annotations
-from typing import Literal, Optional
+from typing import Literal
 import anyio
-import warnings
 
 try:
     import graphviz
@@ -13,7 +12,7 @@ try:
 except ImportError:
     _GRAPHVIZ_AVAILABLE = False
 
-from ..core.protocols import SymbolVisualProtocol
+from core.protocols import SymbolVisualProtocol
 
 
 class SymbolRender(SymbolVisualProtocol):
@@ -98,7 +97,7 @@ class SymbolRender(SymbolVisualProtocol):
 
     @classmethod
     def from_mmd(cls, mmd_string: str) -> 'Symbol':
-        from ..core.symb import Symbol # Import here to avoid circular dependency
+        from core.symb import Symbol # Import here to avoid circular dependency
 
         lines = mmd_string.strip().split('\n')
         if not lines:
