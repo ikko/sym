@@ -1,5 +1,6 @@
 
-from .core.symb import Symbol, s, GraphTraversal
+from .core.symb import Symbol, s
+from .core.graph_traversal import GraphTraversal
 
 from .builtins import apply_builtins
 # Import necessary modules for apply_builtins and other top-level exports

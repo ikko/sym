@@ -1,3 +1,54 @@
+import importlib
+import inspect
+import pkgutil
+import warnings
+from typing import Any, Literal, Optional, TypeVar, Union
+import yaml
+
+from builtins.index import SymbolIndex
+from core.lazy import SENTINEL
+from core.lazy_symb import LazySymbol
+from core.maturing import DefDict
+
+from .base_symb import BaseSymbol
+from .relations import Relations
+from .graph_traversal import GraphTraversal
+
+MEMORY_AWARE_DELETE = True
+T = TypeVar("T")
+
+
+def _get_available_mixins():
+    """
+    Discovers all available mixin classes in the symb.builtins and symb.core packages.
+    """
+    mixins = {}
+
+    import symb.core
+
+    def find_mixins_in_path(path, package_name):
+        for _, name, ispkg in pkgutil.iter_modules(path):
+            if ispkg:
+                continue
+
+            module_name = f"{package_name}.{name}"
+            try:
+                module = importlib.import_module(module_name)
+                for attr_name in dir(module):
+                    attr = getattr(module, attr_name)
+                    if inspect.isclass(attr) and attr.__module__ == module_name:
+                        # Heuristic to identify mixins: not a base class and not private
+                        if attr_name not in ['Symbol', 'BaseSymbol', 'LazySymbol', 'GraphTraversal'] and not attr_name.startswith('_'):
+                            mixins[attr_name] = attr
+            except Exception as e:
+                warnings.warn(f"Could not import module {module_name}: {repr(e)}")
+
+    find_mixins_in_path(symb.builtins.__path__, 'symb.builtins')
+    find_mixins_in_path(symb.core.__path__, 'symb.core')
+
+    return mixins
+
+
 class Symbol(BaseSymbol):
     __slots__ = (
         '_index',
@@ -248,6 +299,17 @@ class Symbol(BaseSymbol):
     def to_ascii(self, traverse_mode: Literal["dfs", "bfs"] = "dfs",
                  family_mode: Literal["children_first", "parents_first"] = "children_first",
                  graph_mode: Literal["dfs", "bfs"] = "dfs") -> str:
+        """
+         what: Generates an ASCII art representation of the Symbol.
+         why: To visualize the Symbol's structure in text.
+         how: Delegates to `GraphTraversal.to_ascii`.
+         when: When a text-based visualization is requested.
+         by caller: External tools, debugging.
+         how often: Infrequently.
+         how much: Depends on graph size.
+         it is like: Drawing a text-based diagram.
+         improve: N/A.
+         """
         return GraphTraversal(self, traverse_mode=traverse_mode, family_mode=family_mode, graph_mode=graph_mode).to_ascii()
 
     def to_yaml(self) -> str:
@@ -578,8 +640,6 @@ class Symbol(BaseSymbol):
                 inverse_how = f"_inverse_{how}"
                 other.relations.remove(inverse_how, self)
         return self
-
-
 
     @property
     def ref(self) -> Optional[Any]:

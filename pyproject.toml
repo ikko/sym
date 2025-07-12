@@ -25,10 +25,14 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-# New fields for homepage, source repository, and author
+authors = [
+  {name = "Miklos Beky", email = "miklos.beky@gmail.com"},
+]
+
+[project.urls]
 homepage = "https://github.com/ikko/symb"
-source = "https://github.com/ikko/symb"
-author = "Miklos Beky <miklos.beky@gmail.com>"
+repository = "https://github.com/ikko/symb"
+documentation = "https://github.com/ikko/symb"
 
 
 [project.scripts]

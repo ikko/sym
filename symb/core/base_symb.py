@@ -8,11 +8,11 @@ from typing import (Optional, Any, TypeVar)
 from weakref import WeakValueDictionary
 
 from ..builtins.avl_tree import AVLTree
-from .relations import Relations
+
 
 T = TypeVar("T")
 
-class Symbol:
+class BaseSymbol:
     __slots__ = (
         'name',
         'origin',
@@ -28,7 +28,7 @@ class Symbol:
         'node_shape',
     )
 
-    _pool: WeakValueDictionary[str, 'Symbol'] = WeakValueDictionary()
+    _pool: WeakValueDictionary[str, 'BaseSymbol'] = WeakValueDictionary()
     _numbered: AVLTree = AVLTree()
     _auto_counter: int = 0
     _read_cursor: float = 0.0
@@ -38,7 +38,7 @@ class Symbol:
     def __new__(cls, name: str, origin: Optional[Any] = None):
         with cls._lock:
             if not isinstance(name, str):
-                raise TypeError("Symbol name must be a string")
+                raise TypeError("BaseSymbol name must be a string")
             if name in cls._pool:
                 return cls._pool[name]
             obj = super().__new__(cls)
@@ -58,13 +58,13 @@ class Symbol:
             return obj
 
     def __repr__(self):
-        return f"Symbol('{self.name}')"
+        return f"BaseSymbol('{self.name}')"
 
     def __str__(self):
         return self.name
 
     def __eq__(self, other: Any) -> bool:
-        return isinstance(other, Symbol) and self.name == other.name
+        return isinstance(other, BaseSymbol) and self.name == other.name
 
     def __hash__(self) -> int:
         return hash(self.name)
@@ -72,7 +72,7 @@ class Symbol:
     # Basic comparison for numbered symbs, more complex logic in symb.py
     def __lt__(self, other):
         # Check if both symbs are in the numbered tree by searching for their positions
-        if isinstance(other, Symbol) and \
+        if isinstance(other, BaseSymbol) and \
            self._numbered.search(self._position) is not None and \
            other._numbered.search(other._position) is not None:
             return self._position < other._position
@@ -82,14 +82,14 @@ class Symbol:
     def __orjson__(self):
         return self.name
 
-def _to_symb(x: Any) -> 'Symbol':
-    """Converts an object to a Symbol instance."""
-    if isinstance(x, Symbol):
+def _to_symb(x: Any) -> 'BaseSymbol':
+    """Converts an object to a BaseSymbol instance."""
+    if isinstance(x, BaseSymbol):
         return x
     elif isinstance(x, str):
-        return Symbol(x)
+        return BaseSymbol(x)
     elif hasattr(x, 'name'):
-        return Symbol(x.name)
-    raise TypeError(f"Cannot convert {repr(x)} instance of {type(x)} to Symbol")
+        return BaseSymbol(x.name)
+    raise TypeError(f"Cannot convert {repr(x)} instance of {type(x)} to BaseSymbol")
 
 

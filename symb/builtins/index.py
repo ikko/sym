@@ -5,9 +5,9 @@ and provides methods for rebalancing the index using different strategies.
 """
 from typing import Any, Union, Optional, Callable, Literal
 
-from ..core.base_symb import Symbol
+from core.base_symb import Symbol
 from .avl_tree import AVLTree
-from .red_black_tree import RedBlackTree
+# from .red_black_tree import RedBlackTree
 
 ENABLE_ORIGIN = True
 MEMORY_AWARE_DELETE = True

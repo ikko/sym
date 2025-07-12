@@ -16,15 +16,16 @@ Imagine modeling aircraft components and their maintenance schedules. We can cre
 
 ```python
 import datetime
-from symb import Symbol
+from symb.core.symbol import Symbol
 from symb.core.mixinability import register_mixin
 from symb.core.protocols import SymbolProtocol
+
 
 class AircraftComponentMixin(SymbolProtocol):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._last_inspected = None
-        self._inspection_interval = datetime.timedelta(days=365) # Default 1 year
+        self._inspection_interval = datetime.timedelta(days=365)  # Default 1 year
 
     @property
     def last_inspected(self) -> Optional[datetime.datetime]:
@@ -39,6 +40,7 @@ class AircraftComponentMixin(SymbolProtocol):
         if self._last_inspected:
             return self._last_inspected + self._inspection_interval
         return None
+
 
 # Register the mixin
 register_mixin(AircraftComponentMixin, expand=True)

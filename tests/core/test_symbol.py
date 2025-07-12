@@ -1,5 +1,6 @@
 import pytest
-from symb.core.symb import Symbol, GraphTraversal, s, to_sym
+from symb.core.symb import Symbol, s, to_sym
+from symb import GraphTraversal
 from symb.core.base_symb import Symbol as BaseSymbol
 from symb.core.lazy import SENTINEL
 from symb.builtins.avl_tree import AVLTree
