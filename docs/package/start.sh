@@ -21,5 +21,5 @@ python update.py --input-md "../../README.md" --output-md "README-linked.md" --r
 
 # replace mermaid diagrams with rendered SVG images
 # mmdc -i README-linked.md -o README.md -b transparent   # <- does not look good on dark theme
-mmdc -i README-linked.md -o README.md
+mmdc -i README-linked.md -o README.md -e png
 echo "Generated README.md"

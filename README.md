@@ -1,4 +1,4 @@
-# [`«symb»`](https://github.com/ikko/symb) affects
+# [«symb»](https://github.com/ikko/symb) affects
 
 ## Catalyzing Value and Unifying Knowledge
 

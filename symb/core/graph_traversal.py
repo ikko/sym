@@ -111,7 +111,7 @@ class GraphTraversal:
                 continue
             printed_symbols.add(symb)
 
-            lines.append(f"{"  " * depth}- {symb.name}")
+            lines.append(f"{'  ' * depth}- {symb.name}")
 
             neighbors_to_process = []
 

@@ -2,13 +2,13 @@
 
 ## **A Framework for Symbolic Data Manipulation**
 
-> `symb.py` — A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction
+> `symbol.py` — A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction
 
 _Inspired by Ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)._
 
 ## What is Symbol?
 
-**Symbol** is a namespace DSL. It is a Python framework for creating, manipulating, and analyzing complex, graph-based data structures. It provides a versatile `Symbol` object that serves as a node in a dynamic, directed acyclic graph (DAG). The framework is designed to be lean, modular, and extensible, making it suitable for a wide range of applications, from data science and AI to domain-specific modeling.
+**Symbol** is a namespace DSL. It is a **Python Framework** for creating, manipulating, and analyzing complex, graph-based data structures. It provides a versatile `Symbol` object that serves as a node in a dynamic, directed acyclic graph (DAG). The framework is designed to be lean, modular, and extensible, making it suitable for a wide range of applications, from data science and AI to domain-specific modeling.
 
 
 ## Core Concepts
@@ -19,7 +19,7 @@ _Inspired by Ruby's [symbol](https://ruby-doc.org/core-2.5.3/Symbol.html)._
 -   **[Per-Instance Indexing](topics/4_per_instance_indexing/index.md)**: Every symb has its own private, weighted index of other symbs, allowing for the creation of sophisticated, nested data structures.
 -   **[Mixinability](topics/5_mixinability/index.md)**: The framework supports dynamic extension of `Symbol` instances at runtime through mixins, which are validated for robustness.
 -   **[Memory-Aware Maturing](topics/6_memory_aware_maturing/index.md)**: Symbols can be "matured" to optimize memory usage and performance by elevating metadata and removing unused components.
--   **[Scheduling](topics/7_scheduling/index.md)**: A built-in scheduler allows for deferred execution of functions and methods, specified with cron-like strings, datetime objects, or even other Symbols.
+-   **[WIP: Scheduling](topics/7_scheduling/index.md)**: A built-in scheduler allows for deferred execution of functions and methods, specified with cron-like strings, datetime objects, or even other Symbols.
 
 
 Getting Started
