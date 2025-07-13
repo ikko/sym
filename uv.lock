@@ -823,7 +823,7 @@ wheels = [
 
 [[package]]
 name = "symb"
-version = "0.0.7"
+version = "0.0.10"
 source = { editable = "." }
 dependencies = [
     { name = "anyio" },
