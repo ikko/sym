@@ -3,7 +3,7 @@
 ## [Unreleased]
 - Nothing yet!
 
-## [v0.0.8] - 2025-07-13
+## [v0.0.9] - 2025-07-13
 ### Added
 - **Dynamic Relation Syntax**: Introduced a more intuitive and expressive API for defining relationships between `Symbol` instances (e.g., `sym.relates_to(other)` instead of `sym.relate(other, how='relates_to')`). This enhances the readability and semantic clarity of graph construction, aligning with principles of Domain-Specific Languages (DSLs).
 - **Comprehensive Serialization/Deserialization**: Added robust capabilities for persisting and reconstructing `Symbol` graphs to/from various structured data formats: JSON (`to_json`, `from_json`), YAML (`to_yaml`, `from_yaml`), and TOML (`to_toml`, `from_toml`). This significantly improves data interchange, reproducibility, and integration with external systems.
