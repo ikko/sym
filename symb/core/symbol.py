@@ -3,6 +3,7 @@ import inspect
 import warnings
 from typing import Any, Iterator, Literal, Optional, Set, Type, Union
 from weakref import WeakValueDictionary
+from sys import getsizeof
 
 import orjson
 import toml
@@ -86,7 +87,6 @@ class Symbol(BaseSymbol):
             object.__setattr__(obj, 'parents', [])
             object.__setattr__(obj, 'children', [])
             
-            # Initialize attributes related to positioning and linked list structure.
             object.__setattr__(obj, '_position', cls._write_cursor)
             object.__setattr__(obj, '_next', None)
             object.__setattr__(obj, '_prev', None)

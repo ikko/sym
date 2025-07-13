@@ -39,6 +39,7 @@ class BaseSymbol:
         with cls._lock:
             if not isinstance(name, str):
                 raise TypeError("BaseSymbol name must be a string")
+            
             # Only intern BaseSymbol instances if the requested class is exactly BaseSymbol.
             # Subclasses will handle their own pooling logic.
             if cls is BaseSymbol and name in BaseSymbol._pool:
