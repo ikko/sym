@@ -1,4 +1,4 @@
-# [`«symb»`](https://github.com/ikko/symb) info
+# [«symb»](https://github.com/ikko/symb) info
 
 ## **A Framework for Symbolic Data Manipulation**
 
