@@ -82,11 +82,9 @@ def test_symb_pool_and_numbered_insertion():
     assert inorder_traversal[0] is s1
     assert inorder_traversal[1] is s2
 
-def test_symb_repr_and_str(symb_fixture):
+def test_basesymb_repr_and_str():
     s = Symbol("repr_str_test")
-    print(f"DEBUG: type(s) = {type(s)}")
-    print(f"DEBUG: repr(s) = {repr(s)}")
-    assert repr(s) == "Symbol('repr_str_test')"
+    assert repr(s) == "BaseSymbol('repr_str_test')"
     assert str(s) == "repr_str_test"
 
 def test_symb_equality_and_hashing():
@@ -131,9 +129,9 @@ def test_to_symb_from_object_with_name_attribute():
     assert s_converted.name == "object_with_name"
 
 def test_to_symb_type_error_for_unconvertible_type():
-    with pytest.raises(TypeError, match="Cannot convert .* instance of .* to Symbol"):
+    with pytest.raises(TypeError, match="Cannot convert .* instance of .* to BaseSymbol"):
         _to_symb(123)
-    with pytest.raises(TypeError, match="Cannot convert .* instance of .* to Symbol"):
+    with pytest.raises(TypeError, match="Cannot convert .* instance of .* to BaseSymbol"):
         _to_symb([1, 2])
-    with pytest.raises(TypeError, match="Cannot convert .* instance of .* to Symbol"):
+    with pytest.raises(TypeError, match="Cannot convert .* instance of .* to BaseSymbol"):
         _to_symb(None)

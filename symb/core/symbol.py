@@ -2,6 +2,7 @@ import datetime
 import inspect
 import warnings
 from typing import Any, Iterator, Literal, Optional, Set, Type, Union
+from weakref import WeakValueDictionary
 
 import orjson
 import toml
@@ -11,6 +12,7 @@ from builtin.index import SymbolIndex
 from core.lazy import SENTINEL
 from core.lazy_symb import LazySymbol
 from core.maturing import _apply_merge_strategy, deep_del, DefDict
+from builtin.avl_tree import AVLTree
 
 from .base_symb import BaseSymbol
 from .mixinability import apply_mixin_to_instance, freeze, is_frozen
@@ -22,6 +24,9 @@ MEMORY_AWARE_DELETE = True
 
 
 class Symbol(BaseSymbol):
+    _pool: WeakValueDictionary[str, 'Symbol'] = WeakValueDictionary() # Override BaseSymbol's pool
+    _numbered: AVLTree = AVLTree() # Override BaseSymbol's numbered tree
+
     def __repr__(self):
         return f"Symbol('{self.name}')"
     __slots__ = (

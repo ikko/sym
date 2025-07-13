@@ -15,6 +15,8 @@ import logging
 import orjson
 from croniter import croniter
 
+from symb.core.symbol import Symbol
+
 
 class ScheduledJob:
     """Represents a single scheduled job."""

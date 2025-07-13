@@ -10,7 +10,7 @@ class LazySymbol:
 
     def __getattr__(self, name: str) -> Any:
         if self._symb is None:
-            from .symb import Symbol
+            from .symbol import Symbol
             self._symb = Symbol.from_object(self._obj)
         return getattr(self._symb, name)
 
@@ -26,12 +26,12 @@ class LazySymbol:
 
     def __eq__(self, other: Any) -> bool:
         if self._symb is None:
-            from .symb import Symbol
+            from .symbol import Symbol
             self._symb = Symbol.from_object(self._obj)
         return self._symb == other
 
     def __hash__(self) -> int:
         if self._symb is None:
-            from .symb import Symbol
+            from .symbol import Symbol
             self._symb = Symbol.from_object(self._obj)
         return hash(self._symb)

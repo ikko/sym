@@ -39,23 +39,30 @@ class BaseSymbol:
         with cls._lock:
             if not isinstance(name, str):
                 raise TypeError("BaseSymbol name must be a string")
-            if name in cls._pool and cls is BaseSymbol:
-                return cls._pool[name]
+            # Only intern BaseSymbol instances if the requested class is exactly BaseSymbol.
+            # Subclasses will handle their own pooling logic.
+            if cls is BaseSymbol and name in BaseSymbol._pool:
+                return BaseSymbol._pool[name]
 
             obj = super().__new__(cls)
-            obj.name = name
-            obj.origin = origin
-            obj.parents = []
-            obj.children = []
+            object.__setattr__(obj, 'name', name)
+            object.__setattr__(obj, 'origin', origin)
+            object.__setattr__(obj, 'parents', [])
+            object.__setattr__(obj, 'children', [])
             
-            obj._position = cls._write_cursor
-            obj._next = None
-            obj._prev = None
-            obj._length_cache = None
-            obj.node_shape = None # Initialize node_shape
+            object.__setattr__(obj, '_position', cls._write_cursor)
+            object.__setattr__(obj, '_next', None)
+            object.__setattr__(obj, '_prev', None)
+            object.__setattr__(obj, '_length_cache', None)
+            object.__setattr__(obj, 'node_shape', None) # Initialize node_shape
             cls._write_cursor += 1.0
-            cls._pool[name] = obj
-            cls._numbered.root = cls._numbered.insert(cls._numbered.root, obj, obj._position) # Insert into AVLTree
+            
+            # Only add to BaseSymbol's pool if it's a BaseSymbol instance being created
+            # Subclasses will manage their own pool entries.
+            if cls is BaseSymbol:
+                BaseSymbol._pool[name] = obj
+                BaseSymbol._numbered.root = BaseSymbol._numbered.insert(BaseSymbol._numbered.root, obj, obj._position)
+            
             return obj
 
     def __repr__(self):
