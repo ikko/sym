@@ -1,6 +1,6 @@
 [project]
 name = "symb"
-version = "0.0.9"
+version = "0.0.10"
 description = "A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction"
 dependencies = [
     "orjson>=3.10.0",
