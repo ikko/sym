@@ -39,8 +39,9 @@ class BaseSymbol:
         with cls._lock:
             if not isinstance(name, str):
                 raise TypeError("BaseSymbol name must be a string")
-            if name in cls._pool:
+            if name in cls._pool and cls is BaseSymbol:
                 return cls._pool[name]
+
             obj = super().__new__(cls)
             obj.name = name
             obj.origin = origin

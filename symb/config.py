@@ -13,8 +13,12 @@ class Config:
 
     def __init__(self, file_path: Optional[Union[str, Path]] = None):
         self._data: Dict[str, Any] = {}
-        self.file_path = Path(file_path) if file_path else self._default_config_path()
-        self.load()
+        self.file_path = Path(file_path) if file_path else self._get_default_config_path()
+        if not self.file_path.exists():
+            self.file_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(self.file_path, 'w') as f:
+                toml.dump({}, f)
+        self._data = self._load_config()
 
     def _default_config_path(self) -> Path:
         """Determines the default configuration file path based on OS standards."""

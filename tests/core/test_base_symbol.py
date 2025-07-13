@@ -82,8 +82,10 @@ def test_symb_pool_and_numbered_insertion():
     assert inorder_traversal[0] is s1
     assert inorder_traversal[1] is s2
 
-def test_symb_repr_and_str():
+def test_symb_repr_and_str(symb_fixture):
     s = Symbol("repr_str_test")
+    print(f"DEBUG: type(s) = {type(s)}")
+    print(f"DEBUG: repr(s) = {repr(s)}")
     assert repr(s) == "Symbol('repr_str_test')"
     assert str(s) == "repr_str_test"
 

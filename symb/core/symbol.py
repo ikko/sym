@@ -22,23 +22,89 @@ MEMORY_AWARE_DELETE = True
 
 
 class Symbol(BaseSymbol):
+    def __repr__(self):
+        return f"Symbol('{self.name}')"
     __slots__ = (
         '_index',
         '_metadata',
         '_context',
         '_elevated_attributes',
+        '_relations', # New slot for lazy relations
     )
 
     def __new__(cls, name: str, origin: Optional[Any] = None):
-        obj = super().__new__(cls, name, origin)
-        if origin is None:
-            obj.origin = f"{cls.__module__}.{cls.__name__}"
-        obj._index = SENTINEL
-        obj._metadata = SENTINEL
-        obj._context = SENTINEL
-        obj._elevated_attributes = {}
-        obj.relations = Relations(obj)
-        return obj
+        with cls._lock:
+            if not isinstance(name, str):
+                raise TypeError("Symbol name must be a string")
+
+            # Check if an object with this name already exists in the pool
+            if name in cls._pool:
+                existing_obj = cls._pool[name]
+                # If the existing object is already an instance of the current class (Symbol or its subclass),
+                # return it directly.
+                if isinstance(existing_obj, cls):
+                    return existing_obj
+                # If the existing object is a BaseSymbol (but not a Symbol),
+                # we need to "upgrade" it to a Symbol.
+                elif isinstance(existing_obj, BaseSymbol):
+                    # Create a new instance of the current class (Symbol) using object.__new__
+                    # to bypass any custom __new__ in the hierarchy.
+                    obj = object.__new__(cls)
+                    # Copy attributes from the existing BaseSymbol to the new Symbol instance.
+                    # This ensures that properties like name, parents, children, etc., are preserved.
+                    for attr in existing_obj.__slots__:
+                        if hasattr(existing_obj, attr):
+                            object.__setattr__(obj, attr, getattr(existing_obj, attr))
+                    
+                    # Initialize Symbol-specific attributes on the newly created Symbol instance.
+                    # These are attributes that are part of Symbol's __slots__ but not BaseSymbol's.
+                    object.__setattr__(obj, '_elevated_attributes', {})
+                    object.__setattr__(obj, '_index', SENTINEL)
+                    object.__setattr__(obj, '_metadata', SENTINEL)
+                    object.__setattr__(obj, '_context', SENTINEL)
+                    object.__setattr__(obj, '_relations', SENTINEL) # Lazy relations initialization
+                    
+                    # Set the origin if it's not already set.
+                    if origin is None and obj.origin is None:
+                        object.__setattr__(obj, 'origin', f"{cls.__module__}.{cls.__name__}")
+                    
+                    # Update the pool to store the new Symbol instance instead of the old BaseSymbol.
+                    cls._pool[name] = obj
+                    return obj
+            
+            # If no object with this name exists in the pool, create a brand new Symbol instance.
+            obj = object.__new__(cls)
+            
+            # Initialize BaseSymbol-specific attributes directly.
+            object.__setattr__(obj, 'name', name)
+            object.__setattr__(obj, 'origin', origin)
+            object.__setattr__(obj, 'parents', [])
+            object.__setattr__(obj, 'children', [])
+            
+            # Initialize attributes related to positioning and linked list structure.
+            object.__setattr__(obj, '_position', cls._write_cursor)
+            object.__setattr__(obj, '_next', None)
+            object.__setattr__(obj, '_prev', None)
+            object.__setattr__(obj, '_length_cache', None)
+            object.__setattr__(obj, 'node_shape', None)
+            cls._write_cursor += 1.0
+            
+            # Initialize Symbol-specific attributes.
+            object.__setattr__(obj, '_elevated_attributes', {})
+            object.__setattr__(obj, '_index', SENTINEL)
+            object.__setattr__(obj, '_metadata', SENTINEL)
+            object.__setattr__(obj, '_context', SENTINEL)
+            object.__setattr__(obj, '_relations', SENTINEL) # Lazy relations initialization
+            
+            # Set the origin if it's not already set.
+            if origin is None and obj.origin is None:
+                object.__setattr__(obj, 'origin', f"{cls.__module__}.{cls.__name__}")
+            
+            # Add the newly created Symbol instance to the global pool and numbered tree.
+            cls._pool[name] = obj
+            cls._numbered.root = cls._numbered.insert(cls._numbered.root, obj, obj._position)
+
+            return obj
 
     @property
     def index(self):
@@ -58,6 +124,12 @@ class Symbol(BaseSymbol):
             self._context = DefDict()
         return self._context
 
+    @property
+    def relations(self):
+        if self._relations is SENTINEL:
+            object.__setattr__(self, '_relations', Relations(self))
+        return self._relations
+
     def __getattr__(self, name: str) -> Any:
         if name in self._elevated_attributes:
             return self._elevated_attributes[name]
@@ -66,7 +138,7 @@ class Symbol(BaseSymbol):
             return super().__getattr__(name)
         except AttributeError:
             # If not found in base class or _elevated_attributes, delegate to relations
-            return getattr(self.relations, name)
+            return getattr(self.relations, name) # This will now call the property
 
     def __setattr__(self, name: str, value: Any) -> None:
         # If the attribute is in __slots__ (either in Symbol or BaseSymbol), set it directly
@@ -191,7 +263,7 @@ class Symbol(BaseSymbol):
         return None
 
     def graph(self):
-        return GraphTraversal(self, mode='graph').traverse()
+        return GraphTraversal(self, graph_mode='dfs').traverse()
 
     def tree(self):
         return GraphTraversal(self, mode='tree').traverse()
