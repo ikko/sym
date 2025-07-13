@@ -9,7 +9,7 @@ ENABLE_ORIGIN = True
 
 def to_sym(obj: Any) -> 'Symbol':
     """Converts an object to a Symbol."""
-    from .symbol import Symbol
+    from core.symbol import Symbol
     return Symbol.from_object(obj)
 
 

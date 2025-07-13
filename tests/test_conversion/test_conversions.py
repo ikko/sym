@@ -1,6 +1,5 @@
 import pytest
-from symb import Symbol
-import copy
+from core.symbol import Symbol
 from core.symb import to_sym
 
 def test_from_int():
