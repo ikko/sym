@@ -17,6 +17,7 @@ from builtin.avl_tree import AVLTree
 
 from .base_symb import BaseSymbol
 from .mixinability import apply_mixin_to_instance, freeze, is_frozen
+from .mixins import _get_available_mixins
 from .relations import Relations
 from .graph_traversal import GraphTraversal
 from .type_var_t import T

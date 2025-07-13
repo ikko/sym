@@ -1,6 +1,6 @@
 [project]
 name = "symb"
-version = "0.0.7-beta-1"
+version = "0.0.7"
 description = "A Lazy, Graph-Oriented, Immutable Symbol System Concept for Domain-Specific Abstraction"
 dependencies = [
     "orjson>=3.10.0",
@@ -15,7 +15,7 @@ dependencies = [
     "python-dateutil",
     "toml",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 readme="docs/pypi_org/README.md"
 
 classifiers = [

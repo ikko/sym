@@ -1,83 +1,55 @@
+import sys
 import subprocess
-import argparse
+import importlib
+import importlib.metadata
 import os
-import shutil
+import csv
+from pathlib import Path
 
-def run_command(command, cwd=None):
-    """Runs a shell command and returns its output."""
-    print(f"Executing: {' '.join(command)}")
-    process = subprocess.run(command, capture_output=True, text=True, cwd=cwd)
-    if process.returncode != 0:
-        print(f"Error: {process.stderr}")
-        raise RuntimeError(f"Command failed: {' '.join(command)}")
-    print(process.stdout)
-    return process.stdout
+# Get installed packages and their versions using importlib.metadata
+installed_packages = {pkg.metadata['Name']: pkg.version for pkg in importlib.metadata.distributions()}
 
-def clean_build_artifacts():
-    """Removes existing build and dist directories."""
-    print("Cleaning build artifacts...")
-    for directory in ["build", "dist", "symb.egg-info"]:
-        if os.path.exists(directory):
-            shutil.rmtree(directory)
-            print(f"Removed {directory}/")
 
-def build_package():
-    """Builds the sdist and wheel distributions using uv."""
-    print("Building package...")
-    run_command(["uv", "build"])
-
-def publish_package(repository_url, username, password):
-    """Publishes the package to the specified repository."""
-    print(f"Publishing package to {repository_url}...")
-    # uv currently does not have a direct 'publish' command like twine.
-    # We will use twine for publishing, assuming it's installed.
-    # If not, the user will need to install it: pip install twine
-    dist_files = [f for f in os.listdir("dist") if f.endswith((".tar.gz", ".whl"))]
-    if not dist_files:
-        raise FileNotFoundError("No distribution files found in 'dist/' directory.")
-
-    command = [
-        "twine", "upload",
-        "--repository-url", repository_url,
-        "-u", username,
-        "-p", password
-    ] + [os.path.join("dist", f) for f in dist_files]
-
-    run_command(command)
-
-def main():
-    parser = argparse.ArgumentParser(description="Build and publish the symb package.")
-    parser.add_argument(
-        "--test",
-        action="store_true",
-        help="Publish to TestPyPI instead of PyPI."
-    )
-    parser.add_argument(
-        "--username",
-        default="__token__",
-        help="Username for the PyPI repository (default: __token__)."
-    )
-    parser.add_argument(
-        "--password",
-        required=True,
-        help="Password or API token for the PyPI repository."
-    )
-
-    args = parser.parse_args()
-
-    if args.test:
-        repository_url = "https://test.pypi.org/legacy/"
-    else:
-        repository_url = "https://upload.pypi.org/legacy/"
-
+def get_package_size(package_name):
+    """Use `du -h` to get the size of the package directory."""
     try:
-        clean_build_artifacts()
-        build_package()
-        publish_package(repository_url, args.username, args.password)
-        print("\nPackage published successfully!")
+        result = subprocess.run(
+            ['du', '-sh', f"{sys.prefix}/lib/python{sys.version_info[0:3]}/site-packages/{package_name}"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        size = result.stdout.decode('utf-8').split()[0]
+        return size
     except Exception as e:
-        print(f"\nFailed to publish package: {repr(e)}")
-        exit(1)
+        return "0.00 MB"
+
+
+def get_package_info(package_name):
+    """Get detailed info about an installed package."""
+
+    # Get the package version
+    version = installed_packages.get(package_name, "Unknown")
+
+    # Get the import name (usually same as the package name)
+    try:
+        package = importlib.import_module(package_name)
+        import_name = package.__name__
+    except ImportError:
+        import_name = "N/A"
+
+    # Get package size using du -h
+    size = get_package_size(package_name)
+
+    # Show import name only if it does not match package name
+    import_name_str = f"Import Name: {import_name}" if import_name != package_name else ""
+
+    return f"{package_name},{import_name_str},{version},{size}"
+
+
+def print_package_info():
+    """Print information for each installed package."""
+    print("Package Name,Import Name,Version,Size")
+    for package_name in installed_packages:
+        info = get_package_info(package_name)
+        print(info)
+
 
 if __name__ == "__main__":
-    main()
+    print_package_info()
